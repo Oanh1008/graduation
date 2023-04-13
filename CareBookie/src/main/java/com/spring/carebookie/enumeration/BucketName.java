@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum BucketName {
 
-    PROFILE_IMAGE("care-bookie-image-proifile");
+    PROFILE_IMAGE("care-bookie-image");
 
     private final String bucketName;
 

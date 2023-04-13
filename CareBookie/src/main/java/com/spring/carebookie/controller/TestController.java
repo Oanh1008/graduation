@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/test")
+@RequestMapping("/api/v1/care-bookie")
 @CrossOrigin("*")
 public class TestController {
 
@@ -39,7 +39,7 @@ public class TestController {
     }
 
     @PostMapping(
-            path = "/{userProfileId}/image/upload",
+            path = "/{userProfileId}/upload",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -48,7 +48,7 @@ public class TestController {
         testService.uploadUserProfileImage(userProfileId, file);
     }
 
-    @GetMapping("/{userProfileId}/image/download")
+    @GetMapping("/{userProfileId}/download")
     public ResponseEntity<byte[]> downloadUserProfileImage(@PathVariable("userProfileId") UUID userProfileId) {
         return ResponseEntity.ok(testService.downloadUserProfileImage(userProfileId));
     }

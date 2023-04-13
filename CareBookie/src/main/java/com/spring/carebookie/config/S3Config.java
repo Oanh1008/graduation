@@ -18,7 +18,6 @@ public class S3Config {
     private String accessKey;
 
     @Value("${aws.s3.secret-key}")
-
     private String secretKey;
 
     @Bean
@@ -27,7 +26,7 @@ public class S3Config {
         return AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .withRegion(Regions.AP_NORTHEAST_1)
+                .withRegion(Regions.AP_SOUTHEAST_1)
                 .build();
     }
 }

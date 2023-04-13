@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -15,14 +16,14 @@ import javax.persistence.Column;
 @Setter
 @Getter
 @Entity
-@Table(name ="loai")
+@Table(name = "loai")
 public class BookTypeEntity {
 
-	@Id
-	@Column(name="maloai")
-	private String id;
-	
-	@Column(name ="tenloai")
-	private String name;
+    @Id
+    @Column(name = "maloai")
+    private String id;
+
+    @Column(name = "tenloai")
+    private String name;
 
 }

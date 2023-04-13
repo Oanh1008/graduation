@@ -1,5 +1,7 @@
 package com.spring.carebookie;
 
+import javax.persistence.MappedSuperclass;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

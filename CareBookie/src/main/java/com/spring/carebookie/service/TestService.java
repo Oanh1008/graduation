@@ -13,10 +13,8 @@ import org.apache.http.entity.ContentType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.carebookie.entity.BookTypeEntity;
 import com.spring.carebookie.entity.UserProfileEntity;
 import com.spring.carebookie.enumeration.BucketName;
-import com.spring.carebookie.repository.TestRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -30,13 +28,11 @@ public class TestService {
         USER_PROFILES.add(new UserProfileEntity(UUID.fromString("d9810e31-921f-4ed5-ad61-041292a08bc1"), "oanh1", null));
     }
 
-    private TestRepository testRepository;
-
     private S3Service s3Service;
 
-    public java.util.List<BookTypeEntity> getAllBookTypes() {
-        return testRepository.findAll();
-    }
+//    public java.util.List<BookTypeEntity> getAllBookTypes() {
+//        return testRepository.findAll();
+//    }
 
     public List<UserProfileEntity> getUserProfiles() {
         return USER_PROFILES;

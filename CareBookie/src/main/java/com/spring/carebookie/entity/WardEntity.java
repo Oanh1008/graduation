@@ -23,10 +23,6 @@ public class WardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String wardId;
-
     private String wardName;
-
-    private String hospitalId;
 
 }

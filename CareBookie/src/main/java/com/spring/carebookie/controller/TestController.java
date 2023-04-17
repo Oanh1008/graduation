@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.carebookie.entity.BookTypeEntity;
 import com.spring.carebookie.entity.UserProfileEntity;
 import com.spring.carebookie.service.TestService;
 
@@ -28,10 +27,10 @@ public class TestController {
 
     private TestService testService;
 
-    @GetMapping("/get/bookTypes")
-    public ResponseEntity<List<BookTypeEntity>> getAllBookTypes() {
-        return ResponseEntity.ok(testService.getAllBookTypes());
-    }
+//    @GetMapping("/get/bookTypes")
+//    public ResponseEntity<List<BookTypeEntity>> getAllBookTypes() {
+//        return ResponseEntity.ok(testService.getAllBookTypes());
+//    }
 
     @GetMapping
     public ResponseEntity<List<UserProfileEntity>> getUserProfiles() {

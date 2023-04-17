@@ -1,12 +1,15 @@
 package com.spring.carebookie.service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.carebookie.common.mappers.UserMapper;
+import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.UserRepository;
@@ -44,6 +47,19 @@ public class UserService {
         userRepository.save(entity);
         log.info("Finished save user into database", entity.getFirstName() + entity.getLastName());
 
+    }
+
+    public List<DoctorGetAllDto> getAllDoctors() {
+        return userRepository.getAllDoctors()
+                .stream()
+                .map(projection -> {
+                    List<String> knowledges = Arrays.stream(projection.getKnowledge().split(","))
+                            .collect(Collectors.toList());
+                    DoctorGetAllDto dto = USER_MAPPER.convertProjectToDto(projection);
+                    dto.setKnowledges(knowledges);
+                   return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     /**

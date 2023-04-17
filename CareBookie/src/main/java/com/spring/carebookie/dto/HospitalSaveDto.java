@@ -36,10 +36,10 @@ public class HospitalSaveDto {
 
     private BigDecimal price;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm:ss")
     private String workingTimeFrom;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm:ss")
     private String workingTimeTo;
 
     private String periodWorkingDayFrom;

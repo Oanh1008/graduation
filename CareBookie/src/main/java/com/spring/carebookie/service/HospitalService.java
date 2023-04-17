@@ -1,12 +1,15 @@
 package com.spring.carebookie.service;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.carebookie.common.mappers.HospitalMapper;
+import com.spring.carebookie.dto.HospitalGetAllDto;
 import com.spring.carebookie.dto.HospitalSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.repository.HospitalRepository;
@@ -24,8 +27,12 @@ public class HospitalService {
 
     private static final HospitalMapper HOSPITAL_MAPPER = HospitalMapper.INSTANCE;
 
-    public List<HospitalGetAllProjection> getAllHospital() {
-        return hospitalRepository.getAllHospital();
+    public List<HospitalGetAllDto> getAllHospital() {
+
+        return hospitalRepository.getAllHospital()
+                .stream()
+                .map(p -> new HospitalGetAllDto(p,hospitalRepository.getWardsByHospitalId(p.getHospitalId())))
+                .collect(Collectors.toList());
     }
 
     @Transactional

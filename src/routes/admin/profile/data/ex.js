@@ -1,57 +1,34 @@
 const list = [
+
     {
-        title: 'Gynecology Test',
-        time: "2012 - 2014",
-        list: [
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"}
-        ]
+        children: 'Học chuyên khoa cấp I và chuyên khoa cấp II Chuyên ngành Tâm thần, Đại học Y khoa Huế',
+        label: "2012 - 2014",
     },
     {
-        title: 'Gynecology Test',
-        time: "2012 - 2014",
-        list: [
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"}
-        ]
+        children: 'Tốt nghiệp Tâm lý trị liệu, trường Tâm lý Thực hành Paris (Psychology practique de Paris)',
+        label: "2012 - 2014",
+        color: 'green',
     },
     {
-        title: 'Gynecology Test',
-        time: "2012 - 2014",
-        list: [
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"}
-        ]
+        children: 'Tốt nghiệp Bác sĩ Đa khoa, Trường Đại học y dược thành phố Hồ Chí Minh',
+        label: "2012 - 2014",
+        color: 'red',
     },
     {
-        title: 'Gynecology Test',
-        time: "2012 - 2014",
-        list: [
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-            { name: "The most well-known dummy text is the 'Lorem Ipsum'"}
-        ]
+        children: 'Tốt nghiệp Bác sĩ Đa khoa, Trường Đại học y dược thành phố Hồ Chí Minh',
+        label: "2012 - 2014",
+        color: 'green',
     },
-    // {
-    //     title: 'Gynecology Test',
-    //     time: "2012 - 2014",
-    //     list: [
-    //         { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-    //         { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-    //         { name: "The most well-known dummy text is the 'Lorem Ipsum'"}
-    //     ]
-    // },
-    // {
-    //     title: 'Gynecology Test',
-    //     time: "2012 - 2014",
-    //     list: [
-    //         { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-    //         { name: "The most well-known dummy text is the 'Lorem Ipsum'"},
-    //         { name: "The most well-known dummy text is the 'Lorem Ipsum'"}
-    //     ]
-    // },
+    {
+        children: 'Tốt nghiệp Bác sĩ Đa khoa, Trường Đại học y dược thành phố Hồ Chí Minh',
+        label: "2012 - 2014",
+
+    },
+    {
+        children: 'Tốt nghiệp Bác sĩ Đa khoa, Trường Đại học y dược thành phố Hồ Chí Minh',
+        label: "2012 - 2014",
+
+    },
 
 
 ]

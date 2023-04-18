@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
-import columns from '../../../columns/specialist';
+import columns from '../../../columns/booking';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 
@@ -42,9 +42,9 @@ const Index = () => {
 
     return (
         <Layout>
-            <div className='container mx-auto m-32'>
+            <div className='container mx-auto'>
                 <div className='flex justify-between items-center'>
-                    <div className='text-3xl font-bold text-cyan-700 mb-4 pt-4 '>Quản lý khoa</div>
+                    <div className='text-2xl font-bold text-cyan-900 mb-4 '>Quản lý khám chữa bệnh</div>
 
                 </div>
                 <div className=' bg-white w-full my-5 rounded-lg p-1 shadow-lg flex justify-between items-center'>
@@ -61,7 +61,7 @@ const Index = () => {
                     </div>
 
                     <Button icon={<Plus className='fill-white w-7 h-7 ' />}
-                        className="bg-cyan-800 text-white flex rounded-md px-3 py-2 gap-3 mr-3"
+                        className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
                         type="button"
                         text="Add" />
                 </div>

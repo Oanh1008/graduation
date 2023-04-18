@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
-import columns from '../../../columns/booking';
+import columns from '../../../columns/staff/index';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-
+import Modal from './modal'
+import axios from 'axios';
 
 const Index = () => {
     const [loading, setLoading] = useState(false)
@@ -13,20 +14,16 @@ const Index = () => {
     const [data, setData] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
-
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/users`)
-            .then(res => res.json())
-            .then((data) => {
-                setData(data);
-                setSearch(data)
+        axios.get('http://localhost:8092/api/v1/care-bookie/user')
+            .then(res => {
+                setData(res.data);
+                setSearch(res.data);
             })
-            .catch(err => {
-                console.log(err);
-            })
-            .finally(() => {
-                setLoading(false)
+            .catch(error => {
+                console.error(error);
             });
     }, []);
 
@@ -44,7 +41,7 @@ const Index = () => {
         <Layout>
             <div className='container mx-auto'>
                 <div className='flex justify-between items-center'>
-                    <div className='text-2xl font-bold text-cyan-900 mb-4 '>Quản lý khám chữa bệnh</div>
+                    <div className='text-4xl font-bold text-cyan-900 mb-4 '>Quản lý người dùng</div>
 
                 </div>
                 <div className=' bg-white w-full my-5 rounded-lg p-1 shadow-lg flex justify-between items-center'>
@@ -63,12 +60,13 @@ const Index = () => {
                     <Button icon={<Plus className='fill-white w-7 h-7 ' />}
                         className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
                         type="button"
-                        text="Add" />
+                        text="Add"
+                        onClick={() => setShowModal(true)} />
                 </div>
 
-                <div className='mb-11'>
+                <div className='mb-11 !z-0'>
                     <Table
-                        className='rounded-2xl shadow-xl '
+                        className='rounded-2xl shadow-xl !z-0'
                         columns={columns}
                         dataSource={data}
                         scroll={{ y: 500 }}
@@ -84,6 +82,8 @@ const Index = () => {
                     />
                 </div>
             </div>
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            </Modal>
         </Layout>
     )
 }

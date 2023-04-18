@@ -5,14 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { Dropdown, Space } from 'antd';
 import { Trash } from '../../assets/svg';
+import avatar from '../../assets/image/background_login.png'
 
 const Header = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const handleMenuClick = (e) => {
-    navigate(`/${e}`)
-  };
   const handleOpenChange = (flag) => {
     setOpen(flag);
   };
@@ -41,10 +39,10 @@ const Header = () => {
           >
             <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
               <div className='mx-4'>
-                <div className="font-bold text-black text-lg leading-snug mb-0.5">Name</div>
-                <div className="text-gray-500">email</div>
+                <div className="font-bold text-black text-lg leading-snug mb-0.5">Minh Thư Nguyễn</div>
+                <div className="text-gray-500">19T1021262@husc.edu.vn</div>
               </div>
-              <Avatar>H</Avatar>
+              <Avatar className='shadow-lg' src={avatar} size={220} />
             </a>
           </Dropdown>
         </div>

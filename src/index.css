@@ -13,9 +13,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .button {
-  @apply px-4 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-400 inline-flex items-center gap-1;
+  @apply px-4 py-2.5 rounded-lg bg-blue-600 text-white inline-flex items-center gap-1;
 }
+
 .icon-cud {
-  @apply outline-none hover:fill-white p-1;
+  @apply outline-none p-1;
+}
+
+.ant-timeline-item-content {
+  @apply border py-3 px-4 border-dashed border-emerald-500
+}
+
+.ant-timeline-item-label {
+  @apply text-lg text-green-900 font-bold
+}
+
+.ant-layout-sider-trigger {
+  @apply !bg-[#457b9d] !text-white rounded-tr-xl
+}
+
+
+.ant-menu-item,
+.ant-menu-title-content {
+  @apply text-cyan-900 font-semibold
+}
+
+.ant-menu-item {
+  @apply !mb-5
 }

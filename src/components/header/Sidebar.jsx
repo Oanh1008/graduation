@@ -54,7 +54,7 @@ const Sider = ({ isCollapsed = false, permission = [] }) => {
         </ul>);
 
     return (
-        <div className="max-w-[72] fixed">
+        <div className="max-w-xs fixed">
             <div className={classNames('p-2 h-24 bg-cyan-950 flex items-center justify-center')}>
                 <button onClick={() => navigate('/')}>
                     <img src={logo} width={200} />

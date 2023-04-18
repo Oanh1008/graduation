@@ -7,14 +7,7 @@ const list = [
             { name: "Bác sĩ nhận khám từ 16 tuổi trở lên"}
         ]
     },
-    {
-        title: 'Quá trình đào tạo',
-        list: [
-            { name: "Tốt nghiệp Bác sĩ Đa khoa, Trường Đại học y dược thành phố Hồ Chí Minh"},
-            { name: "Tốt nghiệp Tâm lý trị liệu, trường Tâm lý Thực hành Paris (Psychology practique de Paris)"},
-            { name: "Học chuyên khoa cấp I và chuyên khoa cấp II Chuyên ngành Tâm thần, Đại học Y khoa Huế"}
-        ]
-    },
+
     {
         title: 'Quá trình công tác',
         list: [

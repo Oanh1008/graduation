@@ -1,52 +1,52 @@
 import React from 'react'
-import { MdPeople    } from "react-icons/md";
+import { MdAddChart, MdBarChart, MdPeople, MdStackedBarChart    } from "react-icons/md";
 import { Dashboard } from '../../../assets/svg';
 import { FaRegChartBar } from 'react-icons/fa';
 const Layout = [
     {
-        icon: <MdPeople/>,
-        path: "/user",
-        name: "Quản lý nhân viên",
+        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "/user",
+        label: "Quản lý người dùng",
         permission: ''
     },
     {
-        icon: <MdPeople/>,
-        path: "/servies",
-        name: "Quản lý dịch vụ",
+        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "/servies",
+        label: "Quản lý dịch vụ",
         permission: ''
     },
     {
-        icon: <MdPeople/>,
-        path: "/specialist",
-        name: "Quản lý khoa",
+        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "/specialist",
+        label: "Quản lý khoa",
         permission: ''
     },
     {
-        icon: <MdPeople/>,
-        path: "/booking",
-        name: "Quản lý khám chữa bệnh",
+        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "/booking",
+        label: "Quản lý khám chữa bệnh",
         permission: ''
     },
     {
-        icon: <MdPeople/>,
-        path: "/booking",
-        name: "Quản lý hoá đơn  ",
+        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "/invoice",
+        label: "Quản lý hoá đơn  ",
         permission: ''
     },
     {
-        icon: <FaRegChartBar/>,
-        name: "Thống kê",
+        icon: <MdStackedBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100 fill-cyan-900'/>,
+        label: "Thống kê",
         children: [
                 {
                     icon: <MdPeople/>,
-                    path: "/",
-                    name: "Doanh thu",
+                    key: "/invoice",
+                    label: "Doanh thu",
                     permission: ''
                 },
                 {
                     icon: <MdPeople/>,
-                    path: "/",
-                    name: "Số lượng đơn đặt lịch",
+                    key: "/booking",
+                    label: "Số lượng đơn đặt lịch",
                     permission: ''
                 }
         ]

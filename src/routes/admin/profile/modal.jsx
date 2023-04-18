@@ -66,6 +66,8 @@ const Modal = ({ isVisible, onClose }) => {
                     <Form
                         name="validate_other"
                         onFinish={onFinish}
+                        labelCol={{ span: 9 }}
+                        wrapperCol={{ span: 20 }}
                         initialValues={{
                             'input-number': 3,
                             'checkbox-group': ['A', 'B'],
@@ -75,19 +77,16 @@ const Modal = ({ isVisible, onClose }) => {
                             maxWidth: 600,
                         }}
                     >
-                        <Form.Item label="Avatar">
-                            <Form.Item name="Avatar" >
-                                <img src={imageUrl} alt="avatar" id="img" />
-                                <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
-
-                            </Form.Item>
+                        <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
+                            <img src={imageUrl} alt="avatar" id="img" width={200} className="rounded-md mb-3" />
+                            <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
                         </Form.Item>
 
-                        <Row gutter={[48, 24]}>
-                            <Col span={12} >
+                        <div className='flex justify-between gap-10'>
+                            <div>
                                 <Form.Item
                                     name={['user', 'name']}
-                                    label="Name"
+                                    label="Họ tên"
                                     rules={[
                                         {
                                             required: true,
@@ -96,8 +95,7 @@ const Modal = ({ isVisible, onClose }) => {
                                 >
                                     <Input />
                                 </Form.Item>
-                            </Col>
-                            <Col span={12} >
+
                                 <Form.Item
                                     name={['user', 'email']}
                                     label="Email"
@@ -109,9 +107,8 @@ const Modal = ({ isVisible, onClose }) => {
                                 >
                                     <Input />
                                 </Form.Item>
-                            </Col>
 
-                            <Col span={12} >
+
                                 <Form.Item
                                     name={['user', 'gender']}
                                     label="Gender"
@@ -126,9 +123,10 @@ const Modal = ({ isVisible, onClose }) => {
                                         <Radio value="male"> Male </Radio>
                                     </Radio.Group>
                                 </Form.Item>
-                            </Col>
 
-                            <Col span={12} >
+
+                            </div>
+                            <div>
                                 <Form.Item
                                     name={['user', 'Phone']}
                                     label="Phone"
@@ -139,8 +137,7 @@ const Modal = ({ isVisible, onClose }) => {
                                     ]}
                                 >
                                     <Input />
-                                </Form.Item></Col>
-                            <Col span={12} >
+                                </Form.Item>
                                 <Form.Item
                                     name={['user', 'Age']}
                                     label="Age"
@@ -150,10 +147,9 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <InputNumber min={1} max={200} defaultValue={1} />
+                                    <InputNumber min={1} max={200} defaultValue={1} className="w-full" />
                                 </Form.Item>
-                            </Col>
-                            <Col span={12} >
+
                                 <Form.Item
                                     name={['user', 'Dateofbirth']}
                                     label="Date Of Birth"
@@ -163,11 +159,12 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <DatePicker />
+                                    <DatePicker className='w-full' />
                                 </Form.Item>
-                            </Col>
+                            </div>
 
-                        </Row>
+
+                        </div>
 
                         <Form.Item
                             name={['user', 'introduction']}

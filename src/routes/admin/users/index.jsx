@@ -17,7 +17,7 @@ const Index = () => {
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        axios.get('http://localhost:8092/api/v1/care-bookie/user')
+        axios.get('http://localhost:8092/api/v1/care-bookie/doctor')
             .then(res => {
                 setData(res.data);
                 setSearch(res.data);

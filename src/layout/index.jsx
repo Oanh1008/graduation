@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/image/logo_1.png'
 import classNames from 'classnames';
 import { Avatar, Breadcrumb, Collapse, Dropdown, Layout, Menu, Popover, theme } from 'antd';
-import { Divider } from '@mui/material';
 import list from '../components/header/menu/menu'
 import avatar from '../assets/image/background_login.png'
 const { Header, Content, Footer, Sider } = Layout;
@@ -22,20 +21,21 @@ const Index = ({ children }) => {
     return (
         <main>
             <Layout style={{ minHeight: '100vh' }}>
-                <Sider className='!bg-white border-r' width={280} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                    <div className='flex justify-center h-14' style={{ margin: 16 }} >
-                        <button onClick={() => navigate('/')}>
+                <Sider className='!bg-white border-r ' width={280} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+
+                    <div className='flex items-center bg-white w-[279px] border-b py-6 z-30 fixed justify-center h-fit' style={{ padding: 16 }} >
+                        <button className=' text-white h-14 '>
                             <img src={logo} width={200} />
                         </button>
                     </div>
-                    <Divider />
-                    <Menu className='!text-base mt-4 !bg-white' defaultSelectedKeys={['1']} mode="inline" items={list}
+
+                    <Menu className='!text-base fixed  w-[279px]  !bg-white top-24 ' defaultSelectedKeys={['1']} mode="inline" items={list}
                         onClick={((key) => {
                             navigate(key.keyPath[0])
                         })} />
                 </Sider>
                 <Layout>
-                    <Header style={{ background: 'white' }} className="flex justify-end !h-[5.5rem] border-b" >
+                    <Header style={{ background: 'white' }} className="flex justify-end z-30 !h-[5.5rem] border-b fixed w-[calc(100%-280px)] right-0" >
                         <div className='flex items-center my-4'>
                             <Dropdown
                                 menu={{
@@ -62,8 +62,8 @@ const Index = ({ children }) => {
                             </Dropdown>
                         </div>
                     </Header>
-                    <Content style={{ margin: '0 16px' }}>
-                        <div style={{ padding: 24, minHeight: 360 }}>
+                    <Content style={{ margin: '0 16px' }}  >
+                        <div style={{ padding: 24, minHeight: 360 }} className="mt-24" >
                             {children}
                         </div>
                     </Content>

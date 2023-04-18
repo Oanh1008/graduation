@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import hi from '../../../assets/image/background.jpeg'
@@ -7,40 +8,31 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-
     const ProceedLogin = (e) => {
         e.preventDefault();
         // navigate('/')
 
         if (validate()) {
-            fetch('https://dummyjson.com/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-
-                    username: 'kminchelle',
-                    password: '0lelplR',
-                })
-            })
+            axios.post('http://localhost:8092/api/v1/care-bookie/user/' + username)
                 .then(res => res.json())
                 .then((resp) => {
+                    console.log(resp);
                     if (Object.keys(resp).length === 0) {
                         console.log("username invalid");
                     }
                     else {
                         if (resp.password === password) {
-                            sessionStorage.setItem('username', username)
-                            navigate(`/`)
+                            // sessionStorage.setItem('username', username)
+                            // navigate(`/`)
                         } else {
                             console.log("invalid credential");
-                            console.log(resp.firstName);
+                            // console.log(resp.firstName);
                         }
                     }
                 })
                 .catch((err) => {
                     console.log(err);
                 })
-            // console.log('hi');
         }
     }
 

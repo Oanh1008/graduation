@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../../layout'
+import welcome from '../../../assets/image/welcome.jpg'
 
 const Home = () => {
     // const navigate = useNavigate();
@@ -12,7 +13,9 @@ const Home = () => {
     // })
     return (
         <Layout>
-            Welcome
+            <div className='flex justify-center items-center text-5xl text-cyan-900 font-bold'>
+                WELCOME TO MY WEBSITE
+            </div>
         </Layout>
     )
 }

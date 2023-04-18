@@ -12,6 +12,7 @@ import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
 @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
+
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     UserEntity convertSaveToEntity(UserSaveDto dto);

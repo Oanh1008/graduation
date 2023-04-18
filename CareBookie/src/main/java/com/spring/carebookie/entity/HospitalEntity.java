@@ -57,4 +57,6 @@ public class HospitalEntity {
 
     private String information;
 
+    private String imageUrl;
+
 }

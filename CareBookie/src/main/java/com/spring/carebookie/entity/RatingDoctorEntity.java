@@ -18,21 +18,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rating_hospital")
-public class RatingHospitalEntity {
+@Table(name = "rating_doctor")
+public class RatingDoctorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ratingId;
-
     private String comment;
 
-    private Double star;
+    private String doctorId;
 
     private String userId;
 
-    private String hospitalId;
+    private Double star;
 
 }

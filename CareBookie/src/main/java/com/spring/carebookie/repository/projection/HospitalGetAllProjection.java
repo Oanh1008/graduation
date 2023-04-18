@@ -26,12 +26,14 @@ public interface HospitalGetAllProjection {
 
     String getPeriodWorkingDayTo();
 
-    Integer getStar();
+    Double getStar();
 
     String getAdminName();
 
     String getAdminId();
 
     String getInformation();
+
+    String getImageUrl();
 
 }

@@ -13,6 +13,7 @@ import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.UserRepository;
+import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,14 +51,22 @@ public class UserService {
     }
 
     public List<DoctorGetAllDto> getAllDoctors() {
-        return userRepository.getAllDoctors()
+        return convertProjectionToDto(userRepository.getAllDoctors());
+    }
+
+    public List<DoctorGetAllDto> getAllDoctorByHospitalId(String hospitalId) {
+        return convertProjectionToDto(userRepository.getAllDoctorByHospitalId(hospitalId));
+    }
+
+    private List<DoctorGetAllDto> convertProjectionToDto(List<DoctorGetAllProjection> projections) {
+        return projections
                 .stream()
                 .map(projection -> {
                     List<String> knowledges = Arrays.stream(projection.getKnowledge().split(","))
                             .collect(Collectors.toList());
                     DoctorGetAllDto dto = USER_MAPPER.convertProjectToDto(projection);
                     dto.setKnowledges(knowledges);
-                   return dto;
+                    return dto;
                 })
                 .collect(Collectors.toList());
     }

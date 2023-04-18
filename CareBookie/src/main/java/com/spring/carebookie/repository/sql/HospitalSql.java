@@ -21,7 +21,8 @@ public class HospitalSql {
             "        hs.star, \n" +
             "        CONCAT(u.first_name,' ',u.last_name) 'adminName', \n" +
             "        u.user_id adminId, \n " +
-            "        h.information"+
+            "        h.information, \n" +
+            "        h.image_url imageUrl"+
             " FROM hospital h" +
             " LEFT JOIN hospital_star  hs ON h.hospital_id = hs.hospital_id" +
             " LEFT JOIN user u on h.admin_id = u.user_id;";
@@ -58,7 +59,8 @@ public class HospitalSql {
             "       hs.star,  \n" +
             "       CONCAT(u.first_name,' ',u.last_name) 'adminName', \n" +
             "       u.user_id adminId, \n" +
-            "       h.information \n" +
+            "       h.information, \n" +
+            "       h.image_url imageUrl"+
             " FROM hospital h \n" +
             " LEFT JOIN hospital_ward hw ON h.hospital_id = hw.hospital_id \n" +
             " LEFT JOIN ward w ON hw.ward_id = w.id \n" +

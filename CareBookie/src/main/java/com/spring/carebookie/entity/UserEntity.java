@@ -58,4 +58,7 @@ public class UserEntity {
     private Long roleId;
 
     private String information;
+
+    private String imageUrl;
+
 }

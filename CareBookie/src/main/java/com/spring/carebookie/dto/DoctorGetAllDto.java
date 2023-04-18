@@ -39,4 +39,10 @@ public class DoctorGetAllDto {
 
     private String roleName;
 
+    private String information;
+
+    private String imageUrl;
+
+    private Double star;
+
 }

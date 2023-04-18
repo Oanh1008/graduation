@@ -30,4 +30,10 @@ public interface DoctorGetAllProjection {
 
     public String getWardName();
 
+    String getInformation();
+
+    String getImageUrl();
+
+    Double getStar();
+
 }

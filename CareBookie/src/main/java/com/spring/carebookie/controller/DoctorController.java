@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,10 @@ public class DoctorController {
     @GetMapping
     public ResponseEntity<List<DoctorGetAllDto>> getAllDoctors() {
         return ResponseEntity.ok(userService.getAllDoctors());
+    }
+
+    @GetMapping("/{hospitalId}")
+    public ResponseEntity<List<DoctorGetAllDto>> getDoctorByHospitalId(@PathVariable("hospitalId") String hospitalId) {
+        return ResponseEntity.ok(userService.getAllDoctorByHospitalId(hospitalId));
     }
 }

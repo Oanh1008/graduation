@@ -55,4 +55,6 @@ public class HospitalEntity {
 
     private String periodWorkingDayTo;
 
+    private String information;
+
 }

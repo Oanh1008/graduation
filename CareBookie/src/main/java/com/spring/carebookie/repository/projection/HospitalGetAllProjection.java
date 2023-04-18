@@ -32,4 +32,6 @@ public interface HospitalGetAllProjection {
 
     String getAdminId();
 
+    String getInformation();
+
 }

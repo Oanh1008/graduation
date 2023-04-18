@@ -38,7 +38,8 @@ public class CommonService {
                 .collect(Collectors.toList());
 
         List<HospitalGetAllDto> hospitals = hospitalRepository.searchHospitalByKey(key).stream()
-                .map(p -> new HospitalGetAllDto(p, hospitalRepository.getWardsByHospitalId(p.getHospitalId())))
+                .map(p -> new HospitalGetAllDto(p, hospitalRepository.getWardsByHospitalId(p.getHospitalId()),
+                        hospitalRepository.getAllServiceByHospitalId(p.getHospitalId())))
                 .collect(Collectors.toList());
 
         return new SearchHomeDto(hospitals, doctors);

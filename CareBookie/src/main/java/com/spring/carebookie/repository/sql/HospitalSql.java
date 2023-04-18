@@ -20,10 +20,19 @@ public class HospitalSql {
             "        h.period_working_day_to periodWorkingDayTo, \n" +
             "        hs.star, \n" +
             "        CONCAT(u.first_name,' ',u.last_name) 'adminName', \n" +
-            "        u.user_id adminId " +
+            "        u.user_id adminId, \n " +
+            "        h.information"+
             " FROM hospital h" +
             " LEFT JOIN hospital_star  hs ON h.hospital_id = hs.hospital_id" +
             " LEFT JOIN user u on h.admin_id = u.user_id;";
+
+    public static final String GET_ALL_SERVICE_BY_HOSPITAL_ID =
+            " SELECT s.service_name serviceName,\n" +
+            "       s.price \n" +
+            " FROM hospital h \n" +
+            " LEFT JOIN hospital_service hs on h.hospital_id = hs.hospital_id \n" +
+            " LEFT JOIN service s on hs.service_id = s.id \n" +
+            " WHERE h.hospital_id = :hospitalId";
 
     public static final String GET_WARD_BY_HOSPITAL_ID =
             " SELECT w.ward_name \n" +
@@ -48,7 +57,8 @@ public class HospitalSql {
             "       h.period_working_day_to periodWorkingDayTo,  \n" +
             "       hs.star,  \n" +
             "       CONCAT(u.first_name,' ',u.last_name) 'adminName', \n" +
-            "       u.user_id adminId \n" +
+            "       u.user_id adminId, \n" +
+            "       h.information \n" +
             " FROM hospital h \n" +
             " LEFT JOIN hospital_ward hw ON h.hospital_id = hw.hospital_id \n" +
             " LEFT JOIN ward w ON hw.ward_id = w.id \n" +

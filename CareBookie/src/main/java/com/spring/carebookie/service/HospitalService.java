@@ -31,7 +31,8 @@ public class HospitalService {
 
         return hospitalRepository.getAllHospital()
                 .stream()
-                .map(p -> new HospitalGetAllDto(p,hospitalRepository.getWardsByHospitalId(p.getHospitalId())))
+                .map(p -> new HospitalGetAllDto(p, hospitalRepository.getWardsByHospitalId(p.getHospitalId()),
+                        hospitalRepository.getAllServiceByHospitalId(p.getHospitalId())))
                 .collect(Collectors.toList());
     }
 

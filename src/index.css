@@ -43,3 +43,7 @@ code {
 .ant-menu-item {
   @apply !mb-5
 }
+
+.ant-btn-primary {
+  @apply  hover:!bg-red-500 text-black border border-slate-200
+}

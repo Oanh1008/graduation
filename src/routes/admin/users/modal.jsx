@@ -123,7 +123,7 @@ const Modal = ({ isVisible, onClose }) => {
                             <Col span={12} >
                                 <Form.Item
                                     name='Dateofbirth'
-                                    label="Date Of Birth"
+                                    label="Ngày sinh"
                                     rules={[
                                         {
                                             required: true,
@@ -149,25 +149,22 @@ const Modal = ({ isVisible, onClose }) => {
 
                             <Col span={12} >
                                 <Form.Item
-                                    name='gender'
-                                    label="Gender"
+                                    name='Address'
+                                    label="Địa chỉ"
                                     rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                 >
-                                    <Radio.Group>
-                                        <Radio value="female"> Female </Radio>
-                                        <Radio value="male"> Male </Radio>
-                                    </Radio.Group>
+                                    <Input />
                                 </Form.Item>
                             </Col>
 
                             <Col span={12} >
                                 <Form.Item
                                     name='phone'
-                                    label="Phone"
+                                    label="Sô diện thoại"
                                     rules={[
                                         {
                                             required: true,

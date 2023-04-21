@@ -1,9 +1,12 @@
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
-    Button,
+
     Checkbox,
     Col,
+    DatePicker,
+    Divider,
     Form,
+    Input,
     InputNumber,
     Radio,
     Rate,
@@ -11,9 +14,13 @@ import {
     Select,
     Slider,
     Switch,
+    Typography,
     Upload,
 } from 'antd';
-
+import TextArea from 'antd/es/input/TextArea';
+import { useState } from 'react';
+import { Times } from '../../../assets/svg';
+import Button from '../../../components/button/index'
 
 const { Option } = Select;
 
@@ -40,123 +47,149 @@ const onFinish = (values) => {
 };
 
 const Modal = ({ isVisible, onClose }) => {
+    const [imageUrl, setImageUrl] = useState("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/300968750_116420874503674_2899111505842825407_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7s6DWjxmt0gAX_AYOsK&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAPESRJL2mdVRTaTbesT5jo5jqSZo6H4_itj0Sa0L5GYQ&oe=64435780");
+    const handlePreviewAvatar = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState == 2) {
+                setImageUrl({ imageUrl: reader.result })
+            }
+        }
+        reader.readAsDataURL(e.target.files[0])
+    }
+
     if (!isVisible) return null
     const handleClose = (e) => {
+        console.log('hi');
+        console.log(e.target.id);
         if (e.target.id == 'wrapper') {
             onClose()
         }
     }
     return (
-        <div className='fixed inset-0 '>
-            <div div className=' fixed inset-0 bg-black opacity-20 text-center' id='wrapper' onClick={handleClose} >
-            </div >
-            <div className='absolute inset-0 flex justify-center items-center'>
-                <div className='bg-white  rounded-lg'>
-                    <div className='flex flex-row-reverse justify-between'>
-                        <button onClick={() => onClose()}>X</button>
-                        <div>Edit  </div>
+        <div className='fixed inset-0 z-10 '>
+            <div div className=' fixed inset-0 bg-black opacity-20 text-center z-10' id='wrapper' onClick={handleClose} ></div >
+            <div className='absolute inset-0 flex justify-center items-center shadow-2xl'>
+                <div className='bg-white  rounded-lg px-6 py-5 z-20'>
+                    <div className='flex flex-row-reverse justify-between mb-6'>
+                        <button onClick={() => onClose()}><Times className='w-8 h-8 fill-black' /></button>
+                        <p className="text-cyan-900 text-3xl font-bold">
+                            Thêm dịch vụ
+                        </p>
                     </div>
+                    <Divider />
                     <Form
+                        labelCol={{ span: 9 }}
+                        wrapperCol={{ span: 18 }}
                         name="validate_other"
-                        {...formItemLayout}
                         onFinish={onFinish}
-                        initialValues={{
-                            'input-number': 3,
-                            'checkbox-group': ['A', 'B'],
-                            rate: 3.5,
-                        }}
                         style={{
                             maxWidth: 600,
                         }}
                     >
-                        <Form.Item label="Plain Text">
-                            <span className="ant-form-text">China</span>
-                        </Form.Item>
-                        <Form.Item
-                            name="select-multiple"
-                            label="Select[multiple]"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please select your favourite colors!',
-                                    type: 'array',
-                                },
-                            ]}
-                        >
-                            <Select mode="multiple" placeholder="Please select favourite colors">
-                                <Option value="red">Red</Option>
-                                <Option value="green">Green</Option>
-                                <Option value="blue">Blue</Option>
-                            </Select>
+                        <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
+                            <img src={imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
+                            <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
                         </Form.Item>
 
-                        <Form.Item label="InputNumber">
-                            <Form.Item name="input-number" noStyle>
-                                <InputNumber min={1} max={10} />
-                            </Form.Item>
-                            <span
-                                className="ant-form-text"
-                                style={{
-                                    marginLeft: 8,
-                                }}
-                            >
-                                machines
-                            </span>
-                        </Form.Item>
+                        <Row gutter={[48, 24]}>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='firstname'
+                                    label="First Name"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='lastName'
+                                    label="Last Name"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                    placeholder="Enter last name"
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='Dateofbirth'
+                                    label="Date Of Birth"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12} >
+                                <Form.Item
+                                    name="email"
+                                    label="Email"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
 
-                        <Form.Item name="switch" label="Switch" valuePropName="checked">
-                            <Switch />
-                        </Form.Item>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='gender'
+                                    label="Gender"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Radio.Group>
+                                        <Radio value="female"> Female </Radio>
+                                        <Radio value="male"> Male </Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={12} >
+                                <Form.Item
+                                    name='phone'
+                                    label="Phone"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
 
 
-                        <Form.Item
-                            name="radio-button"
-                            label="Radio.Button"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please pick an item!',
-                                },
-                            ]}
-                        >
-                            <Radio.Group>
-                                <Radio.Button value="a">item 1</Radio.Button>
-                                <Radio.Button value="b">item 2</Radio.Button>
-                                <Radio.Button value="c">item 3</Radio.Button>
-                            </Radio.Group>
-                        </Form.Item>
+                        </Row>
 
+                        <div className='flex justify-center'>
+                            <Button type="submit"
+                                text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
 
-                        <Form.Item name="rate" label="Rate">
-                            <Rate />
-                        </Form.Item>
-
-                        <Form.Item label="Dragger">
-                            <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-                                <Upload.Dragger name="files" action="/upload.do">
-                                    <p className="ant-upload-drag-icon">
-                                        <InboxOutlined />
-                                    </p>
-                                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                    <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                                </Upload.Dragger>
-                            </Form.Item>
-                        </Form.Item>
-
-                        <Form.Item
-                            wrapperCol={{
-                                span: 12,
-                                offset: 6,
-                            }}
-                        >
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>
-                        </Form.Item>
+                        </div>
                     </Form>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 export default Modal;

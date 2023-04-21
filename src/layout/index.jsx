@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 // import Header from '../components/header/Navbar';
 import logo from '../assets/image/logo_1.png'
+import logo_svg from '../assets/svg/logo.svg'
 import classNames from 'classnames';
 import { Avatar, Breadcrumb, Collapse, Dropdown, Layout, Menu, Popover, theme } from 'antd';
 import list from '../components/header/menu/menu'
@@ -21,21 +22,40 @@ const Index = ({ children }) => {
     return (
         <main>
             <Layout style={{ minHeight: '100vh' }}>
-                <Sider className='!bg-white border-r ' width={280} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+                <Sider className='!bg-white border-r z-10' width={280} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
 
-                    <div className='flex items-center bg-white w-[279px] border-b py-6 z-30 fixed justify-center h-fit' style={{ padding: 16 }} >
+                    <div className={classNames('flex items-center bg-white w-[279px] border-b py-6 z-30 fixed justify-center h-fit',
+                        {
+                            'w-[279px]': !collapsed,
+                            '!w-20': collapsed
+                        })}
+                        style={{ padding: 16 }} >
                         <button className=' text-white h-14 '>
-                            <img src={logo} width={200} />
+                            {!collapsed ?
+                                <img src={logo} width={200} />
+                                : <img src={logo_svg} width={200} />
+                            }
                         </button>
                     </div>
 
-                    <Menu className='!text-base fixed  w-[279px]  !bg-white top-24 ' defaultSelectedKeys={['1']} mode="inline" items={list}
+                    <Menu
+                        className={classNames('!text-base fixed  !bg-white top-24 ',
+                            {
+                                '!w-[279px]': !collapsed,
+                                '!w-20': collapsed
+                            })}
+                        defaultSelectedKeys={['1']} mode="inline" items={list}
                         onClick={((key) => {
                             navigate(key.keyPath[0])
                         })} />
                 </Sider>
                 <Layout>
-                    <Header style={{ background: 'white' }} className="flex justify-end z-30 !h-[5.5rem] border-b fixed w-[calc(100%-280px)] right-0" >
+                    <Header style={{ background: 'white' }}
+                        className={classNames('flex justify-end z-10 !h-[5.5rem] border-b fixed w-[calc(100%-280px)] right-0',
+                            {
+                                'w-[calc(100%-280px)]': !collapsed,
+                                'w-[calc(100%-79px)]': collapsed
+                            })}>
                         <div className='flex items-center my-4'>
                             <Dropdown
                                 menu={{

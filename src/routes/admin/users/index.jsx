@@ -17,15 +17,17 @@ const Index = () => {
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        axios.get('http://localhost:8092/api/v1/care-bookie/doctor')
+        axios.get('http://localhost:8092/api/v1/care-bookie/user')
             .then(res => {
                 setData(res.data);
                 setSearch(res.data);
+                // console.log(res.data);
             })
             .catch(error => {
                 console.error(error);
             });
     }, []);
+
 
     function handleSearch(event) {
         if (event.target.value === '') {
@@ -36,6 +38,8 @@ const Index = () => {
         }
         setfilterVal(event.target.value)
     }
+
+    const totallength = data.length
 
     return (
         <Layout>
@@ -72,8 +76,8 @@ const Index = () => {
                         scroll={{ y: 500 }}
                         loading={loading}
                         pagination={{
-                            pageSize: 7,
-                            total: 10,
+                            pageSize: 5,
+                            total: Math.ceil(totallength / pageSize),
                             onChange: (page, pageSize) => {
                                 setPage(page);
                                 setPageSize(pageSize);

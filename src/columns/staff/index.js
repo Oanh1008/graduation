@@ -14,14 +14,17 @@ const Columns = [
   },
 
   {
-    key: '2',
+    key: '',
     title: "Ảnh đại diện",
     dataIndex: "lastName",
     render: (item) => (
-      <Avatar src={item.imageLink}/>),
-    sorter: (record1, record2) => {
-      return record1.lastName > record2.lastName
-    }
+      <>
+      {/* <Avatar src={item.imageUrl}/>, */}
+      <div>
+      {item.imageUrl}
+      </div>
+      </>
+    ),
   },
 
   {
@@ -50,6 +53,18 @@ const Columns = [
   },
   {
     key: '4',
+    title: "Ngày sinh",
+    dataIndex: "birthDay",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div>{item.birthDay}</div>
+      </div>),
+    sorter: (record1, record2) => {
+      return record1.address > record2.address
+    }
+  },
+  {
+    key: '5',
     title: "Số điện thoại",
     dataIndex: "phone",
     render: (text, item) => (text &&
@@ -61,7 +76,7 @@ const Columns = [
     }
   },
   {
-    key: '5',
+    key: '6',
     title: "Địa chi",
     dataIndex: "address",
     render: (text, item) => (text &&
@@ -72,6 +87,7 @@ const Columns = [
       return record1.address > record2.address
     }
   },
+
   // {
   //   key: '4',
   //   title: "Status",
@@ -98,15 +114,10 @@ const Columns = [
     title: "",
     render: (data) => (
       <>
-        <Button
-          type='button'
-          className=" rounded-lg"
-          icon={<Edit className='w-9 h-9 fill-green-600 hover:fill-sky-800 p-1' />}
-          onClick={() => { console.log(data.id); }} />
         <Popconfirm
           placement="bottomRight"
           title={"Bạn muốn xoá người này ? "}
-          description={"Xoá người dùng"}
+          description={"Không thể khôi phục được"}
           onConfirm={() => { console.log(data.id) }}
           okText="Yes"
           cancelText="No"

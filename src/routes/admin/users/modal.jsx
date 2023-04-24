@@ -47,7 +47,7 @@ const onFinish = (values) => {
 };
 
 const Modal = ({ isVisible, onClose }) => {
-    const [imageUrl, setImageUrl] = useState("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/300968750_116420874503674_2899111505842825407_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7s6DWjxmt0gAX_AYOsK&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAPESRJL2mdVRTaTbesT5jo5jqSZo6H4_itj0Sa0L5GYQ&oe=64435780");
+    const [imageUrl, setImageUrl] = useState("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/300968750_116420874503674_2899111505842825407_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=GSU4O1pFkjIAX-L6fkR&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAjRT9cXZ6R0mv_vqdzzovtQ_7FW85poHRcId6d8dsppQ&oe=64494640");
     const handlePreviewAvatar = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -73,7 +73,7 @@ const Modal = ({ isVisible, onClose }) => {
                 <div className='bg-white  rounded-lg px-6 py-5 z-20'>
                     <div className='flex flex-row-reverse justify-between mb-6'>
                         <button onClick={() => onClose()}><Times className='w-8 h-8 fill-black' /></button>
-                        <p className="text-cyan-900 text-3xl font-bold">
+                        <p className="text-cyan-900 text-2xl font-bold">
                             Thêm người dùng
                         </p>
                     </div>
@@ -88,7 +88,7 @@ const Modal = ({ isVisible, onClose }) => {
                         }}
                     >
                         <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
-                            <img src={imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
+                            <img src={imageUrl} alt="avatar" id="img" width={150} className="rounded-full mb-3" />
                             <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
                         </Form.Item>
 
@@ -161,6 +161,58 @@ const Modal = ({ isVisible, onClose }) => {
                                 </Form.Item>
                             </Col>
 
+                            <Col span={12} >
+                                <Form.Item
+                                    name='phone'
+                                    label="Sô diện thoại"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='phone'
+                                    label="Sô diện thoại"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='phone'
+                                    label="Sô diện thoại"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='phone'
+                                    label="Sô diện thoại"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
                             <Col span={12} >
                                 <Form.Item
                                     name='phone'

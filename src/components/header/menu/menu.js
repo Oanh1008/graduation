@@ -39,7 +39,7 @@ const Layout = [
         children: [
                 {
                     icon: <MdPeople/>,
-                    key: "/invoice",
+                    key: "/doanhthu",
                     label: "Doanh thu",
                     permission: ''
                 },

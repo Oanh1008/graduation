@@ -4,7 +4,7 @@ import { Table } from 'antd';
 import columns from '../../../columns/booking';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-
+import { get } from '../../../utils/apicommon'
 
 const Index = () => {
   const [loading, setLoading] = useState(false)
@@ -14,27 +14,27 @@ const Index = () => {
   const [filterVal, setfilterVal] = useState('');
   const [search, setSearch] = useState([]);
 
-
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/users`)
-      .then(res => res.json())
-      .then((data) => {
-        setData(data);
-        setSearch(data)
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false)
-      });
+    fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const data = await get('/user');
+    console.log(data);
+    setData(data);
+    setSearch(data)
+  };
+
+  // const handleDelete = async (id) => {
+  //     await del(`/${id}`);
+  //     fetchData();
+  // };
 
   function handleSearch(event) {
     if (event.target.value === '') {
       setData(search)
     } else {
-      const filterSearch = search.filter(item => item.username.toLowerCase().includes(event.target.value))
+      const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value))
       setData(filterSearch)
     }
     setfilterVal(event.target.value)

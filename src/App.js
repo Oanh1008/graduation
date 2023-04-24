@@ -10,6 +10,7 @@ import Register from './routes/auth/register/index'
 import ResetPassword from './routes/auth/reset-password/index'
 import Invoice from './routes/admin/invoice/index'
 import { useEffect } from 'react';
+import DoanhThu from './routes/admin/dashboard/doanhthu';
 
 function App() {
 
@@ -26,6 +27,8 @@ function App() {
           <Route path='/myprofile' element={<Myprofile/>}></Route>
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/register' element={<Register/>}></Route>
+          <Route path='/resetpassword' element={<ResetPassword/>}></Route>
+          <Route path='/doanhthu' element={<DoanhThu/>}></Route>
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
         </Routes>
     </BrowserRouter>

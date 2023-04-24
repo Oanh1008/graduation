@@ -82,8 +82,8 @@ const Index = ({ children }) => {
                             </Dropdown>
                         </div>
                     </Header>
-                    <Content style={{ margin: '0 16px' }}  >
-                        <div style={{ padding: 24, minHeight: 360 }} className="mt-24" >
+                    <Content >
+                        <div style={{ paddingTop: 24, paddingBottom: 24, minHeight: 400 }} className="mt-24" >
                             {children}
                         </div>
                     </Content>

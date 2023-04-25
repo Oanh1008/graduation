@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
-import columns from '../../../columns/booking';
+import columns from '../../../columns/staff/index';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
+import Modal from './modal';
 
 const Index = () => {
     const [loading, setLoading] = useState(false)
@@ -13,6 +14,7 @@ const Index = () => {
     const [data, setData] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         fetchData();
@@ -20,9 +22,9 @@ const Index = () => {
 
     const fetchData = async () => {
         const data = await get('/user');
-        console.log(data);
-        setData(data);
-        setSearch(data)
+        const filteredData = data.filter((item) => item.imageUrl)
+        setData(filteredData)
+        setSearch(filteredData)
     };
 
     // const handleDelete = async (id) => {
@@ -34,7 +36,7 @@ const Index = () => {
         if (event.target.value === '') {
             setData(search)
         } else {
-            const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value))
+            const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value) || item.lastName.toLowerCase().includes(event.target.value))
             setData(filterSearch)
         }
         setfilterVal(event.target.value)
@@ -42,16 +44,15 @@ const Index = () => {
 
     return (
         <Layout>
-            <div className='container mx-auto'>
+            <div className='container mx-auto bg-white p-6'>
                 <div className='flex justify-between items-center'>
-                    <div className='text-2xl font-bold text-cyan-900 mb-4 '>Quản lý khám chữa bệnh</div>
-
+                    <div className=' text-2xl font-bold text-cyan-950 '>Quản lý người dùng</div>
                 </div>
-                <div className=' bg-white w-full my-5 rounded-lg p-1 shadow-lg flex justify-between items-center'>
+                <div className=' border-b w-full my-3 flex justify-between items-center'>
                     <div class="relative m-3">
                         <input type="search" id="search"
-                            class="block w-full p-3 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:border-2 "
-                            placeholder="Search"
+                            class="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:border-2 "
+                            placeholder="Tìm kiếm..."
                             value={filterVal}
                             onInput={(e) => handleSearch(e)}
                         />
@@ -63,27 +64,44 @@ const Index = () => {
                     <Button icon={<Plus className='fill-white w-7 h-7 ' />}
                         className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
                         type="button"
-                        text="Add" />
+                        text="Thêm người dùng"
+                        onClick={() => setShowModal(true)} />
                 </div>
 
-                <div className='mb-11'>
+                <div className='mb-11 !z-0'>
                     <Table
-                        className='rounded-2xl shadow-xl '
+                        className=' !z-0'
                         columns={columns}
                         dataSource={data}
                         scroll={{ y: 500 }}
                         loading={loading}
                         pagination={{
-                            pageSize: 7,
-                            total: 10,
+                            pageSize: 5,
                             onChange: (page, pageSize) => {
                                 setPage(page);
                                 setPageSize(pageSize);
                             }
                         }}
                     />
+                    {/* <div className='grid grid-cols-5 gap-6'>
+                        {data.map((item) => (
+                            <div className='relative'>
+                                <div className='h-72 rounded-t-md' style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+                                </div>
+                                <div className='text-center py-5 bg-white rounded-b-md'>
+                                    <p className='text-xl mb-2'>{item.lastName} {item.firstName}</p>
+                                    <p className='text-gray-500'>{item.email}</p>
+                                </div>
+                                <div className='flex flex-col'>
+                                    <div></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div> */}
                 </div>
             </div>
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            </Modal>
         </Layout>
     )
 }

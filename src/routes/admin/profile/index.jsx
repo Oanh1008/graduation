@@ -9,6 +9,7 @@ import Timetable from './details/timetable'
 import classNames from 'classnames';
 import Modal from './modal';
 import avatar from '../../../assets/image/background_login.png'
+import Feedback from './details/feedback';
 
 const listTabs = [
     {
@@ -31,18 +32,18 @@ const Index = () => {
     }
     return (
         <Layout>
-            <div className='container '>
+            <div className='container mx-auto'>
                 <div className='flex gap-5  '>
                     <Experience />
-                    <div>
+                    <div className='w-[calc(100%-500px)]'>
                         <div className='bg-white rounded-md '>
                             <div className='flex flex-grow justify-between px-7 mb-10'>
                                 <div className='flex items-center justify-center mx-auto'><Avatar className='shadow-lg' src={avatar} size={220} /></div>
                                 <div className='basis-2/3'>
                                     <div className='flex justify-between py-3 items-end mt-5'>
                                         <div>
-                                            <div className='text-3xl text-cyan-900 font-semibold mb-1'>Minh Thư Nguyễn</div>
-                                            <div className='text-gray-600 text-lg'>Bác sĩ</div>
+                                            <div className='text-3xl text-cyan-900 font-semibold mb-1'>Phòng khám Từ Dũ</div>
+                                            <div className='text-gray-600 text-lg'>phongkhamtudu@gmail.com</div>
                                         </div>
                                         <div>
                                             <Button
@@ -55,17 +56,11 @@ const Index = () => {
                                     <Divider />
                                     <div className='flex justify-start gap-16 text-base'>
                                         <div className='flex flex-col gap-3 font-semibold'>
-
-                                            <div>Giới tính</div>
-                                            <div>Ngày sinh</div>
-                                            <div >Email</div>
+                                            <div>Địa chi</div>
                                             <div>Lịch làm việc</div>
                                         </div>
                                         <div className='flex flex-col gap-3'>
-
-                                            <div>Nữ</div>
-                                            <div>06 - 11 - 2001</div>
-                                            <div>minhthu@gmail.com</div>
+                                            <div>Phong An, Phong Điền</div>
                                             <div>Thứ 2 - Thứ 6 (    8h00 - 17h00  )</div>
                                         </div>
                                     </div>
@@ -76,7 +71,7 @@ const Index = () => {
                                     const x = index + 1;
                                     return (
                                         <Col key={index}
-                                            className={classNames('py-5 text-lg text-center text-cyan-900 font-semibold transition-all ease-in-out duration-500 ',
+                                            className={classNames('py-5 text-lg text-center text-cyan-900 font-semibold transition-all border-l ease-in-out duration-500 ',
                                                 {
                                                     "border-b-8 border-b-[#457b9d] bg-[#e2e8eb]": toggle === x,
                                                     "border-b-8 border-b-white": toggle !== x
@@ -91,8 +86,13 @@ const Index = () => {
                         <div className={toggle === 1 ? "block" : "hidden"}>
                             <Review />
                         </div>
+                        <div className={toggle === 2 ? "block" : "hidden "}>
+                            {/* <Timetable /> */}
+                            <Review />
+
+                        </div>
                         <div className={toggle === 3 ? "block" : "hidden "}>
-                            <Timetable />
+                            <Feedback />
                         </div>
                     </div>
                 </div>

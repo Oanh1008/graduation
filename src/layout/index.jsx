@@ -6,12 +6,14 @@ import logo_svg from '../assets/svg/logo.svg'
 import classNames from 'classnames';
 import { Avatar, Breadcrumb, Collapse, Dropdown, Layout, Menu, Popover, theme } from 'antd';
 import list from '../components/header/menu/menu'
+import listSA from '../components/header/menu/menuSA'
 import avatar from '../assets/image/background_login.png'
 const { Header, Content, Footer, Sider } = Layout;
 
 const Index = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
     const [open, setOpen] = useState(false);
+    const [modal, setShowModal] = useState(false)
 
     const navigate = useNavigate()
 
@@ -38,6 +40,7 @@ const Index = ({ children }) => {
                         </button>
                     </div>
 
+                    {/* {item.userID === "Sa" ? */}
                     <Menu
                         className={classNames('!text-base fixed  !bg-white top-24 ',
                             {
@@ -48,6 +51,18 @@ const Index = ({ children }) => {
                         onClick={((key) => {
                             navigate(key.keyPath[0])
                         })} />
+                    {/* : */}
+                    {/* <Menu
+                            className={classNames('!text-base fixed  !bg-white top-24 ',
+                                {
+                                    '!w-[279px]': !collapsed,
+                                    '!w-20': collapsed
+                                })}
+                            defaultSelectedKeys={['1']} mode="inline" items={listSA}
+                            onClick={((key) => {
+                                navigate(key.keyPath[0])
+                            })} /> */}
+                    {/* } */}
                 </Sider>
                 <Layout>
                     <Header style={{ background: 'white' }}
@@ -65,8 +80,12 @@ const Index = ({ children }) => {
                                             key: '1',
                                         },
                                         {
-                                            label: <a href='/login'>Đăng xuất</a>,
+                                            label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
                                             key: '2',
+                                        },
+                                        {
+                                            label: <a href='/login'>Đăng xuất</a>,
+                                            key: '3',
                                         },
                                     ],
                                 }}
@@ -75,11 +94,38 @@ const Index = ({ children }) => {
                             >
                                 <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
                                     <div className='mx-4'>
-                                        <p className="font-bold text-black text-lg ">Minh Thư Nguyễn</p>
+                                        <p className="font-bold text-black text-lg ">Phòng khám Từ Dũ</p>
                                     </div>
                                     <Avatar className='shadow-lg' src={avatar} size={50} />
                                 </a>
                             </Dropdown>
+                            {/* <Dropdown
+                                menu={{
+                                    items: [
+                                        // {
+                                        //     label: <a href='/myprofile'>Thông tin cá nhân</a>,
+                                        //     key: '1',
+                                        // },
+                                        {
+                                            label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
+                                            key: '2',
+                                        },
+                                        {
+                                            label: <a href='/login'>Đăng xuất</a>,
+                                            key: '3',
+                                        },
+                                    ],
+                                }}
+                                onOpenChange={handleOpenChange}
+                                open={open}
+                            >
+                                <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
+                                    <div className='mx-4'>
+                                        <p className="font-bold text-black text-lg ">Super Admin</p>
+                                    </div>
+                                    <Avatar className='shadow-lg' src={avatar} size={50} />
+                                </a>
+                            </Dropdown> */}
                         </div>
                     </Header>
                     <Content >

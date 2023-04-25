@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Router, Routes, useNavigate } from 'react-router-dom';
 import Home from './routes/admin/home/index';
-import Users from './routes/admin/users/index'
+import Staff from './routes/admin/Staff/index'
 import Services from './routes/admin/services/index'
 import Specialist from './routes/admin/specialist/index'
 import Booking from './routes/admin/booking/index'
@@ -11,6 +11,9 @@ import ResetPassword from './routes/auth/reset-password/index'
 import Invoice from './routes/admin/invoice/index'
 import { useEffect } from 'react';
 import DoanhThu from './routes/admin/dashboard/doanhthu';
+import ManagerHospital from './routes/superadmin/hospital';
+import Hospitaldelails from './routes/superadmin/hospital/hospitaldelails';
+import ManagerUser from './routes/superadmin/users';
 
 function App() {
 
@@ -19,8 +22,8 @@ function App() {
     <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home/>}></Route>
-          <Route path='/user' element={<Users/>}></Route>
-          <Route path='/servies' element={<Services/>}></Route>
+          <Route path='/staff' element={<Staff/>}></Route>
+          <Route path='/services' element={<Services/>}></Route>
           <Route path='/specialist' element={<Specialist/>}></Route>
           <Route path='/booking' element={<Booking/>}></Route>
           <Route path='/invoice' element={<Invoice/>}></Route>
@@ -30,6 +33,10 @@ function App() {
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
           <Route path='/doanhthu' element={<DoanhThu/>}></Route>
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
+          <Route path='/admin-hospital' element={<ManagerHospital/>}></Route>
+          <Route path='/admin-user' element={<ManagerUser/>}></Route>
+          <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route>
+          <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route>
         </Routes>
     </BrowserRouter>
    </>

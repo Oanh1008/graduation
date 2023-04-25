@@ -14,7 +14,8 @@ const Columns = [
     ),
     sorter: (record1, record2) => {
       return record1.id > record2.id
-    }
+    },
+    fixed: 'left',
   },
   // {
   //   key: '1',
@@ -29,42 +30,18 @@ const Columns = [
     key: '2',
     title: "Họ và tên",
     dataIndex: "",
-    width: 300,
+    width: 250,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
-        <Avatar src={item.imageUrl} size={60} />
+        <Avatar src={item.imageUrl} size={50} />
         <div>{item.lastName} {item.firstName}</div>
       </div>),
     sorter: (record1, record2) => {
       return record1.lastName + record1.firstName > record2.firstName + record2.lastName
-    }
+    },
+    fixed: 'left',
 
   },
-
-  // {
-  //   key: '3',
-  //   title: "Họ",
-  //   dataIndex: "",
-  //   render: (text, item) => (text &&
-  //     <div className='flex items-center gap-3'>
-  //       <div>{item.lastName} {item.firstName}</div>
-  //     </div>),
-  //   sorter: (record1, record2) => {
-  //     return record1.lastName > record2.lastName
-  //   }
-  // },
-  // {
-  //   key: '4',
-  //   title: "Tên",
-  //   dataIndex: "firstName",
-  //   render: (text, item) => (text &&
-  //     <div className='flex items-center gap-3'>
-  //       <div>{item.firstName}</div>
-  //     </div>),
-  //   sorter: (record1, record2) => {
-  //     return record1.firstName > record2.firstName
-  //   }
-  // },
   {
     key: '3',
     title: "Ngày sinh",
@@ -74,7 +51,7 @@ const Columns = [
         <div>{item.birthDay}</div>
       </div>),
     sorter: (record1, record2) => {
-      return record1.address > record2.address
+      return record1.birthDay > record2.birthDay
     }
   },
   {
@@ -87,7 +64,7 @@ const Columns = [
         <div>{item.email}</div>
       </div>),
     sorter: (record1, record2) => {
-      return record1.address > record2.address
+      return record1.email > record2.email
     }
   },
   {
@@ -113,13 +90,17 @@ const Columns = [
   },
   {
     key: '7',
-    title: "Chuyên Khoa",
-    dataIndex: "ward",
+    title: "Phân Quyền",
+    dataIndex: "",
     render: () => (
-      <div>Tai, mũi, họng</div>
+      <div>Khám chữa bệnh</div>
     ),
-    sorter: (record1, record2) => {
-      return record1.address > record2.address
+    filters: [
+      { text: "Tai, mũi, họng", value: true },
+      { text: "Ung bướu", value: false },
+    ],
+    onFilter: (value, record) => {
+      return record.completed === value
     }
   },
   {
@@ -143,7 +124,7 @@ const Columns = [
     dataIndex: "status",
     render: () => (
       <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
-                         before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Đang làm việc</div>
+                         before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Working</div>
 
     ),
     filters: [
@@ -154,32 +135,11 @@ const Columns = [
       return record.completed === value
     }
   },
-
-  // {
-  //   key: '4',
-  //   title: "Status",
-  //   dataIndex: "completed",
-  //   render: (completed => {
-  //     return <p>{completed
-  //       ?
-  //       <div className=''>complete</div>
-  //       :
-  //       <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg flex items-center before:left-6
-  //                       before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Accept</div>}
-  //     </p>
-  //   }),
-  //   filters: [
-  //     { text: "complete", value: true },
-  //     { text: "incompleted", value: false },
-  //   ],
-  //   onFilter: (value, record) => {
-  //     return record.completed === value
-  //   }
-  // },
   {
     key: '8',
     title: "",
-    width: 100,
+    width: 80,
+    fixed: 'rght',
     render: (data) => (
         <Popconfirm
           placement="bottomRight"
@@ -194,7 +154,7 @@ const Columns = [
           <Button
             type='button'
             className=" rounded-lg"
-            icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
+            icon={<Trash className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
           />
         </Popconfirm>
     )

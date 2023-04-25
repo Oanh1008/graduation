@@ -10,38 +10,38 @@ const ResetPassword = () => {
 
     const ProceedLogin = (e) => {
         e.preventDefault();
-        // navigate('/')
+        navigate('/')
 
-        if (validate()) {
-            fetch('https://dummyjson.com/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
+        // if (validate()) {
+        //     fetch('https://dummyjson.com/auth/login', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
 
-                    username: 'kminchelle',
-                    password: '0lelplR',
-                })
-            })
-                .then(res => res.json())
-                .then((resp) => {
-                    if (Object.keys(resp).length === 0) {
-                        console.log("username invalid");
-                    }
-                    else {
-                        if (resp.password === password) {
-                            sessionStorage.setItem('username', username)
-                            navigate(`/`)
-                        } else {
-                            console.log("invalid credential");
-                            console.log(resp.firstName);
-                        }
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-            // console.log('hi');
-        }
+        //             username: 'kminchelle',
+        //             password: '0lelplR',
+        //         })
+        //     })
+        //         .then(res => res.json())
+        //         .then((resp) => {
+        //             if (Object.keys(resp).length === 0) {
+        //                 console.log("username invalid");
+        //             }
+        //             else {
+        //                 if (resp.password === password) {
+        //                     sessionStorage.setItem('username', username)
+        //                     navigate(`/`)
+        //                 } else {
+        //                     console.log("invalid credential");
+        //                     console.log(resp.firstName);
+        //                 }
+        //             }
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         })
+        //     // console.log('hi');
+        // }
     }
 
     const validate = () => {

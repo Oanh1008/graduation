@@ -24,11 +24,7 @@ const list = [
         label: "2012 - 2014",
 
     },
-    {
-        children: 'Tốt nghiệp Bác sĩ Đa khoa, Trường Đại học y dược thành phố Hồ Chí Minh',
-        label: "2012 - 2014",
 
-    },
 
 
 ]

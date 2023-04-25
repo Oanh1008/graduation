@@ -39,8 +39,7 @@ const Header = () => {
           >
             <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
               <div className='mx-4'>
-                <div className="font-bold text-black text-lg leading-snug mb-0.5">Minh Thư Nguyễn</div>
-                <div className="text-gray-500">19T1021262@husc.edu.vn</div>
+                <div className="font-bold text-black text-lg leading-snug mb-0.5">Super Admin</div>
               </div>
               <Avatar className='shadow-lg' src={avatar} size={220} />
             </a>

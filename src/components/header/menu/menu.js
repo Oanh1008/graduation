@@ -5,20 +5,20 @@ import { FaRegChartBar } from 'react-icons/fa';
 const Layout = [
     {
         icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
-        key: "/user",
-        label: "Quản lý người dùng",
-        permission: ''
+        key: "/dashboard ",
+        label: "Dashboard",
+        permission: 'Thống kê'
     },
     {
         icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
-        key: "/servies",
+        key: "/staff",
+        label: "Quản lý nhân viên",
+        permission: ''
+    },
+     {
+        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "/services",
         label: "Quản lý dịch vụ",
-        permission: ''
-    },
-    {
-        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
-        key: "/specialist",
-        label: "Quản lý khoa",
         permission: ''
     },
     {
@@ -29,10 +29,11 @@ const Layout = [
     },
     {
         icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
-        key: "/invoice",
-        label: "Quản lý hoá đơn  ",
+        key: "/role",
+        label: "Vai trò",
         permission: ''
     },
+
     {
         icon: <MdStackedBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100 fill-cyan-900'/>,
         label: "Thống kê",

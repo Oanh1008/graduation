@@ -8,6 +8,10 @@ const Columns = [
     key: '1',
     title: "ID",
     dataIndex: "id",
+    width: 60,
+    render: (text, item) => ( text &&
+      <p className='font-bold'>{item.id}</p>
+    ),
     sorter: (record1, record2) => {
       return record1.id > record2.id
     }
@@ -15,77 +19,36 @@ const Columns = [
 
   {
     key: '2',
-    title: "Tên bệnh nhân",
-    dataIndex: "imageUrl",
-    // render: (text, item) => (text &&
-    //   <div className='flex items-center gap-3'>
-    //     <Avatar src={item.imageUrl} size={72} />
-    //   </div>)
+    title: "Họ và tên",
+    dataIndex: "",
+    width: 250,
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <Avatar src={item.imageUrl} size={50} />
+        <div>{item.lastName} {item.firstName}</div>
+      </div>),
+    sorter: (record1, record2) => {
+      return record1.lastName + record1.firstName > record2.firstName + record2.lastName
+    }
 
   },
-
   {
     key: '3',
     title: "Ngày sinh",
-    dataIndex: "",
-    // render: (text, item) => (text &&
-    //   <div className='flex items-center gap-3'>
-    //     <div>{item.lastName}</div>
-    //   </div>),
-    // sorter: (record1, record2) => {
-    //   return record1.lastName > record2.lastName
-    // }
-  },
-  {
-    key: '4',
-    title: "Triệu chứng",
-    dataIndex: "",
-    render: (text, item) => (text &&
-      <div className='flex items-center gap-3'>
-        <div>{item.firstName}</div>
-      </div>),
-    sorter: (record1, record2) => {
-      return record1.firstName > record2.firstName
-    }
-  },
-  {
-    key: '4',
-    title: "Status",
-    dataIndex: "completed",
-    render: (completed => {
-      return <p>{completed
-        ?
-        <div className=''>complete</div>
-        :
-        <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg flex items-center before:left-6
-                        before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Chờ xét duyệt</div>}
-      </p>
-    }),
-    filters: [
-      { text: "complete", value: true },
-      { text: "incompleted", value: false },
-    ],
-    onFilter: (value, record) => {
-      return record.completed === value
-    }
-  },
-
-  {
-    key: '5',
-    title: "Kết quả khám bệnh",
     dataIndex: "birthDay",
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         <div>{item.birthDay}</div>
       </div>),
     sorter: (record1, record2) => {
-      return record1.address > record2.address
+      return record1.birthDay > record2.birthDay
     }
   },
   {
-    key: '6',
-    title: "Số điện thoại",
-    dataIndex: "phone",
+    key: '',
+    title: "Email",
+    dataIndex: "email",
+    width: 200,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         <div>{item.email}</div>
@@ -95,7 +58,16 @@ const Columns = [
     }
   },
   {
-    key: '7',
+    key: '4',
+    title: "Số điện thoại",
+    dataIndex: "phone",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div>{item.phone}</div>
+      </div>),
+  },
+  {
+    key: '5',
     title: "Địa chi",
     dataIndex: "address",
     render: (text, item) => (text &&
@@ -106,17 +78,11 @@ const Columns = [
       return record1.address > record2.address
     }
   },
-
   {
     key: '8',
     title: "",
+    width: 100,
     render: (data) => (
-      <>
-        <Button
-          type='button'
-          className=" rounded-lg"
-          icon={<Edit className='w-9 h-9 fill-green-500 hover:fill-green-500 p-1' />}
-        />
         <Popconfirm
           placement="bottomRight"
           title={"Bạn muốn xoá người này ? "}
@@ -126,14 +92,13 @@ const Columns = [
           cancelText="No"
           icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
         >
+
           <Button
             type='button'
             className=" rounded-lg"
             icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
           />
         </Popconfirm>
-
-      </>
     )
   }
 ];

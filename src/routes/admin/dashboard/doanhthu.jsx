@@ -1,32 +1,104 @@
-import { Bar } from 'react-chartjs-2';
-
-const Doanhthu = () => {
-    const data = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-                label: 'My First Dataset',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-            },
-        ],
-    };
-
-    const options = {
-        scales: {
-            yAxes: [
+import { Badge, Calendar } from 'antd';
+import Layout from '../../../components/header/menu/menu';
+const getListData = (value) => {
+    let listData;
+    switch (value.date()) {
+        case 8:
+            listData = [
                 {
-                    ticks: {
-                        beginAtZero: true,
-                    },
+                    type: 'warning',
+                    content: 'This is warning event.',
                 },
-            ],
-        },
-    };
-
-    return <Bar data={data} options={options} />;
+                {
+                    type: 'success',
+                    content: 'This is usual event.',
+                },
+            ];
+            break;
+        case 10:
+            listData = [
+                {
+                    type: 'warning',
+                    content: 'This is warning event.',
+                },
+                {
+                    type: 'success',
+                    content: 'This is usual event.',
+                },
+                {
+                    type: 'error',
+                    content: 'This is error event.',
+                },
+            ];
+            break;
+        case 15:
+            listData = [
+                {
+                    type: 'warning',
+                    content: 'This is warning event',
+                },
+                {
+                    type: 'success',
+                    content: 'This is very long usual event。。....',
+                },
+                {
+                    type: 'error',
+                    content: 'This is error event 1.',
+                },
+                {
+                    type: 'error',
+                    content: 'This is error event 2.',
+                },
+                {
+                    type: 'error',
+                    content: 'This is error event 3.',
+                },
+                {
+                    type: 'error',
+                    content: 'This is error event 4.',
+                },
+            ];
+            break;
+        default:
+    }
+    return listData || [];
 };
-
+const getMonthData = (value) => {
+    if (value.month() === 8) {
+        return 1394;
+    }
+};
+const Doanhthu = () => {
+    const monthCellRender = (value) => {
+        const num = getMonthData(value);
+        return num ? (
+            <div className="notes-month">
+                <section>{num}</section>
+                <span>Backlog number</span>
+            </div>
+        ) : null;
+    };
+    const dateCellRender = (value) => {
+        const listData = getListData(value);
+        return (
+            <ul className="events">
+                {listData.map((item) => (
+                    <li key={item.content}>
+                        <Badge status={item.type} text={item.content} />
+                    </li>
+                ))}
+            </ul>
+        );
+    };
+    const cellRender = (current, info) => {
+        if (info.type === 'date') return dateCellRender(current);
+        if (info.type === 'month') return monthCellRender(current);
+        return info.originNode;
+    };
+    return (
+        <div className='container mx-auto my-28'>
+            <Calendar cellRender={cellRender} />
+        </div>
+    );
+};
 export default Doanhthu;

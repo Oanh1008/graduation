@@ -87,8 +87,7 @@ const Index = () => {
                             <Review />
                         </div>
                         <div className={toggle === 2 ? "block" : "hidden "}>
-                            {/* <Timetable /> */}
-                            <Review />
+                            <Timetable />
 
                         </div>
                         <div className={toggle === 3 ? "block" : "hidden "}>

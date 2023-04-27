@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { Avatar, Breadcrumb, Collapse, Dropdown, Layout, Menu, Popover, theme } from 'antd';
 import list from '../components/header/menu/menu'
 import listSA from '../components/header/menu/menuSA'
+import listPratitioner from '../components/header/menu/menuPractitioner'
 import avatar from '../assets/image/background_login.png'
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -41,7 +42,7 @@ const Index = ({ children }) => {
                     </div>
 
                     {/* {item.userID === "Sa" ? */}
-                    <Menu
+                    {/* <Menu
                         className={classNames('!text-base fixed  !bg-white top-24 ',
                             {
                                 '!w-[279px]': !collapsed,
@@ -50,19 +51,29 @@ const Index = ({ children }) => {
                         defaultSelectedKeys={['1']} mode="inline" items={list}
                         onClick={((key) => {
                             navigate(key.keyPath[0])
+                        })} /> */}
+                    {/* :
+                    <Menu
+                        className={classNames('!text-base fixed  !bg-white top-24 ',
+                            {
+                                '!w-[279px]': !collapsed,
+                                '!w-20': collapsed
+                            })}
+                        defaultSelectedKeys={['1']} mode="inline" items={listSA}
+                        onClick={((key) => {
+                            navigate(key.keyPath[0])
                         })} />
-                    {/* : */}
-                    {/* <Menu
-                            className={classNames('!text-base fixed  !bg-white top-24 ',
-                                {
-                                    '!w-[279px]': !collapsed,
-                                    '!w-20': collapsed
-                                })}
-                            defaultSelectedKeys={['1']} mode="inline" items={listSA}
-                            onClick={((key) => {
-                                navigate(key.keyPath[0])
-                            })} /> */}
                     {/* } */}
+                    <Menu
+                        className={classNames('!text-base fixed  !bg-white top-24 ',
+                            {
+                                '!w-[279px]': !collapsed,
+                                '!w-20': collapsed
+                            })}
+                        defaultSelectedKeys={['1']} mode="inline" items={listPratitioner}
+                        onClick={((key) => {
+                            navigate(key.keyPath[0])
+                        })} />
                 </Sider>
                 <Layout>
                     <Header style={{ background: 'white' }}

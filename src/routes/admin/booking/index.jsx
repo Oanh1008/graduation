@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Col, Row, Table } from 'antd';
-import columns from '../../../columns/staff/index';
+import columns from '../../../columns/booking';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
-// import Modal from './modal';
 import { DataStaff } from '../Staff/data'
 import classNames from 'classnames';
-// import RoleModal from './roleModal';
 
 const listTabs = [
-  {
-    name: 'Danh sách đặt lịch'
-  },
+
   {
     name: 'Đơn bệnh chờ xét duyệt'
   },
   {
-    name: 'Đơn bệnh đã khám'
+    name: 'Đơn bệnh đã xét duyệt'
+  },
+  {
+    name: 'Đơn bệnh đã xác nhận khám'
   },
   {
     name: 'Đơn bệnh đã bị huỷ'
@@ -33,8 +32,6 @@ const Index = () => {
   const [data, setData] = useState([])
   const [filterVal, setfilterVal] = useState('');
   const [search, setSearch] = useState([]);
-  const [showModal, setShowModal] = useState(false)
-  const [roleModal, setShowRoleModal] = useState(false)
   const [toggle, setToggle] = useState(1)
 
   function handleToggle(id) {
@@ -66,9 +63,7 @@ const Index = () => {
     }
     setfilterVal(event.target.value)
   }
-  // const handleClick = (record) => {
-  //     console.log('Clicked row:', record);
-  // };
+
   return (
     <Layout>
       <div className='container mx-auto bg-white p-6'>
@@ -104,18 +99,9 @@ const Index = () => {
                 setPageSize(pageSize);
               }
             }}
-            onRow={(record) => {
-              return {
-                onDoubleClick: () => setShowRoleModal(!roleModal),
-              };
-            }}
           />
         </div>
       </div>
-      {/* <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
-      </Modal>
-      <RoleModal isVisible={roleModal} onClose={() => setShowRoleModal(false)} >
-      </RoleModal> */}
     </Layout>
   )
 }

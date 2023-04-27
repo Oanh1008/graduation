@@ -69,6 +69,11 @@ const ManagerHospital = () => {
                                 setPageSize(pageSize);
                             }
                         }}
+                        onRow={(record) => {
+                            return {
+                                onDoubleClick: () => setShowRoleModal(!roleModal),
+                            };
+                        }}
                     />
                 </div>
             </div>

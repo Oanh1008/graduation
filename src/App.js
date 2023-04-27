@@ -9,11 +9,13 @@ import Login from './routes/auth/login/index'
 import Register from './routes/auth/register/index'
 import ResetPassword from './routes/auth/reset-password/index'
 import Invoice from './routes/admin/invoice/index'
-import { useEffect } from 'react';
 import DoanhThu from './routes/admin/dashboard/doanhthu';
 import ManagerHospital from './routes/superadmin/hospital';
 import Hospitaldelails from './routes/superadmin/hospital/hospitaldelails';
 import ManagerUser from './routes/superadmin/users';
+import ManagerBooking from './routes/Pratitioner/booking';
+import History from './routes/Pratitioner/booking/history';
+import UserBooking from './routes/Pratitioner/userBooking';
 
 function App() {
 
@@ -31,12 +33,14 @@ function App() {
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/register' element={<Register/>}></Route>
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
-          <Route path='/doanhthu' element={<DoanhThu/>}></Route>
+          <Route path='/dashboard' element={<DoanhThu/>}></Route>
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
           <Route path='/admin-hospital' element={<ManagerHospital/>}></Route>
           <Route path='/admin-user' element={<ManagerUser/>}></Route>
           <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route>
-          <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route>
+          <Route path='/doctor/booking' element={<ManagerBooking/>}></Route>
+          <Route path='/doctor/history' element={<History/>}></Route>
+          <Route path='/doctor/history_user' element={<UserBooking/>}></Route>
         </Routes>
     </BrowserRouter>
    </>

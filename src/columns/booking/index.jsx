@@ -8,6 +8,8 @@ const Columns = [
     key: '1',
     title: "ID",
     dataIndex: "id",
+    width: 60,
+    fixed: 'left',
     sorter: (record1, record2) => {
       return record1.id > record2.id
     }
@@ -16,22 +18,25 @@ const Columns = [
   {
     key: '2',
     title: "Tên bệnh nhân",
-    dataIndex: "imageUrl",
-    // render: (text, item) => (text &&
-    //   <div className='flex items-center gap-3'>
-    //     <Avatar src={item.imageUrl} size={72} />
-    //   </div>)
+    dataIndex: "",
+    width: 250,
+    fixed: 'left',
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <Avatar src={item.imageUrl} size={72} />
+        <div>{item.lastName} {item.firstName}</div>
+      </div>)
 
   },
 
   {
     key: '3',
     title: "Ngày sinh",
-    dataIndex: "",
-    // render: (text, item) => (text &&
-    //   <div className='flex items-center gap-3'>
-    //     <div>{item.lastName}</div>
-    //   </div>),
+    dataIndex: "birthDay",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div>{item.birthDay}</div>
+      </div>),
     // sorter: (record1, record2) => {
     //   return record1.lastName > record2.lastName
     // }
@@ -42,16 +47,69 @@ const Columns = [
     dataIndex: "",
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
-        <div>{item.firstName}</div>
+        <div>Sốt, sô mũi </div>
       </div>),
     sorter: (record1, record2) => {
       return record1.firstName > record2.firstName
     }
   },
+
+  {
+    key: '6',
+    title: "Số điện thoại",
+    dataIndex: "phone",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div>{item.phone}</div>
+      </div>),
+    sorter: (record1, record2) => {
+      return record1.phone > record2.phone
+    }
+  },
+  {
+    key: '7',
+    title: "Địa chi",
+    dataIndex: "address",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div>{item.address}</div>
+      </div>),
+    sorter: (record1, record2) => {
+      return record1.address > record2.address
+    }
+  },
+  {
+    key: '5',
+    title: "Ngày đặt lịch",
+    dataIndex: "birthDay",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div> </div>
+      </div>),
+  },
+  {
+    key: '6',
+    title: "Bác sĩ đặt lịch",
+    dataIndex: "birthDay",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div> </div>
+      </div>),
+  },
+  {
+    key: '5',
+    title: "Kết quả khám bệnh",
+    dataIndex: "birthDay",
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div> </div>
+      </div>),
+  },
   {
     key: '4',
-    title: "Status",
+    title: "Trạng thái",
     dataIndex: "completed",
+    fixed: "right",
     render: (completed => {
       return <p>{completed
         ?
@@ -70,72 +128,7 @@ const Columns = [
     }
   },
 
-  {
-    key: '5',
-    title: "Kết quả khám bệnh",
-    dataIndex: "birthDay",
-    render: (text, item) => (text &&
-      <div className='flex items-center gap-3'>
-        <div>{item.birthDay}</div>
-      </div>),
-    sorter: (record1, record2) => {
-      return record1.address > record2.address
-    }
-  },
-  {
-    key: '6',
-    title: "Số điện thoại",
-    dataIndex: "phone",
-    render: (text, item) => (text &&
-      <div className='flex items-center gap-3'>
-        <div>{item.email}</div>
-      </div>),
-    sorter: (record1, record2) => {
-      return record1.email > record2.email
-    }
-  },
-  {
-    key: '7',
-    title: "Địa chi",
-    dataIndex: "address",
-    render: (text, item) => (text &&
-      <div className='flex items-center gap-3'>
-        <div>{item.address}</div>
-      </div>),
-    sorter: (record1, record2) => {
-      return record1.address > record2.address
-    }
-  },
 
-  {
-    key: '8',
-    title: "",
-    render: (data) => (
-      <>
-        <Button
-          type='button'
-          className=" rounded-lg"
-          icon={<Edit className='w-9 h-9 fill-green-500 hover:fill-green-500 p-1' />}
-        />
-        <Popconfirm
-          placement="bottomRight"
-          title={"Bạn muốn xoá người này ? "}
-          description={"Không thể khôi phục được"}
-          onConfirm={() => { console.log(data.id) }}
-          okText="Yes"
-          cancelText="No"
-          icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
-        >
-          <Button
-            type='button'
-            className=" rounded-lg"
-            icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
-          />
-        </Popconfirm>
-
-      </>
-    )
-  }
 ];
 
 export default Columns

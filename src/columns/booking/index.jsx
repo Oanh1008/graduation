@@ -43,6 +43,15 @@ const Columns = [
   },
   {
     key: '4',
+    title: "Giới tính",
+    dataIndex: "gender",
+    render: (text, item) => (
+      <div className='flex items-center gap-3'>
+        <div>Nam</div>
+      </div>),
+  },
+  {
+    key: '4',
     title: "Triệu chứng",
     dataIndex: "",
     render: (text, item) => (text &&

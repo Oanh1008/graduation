@@ -42,7 +42,7 @@ const Index = ({ children }) => {
                     </div>
 
                     {/* {item.userID === "Sa" ? */}
-                    {/* <Menu
+                    <Menu
                         className={classNames('!text-base fixed  !bg-white top-24 ',
                             {
                                 '!w-[279px]': !collapsed,
@@ -51,9 +51,9 @@ const Index = ({ children }) => {
                         defaultSelectedKeys={['1']} mode="inline" items={list}
                         onClick={((key) => {
                             navigate(key.keyPath[0])
-                        })} /> */}
-                    {/* :
-                    <Menu
+                        })} />
+                    {/* : */}
+                    {/* <Menu
                         className={classNames('!text-base fixed  !bg-white top-24 ',
                             {
                                 '!w-[279px]': !collapsed,
@@ -62,9 +62,9 @@ const Index = ({ children }) => {
                         defaultSelectedKeys={['1']} mode="inline" items={listSA}
                         onClick={((key) => {
                             navigate(key.keyPath[0])
-                        })} />
-                    {/* } */}
-                    <Menu
+                        })} /> */}
+
+                    {/* <Menu
                         className={classNames('!text-base fixed  !bg-white top-24 ',
                             {
                                 '!w-[279px]': !collapsed,
@@ -73,7 +73,7 @@ const Index = ({ children }) => {
                         defaultSelectedKeys={['1']} mode="inline" items={listPratitioner}
                         onClick={((key) => {
                             navigate(key.keyPath[0])
-                        })} />
+                        })} /> */}
                 </Sider>
                 <Layout>
                     <Header style={{ background: 'white' }}
@@ -87,7 +87,7 @@ const Index = ({ children }) => {
                                 menu={{
                                     items: [
                                         {
-                                            label: <a href='/myprofile'>Thông tin cá nhân</a>,
+                                            label: <a href='/doctor/profile'>Thông tin cá nhân</a>,
                                             key: '1',
                                         },
                                         {
@@ -105,7 +105,9 @@ const Index = ({ children }) => {
                             >
                                 <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
                                     <div className='mx-4'>
-                                        <p className="font-bold text-black text-lg ">Phòng khám Từ Dũ</p>
+                                        {/* <p className="font-bold text-black text-lg ">Phòng khám Từ Dũ</p> */}
+                                        <p className="font-bold text-black text-lg ">Minh Thư Nguyễn</p>
+
                                     </div>
                                     <Avatar className='shadow-lg' src={avatar} size={50} />
                                 </a>
@@ -140,7 +142,7 @@ const Index = ({ children }) => {
                         </div>
                     </Header>
                     <Content >
-                        <div style={{ paddingTop: 24, paddingBottom: 24, minHeight: 400 }} className="mt-24" >
+                        <div style={{ paddingTop: 24, paddingBottom: 24, minHeight: 400 }} className="mt-20" >
                             {children}
                         </div>
                     </Content>

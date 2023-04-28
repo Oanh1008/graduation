@@ -14,7 +14,6 @@ import {
     Select,
     Slider,
     Switch,
-    TimePicker,
     Typography,
     Upload,
 } from 'antd';
@@ -74,8 +73,8 @@ const Modal = ({ isVisible, onClose }) => {
                 <div className='bg-white  rounded-lg px-6 py-5 z-20'>
                     <div className='flex flex-row-reverse justify-between mb-6'>
                         <button onClick={() => onClose()}><Times className='w-8 h-8 fill-black' /></button>
-                        <p className="text-green-700     text-3xl font-bold">
-                            Duyệt lịch khám
+                        <p className="text-cyan-900 text-3xl font-bold">
+                            Chỉnh sửa thông tin phòng khám
                         </p>
                     </div>
                     <Divider />
@@ -90,21 +89,48 @@ const Modal = ({ isVisible, onClose }) => {
                     >
                         <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
                             <img src={imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
-
+                            <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
                         </Form.Item>
 
                         <Row gutter={[24, 8]}>
+                            {/* <Col span={12} >
+                                <Form.Item
+                                    name='lastName'
+                                    label="Họ"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+
+                                >
+                                    <Input placeholder='Nhập họ' />
+                                </Form.Item>
+                            </Col>
                             <Col span={12} >
                                 <Form.Item
-                                    name='hospitalName  '
-                                    label="Tên bệnh nhân"
+                                    name='firstname'
+                                    label="Tên"
                                     rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                 >
-                                    <Input value='Phòng khám' disabled />
+                                    <Input placeholder='Nhập tên' />
+                                </Form.Item>
+                            </Col> */}
+                            <Col span={12} >
+                                <Form.Item
+                                    name='hospitalName  '
+                                    label="Tên phòng khám"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
@@ -117,24 +143,24 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" disabled />
+                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
                                 <Form.Item
-                                    name="phone"
-                                    label="Số điện thoại"
+                                    name="email"
+                                    label="Email"
                                     rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='Nhập số điện thoại' defaultValue="02554644" disabled />
+                                    <Input placeholder='Nhập email' />
                                 </Form.Item>
                             </Col>
 
-                            <Col span={12} >
+                            {/* <Col span={12} >
                                 <Form.Item
                                     name='gender'
                                     label="Giới tính"
@@ -145,12 +171,38 @@ const Modal = ({ isVisible, onClose }) => {
                                     ]}
                                 >
                                     <Radio.Group>
-                                        <Radio value="female" checked={true}> Nam </Radio>
+                                        <Radio value="female"> Nam </Radio>
                                         <Radio value="male"> Nữ </Radio>
                                     </Radio.Group>
                                 </Form.Item>
-                            </Col>
+                            </Col> */}
 
+                            <Col span={12} >
+                                <Form.Item
+                                    name='phone'
+                                    label="Số điện thoại"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input placeholder='Nhập số điện thoại ' />
+                                </Form.Item>
+                            </Col>
+                            {/* <Col span={12} >
+                                <Form.Item
+                                    name='role'
+                                    label="Chức danh"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input placeholder='Nhập chức danh ' />
+                                </Form.Item>
+                            </Col> */}
                             <Col span={12} >
                                 <Form.Item
                                     name='address'
@@ -161,99 +213,77 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='Nhập địa chỉ' defaultValue="Phong Điền" disabled />
+                                    <Input placeholder='Nhập chức danh ' />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
                                 <Form.Item
-                                    name='email'
-                                    label="Email"
+                                    name='district'
+                                    label="Khu vực"
                                     rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='Nhập địa chỉ' defaultValue="213@gmail.com" disabled />
+                                    <Input placeholder='Nhập chức danh ' />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
                                 <Form.Item
-                                    name='date'
-                                    label="Ngày đặt lịch"
+                                    name='phone'
+                                    label="Lịch làm việc"
                                     rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                 >
-                                    <DatePicker placeholder='Chọn ngày ' format="DD-MM-YYYY" />
+                                    <Input placeholder='Nhập lịch làm việc' />
                                 </Form.Item>
                             </Col>
+
                             <Col span={12} >
                                 <Form.Item
-                                    name='time'
-                                    label="Giờ đặt lịch"
+                                    name='role'
+                                    label="Giá khám"
                                     rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                 >
-                                    <Select placeholder="Chọn khung giờ">
-                                        <Option value="red">8h00 - 11h00</Option>
-                                        <Option value="green">14h00 - 17h00</Option>
-                                        <Option value="blue">17h00 - 20h00</Option>
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='doctor'
-                                    label="Bác sĩ đặt lịch"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Select placeholder="Chọn bác sĩ">
-                                        <Option value="red">Phạm Văn Oanh</Option>
-                                        <Option value="green">Đạt</Option>
-                                        <Option value="blue">Thư</Option>
-                                    </Select>
+                                    <Input placeholder='Nhập giá khám ' />
                                 </Form.Item>
                             </Col>
 
                         </Row>
 
-                        <Form.Item
-                            name='information'
-                            label="Triệu chứng"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <TextArea
-                                showCount
-                                maxLength={500}
-                                style={{ height: 120, resize: 'none' }}
-                                // onChange={onChange}
-                                value="Đau đầu, khó thở"
-                            />
-                        </Form.Item>
+                        {/* <Col span={24} >
+                            <Form.Item
+                                name='information'
+                                label="Giới thiệu"
+                                rules={[
+                                    {
+                                        required: true,
+                                    },
+                                ]}
+                            >
+                                <TextArea
+                                    showCount
+                                    maxLength={500}
+                                    style={{ height: 120, resize: 'none' }}
+                                    // onChange={onChange}
+                                    placeholder="Giới thiệu bản thân"
+                                />
+                            </Form.Item>
+                        </Col> */}
 
-
-                        <div className='flex justify-around'>
-                            <Button onClick={onClose}
-                                text="Huỷ" className=' w-1/4 mt-3 text-green-700 hover:opacity-75 bg-white border border-green-700 py-2 rounded-xl text-lg' />
+                        <div className='flex justify-center'>
                             <Button type="submit"
-                                text="Duyệt" className=' w-1/4 mt-3 bg-green-700 hover:opacity-75 text-white py-2 rounded-xl text-lg' />
+                                text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
 
                         </div>
-
                     </Form>
                 </div>
             </div>

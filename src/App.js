@@ -13,9 +13,12 @@ import DoanhThu from './routes/admin/dashboard/doanhthu';
 import ManagerHospital from './routes/superadmin/hospital';
 import Hospitaldelails from './routes/superadmin/hospital/hospitaldelails';
 import ManagerUser from './routes/superadmin/users';
-import ManagerBooking from './routes/Pratitioner/booking';
-import History from './routes/Pratitioner/booking/history';
+import ManagerBooking from './routes/Administrative/booking';
+import History from './routes/Pratitioner/history';
 import UserBooking from './routes/Pratitioner/userBooking';
+import DoctorProfile from './routes/Pratitioner/profile/index';
+import BookingDetails from './routes/Pratitioner/booking/bookingDetails/index';
+import DoctorBooking from './routes/Pratitioner/booking/index';
 
 function App() {
 
@@ -38,9 +41,12 @@ function App() {
           <Route path='/admin-hospital' element={<ManagerHospital/>}></Route>
           <Route path='/admin-user' element={<ManagerUser/>}></Route>
           <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route>
-          <Route path='/doctor/booking' element={<ManagerBooking/>}></Route>
+          <Route path='/doctor/booking' element={<DoctorBooking/>}></Route>
           <Route path='/doctor/history' element={<History/>}></Route>
           <Route path='/doctor/history_user' element={<UserBooking/>}></Route>
+          <Route path='/doctor/profile' element={<DoctorProfile/>}></Route>
+          <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
+          <Route path='/doctor/booking/booingDetails' element={<BookingDetails/>}></Route>
         </Routes>
     </BrowserRouter>
    </>

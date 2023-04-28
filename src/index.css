@@ -45,5 +45,5 @@ code {
 }
 
 .ant-btn-primary {
-  @apply  hover:!bg-red-500 text-black border border-slate-200
+  @apply text-black border border-slate-200
 }

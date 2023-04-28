@@ -41,6 +41,27 @@ const Columns = [
         //   return record1.lastName > record2.lastName
         // }
     },
+    {
+        key: '4',
+        title: "Giới tính",
+        dataIndex: "gender",
+        render: (text, item) => (
+            <div className='flex items-center gap-3'>
+                <div>Nam</div>
+            </div>),
+    },
+    {
+        key: '5',
+        title: "Triệu chứng",
+        dataIndex: "",
+        render: (text, item) => (text &&
+            <div className='flex items-center gap-3'>
+                <div>Sốt, sô mũi </div>
+            </div>),
+        sorter: (record1, record2) => {
+            return record1.firstName > record2.firstName
+        }
+    },
 
     {
         key: '6',
@@ -67,19 +88,6 @@ const Columns = [
         }
     },
     {
-        key: '4',
-        title: "Triệu chứng",
-        dataIndex: "",
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div>Sốt, sô mũi </div>
-            </div>),
-        sorter: (record1, record2) => {
-            return record1.firstName > record2.firstName
-        }
-    },
-
-    {
         key: '5',
         title: "Ngày đặt lịch",
         dataIndex: "birthDay",
@@ -91,7 +99,15 @@ const Columns = [
     {
         key: '6',
         title: "Bác sĩ đặt lịch",
-        fixed: 'right',
+        dataIndex: "birthDay",
+        render: (text, item) => (text &&
+            <div className='flex items-center gap-3'>
+                <div> </div>
+            </div>),
+    },
+    {
+        key: '7',
+        title: "Lý do huỷ",
         dataIndex: "birthDay",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>

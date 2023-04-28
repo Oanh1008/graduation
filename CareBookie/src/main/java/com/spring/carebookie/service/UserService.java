@@ -1,16 +1,22 @@
 package com.spring.carebookie.service;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.carebookie.common.constants.EmployeeStatus;
 import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
-import com.spring.carebookie.dto.UserSaveDto;
+import com.spring.carebookie.dto.response.DoctorResponseDto;
+import com.spring.carebookie.dto.save.AdministrativeSaveDto;
+import com.spring.carebookie.dto.save.DoctorSaveDto;
+import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
@@ -27,36 +33,94 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final CommonService commonService;
+
     private static final UserMapper USER_MAPPER = UserMapper.INSTANCE;
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
+    /**
+     * User
+     */
     @Transactional
-    public void save(UserSaveDto dto) {
+    public UserEntity save(UserSaveDto dto) {
 
         UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
 
         // Set some information into entity
         String userId = generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail());
         entity.setUserId(userId);
-        entity.setRoleId(4L);
-        entity.setIsDisable(false);
+        entity.setRoleId(5L);
+        entity.setDisable(false);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
 
-        userRepository.save(entity);
-        log.info("Finished save user into database", entity.getFirstName() + entity.getLastName());
+        return userRepository.save(entity);
 
     }
 
-    public List<DoctorGetAllDto> getAllDoctors() {
-        return convertProjectionToDto(userRepository.getAllDoctors());
+    /**
+     * Doctor
+     */
+    @Transactional
+    public UserEntity saveDoctor(DoctorSaveDto dto) {
+
+        UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
+        entity.setDisable(false);
+        entity.setRoleId(4L);
+        entity.setDoctor(true);
+        entity.setUserId(generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail()));
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        entity.setStatus(EmployeeStatus.WORKING.toString());
+        return userRepository.save(entity);
     }
 
-    public List<DoctorGetAllDto> getAllDoctorByHospitalId(String hospitalId) {
-        return convertProjectionToDto(userRepository.getAllDoctorByHospitalId(hospitalId));
+    public List<DoctorResponseDto> getDoctorByHospitalId(String hospitalId) {
+        Map<String, Double> stars = commonService.getDoctorStar();
+        List<UserEntity> entities = userRepository.findAllByHospitalId(hospitalId);
+        List<DoctorResponseDto> dtos = entities
+                .stream()
+                .map(entity -> USER_MAPPER.convertEntityToDto(entity))
+                .collect(Collectors.toList());
+        for (int i = 0; i < entities.size(); i++) {
+            dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()));
+            dtos.get(i).setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
+        }
+        return dtos;
     }
+
+    public List<DoctorResponseDto> getAllDoctor() {
+        Map<String, Double> stars = commonService.getDoctorStar();
+        List<UserEntity> entities = userRepository.findAllByDoctorIsTrue();
+        List<DoctorResponseDto> dtos = entities
+                .stream()
+                .map(entity -> USER_MAPPER.convertEntityToDto(entity))
+                .collect(Collectors.toList());
+        for (int i = 0; i < entities.size(); i++) {
+            dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()));
+            dtos.get(i).setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
+        }
+        dtos.sort(Comparator.comparing(DoctorResponseDto::getStar).reversed());
+        return dtos;
+    }
+
+
+    /**
+     * Administrative
+     */
+    @Transactional
+    public UserEntity saveAdministrative(AdministrativeSaveDto dto) {
+
+        UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
+        entity.setDisable(false);
+        entity.setRoleId(3L);
+        entity.setUserId(generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail()));
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        entity.setStatus(EmployeeStatus.WORKING.toString());
+        return userRepository.save(entity);
+    }
+
 
     private List<DoctorGetAllDto> convertProjectionToDto(List<DoctorGetAllProjection> projections) {
         return projections
@@ -70,6 +134,11 @@ public class UserService {
                 })
                 .collect(Collectors.toList());
     }
+
+
+    /**
+     * Private
+     */
 
     /**
      * Generate userId <br>

@@ -22,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
-public class UserEntity {
+public class UserEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,21 +39,30 @@ public class UserEntity {
     @Column(unique = true)
     private String email;
 
+    private int gender;
+
+    @Column(unique = true)
     private String phone;
 
     private String address;
 
-    private String imageLink;
+    private String imageKey;
 
     private String password;
 
     private String knowledge;
 
-    private Boolean isDisable;
+    private String speciality;
+
+    private String startWorkingDate;
+
+    private String status;
+
+    private boolean isDoctor;
+
+    private boolean isDisable;
 
     private String hospitalId;
-
-    private String wardId;
 
     private Long roleId;
 

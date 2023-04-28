@@ -21,4 +21,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value = UserSql.SEARCH_DOCTOR_BY_KEY,nativeQuery = true)
     List<DoctorGetAllProjection> searchDoctorByKey(@Param("key") String key);
 
+    @Query(value = "select u from UserEntity u where u.isDoctor is true and u.hospitalId = :hospitalId")
+    List<UserEntity> findAllByHospitalId(@Param("hospitalId") String hospitalId);
+
+
+    @Query("select u from UserEntity u where u.isDoctor = true")
+    List<UserEntity> findAllByDoctorIsTrue();
+
 }

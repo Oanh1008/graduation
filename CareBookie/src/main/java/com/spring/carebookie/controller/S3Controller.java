@@ -14,23 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.carebookie.entity.UserProfileEntity;
-import com.spring.carebookie.service.TestService;
+import com.spring.carebookie.UserProfileEntity;
+import com.spring.carebookie.service.S3Services;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/care-bookie")
+@RequestMapping("/api/v1/care-bookie/aws")
 @CrossOrigin("*")
-public class TestController {
+public class S3Controller {
 
-    private TestService testService;
-
-//    @GetMapping("/get/bookTypes")
-//    public ResponseEntity<List<BookTypeEntity>> getAllBookTypes() {
-//        return ResponseEntity.ok(testService.getAllBookTypes());
-//    }
+    private S3Services testService;
 
     @GetMapping
     public ResponseEntity<List<UserProfileEntity>> getUserProfiles() {

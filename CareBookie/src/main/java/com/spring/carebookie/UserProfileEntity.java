@@ -1,4 +1,4 @@
-package com.spring.carebookie.entity;
+package com.spring.carebookie;
 
 import java.util.Objects;
 import java.util.Optional;

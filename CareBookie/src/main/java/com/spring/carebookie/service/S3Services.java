@@ -13,14 +13,14 @@ import org.apache.http.entity.ContentType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.carebookie.entity.UserProfileEntity;
+import com.spring.carebookie.UserProfileEntity;
 import com.spring.carebookie.enumeration.BucketName;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
-public class TestService {
+public class S3Services {
     private static final List<UserProfileEntity> USER_PROFILES = new ArrayList<>();
 
     static {

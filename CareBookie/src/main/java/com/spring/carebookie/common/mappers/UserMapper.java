@@ -6,7 +6,10 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import com.spring.carebookie.dto.DoctorGetAllDto;
-import com.spring.carebookie.dto.UserSaveDto;
+import com.spring.carebookie.dto.response.DoctorResponseDto;
+import com.spring.carebookie.dto.save.AdministrativeSaveDto;
+import com.spring.carebookie.dto.save.DoctorSaveDto;
+import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
@@ -17,6 +20,12 @@ public interface UserMapper {
 
     UserEntity convertSaveToEntity(UserSaveDto dto);
 
+    UserEntity convertSaveToEntity(DoctorSaveDto dto);
+
+    UserEntity convertSaveToEntity(AdministrativeSaveDto dto);
+
     DoctorGetAllDto convertProjectToDto(DoctorGetAllProjection projection);
+
+    DoctorResponseDto convertEntityToDto(UserEntity entity);
 
 }

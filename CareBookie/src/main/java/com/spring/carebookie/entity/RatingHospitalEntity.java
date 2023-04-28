@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,13 +20,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "rating_hospital")
-public class RatingHospitalEntity {
+public class RatingHospitalEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String ratingId;
 
     private String comment;
 
@@ -35,4 +34,5 @@ public class RatingHospitalEntity {
 
     private String hospitalId;
 
+    private LocalDateTime dateTime = LocalDateTime.now();
 }

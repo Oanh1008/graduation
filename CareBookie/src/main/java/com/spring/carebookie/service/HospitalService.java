@@ -1,7 +1,7 @@
 package com.spring.carebookie.service;
 
-import java.security.SecureRandom;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -10,10 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.carebookie.common.mappers.HospitalMapper;
 import com.spring.carebookie.dto.HospitalGetAllDto;
-import com.spring.carebookie.dto.HospitalSaveDto;
+import com.spring.carebookie.dto.response.HospitalResponseDto;
+import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.repository.HospitalRepository;
-import com.spring.carebookie.repository.projection.HospitalGetAllProjection;
+import com.spring.carebookie.repository.ServiceRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 public class HospitalService {
 
     private final HospitalRepository hospitalRepository;
+
+    private final CommonService commonService;
 
     private static final HospitalMapper HOSPITAL_MAPPER = HospitalMapper.INSTANCE;
 
@@ -36,16 +39,28 @@ public class HospitalService {
                 .collect(Collectors.toList());
     }
 
+    public List<HospitalResponseDto> getAllHospitals() {
+        Map<String,Double> stars = commonService.getHospitalStar();
+        List<HospitalEntity> entities = hospitalRepository.findAll();
+        List<HospitalResponseDto> dtos = HOSPITAL_MAPPER.convertEntitiesToDtos(entities);
+        dtos.forEach(dto -> {
+            dto.setStar(stars.get(dto.getHospitalId()));
+            dto.setServices(commonService.getAllServiceByHospitalId(dto.getHospitalId()));
+            dto.setWorkingDayDetails(commonService.getAllWorkingDayDetailByHospitalId(dto.getHospitalId()));
+        });
+       return dtos;
+    }
+
     @Transactional
-    public void saveHospital(HospitalSaveDto dto) {
+    public HospitalEntity saveHospital(HospitalSaveDto dto) {
 
         HospitalEntity entity = HOSPITAL_MAPPER.convertSaveDtoToEntity(dto);
 
         entity.setHospitalId(generateHospitalId(entity.getHospitalName()));
-        entity.setLogoKey("44f185f4-4633-478a-a505-6dae187d9494--benh-vien-mat-tphcm.jpg");
 
-        hospitalRepository.save(entity);
         log.info("Finished save {} hospital into database", entity.getHospitalName());
+        return hospitalRepository.save(entity);
+
     }
 
     private String generateHospitalId(String hospitalName) {

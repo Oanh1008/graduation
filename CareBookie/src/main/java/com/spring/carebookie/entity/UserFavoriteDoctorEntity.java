@@ -6,9 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,21 +16,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rating_doctor")
-public class RatingDoctorEntity{
-
+@Table(name = "user_favorite_doctor")
+public class UserFavoriteDoctorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String comment;
-
-    private String doctorId;
-
     private String userId;
 
-    private Double star;
-
-    private LocalDateTime dateTime = LocalDateTime.now();
-
+    private String doctorId;
 }

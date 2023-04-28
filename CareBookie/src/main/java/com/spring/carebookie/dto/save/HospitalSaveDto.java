@@ -1,10 +1,4 @@
-package com.spring.carebookie.entity;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package com.spring.carebookie.dto.save;
 
 import java.math.BigDecimal;
 
@@ -17,15 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "hospital")
-public class HospitalEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String hospitalId;
+public class HospitalSaveDto {
 
     private String hospitalName;
 
@@ -39,16 +25,11 @@ public class HospitalEntity {
 
     private String address;
 
-    private String imageKey;
-
     private BigDecimal priceFrom;
 
     private BigDecimal priceTo;
 
-    private String status;
-
     private String information;
 
     private String imageUrl;
-
 }

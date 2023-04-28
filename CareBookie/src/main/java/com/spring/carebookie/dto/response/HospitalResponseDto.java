@@ -1,12 +1,10 @@
-package com.spring.carebookie.entity;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package com.spring.carebookie.dto.response;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.spring.carebookie.entity.ServiceEntity;
+import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,12 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "hospital")
-public class HospitalEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class HospitalResponseDto {
     private Long id;
 
     private String hospitalId;
@@ -51,4 +44,9 @@ public class HospitalEntity {
 
     private String imageUrl;
 
+    private Double star;
+
+    private List<ServiceEntity> services;
+
+    private List<WorkingDayDetailsEntity> workingDayDetails;
 }

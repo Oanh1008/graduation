@@ -6,9 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,21 +16,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rating_doctor")
-public class RatingDoctorEntity{
-
+@Table(name = "working_day_details")
+public class WorkingDayDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String comment;
+    private String date;
 
-    private String doctorId;
+    private String session;
 
-    private String userId;
+    private String startHour;
 
-    private Double star;
+    private String endHour;
 
-    private LocalDateTime dateTime = LocalDateTime.now();
-
+    private String hospitalId;
 }

@@ -1,7 +1,7 @@
 package com.spring.carebookie.common.mappers;
 
-import com.spring.carebookie.dto.HospitalSaveDto;
-import com.spring.carebookie.dto.UserSaveDto;
+import com.spring.carebookie.dto.save.HospitalSaveDto;
+import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
 
@@ -10,13 +10,13 @@ public class TestMapper {
         HospitalMapper mapper = HospitalMapper.INSTANCE;
 
         HospitalSaveDto dto = new HospitalSaveDto();
-        dto.setDistrict("Hue");
+
         dto.setHospitalName("A47");
-        dto.setPhoneNumber("0363755300");
+
         System.out.println(dto);
 
         HospitalEntity entity = mapper.convertSaveDtoToEntity(dto);
-        System.out.println(entity.getDistrict() + " " + entity.getHospitalName());
+        System.out.println( " " + entity.getHospitalName());
 
 
         UserMapper mapper1 = UserMapper.INSTANCE;

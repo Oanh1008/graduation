@@ -19,11 +19,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "service")
-public class ServiceEntity {
+public class ServiceEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String hospitalId;
 
     private String serviceName;
 

@@ -21,6 +21,10 @@ public class Test {
         System.out.println(builder.append(random.nextInt(10)).append(random.nextInt(10))
                 .append(random.nextInt(10)).append(random.nextInt(10)));
 
+        System.out.println("".length());
+
+        Double star = 4.4d;
+        System.out.println(star % star.intValue() >= 0.5 ? (double) star.intValue() + 1 : (double)star.intValue());
 
     }
 }

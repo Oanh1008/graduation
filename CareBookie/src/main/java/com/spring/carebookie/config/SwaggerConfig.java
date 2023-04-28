@@ -1,5 +1,7 @@
 package com.spring.carebookie.config;
 
+import java.util.function.Predicate;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -19,7 +21,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.spring.carebookie.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

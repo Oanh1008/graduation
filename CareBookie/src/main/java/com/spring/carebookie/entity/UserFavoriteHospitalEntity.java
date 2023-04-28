@@ -16,13 +16,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "ward")
-public class WardEntity {
-
+@Table(name = "user_favorite_hospital")
+public class UserFavoriteHospitalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String wardName;
+    private String userId;
 
+    private String hospitalId;
 }

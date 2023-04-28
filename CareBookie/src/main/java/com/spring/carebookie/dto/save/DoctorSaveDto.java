@@ -1,10 +1,8 @@
-package com.spring.carebookie.dto;
+package com.spring.carebookie.dto.save;
 
 import javax.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.spring.carebookie.common.constants.EmployeeStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,31 +13,35 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSaveDto {
+public class DoctorSaveDto {
 
-    @NotBlank
     private String firstName;
 
-    @NotBlank
     private String lastName;
 
-    @NotBlank
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private String birthDay;
 
     @NotBlank
     private String email;
+
+    private int gender;
 
     @NotBlank
     private String phone;
 
     private String address;
 
-    private String imageLink;
-
     @NotBlank
     private String password;
 
     private String knowledge;
+
+    private String speciality;
+
+    private String startWorkingDate;
+
+    private String hospitalId;
+
+    private String information;
 
 }

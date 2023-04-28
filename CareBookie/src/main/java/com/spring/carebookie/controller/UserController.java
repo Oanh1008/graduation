@@ -1,21 +1,19 @@
 package com.spring.carebookie.controller;
 
-import javax.validation.Valid;
-
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.carebookie.dto.UserSaveDto;
-import com.spring.carebookie.entity.UserEntity;
-import com.spring.carebookie.service.UserService;
+import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
+import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
+import com.spring.carebookie.entity.RatingDoctorEntity;
+import com.spring.carebookie.entity.RatingHospitalEntity;
+import com.spring.carebookie.service.CommonService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -24,16 +22,17 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("*")
 public class UserController {
 
-    private final UserService userService;
+    private CommonService commonService;
 
-    @GetMapping
-    public ResponseEntity<List<UserEntity>> getAllUser() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    @ApiOperation("Create new comment for doctor")
+    @PostMapping("comment/doctor")
+    public ResponseEntity<RatingDoctorEntity> saveCommentDoctor(@RequestBody RatingDoctorSaveDto dto) {
+        return ResponseEntity.ok(commonService.saveRatingDoctor(dto));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<Object> save(@Valid @RequestBody UserSaveDto dto) {
-        userService.save(dto);
-        return ResponseEntity.ok().build();
+    @ApiOperation("Create new comment for hospital")
+    @PostMapping("comment/hospital")
+    public ResponseEntity<RatingHospitalEntity> saveCommentHospital(@RequestBody RatingHospitalSaveDto dto) {
+        return ResponseEntity.ok(commonService.saveRatingHospital(dto));
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.service.UserService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,13 +21,4 @@ public class DoctorController {
 
     private final UserService userService;
 
-    @GetMapping
-    public ResponseEntity<List<DoctorGetAllDto>> getAllDoctors() {
-        return ResponseEntity.ok(userService.getAllDoctors());
-    }
-
-    @GetMapping("/{hospitalId}")
-    public ResponseEntity<List<DoctorGetAllDto>> getDoctorByHospitalId(@PathVariable("hospitalId") String hospitalId) {
-        return ResponseEntity.ok(userService.getAllDoctorByHospitalId(hospitalId));
-    }
 }

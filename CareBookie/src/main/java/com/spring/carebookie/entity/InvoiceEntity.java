@@ -1,12 +1,12 @@
 package com.spring.carebookie.entity;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -19,21 +19,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rating_doctor")
-public class RatingDoctorEntity{
-
+@Table(name = "invoice")
+public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String comment;
+    private String symptomDetail;
 
-    private String doctorId;
+    private String advice;
 
-    private String userId;
+    private String diagnose;
 
-    private Double star;
+    private Double discountInsurance;
 
-    private LocalDateTime dateTime = LocalDateTime.now();
+    private boolean isExamined;
 
+    private LocalDateTime dateTimeInvoice;
 }

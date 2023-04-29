@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
+import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
@@ -27,5 +28,7 @@ public interface UserMapper {
     DoctorGetAllDto convertProjectToDto(DoctorGetAllProjection projection);
 
     DoctorResponseDto convertEntityToDto(UserEntity entity);
+
+    EmployeeResponseDto convertEntityToEDto(UserEntity entity);
 
 }

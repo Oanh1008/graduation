@@ -38,6 +38,12 @@ public class CommonController {
         return ResponseEntity.ok(hospitalService.getAllHospitals());
     }
 
+    @ApiOperation("Get hospital by hospitalId include {star, services, workingDayDetails}")
+    @GetMapping("/hospital/{hospitalId}")
+    public ResponseEntity<HospitalResponseDto> getHospitalById(@PathVariable String hospitalId) {
+        return ResponseEntity.ok(hospitalService.getHospitalByHospitalId(hospitalId));
+    }
+
     @ApiOperation("Get all service by hospitalId")
     @GetMapping("/services/{hospitalId}")
     public ResponseEntity<List<ServiceEntity>> getServiceByHospitalId(@PathVariable String hospitalId) {

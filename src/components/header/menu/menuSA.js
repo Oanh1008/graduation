@@ -25,7 +25,7 @@ const Layout = [
     {
             icon: <MdStackedBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100 fill-cyan-900'/>,
             label: "Thống kê",
-            key: "/admin-hospital",
+            key: "/admin-hospital/dashboard",
         },
 ]
 

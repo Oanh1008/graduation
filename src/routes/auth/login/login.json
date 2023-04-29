@@ -1,0 +1,24 @@
+{
+    "users": [
+        {
+            "username": "superadmin",
+            "password": "admin",
+            "role": "superAdmin"
+        },
+        {
+            "username": "admin",
+            "password": "user",
+            "role": "Admin"
+        },
+        {
+            "username": "doctor",
+            "password": "user",
+            "role": "Doctor"
+        },
+        {
+            "username": "nurse",
+            "password": "user",
+            "role": "Nurse"
+        }
+    ]
+}

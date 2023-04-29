@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useHistory } from 'react-router-dom';
 // import Header from '../components/header/Navbar';
 import logo from '../assets/image/logo_1.png'
 import logo_svg from '../assets/svg/logo.svg'
@@ -8,6 +8,7 @@ import { Avatar, Breadcrumb, Collapse, Dropdown, Layout, Menu, Popover, theme } 
 import list from '../components/header/menu/menu'
 import listSA from '../components/header/menu/menuSA'
 import listPratitioner from '../components/header/menu/menuPractitioner'
+import listAdministrative from '../components/header/menu/menuAdministrative'
 import avatar from '../assets/image/background_login.png'
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -17,6 +18,14 @@ const Index = ({ children }) => {
     const [modal, setShowModal] = useState(false)
 
     const navigate = useNavigate()
+
+    let user = JSON.parse(sessionStorage.getItem('user'));
+
+
+    const handleLogout = () => {
+        // sessionStorage.removeItem('user')
+        navigate('/login');
+    }
 
     const handleOpenChange = (flag) => {
         setOpen(flag);
@@ -39,41 +48,55 @@ const Index = ({ children }) => {
                                 : <img src={logo_svg} width={200} />
                             }
                         </button>
-                    </div>
+                    </div>admin
 
-                    {/* {item.userID === "Sa" ? */}
-                    <Menu
-                        className={classNames('!text-base fixed  !bg-white top-24 ',
-                            {
-                                '!w-[279px]': !collapsed,
-                                '!w-20': collapsed
-                            })}
-                        defaultSelectedKeys={['1']} mode="inline" items={list}
-                        onClick={((key) => {
-                            navigate(key.keyPath[0])
-                        })} />
-                    {/* : */}
-                    {/* <Menu
-                        className={classNames('!text-base fixed  !bg-white top-24 ',
-                            {
-                                '!w-[279px]': !collapsed,
-                                '!w-20': collapsed
-                            })}
-                        defaultSelectedKeys={['1']} mode="inline" items={listSA}
-                        onClick={((key) => {
-                            navigate(key.keyPath[0])
-                        })} /> */}
+                    {
+                        user.role === "Admin" ?
+                            <Menu
+                                className={classNames('!text-base fixed  !bg-white top-24 ',
+                                    {
+                                        '!w-[279px]': !collapsed,
+                                        '!w-20': collapsed
+                                    })}
+                                defaultSelectedKeys={['1']} mode="inline" items={list}
+                                onClick={((key) => {
+                                    navigate(key.keyPath[0])
+                                })} />
+                            : user.role === "superAdmin" ?
+                                <Menu
+                                    className={classNames('!text-base fixed  !bg-white top-24 ',
+                                        {
+                                            '!w-[279px]': !collapsed,
+                                            '!w-20': collapsed
+                                        })}
+                                    defaultSelectedKeys={['1']} mode="inline" items={listSA}
+                                    onClick={((key) => {
+                                        navigate(key.keyPath[0])
+                                    })} />
+                                : user.role === "Doctor" ?
+                                    <Menu
+                                        className={classNames('!text-base fixed  !bg-white top-24 ',
+                                            {
+                                                '!w-[279px]': !collapsed,
+                                                '!w-20': collapsed
+                                            })}
+                                        defaultSelectedKeys={['1']} mode="inline" items={listPratitioner}
+                                        onClick={((key) => {
+                                            navigate(key.keyPath[0])
+                                        })} />
+                                    :
+                                    <Menu
+                                        className={classNames('!text-base fixed  !bg-white top-24 ',
+                                            {
+                                                '!w-[279px]': !collapsed,
+                                                '!w-20': collapsed
+                                            })}
+                                        defaultSelectedKeys={['1']} mode="inline" items={listAdministrative}
+                                        onClick={((key) => {
+                                            navigate(key.keyPath[0])
+                                        })} />
 
-                    {/* <Menu
-                        className={classNames('!text-base fixed  !bg-white top-24 ',
-                            {
-                                '!w-[279px]': !collapsed,
-                                '!w-20': collapsed
-                            })}
-                        defaultSelectedKeys={['1']} mode="inline" items={listPratitioner}
-                        onClick={((key) => {
-                            navigate(key.keyPath[0])
-                        })} /> */}
+                    }
                 </Sider>
                 <Layout>
                     <Header style={{ background: 'white' }}
@@ -83,35 +106,123 @@ const Index = ({ children }) => {
                                 'w-[calc(100%-79px)]': collapsed
                             })}>
                         <div className='flex items-center my-4'>
-                            <Dropdown
-                                menu={{
-                                    items: [
-                                        {
-                                            label: <a href='/doctor/profile'>Thông tin cá nhân</a>,
-                                            key: '1',
-                                        },
-                                        {
-                                            label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
-                                            key: '2',
-                                        },
-                                        {
-                                            label: <a href='/login'>Đăng xuất</a>,
-                                            key: '3',
-                                        },
-                                    ],
-                                }}
-                                onOpenChange={handleOpenChange}
-                                open={open}
-                            >
-                                <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
-                                    <div className='mx-4'>
-                                        {/* <p className="font-bold text-black text-lg ">Phòng khám Từ Dũ</p> */}
-                                        <p className="font-bold text-black text-lg ">Minh Thư Nguyễn</p>
+                            {
+                                user.role === "superAdmin" ?
+                                    <Dropdown
+                                        menu={{
+                                            items: [
+                                                {
+                                                    label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
+                                                    key: '1',
+                                                },
+                                                {
+                                                    label: <button onClick={handleLogout}>Đăng xuất</button>,
+                                                    key: '2',
+                                                },
+                                            ],
+                                        }}
+                                        onOpenChange={handleOpenChange}
+                                        open={open}
+                                    >
+                                        <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
+                                            <div className='mx-4'>
+                                                {/* <p className="font-bold text-black text-lg ">Phòng khám Từ Dũ</p> */}
+                                                <p className="font-bold text-black text-lg ">Super Admin</p>
 
-                                    </div>
-                                    <Avatar className='shadow-lg' src={avatar} size={50} />
-                                </a>
-                            </Dropdown>
+                                            </div>
+                                            <Avatar className='shadow-lg' src={avatar} size={50} />
+                                        </a>
+                                    </Dropdown>
+                                    : user.role === "Admin" ?
+                                        <Dropdown
+                                            menu={{
+                                                items: [
+                                                    {
+                                                        label: <a href='/doctor/profile'>Thông tin cá nhân</a>,
+                                                        key: '1',
+                                                    },
+                                                    {
+                                                        label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
+                                                        key: '2',
+                                                    },
+                                                    {
+                                                        label: <button onClick={handleLogout}>Đăng xuất</button>,
+                                                        key: '3',
+                                                    },
+                                                ],
+                                            }}
+                                            onOpenChange={handleOpenChange}
+                                            open={open}
+                                        >
+                                            <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
+                                                <div className='mx-4'>
+                                                    <p className="font-bold text-black text-lg ">Phòng khám Từ Dũ</p>
+
+                                                </div>
+                                                <Avatar className='shadow-lg' src={avatar} size={50} />
+                                            </a>
+                                        </Dropdown>
+                                        : user.role === "Doctor" ?
+                                            <Dropdown
+                                                menu={{
+                                                    items: [
+                                                        {
+                                                            label: <a href='/doctor/profile'>Thông tin cá nhân</a>,
+                                                            key: '1',
+                                                        },
+                                                        {
+                                                            label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
+                                                            key: '2',
+                                                        },
+                                                        {
+                                                            label: <button onClick={handleLogout}>Đăng xuất</button>,
+                                                            key: '3',
+                                                        },
+                                                    ],
+                                                }}
+                                                onOpenChange={handleOpenChange}
+                                                open={open}
+                                            >
+                                                <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
+                                                    <div className='mx-4'>
+                                                        <p className="font-bold text-black text-lg ">Minh Thư Nguyễn</p>
+
+                                                    </div>
+                                                    <Avatar className='shadow-lg' src={avatar} size={50} />
+                                                </a>
+                                            </Dropdown>
+                                            :
+                                            <Dropdown
+                                                menu={{
+                                                    items: [
+                                                        {
+                                                            label: <a href='/doctor/profile'>Thông tin cá nhân</a>,
+                                                            key: '1',
+                                                        },
+                                                        {
+                                                            label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
+                                                            key: '2',
+                                                        },
+                                                        {
+                                                            label: <button onClick={handleLogout}>Đăng xuất</button>,
+                                                            key: '3',
+                                                        },
+                                                    ],
+                                                }}
+                                                onOpenChange={handleOpenChange}
+                                                open={open}
+                                            >
+                                                <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
+                                                    <div className='mx-4'>
+                                                        <p className="font-bold text-black text-lg ">Min</p>
+
+                                                    </div>
+                                                    <Avatar className='shadow-lg' src={avatar} size={50} />
+                                                </a>
+                                            </Dropdown>
+
+                            }
+
                             {/* <Dropdown
                                 menu={{
                                     items: [

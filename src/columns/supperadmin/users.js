@@ -44,8 +44,24 @@ const Columns = [
       return record1.birthDay > record2.birthDay
     }
   },
+    {
+    key: '4',
+    title: "Giới tính",
+    dataIndex: "gender",
+    width: 200,
+    render: (text, item) => ( text &&
+      item.gender === 1 ?
+      <div className='flex items-center gap-3'>
+        <div>Nam</div>
+      </div>
+      :
+      <div className='flex items-center gap-3'>
+        <div>Nữ</div>
+      </div>
+    ),
+  },
   {
-    key: '',
+    key: '5',
     title: "Email",
     dataIndex: "email",
     width: 200,
@@ -58,16 +74,17 @@ const Columns = [
     }
   },
   {
-    key: '4',
+    key: '6',
     title: "Số điện thoại",
     dataIndex: "phone",
+    width: 150,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         <div>{item.phone}</div>
       </div>),
   },
   {
-    key: '5',
+    key: '7',
     title: "Địa chi",
     dataIndex: "address",
     render: (text, item) => (text &&

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
   const api = axios.create({
-    baseURL: 'http://localhost:8092/api/v1/care-bookie',
+    baseURL: '/api/v1/care-bookie',
     headers: {
       'Content-Type': 'application/json'
     }

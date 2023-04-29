@@ -19,16 +19,17 @@ const Index = () => {
     const [showModal, setShowModal] = useState(false)
     const [roleModal, setShowRoleModal] = useState(false)
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    // const fetchData = async () => {
-    //     const data = await get('/user');
-    //     const filteredData = data.filter((item) => item.imageUrl)
-    //     setData(filteredData)
-    //     setSearch(filteredData)
-    // };
+    const fetchData = async () => {
+        const datajs = await get('/common/hospital/getAll');
+        console.log(datajs);
+        //     const filteredData = data.filter((item) => item.imageUrl)
+        //     setData(filteredData)
+        //     setSearch(filteredData)
+    };
 
     // const handleDelete = async (id) => {
     //     await del(`/${id}`);

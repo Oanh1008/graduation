@@ -4,13 +4,14 @@ import Layout from '../../../layout'
 import welcome from '../../../assets/image/welcome.jpg'
 
 const Home = () => {
-    // const navigate = useNavigate();
-    // useEffect(() => {
-    //     let username = sessionStorage.getItem('usename');
-    //     if (username === '' || username === null) {
-    //         navigate(`/login`)
-    //     }
-    // })
+    const navigate = useNavigate();
+    useEffect(() => {
+        let username = sessionStorage.getItem('user');
+        console.log(username);
+        if (username === '' || username === null) {
+            navigate(`/login`)
+        }
+    }, [])
     return (
         <Layout>
             <div className='flex justify-center items-center text-5xl text-cyan-900 font-bold'>

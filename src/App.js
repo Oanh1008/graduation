@@ -40,13 +40,15 @@ function App() {
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
           <Route path='/admin-hospital' element={<ManagerHospital/>}></Route>
           <Route path='/admin-user' element={<ManagerUser/>}></Route>
-          <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route>
+          {/* <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route> */}
+          <Route path='/admin-hospital/hospitalDetail/:id' element={<Hospitaldelails />}></Route>
           <Route path='/doctor/booking' element={<DoctorBooking/>}></Route>
           <Route path='/doctor/history' element={<History/>}></Route>
           <Route path='/doctor/history_user' element={<UserBooking/>}></Route>
           <Route path='/doctor/profile' element={<DoctorProfile/>}></Route>
           <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
           <Route path='/doctor/booking/booingDetails' element={<BookingDetails/>}></Route>
+          {/* <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route> */}
         </Routes>
     </BrowserRouter>
    </>

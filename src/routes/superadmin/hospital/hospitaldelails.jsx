@@ -1,24 +1,45 @@
 import { Avatar, Divider, Rate, Row } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
 import { Edit } from '../../../assets/svg';
+import { useParams } from 'react-router-dom';
+import { get } from '../../../utils/apicommon';
 
 const Hospitaldelails = ({ }) => {
+    const [data, setData] = useState([]);
+    const [doctor, setDoctor] = useState([]);
     const [toggle, setToggle] = useState(1)
     const [showModal, setShowModal] = useState(false)
 
+    const { id } = useParams();
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        const hospitalDetais = await get(`common/hospital/${id}`);
+        setData(hospitalDetais)
+        // console.log(hospitalDetais.services);
+        const listDoctor = await get(`common/doctor/${id}`);
+        setDoctor(listDoctor)
+        console.log(listDoctor);
+    };
+    console.log(data.services);
+    console.log(doctor);
     return (
         <Layout>
+
             <div className='container mx-auto '>
                 <div className='flex gap-5 p-5 bg-white justify-around'>
-                    <img src={avatar} className="w-[700px]" />
+                    <img src={data.imageUrl} className="w-[700px]" />
                     <div className='grid grid-cols-2 gap-2'>
-                        <img src={avatar} className="w-96" />
-                        <img src={avatar} className="w-96" />
-                        <img src={avatar} className="w-96" />
-                        <img src={avatar} className="w-96" />
+                        <img src={data.imageUrl} className="w-96" />
+                        <img src={data.imageUrl} className="w-96" />
+                        <img src={data.imageUrl} className="w-96" />
+                        <img src={data.imageUrl} className="w-96" />
 
                     </div>
                 </div>
@@ -27,39 +48,27 @@ const Hospitaldelails = ({ }) => {
                     <div className='basis-2/3 '>
                         <div className=' rounded-md bg-white '>
                             <div className='p-5'>
-                                <div className='text-3xl text-cyan-900 font-semibold mb-1'>Bệnh Viện Mắt Phong An</div>
-                                <div className='text-gray-600 text-lg'>Phong An, Phong Điền</div>
+                                <div className='text-3xl text-cyan-900 font-semibold mb-1'>{data.hospitalName}</div>
+                                <div className='text-gray-600 text-lg'>{data.address}</div>
                                 <Divider />
                                 <div className='text-base'>
-                                    - CIS (Clinical Information System): Hệ thống thông tin Lâm sàng, là một hệ thống máy tính với các ứng dụng giúp thu thập, lưu trữ, kiểm soát và làm cho dữ liệu lâm sàng có thể truy cập được khi cần thiết cho quá trình chăm sóc bệnh nhân. Thông thường, CIS được sử dụng như một phần của công tác văn phòng lâm sàng (sử dụng bởi các bác sĩ chuyên khoa và các trợ lý bác sĩ)
+                                    {data.information}
                                 </div>
                             </div>
                         </div>
 
                         <div className=' rounded-md bg-white mt-5'>
                             <div className='p-5'>
-                                <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>    dịch vụ</div>
+                                <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'> dịch vụ</div>
 
                                 <Divider />
                                 <div className='flex justify-around'>
-                                    <div className='flex flex-col gap-5 items-center '>
-                                        <div><Edit className='w-8' /></div>
-                                        <p className='text-base font-semibold'>Cạo mắt</p>
-                                    </div>
-                                    <div className='flex flex-col gap-5 items-center'>
-                                        <div><Edit className='w-8' /></div>
-                                        <p className='text-base font-semibold'>Cạo mắt</p>
-                                    </div>
-                                    <div className='flex flex-col gap-5 items-center'>
-                                        <div><Edit className='w-8' /></div>
-                                        <p className='text-base font-semibold'>Cạo mắt</p>
-                                    </div>
-                                    <div className='flex flex-col gap-5 items-center'>
-                                        <div><Edit className='w-8' /></div>
-                                        <p className='text-base font-semibold'>Cạo mắt</p>
-                                    </div>
-
-
+                                    {data.services.map((item, index) => (
+                                        <div key={index} className='flex flex-col gap-5 items-center '>
+                                            <div><Edit className='w-8' /></div>
+                                            <p className='text-base font-semibold'>{item.serviceName}</p>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -69,37 +78,17 @@ const Hospitaldelails = ({ }) => {
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>Chuyên gia - Bác sĩ</div>
                                 <Divider />
                                 <div className='flex justify-between'>
-                                    <div className='flex flex-col gap-5 items-center'>
-                                        <div className="drop-shadow-lg rounded-full">
-                                            <Avatar src={avatar} size={200} />
+                                    {doctor.map((item, index) => (
+                                        <div key={index} className='flex flex-col gap-5 items-center'>
+                                            <div className="drop-shadow-lg rounded-full">
+                                                <Avatar src={avatar} size={200} />
 
+                                            </div>
+                                            <p className='text-base font-semibold'>{item.lastName} {item.firstName}</p>
                                         </div>
-                                        <p className='text-base font-semibold'>Minh Thư Nguyễn</p>
-                                    </div>
-                                    <div className='flex flex-col gap-5 items-center'>
-                                        <div className="drop-shadow-lg rounded-full">
-                                            <Avatar src={avatar} size={200} />
-
-                                        </div>
-                                        <p className='text-base font-semibold'>Minh Thư Nguyễn</p>
-                                    </div><div className='flex flex-col gap-5 items-center'>
-                                        <div className="drop-shadow-lg rounded-full">
-                                            <Avatar src={avatar} size={200} />
-
-                                        </div>
-                                        <p className='text-base font-semibold'>Minh Thư Nguyễn</p>
-                                    </div><div className='flex flex-col gap-5 items-center'>
-                                        <div className="drop-shadow-lg rounded-full" >
-                                            <Avatar src={avatar} size={200} />
-
-                                        </div>
-                                        <p className='text-base font-semibold'>Minh Thư Nguyễn</p>
-                                    </div>
-
-
-
+                                    ))}
                                 </div>
-                                <button className='mt-5 w-full text-end text-cyan-900 hover:font-semibold mb-1'>Xem thêm</button>
+                                {doctor.length > 4 && <button className='mt-5 w-full text-end text-cyan-900 hover:font-semibold mb-1'>Xem thêm</button>}
                             </div>
                         </div>
                     </div>

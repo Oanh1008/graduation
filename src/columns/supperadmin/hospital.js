@@ -1,8 +1,9 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Edit, Eye, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
+import BookingDetails from '../../routes/Pratitioner/booking/bookingDetails';
 
 
 const Columns = [
@@ -21,28 +22,28 @@ const Columns = [
   {
     key: '2',
     title: "Tên phòng khám",
-    dataIndex: "",
+    dataIndex: "hospitalName",
     width: 250,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
-        <div>{item.information.hospitalName} </div>
+        <div>{item.hospitalName} </div>
       </div>),
     sorter: (record1, record2) => {
-      return record1.information.hospitalName > record2.information.hospitalName
+      return record1.hospitalName > record2.hospitalName
     }
 
   },
   {
     key: '3',
     title: "Email",
-    dataIndex: "email",
+    dataIndex: "",
     width: 200,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
-        <div>{item.information.email}</div>
+        <div>{item.adminInformation.email}</div>
       </div>),
     sorter: (record1, record2) => {
-      return record1.information.email > record2.information.email
+      return record1.adminInformation.email > record2.adminInformation.email
     }
   },
   {
@@ -51,33 +52,17 @@ const Columns = [
     dataIndex: "",
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
-        <div>{item.information.phoneNumber}</div>
+        <div>{item.adminInformation.phone}</div>
       </div>),
   },
   {
     key: '5',
     title: "Địa chi",
-    dataIndex: "",
+    dataIndex: "address",
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
-        <div>{item.information. address}</div>
+        <div>{item.address}</div>
       </div>),
-    sorter: (record1, record2) => {
-      return record1.information.address > record2.information.address
-    }
-  },
-  {
-    key: '6',
-    title: "Giờ làm việc  ",
-    dataIndex: "",
-    // render: (text, item) => (text &&
-    //   <div className='flex items-center gap-3'>
-    //     <div>{item.address}</div>
-    //   </div>),
-    render: (text, item) => ( text &&
-      <div>{item.information.workingTimeFrom}h00 - {item.information.workingTimeTo}h00
-       (thứ {item.information.periodWorkingDayFrom} - thứ {item.information.periodWorkingDayTo})</div>
-    ),
     sorter: (record1, record2) => {
       return record1.address > record2.address
     }
@@ -105,14 +90,15 @@ const Columns = [
     width: 100,
     render: (data) => (
      <div className='flex'>
-        <Button
+       <div> <Button
         type='button'
         className=" rounded-lg"
         icon={<Eye className='w-9 h-9 fill-indigo-400 rounded-lg hover:bg-indigo-100 p-1' />}
-        // onClick={() => window.location.href=`/hospitalDetail/${data.information.hospitalId}`}
-        onClick={() => window.location.href=`/admin-hospital/hospitalDetail`}
+        onClick={() => window.location.href=`/admin-hospital/hospitalDetail/${data.hospitalId}`}
+        // onClick={() => window.location.href=`/admin-hospital/hospitalDetail`}
 
       />
+      </div>
         <Popconfirm
           placement="bottomRight"
           title={"Bạn muốn xoá tài khoản này ? "}

@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import hi from '../../../assets/image/background.jpeg'
+import users from './login.json'
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -10,7 +11,20 @@ const Login = () => {
 
     const ProceedLogin = (e) => {
         e.preventDefault();
-        navigate('/')
+
+        if (validate()) {
+            const user = users.users.find(
+                (user) => user.username === username && user.password === password
+            );
+
+            if (user) {
+                sessionStorage.setItem("user", JSON.stringify(user));
+                window.location.href = "/";
+            } else {
+                console.log("sai tk và mk");
+            }
+
+        }
 
         // if (validate()) {
         //     axios.post('http://localhost:8092/api/v1/care-bookie/user/' + username)

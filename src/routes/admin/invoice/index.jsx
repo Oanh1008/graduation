@@ -21,10 +21,11 @@ const Index = () => {
     }, []);
 
     const fetchData = async () => {
-        const data = await get('/user');
-        const filteredData = data.filter((item) => item.imageUrl)
-        setData(filteredData)
-        setSearch(filteredData)
+        const data = await get('/common/doctor/getAll');
+        // const filteredData = data.filter((item) => item.imageUrl)
+        console.log(data);
+        // setData(filteredData)
+        // setSearch(filteredData)
     };
 
     // const handleDelete = async (id) => {

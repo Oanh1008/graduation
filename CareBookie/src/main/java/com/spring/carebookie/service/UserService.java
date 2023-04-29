@@ -13,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.carebookie.common.constants.EmployeeStatus;
 import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
+import com.spring.carebookie.dto.LoginRequest;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
+import com.spring.carebookie.exception.UserNotFoundException;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
@@ -153,6 +155,19 @@ public class UserService {
         // Remove admin
         dtos.removeIf(dto -> dto.getRoleId() == 2);
         return dtos;
+    }
+
+    /**
+     * Login
+     */
+
+    public UserEntity login(LoginRequest loginRequest) {
+        UserEntity entity = userRepository.findByPhone(loginRequest.getPhone());
+        if (entity != null && passwordEncoder.matches(loginRequest.getPassword(),entity.getPassword())){
+            return entity;
+        }
+
+        throw new UserNotFoundException("User {} not found".replace("{}",loginRequest.getPhone()));
     }
 
     private List<DoctorGetAllDto> convertProjectionToDto(List<DoctorGetAllProjection> projections) {

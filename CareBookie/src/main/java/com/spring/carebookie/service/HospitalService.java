@@ -55,6 +55,12 @@ public class HospitalService {
        return dtos;
     }
 
+    public HospitalResponseDto getHospitalByHospitalId(String hospitalId) {
+        return getAllHospitals().stream()
+                .filter(dto -> dto.getHospitalId().equals(hospitalId))
+                .findFirst().get();
+    }
+
     @Transactional
     public HospitalEntity saveHospital(HospitalSaveDto dto) {
 

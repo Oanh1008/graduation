@@ -37,4 +37,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value = "select u from UserEntity u where u.hospitalId = :hospitalId")
     List<UserEntity> findAllEmployeesByHospitalId(String hospitalId);
 
+
+    @Query("select u from UserEntity u where u.phone = ?1")
+    UserEntity findByPhone(String phone);
+
 }

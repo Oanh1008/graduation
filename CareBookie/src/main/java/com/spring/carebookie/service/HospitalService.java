@@ -67,6 +67,7 @@ public class HospitalService {
         HospitalEntity entity = HOSPITAL_MAPPER.convertSaveDtoToEntity(dto);
 
         entity.setHospitalId(generateHospitalId(entity.getHospitalName()));
+        entity.setStatus(false);
 
         log.info("Finished save {} hospital into database", entity.getHospitalName());
         return hospitalRepository.save(entity);

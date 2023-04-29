@@ -45,7 +45,7 @@ public class HospitalEntity {
 
     private BigDecimal priceTo;
 
-    private String status;
+    private boolean status;
 
     private String information;
 

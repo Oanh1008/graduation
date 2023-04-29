@@ -13,11 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.carebookie.common.constants.EmployeeStatus;
 import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
+import com.spring.carebookie.dto.LoginRequest;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
+import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
+import com.spring.carebookie.exception.UserNotFoundException;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
@@ -105,12 +108,18 @@ public class UserService {
                 .map(entity -> USER_MAPPER.convertEntityToDto(entity))
                 .collect(Collectors.toList());
         for (int i = 0; i < entities.size(); i++) {
-            dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()));
-            dtos.get(i).setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
+            DoctorResponseDto dto = dtos.get(i);
+            dto.setStar(stars.get(dto.getUserId()));
+            if(entities.get(i).getKnowledge() != null) {
+                dto.setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
+            }
         }
-        dtos.sort(Comparator.nullsLast(Comparator.comparing(DoctorResponseDto::getStar)).reversed());
+        dtos.sort(Comparator.nullsLast(Comparator.comparing(DoctorResponseDto::getStar,
+                Comparator.nullsFirst(Double::compareTo)).reversed()));
+
         return dtos;
     }
+
 
 
     /**
@@ -128,6 +137,38 @@ public class UserService {
         return userRepository.save(entity);
     }
 
+    public List<?> getAllEmployeeByHospitalId(String hospitalId) {
+        Map<String, Double> stars = commonService.getDoctorStar();
+        List<UserEntity> entities = userRepository.findAllEmployeesByHospitalId(hospitalId);
+        List<EmployeeResponseDto> dtos = entities .stream()
+                .map(entity -> USER_MAPPER.convertEntityToEDto(entity))
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < entities.size(); i++) {
+            EmployeeResponseDto dto = dtos.get(i);
+            dto.setStar(stars.get(dto.getUserId()));
+            if(entities.get(i).getKnowledge() != null) {
+                dto.setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
+            }
+        }
+
+        // Remove admin
+        dtos.removeIf(dto -> dto.getRoleId() == 2);
+        return dtos;
+    }
+
+    /**
+     * Login
+     */
+
+    public UserEntity login(LoginRequest loginRequest) {
+        UserEntity entity = userRepository.findByPhone(loginRequest.getPhone());
+        if (entity != null && passwordEncoder.matches(loginRequest.getPassword(),entity.getPassword())){
+            return entity;
+        }
+
+        throw new UserNotFoundException("User {} not found".replace("{}",loginRequest.getPhone()));
+    }
 
     private List<DoctorGetAllDto> convertProjectionToDto(List<DoctorGetAllProjection> projections) {
         return projections

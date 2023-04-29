@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
 import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
 import com.spring.carebookie.entity.RatingDoctorEntity;
 import com.spring.carebookie.entity.RatingHospitalEntity;
+import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.CommonService;
 
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +26,8 @@ public class UserController {
 
     private CommonService commonService;
 
+    private BookService bookService;
+
     @ApiOperation("Create new comment for doctor")
     @PostMapping("comment/doctor")
     public ResponseEntity<RatingDoctorEntity> saveCommentDoctor(@RequestBody RatingDoctorSaveDto dto) {
@@ -34,5 +38,11 @@ public class UserController {
     @PostMapping("comment/hospital")
     public ResponseEntity<RatingHospitalEntity> saveCommentHospital(@RequestBody RatingHospitalSaveDto dto) {
         return ResponseEntity.ok(commonService.saveRatingHospital(dto));
+    }
+
+    @ApiOperation("Create a book")
+    @PostMapping("user/book")
+    public ResponseEntity<?> createNewBook(@RequestBody BookSaveDto dto) {
+        return ResponseEntity.ok(bookService.saveBook(dto));
     }
 }

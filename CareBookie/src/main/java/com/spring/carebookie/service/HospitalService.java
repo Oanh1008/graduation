@@ -15,6 +15,7 @@ import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.ServiceRepository;
+import com.spring.carebookie.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ public class HospitalService {
     private final HospitalRepository hospitalRepository;
 
     private final CommonService commonService;
+
+    private final UserRepository userRepository;
 
     private static final HospitalMapper HOSPITAL_MAPPER = HospitalMapper.INSTANCE;
 
@@ -47,6 +50,7 @@ public class HospitalService {
             dto.setStar(stars.get(dto.getHospitalId()));
             dto.setServices(commonService.getAllServiceByHospitalId(dto.getHospitalId()));
             dto.setWorkingDayDetails(commonService.getAllWorkingDayDetailByHospitalId(dto.getHospitalId()));
+            dto.setAdminInformation(userRepository.findByUserId(dto.getAdminId()));
         });
        return dtos;
     }

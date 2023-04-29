@@ -38,4 +38,10 @@ public class SupperAdminController {
     public ResponseEntity<List<UserEntity>> getAllUsers() {
        return ResponseEntity.ok( userService.getAllUsers());
     }
+
+    @ApiOperation("Get all users (patients)")
+    @GetMapping("/users/patient")
+    public ResponseEntity<List<UserEntity>> getAllPatients() {
+        return ResponseEntity.ok( userService.getAllPatients());
+    }
 }

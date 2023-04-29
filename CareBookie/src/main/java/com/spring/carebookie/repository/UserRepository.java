@@ -28,4 +28,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("select u from UserEntity u where u.isDoctor = true")
     List<UserEntity> findAllByDoctorIsTrue();
 
+    @Query("select u from UserEntity u where u.hospitalId is null")
+    List<UserEntity> findAllByHospitalIdIsNull();
+
+    @Query("select u from UserEntity u where u.userId = ?1")
+    UserEntity findByUserId(String userId);
+
 }

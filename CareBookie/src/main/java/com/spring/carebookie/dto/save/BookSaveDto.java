@@ -1,13 +1,12 @@
-package com.spring.carebookie.entity;
+package com.spring.carebookie.dto.save;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,12 +17,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "book")
-public class BookEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class BookSaveDto {
 
     private String userId;
 
@@ -41,15 +35,12 @@ public class BookEntity {
 
     private boolean isShareInvoice;
 
-    private String message;
-
     private String name;
 
     private int age;
 
     private String gender;
 
-    private String status;
+    private List<Long> services;
 
-    private LocalDateTime dateTimeBook;
 }

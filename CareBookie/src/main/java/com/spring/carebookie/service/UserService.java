@@ -41,6 +41,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<UserEntity> getAllPatients() {
+        return userRepository.findAllByHospitalIdIsNull();
+    }
+
+    public UserEntity getUserByUserId(String userId) {
+        return userRepository.findByUserId(userId);
+    }
     /**
      * User
      */
@@ -101,7 +108,7 @@ public class UserService {
             dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()));
             dtos.get(i).setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
         }
-        dtos.sort(Comparator.comparing(DoctorResponseDto::getStar).reversed());
+        dtos.sort(Comparator.nullsLast(Comparator.comparing(DoctorResponseDto::getStar)).reversed());
         return dtos;
     }
 

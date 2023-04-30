@@ -88,4 +88,10 @@ public class CommonController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
+
+    @ApiOperation("Get information of account by userId")
+    @GetMapping("/user/information/{userId}")
+    public ResponseEntity<?> getUserInformation(@PathVariable String userId) {
+        return ResponseEntity.ok(userService.getUserByUserId(userId));
+    }
 }

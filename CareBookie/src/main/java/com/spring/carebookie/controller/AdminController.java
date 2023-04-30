@@ -46,7 +46,7 @@ public class AdminController {
     }
 
     @ApiOperation("Get all employee")
-    @PostMapping("/employees/{hospitalId}")
+    @GetMapping("/employees/{hospitalId}")
     public ResponseEntity<?> getAllEmployee(@PathVariable String hospitalId) {
         return ResponseEntity.ok(userService.getAllEmployeeByHospitalId(hospitalId));
     }

@@ -9,13 +9,23 @@ import com.spring.carebookie.dto.response.ApiErrorResponse;
 @RestControllerAdvice
 public class ExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value = {UserNotFoundException.class})
-    public ResponseEntity<ApiErrorResponse> handleUserNotFound(UserNotFoundException e) {
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = {ResourceNotFoundException.class})
+    public ResponseEntity<ApiErrorResponse> handleUserNotFound(ResourceNotFoundException e) {
 
         ApiErrorResponse errorResponse = ApiErrorResponse.builder()
                 .code(HttpStatus.UNAUTHORIZED.value())
                 .message(e.getMessage())
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
+    public ResponseEntity<ApiErrorResponse> handleAnotherException(Exception e) {
+
+        ApiErrorResponse errorResponse = ApiErrorResponse.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(e.getMessage())
+                .build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -20,7 +20,7 @@ import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
-import com.spring.carebookie.exception.UserNotFoundException;
+import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
@@ -167,7 +167,7 @@ public class UserService {
             return entity;
         }
 
-        throw new UserNotFoundException("User {} not found".replace("{}",loginRequest.getPhone()));
+        throw new ResourceNotFoundException("User {} not found".replace("{}",loginRequest.getPhone()));
     }
 
     private List<DoctorGetAllDto> convertProjectionToDto(List<DoctorGetAllProjection> projections) {

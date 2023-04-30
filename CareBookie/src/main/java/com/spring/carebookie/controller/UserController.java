@@ -3,10 +3,13 @@ package com.spring.carebookie.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.edit.BookCancelDto;
+import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
 import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
@@ -41,8 +44,14 @@ public class UserController {
     }
 
     @ApiOperation("Create a book")
-    @PostMapping("user/book")
-    public ResponseEntity<?> createNewBook(@RequestBody BookSaveDto dto) {
+    @PostMapping("/book")
+    public ResponseEntity<BookResponseDto> createNewBook(@RequestBody BookSaveDto dto) {
         return ResponseEntity.ok(bookService.saveBook(dto));
+    }
+
+    @ApiOperation("Cancel book")
+    @PutMapping("/book/cancel")
+    public ResponseEntity<?> cancelBook(@RequestBody BookCancelDto dto) {
+        return ResponseEntity.ok(bookService.cancelBook(dto));
     }
 }

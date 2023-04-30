@@ -41,7 +41,7 @@ public class HospitalResponseDto {
 
     private BigDecimal priceTo;
 
-    private String status;
+    private boolean status;
 
     private String information;
 

@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +35,7 @@ public class BookEntity {
 
     private String date;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateExamination;
 
     private String session;
@@ -45,7 +48,7 @@ public class BookEntity {
 
     private String name;
 
-    private int age;
+    private Integer age;
 
     private String gender;
 

@@ -6,7 +6,7 @@ import welcome from '../../../assets/image/welcome.jpg'
 const Home = () => {
     const navigate = useNavigate();
     useEffect(() => {
-        let username = sessionStorage.getItem('user');
+        let username = localStorage.getItem('user');
         console.log(username);
         if (username === '' || username === null) {
             navigate(`/login`)

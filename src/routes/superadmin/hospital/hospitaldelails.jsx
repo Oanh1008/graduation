@@ -1,5 +1,5 @@
 import { Avatar, Divider, Rate, Row } from 'antd';
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { get } from '../../../utils/apicommon';
 
 const Hospitaldelails = ({ }) => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
     const [doctor, setDoctor] = useState([]);
     const [toggle, setToggle] = useState(1)
     const [showModal, setShowModal] = useState(false)
@@ -16,23 +16,23 @@ const Hospitaldelails = ({ }) => {
     const { id } = useParams();
 
     useEffect(() => {
-        fetchData();
+        const fetchData = async () => {
+            const hospitalDetais = await get(`common/hospital/${id}`);
+            setData(hospitalDetais)
+            console.log(data);
+            // console.log(hospitalDetais.services);
+            const listDoctor = await get(`common/doctor/${id}`);
+            setDoctor(listDoctor)
+            console.log(listDoctor);
+        }
+        fetchData()
     }, []);
 
-    const fetchData = async () => {
-        const hospitalDetais = await get(`common/hospital/${id}`);
-        setData(hospitalDetais)
-        // console.log(hospitalDetais.services);
-        const listDoctor = await get(`common/doctor/${id}`);
-        setDoctor(listDoctor)
-        console.log(listDoctor);
-    };
-    console.log(data.services);
     console.log(doctor);
     return (
         <Layout>
 
-            <div className='container mx-auto '>
+            <div className=' mx-6 '>
                 <div className='flex gap-5 p-5 bg-white justify-around'>
                     <img src={data.imageUrl} className="w-[700px]" />
                     <div className='grid grid-cols-2 gap-2'>
@@ -63,12 +63,13 @@ const Hospitaldelails = ({ }) => {
 
                                 <Divider />
                                 <div className='flex justify-around'>
-                                    {data.services.map((item, index) => (
-                                        <div key={index} className='flex flex-col gap-5 items-center '>
-                                            <div><Edit className='w-8' /></div>
-                                            <p className='text-base font-semibold'>{item.serviceName}</p>
-                                        </div>
-                                    ))}
+                                    {data.services &&
+                                        data.services.map((item, index) => (
+                                            <div key={index} className='flex flex-col gap-5 items-center '>
+                                                <div><Edit className='w-8' /></div>
+                                                <p className='text-base font-semibold'>{item.serviceName}</p>
+                                            </div>
+                                        ))}
                                 </div>
                             </div>
                         </div>

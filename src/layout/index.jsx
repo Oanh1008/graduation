@@ -19,11 +19,11 @@ const Index = ({ children }) => {
 
     const navigate = useNavigate()
 
-    let user = JSON.parse(sessionStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
 
 
     const handleLogout = () => {
-        // sessionStorage.removeItem('user')
+        localStorage.removeItem('user')
         navigate('/login');
     }
 
@@ -50,51 +50,51 @@ const Index = ({ children }) => {
                         </button>
                     </div>admin
 
-                    {
+                    {user.role &&
                         user.role === "Admin" ?
+                        <Menu
+                            className={classNames('!text-base fixed  !bg-white top-24 ',
+                                {
+                                    '!w-[279px]': !collapsed,
+                                    '!w-20': collapsed
+                                })}
+                            defaultSelectedKeys={['1']} mode="inline" items={list}
+                            onClick={((key) => {
+                                navigate(key.keyPath[0])
+                            })} />
+                        : user.role === "superAdmin" ?
                             <Menu
                                 className={classNames('!text-base fixed  !bg-white top-24 ',
                                     {
                                         '!w-[279px]': !collapsed,
                                         '!w-20': collapsed
                                     })}
-                                defaultSelectedKeys={['1']} mode="inline" items={list}
+                                defaultSelectedKeys={['1']} mode="inline" items={listSA}
                                 onClick={((key) => {
                                     navigate(key.keyPath[0])
                                 })} />
-                            : user.role === "superAdmin" ?
+                            : user.role === "Doctor" ?
                                 <Menu
                                     className={classNames('!text-base fixed  !bg-white top-24 ',
                                         {
                                             '!w-[279px]': !collapsed,
                                             '!w-20': collapsed
                                         })}
-                                    defaultSelectedKeys={['1']} mode="inline" items={listSA}
+                                    defaultSelectedKeys={['1']} mode="inline" items={listPratitioner}
                                     onClick={((key) => {
                                         navigate(key.keyPath[0])
                                     })} />
-                                : user.role === "Doctor" ?
-                                    <Menu
-                                        className={classNames('!text-base fixed  !bg-white top-24 ',
-                                            {
-                                                '!w-[279px]': !collapsed,
-                                                '!w-20': collapsed
-                                            })}
-                                        defaultSelectedKeys={['1']} mode="inline" items={listPratitioner}
-                                        onClick={((key) => {
-                                            navigate(key.keyPath[0])
-                                        })} />
-                                    :
-                                    <Menu
-                                        className={classNames('!text-base fixed  !bg-white top-24 ',
-                                            {
-                                                '!w-[279px]': !collapsed,
-                                                '!w-20': collapsed
-                                            })}
-                                        defaultSelectedKeys={['1']} mode="inline" items={listAdministrative}
-                                        onClick={((key) => {
-                                            navigate(key.keyPath[0])
-                                        })} />
+                                :
+                                <Menu
+                                    className={classNames('!text-base fixed  !bg-white top-24 ',
+                                        {
+                                            '!w-[279px]': !collapsed,
+                                            '!w-20': collapsed
+                                        })}
+                                    defaultSelectedKeys={['1']} mode="inline" items={listAdministrative}
+                                    onClick={((key) => {
+                                        navigate(key.keyPath[0])
+                                    })} />
 
                     }
                 </Sider>

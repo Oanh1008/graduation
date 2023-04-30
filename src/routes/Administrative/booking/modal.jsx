@@ -49,6 +49,8 @@ const onFinish = (values) => {
 
 const Modal = ({ isVisible, onClose }) => {
     const [imageUrl, setImageUrl] = useState("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/300968750_116420874503674_2899111505842825407_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7s6DWjxmt0gAX_AYOsK&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAPESRJL2mdVRTaTbesT5jo5jqSZo6H4_itj0Sa0L5GYQ&oe=64435780");
+
+    const [form] = Form.useForm()
     const handlePreviewAvatar = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -80,6 +82,7 @@ const Modal = ({ isVisible, onClose }) => {
                     </div>
                     <Divider />
                     <Form
+                        form={form}
                         labelCol={{ span: 12 }}
                         wrapperCol={{ span: 18 }}
                         name="validate_other"

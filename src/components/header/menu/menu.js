@@ -27,12 +27,6 @@ const Layout = [
         label: "Quản lý khám chữa bệnh",
         permission: ''
     },
-    {
-        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
-        key: "/role",
-        label: "Vai trò",
-        permission: ''
-    },
 
     {
         icon: <MdStackedBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100 fill-cyan-900'/>,

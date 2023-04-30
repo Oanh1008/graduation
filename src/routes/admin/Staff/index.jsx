@@ -6,8 +6,8 @@ import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
 import Modal from './modal';
-import { DataStaff } from './data'
-import RoleModal from './roleModal';
+import { DataStaff } from './data';
+import { useParams } from 'react-router-dom';
 
 const Index = () => {
     const [loading, setLoading] = useState(false)
@@ -19,13 +19,16 @@ const Index = () => {
     const [showModal, setShowModal] = useState(false)
     const [roleModal, setShowRoleModal] = useState(false)
 
+
     useEffect(() => {
         fetchData();
     }, []);
 
     const fetchData = async () => {
-        const datajs = await get('/common/hospital/getAll');
+        let user = localStorage.getItem('user');
+        const datajs = await get(`admin/employees/${user.id}`);
         console.log(datajs);
+        console.log(JSON.parse(user).userId);
         //     const filteredData = data.filter((item) => item.imageUrl)
         //     setData(filteredData)
         //     setSearch(filteredData)
@@ -98,8 +101,6 @@ const Index = () => {
             </div>
             <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
             </Modal>
-            <RoleModal isVisible={roleModal} onClose={() => setShowRoleModal(false)} >
-            </RoleModal>
         </Layout>
     )
 }

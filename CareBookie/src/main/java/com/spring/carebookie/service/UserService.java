@@ -106,7 +106,7 @@ public class UserService {
                 .collect(Collectors.toList());
         for (int i = 0; i < entities.size(); i++) {
             dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()) == null ? 0 : stars.get(dtos.get(i).getUserId()));
-            if (dtos.get(i).getKnowledges() != null)
+            if (entities.get(i).getKnowledge() != null)
                 dtos.get(i).setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
         }
         return dtos;

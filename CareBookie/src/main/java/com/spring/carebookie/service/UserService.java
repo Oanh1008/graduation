@@ -189,6 +189,10 @@ public class UserService {
         return userRepository.save(entity);
     }
 
+    @Transactional
+    public void deleteEmployee(String employeeId ){
+        userRepository.deleteByUserId(employeeId);
+    }
     /**
      * Login
      */

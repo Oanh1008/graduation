@@ -12,6 +12,7 @@ import org.springframework.web.client.ResourceAccessException;
 
 import com.spring.carebookie.common.constants.BookStatus;
 import com.spring.carebookie.common.mappers.BookMapper;
+import com.spring.carebookie.dto.edit.BookAcceptDto;
 import com.spring.carebookie.dto.edit.BookCancelDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
@@ -98,11 +99,11 @@ public class BookService {
     }
 
     @Transactional
-    public BookEntity acceptBook(Long bookId) {
-        bookRepository.acceptBook(bookId);
-        BookEntity bookEntity = bookRepository.findById(bookId)
+    public BookEntity acceptBook(BookAcceptDto dto) {
+        bookRepository.acceptBook(dto.getBookId(),dto.getDoctorId(), dto.getDate(),dto.getDateExamination(), dto.getSession());
+        BookEntity bookEntity = bookRepository.findById(dto.getBookId())
                         .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
-                                .replace("{}",bookId.toString())));
+                                .replace("{}",dto.getBookId().toString())));
 
         return bookEntity;
     }

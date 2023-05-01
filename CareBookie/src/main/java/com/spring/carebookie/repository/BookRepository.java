@@ -1,5 +1,6 @@
 package com.spring.carebookie.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,8 +16,9 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
     void cancelBook(Long id, String message);
 
     @Modifying
-    @Query("update BookEntity b set b.status = 'ACCEPT' where b.id = :id")
-    void acceptBook(Long id);
+    @Query(" update BookEntity b set b.status = 'ACCEPT', b.doctorId = :doctorId, " +
+            " b.date = :date, b.dateExamination = :dateExamination, b.session = :session where b.id = :id")
+    void acceptBook(Long id,String doctorId, String date, LocalDate dateExamination, String session);
 
     @Modifying
     @Query("update BookEntity b set b.status = 'CONFIRM' where b.id = :id")

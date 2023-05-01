@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -25,15 +26,19 @@ public class InvoiceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long bookId;
+
     private String symptomDetail;
 
-    private String advice;
+    private String advices;
 
     private String diagnose;
 
     private Double discountInsurance;
 
     private boolean isExamined;
+
+    private BigDecimal totalPrice;
 
     private LocalDateTime dateTimeInvoice;
 }

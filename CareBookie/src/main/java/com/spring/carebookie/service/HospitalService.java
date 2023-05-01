@@ -1,5 +1,6 @@
 package com.spring.carebookie.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -52,6 +53,8 @@ public class HospitalService {
             dto.setWorkingDayDetails(commonService.getAllWorkingDayDetailByHospitalId(dto.getHospitalId()));
             dto.setAdminInformation(userRepository.findByUserId(dto.getAdminId()));
         });
+        dtos.sort(Comparator.nullsLast(Comparator.comparing(HospitalResponseDto::getStar,
+                Comparator.nullsFirst(Double::compareTo)).reversed()));
         return dtos;
     }
 

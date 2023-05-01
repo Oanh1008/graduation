@@ -24,6 +24,7 @@ import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.dto.save.ServiceSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
+import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.service.CommonService;
 import com.spring.carebookie.service.HospitalService;
@@ -61,6 +62,12 @@ public class AdminController {
         return ResponseEntity.ok(userService.saveEmployee(dto));
     }
 
+    @DeleteMapping("/employee/{employeeId}")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable String employeeId) {
+        userService.deleteEmployee(employeeId);
+        return ResponseEntity.ok().build();
+    }
+
     @ApiOperation("Get all employee")
     @GetMapping("/employees/{hospitalId}")
     public ResponseEntity<List<EmployeeResponseDto>> getAllEmployee(@PathVariable String hospitalId) {
@@ -69,20 +76,20 @@ public class AdminController {
 
     @ApiOperation("Add service")
     @PostMapping("/service/create")
-    public ResponseEntity<?> createService(@RequestBody ServiceSaveDto dto) {
+    public ResponseEntity<ServiceEntity> createService(@RequestBody ServiceSaveDto dto) {
         return ResponseEntity.ok(commonService.saveService(dto));
     }
 
     @ApiOperation("Delete service by serviceId")
     @DeleteMapping("/service/delete/{serviceId}")
-    public ResponseEntity<?> deleteService(@PathVariable Long serviceId) {
+    public ResponseEntity<Object> deleteService(@PathVariable Long serviceId) {
         commonService.deleteService(serviceId);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation("Update service information")
     @PutMapping("/service/update")
-    public ResponseEntity<?> updateService(@RequestBody ServiceUpdateDto dto) {
+    public ResponseEntity<ServiceEntity> updateService(@RequestBody ServiceUpdateDto dto) {
         return ResponseEntity.ok(commonService.updateService(dto));
     }
 }

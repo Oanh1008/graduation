@@ -51,7 +51,7 @@ public class UserController {
 
     @ApiOperation("Cancel book")
     @PutMapping("/book/cancel")
-    public ResponseEntity<?> cancelBook(@RequestBody BookCancelDto dto) {
+    public ResponseEntity<BookResponseDto> cancelBook(@RequestBody BookCancelDto dto) {
         return ResponseEntity.ok(bookService.cancelBook(dto));
     }
 }

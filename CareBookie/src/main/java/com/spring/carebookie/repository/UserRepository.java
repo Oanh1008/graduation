@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
 import com.spring.carebookie.entity.UserEntity;
@@ -51,5 +52,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             " u.knowledge = :#{#dto.knowledge},u.speciality = :#{#dto.speciality},u.startWorkingDate = :#{#dto.startWorkingDate}," +
             " u.information = :#{#dto.information}, u.status = :#{#dto.status} where u.userId = :#{#dto.userId} and u.isDoctor = true")
     void updateDoctor(@Param("dto") DoctorUpdateInformationDto dto);
+
+    /**
+     * Employee
+     */
+    @Modifying
+    @Query("delete from UserEntity u where u.userId = ?1")
+    void deleteByUserId(String userId);
 
 }

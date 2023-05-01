@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.edit.BookAcceptDto;
 import com.spring.carebookie.dto.edit.BookCancelDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.entity.BookEntity;
@@ -31,8 +32,8 @@ public class AdministrativeController {
 
     @ApiOperation("Accept book")
     @PutMapping("/book/accept")
-    public ResponseEntity<BookEntity> acceptBook(@RequestParam Long bookId) {
-        return ResponseEntity.ok(bookService.acceptBook(bookId));
+    public ResponseEntity<BookEntity> acceptBook(@RequestBody BookAcceptDto dto) {
+        return ResponseEntity.ok(bookService.acceptBook(dto));
     }
 
     @ApiOperation("Confirm book")

@@ -1,5 +1,6 @@
 package com.spring.carebookie.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.spring.carebookie.entity.RatingHospitalEntity;
@@ -15,8 +16,20 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RatingHospitalResponseDto {
 
-    private Double star;
+        private Long id;
 
-    private List<RatingHospitalEntity> comments;
+        private String comment;
+
+        private String hospitalId;
+
+        private String userId;
+
+        private String fullName;
+
+        private String imageUrl;
+
+        private Double star;
+
+        private LocalDateTime dateTime ;
 
 }

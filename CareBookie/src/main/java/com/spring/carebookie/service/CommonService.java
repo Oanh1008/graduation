@@ -24,6 +24,7 @@ import com.spring.carebookie.dto.save.ServiceSaveDto;
 import com.spring.carebookie.entity.RatingDoctorEntity;
 import com.spring.carebookie.entity.RatingHospitalEntity;
 import com.spring.carebookie.entity.ServiceEntity;
+import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.HospitalRepository;
@@ -99,18 +100,30 @@ public class CommonService {
      * Rating
      */
 
-    public RatingHospitalResponseDto getAllRatingByHospitalId(String hospitalId) {
-        RatingHospitalResponseDto dto = new RatingHospitalResponseDto();
-        dto.setStar(getHospitalStar().get(hospitalId));
-        dto.setComments(ratingHospitalRepository.getAllByHospitalIdOrderByDateTime(hospitalId));
-        return dto;
+    public List<RatingHospitalResponseDto> getAllRatingByHospitalId(String hospitalId) {
+
+        List<RatingHospitalEntity> ratingHospitalEntities = ratingHospitalRepository.getAllByHospitalIdOrderByDateTime(hospitalId);
+        List<RatingHospitalResponseDto> ratingResponseDtos = RATING_HOSPITAL_MAPPER.convertEntitiesToDtos(ratingHospitalEntities);
+        ratingResponseDtos.forEach(r -> {
+            UserEntity user = userRepository.findByUserId(r.getUserId());
+            r.setFullName(user.getLastName() + " " + user.getFirstName());
+            r.setImageUrl(user.getImageUrl());
+        });
+
+        return ratingResponseDtos;
     }
 
-    public RatingDoctorResponseDto getAllCommentByDoctorId(String doctorId) {
-        RatingDoctorResponseDto dto = new RatingDoctorResponseDto();
-        dto.setStar(getDoctorStar().get(doctorId));
-        dto.setComments(ratingDoctorRepository.getAllByDoctorIdOrderByDateTime(doctorId));
-        return dto;
+    public List<RatingDoctorResponseDto> getAllCommentByDoctorId(String doctorId) {
+
+        List<RatingDoctorEntity> ratingDoctorEntities = ratingDoctorRepository.getAllByDoctorIdOrderByDateTime(doctorId);
+        List<RatingDoctorResponseDto> ratingResponseDtos = RATING_DOCTOR_MAPPER.convertEntitiesToDtos(ratingDoctorEntities);
+        ratingResponseDtos.forEach(r -> {
+            UserEntity user = userRepository.findByUserId(r.getUserId());
+            r.setFullName(user.getLastName() + " " + user.getFirstName());
+            r.setImageUrl(user.getImageUrl());
+        });
+
+        return ratingResponseDtos;
     }
 
     public Map<String, Double> getHospitalStar() {
@@ -143,14 +156,14 @@ public class CommonService {
 
     @Transactional
     public void deleteService(Long serviceId) {
-         serviceRepository.deleteById(serviceId);
+        serviceRepository.deleteById(serviceId);
     }
 
     @Transactional
-    public ServiceEntity updateService (ServiceUpdateDto dto) {
-        serviceRepository.updateService(dto.getServiceId(),dto.getServiceName(),dto.getPrice());
+    public ServiceEntity updateService(ServiceUpdateDto dto) {
+        serviceRepository.updateService(dto.getServiceId(), dto.getServiceName(), dto.getPrice());
         return serviceRepository.findById(dto.getServiceId()).orElseThrow(() ->
-                new ResourceNotFoundException("Service {} not found".replace("{}",dto.getServiceId().toString())));
+                new ResourceNotFoundException("Service {} not found".replace("{}", dto.getServiceId().toString())));
     }
 
     /**

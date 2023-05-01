@@ -11,7 +11,7 @@ const NavbarItem = () => {
                 return (
                     <li key={index} className='hidden group md:block relative  ' >
                         {item.path &&
-                            <a href={`${item.path}`} className="text-white font-medium  hover:text-[#add8e6] focus:text-[#add8e6] py-9 px-4 text-center inline-flex items-center  focus:outline-none"
+                            <a href={`${item.path}`} className="text-cyan-900 font-medium  hover:text-[#add8e6] focus:text-[#add8e6] py-9 px-4 text-center inline-flex items-center  focus:outline-none"
                                 type="button"
                             >
                                 {item.title}

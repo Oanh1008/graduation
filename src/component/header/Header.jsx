@@ -18,7 +18,7 @@ const Header = () => {
     setOpen(!open)
   }
   const changeColorNavBar = () => {
-    if (window.scrollY >= 200) {
+    if (window.scrollY >= 800) {
       setNavbar(false)
     }
     else {
@@ -30,11 +30,12 @@ const Header = () => {
 
   return (
     <header>
-      <div className={classNames('md:py-0 py-5 w-full top-0 transition-all duration-500 ease-in-out z-30',
-        {
-          'absolute bg-[#0b37546e]': navbar,
-          'fixed bg-cyan-900': !navbar,
-        })}>
+      <div className={classNames('md:py-0 fixed py-5 w-full top-0 transition-all duration-600 ease-in-out z-30 bg-white border drop-shadow-lg',
+        // {
+        //   ' drop-shadow-lg': showContact,
+        //   ' bg-cyan-900': !navbar,
+        // }
+      )}>
         <div className=" max-w-[1536px] mx-auto">
           <div className="flex justify-between items-center mx-3 ">
             <a href='/'>
@@ -46,7 +47,7 @@ const Header = () => {
                 <NavbarItem />
               </div>
 
-              <button className="text-white font-medium hover:text-[#add8e6] focus:text-[#add8e6] py-9 px-4 text-center inline-flex items-center  focus:outline-none"
+              <button className="text-cyan-900 font-medium hover:text-[#6aaac0] focus:text-[#7fb1c1] py-9 px-4 text-center inline-flex items-center  focus:outline-none"
                 type="button"
                 onClick={() => setShowContact(!showContact)}>
                 Liên hệ
@@ -59,7 +60,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className={classNames('bg-white hidden shadow-lg md:block   fixed top-[6.2rem] z-20 w-full pt-6 pb-12 transition-all duration-700 ease-out',
+      <div className={classNames('bg-white hidden shadow-lg md:block fixed top-24 z-20 w-full pt-6 pb-12 transition-all duration-700 ease-out',
         {
           'opacity-100 border-t ': showContact,
           ' invisible opacity-0 translate-y-16': !showContact
@@ -68,11 +69,12 @@ const Header = () => {
 
       </div>
 
-      <div className={classNames("fixed top-[6.2rem]   hidden md:block right-0 w-full h-full z-10 transition-all duration-500 ease-in-out bg-neutral-100",
+      <div className={classNames("fixed top-24 hidden md:block right-0 w-full h-full z-10 transition-all duration-500 ease-in-out bg-neutral-100",
         {
           "opacity-60": showContact,
           "opacity-0 invisible ": !showContact
-        })}>
+        })}
+        onClick={() => setShowContact(!showContact)}>
 
       </div>
     </header >

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { Next } from '../../assets/svg';
-import { Data } from '../Home/data';
+import { Next } from '../../../assets/svg';
+import { Data } from '../data';
+
 
 const Category = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Category = () => {
                                 <div className="relative pt-7 pb-4 px-3 mt-8 ">
                                     <p className='font-bold text-cyan-900  mb-5 text-2xl '>{item.title}</p>
                                     <p>{item.subtitle}</p>
-                                    <button className='mt-5 group' onClick={() => navigate('/')}>
+                                    <button className='mt-5 group' onClick={() => navigate(`${item.path}`)}>
                                         <span className='text-cyan-700 font-semibold text-[0px] group-hover:text-base transition-all duration-300 ease-linear'>Read More</span>
                                         <Next className='w-8 inline-block ml-2 fill-cyan-600 stroke-cyan-600' />
                                     </button>

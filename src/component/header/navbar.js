@@ -1,12 +1,12 @@
 import React, { list } from 'react'
 
 export const SidebarData = [
-    {
-        key: 1,
-        title: "Chuyên khoa",
-        path: "/specialist",
-        icon:'',
-    },
+    // {
+    //     key: 1,
+    //     title: "Chuyên khoa",
+    //     path: "/wards",
+    //     icon:'',
+    // },
     {
         key: 2,
         title: "Bác sĩ",
@@ -17,9 +17,5 @@ export const SidebarData = [
         title: "Cơ sở y tế",
         path: "/hospital",
     },
-    {
-        key: 4,
-        title: "Dịch vụ",
-        path: "/services",
-    }
+
 ]

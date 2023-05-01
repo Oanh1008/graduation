@@ -13,3 +13,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ant-input-affix-wrapper {
+  @apply p-3
+}
+
+.anticon-search {
+  @apply !w-5 !h-5
+}

@@ -10,6 +10,7 @@ import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
+import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
@@ -30,5 +31,7 @@ public interface UserMapper {
     DoctorResponseDto convertEntityToDto(UserEntity entity);
 
     EmployeeResponseDto convertEntityToEDto(UserEntity entity);
+
+    UserEntity convertSaveToEntity(EmployeeSaveDto dto);
 
 }

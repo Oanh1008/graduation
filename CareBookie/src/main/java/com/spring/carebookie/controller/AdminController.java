@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.common.constants.UserRole;
+import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
+import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
@@ -45,9 +47,15 @@ public class AdminController {
         return ResponseEntity.ok(userService.saveAdministrative(dto));
     }
 
+    @ApiOperation("Create a doctor or administrative")
+    @PostMapping("/create/employee")
+    public ResponseEntity<UserEntity> saveEmployee(@Valid @RequestBody EmployeeSaveDto dto) {
+        return ResponseEntity.ok(userService.saveEmployee(dto));
+    }
+
     @ApiOperation("Get all employee")
     @GetMapping("/employees/{hospitalId}")
-    public ResponseEntity<?> getAllEmployee(@PathVariable String hospitalId) {
+    public ResponseEntity<List<EmployeeResponseDto>> getAllEmployee(@PathVariable String hospitalId) {
         return ResponseEntity.ok(userService.getAllEmployeeByHospitalId(hospitalId));
     }
 }

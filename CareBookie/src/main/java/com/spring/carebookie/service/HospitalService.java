@@ -43,16 +43,16 @@ public class HospitalService {
     }
 
     public List<HospitalResponseDto> getAllHospitals() {
-        Map<String,Double> stars = commonService.getHospitalStar();
+        Map<String, Double> stars = commonService.getHospitalStar();
         List<HospitalEntity> entities = hospitalRepository.findAll();
         List<HospitalResponseDto> dtos = HOSPITAL_MAPPER.convertEntitiesToDtos(entities);
         dtos.forEach(dto -> {
-            dto.setStar(stars.get(dto.getHospitalId()));
+            dto.setStar(stars.get(dto.getHospitalId()) == null ? 0 : stars.get(dto.getHospitalId()));
             dto.setServices(commonService.getAllServiceByHospitalId(dto.getHospitalId()));
             dto.setWorkingDayDetails(commonService.getAllWorkingDayDetailByHospitalId(dto.getHospitalId()));
             dto.setAdminInformation(userRepository.findByUserId(dto.getAdminId()));
         });
-       return dtos;
+        return dtos;
     }
 
     public HospitalResponseDto getHospitalByHospitalId(String hospitalId) {

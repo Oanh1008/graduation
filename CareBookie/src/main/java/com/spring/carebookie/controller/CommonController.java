@@ -71,6 +71,12 @@ public class CommonController {
         return ResponseEntity.ok(userService.getDoctorByHospitalId(hospitalId));
     }
 
+    @ApiOperation("Get information by doctorId")
+    @GetMapping("/doctor/information/{doctorId}")
+    public ResponseEntity<DoctorResponseDto> getDoctorByDoctorId(@PathVariable String doctorId) {
+        return ResponseEntity.ok(userService.getDoctorByDoctorId(doctorId));
+    }
+
     @ApiOperation("Get all doctor and order by star ")
     @GetMapping("/doctor/getAll")
     public ResponseEntity<List<DoctorResponseDto>> getAllDoctorOrderByStar() {

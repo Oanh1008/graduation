@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,10 +15,12 @@ import com.spring.carebookie.common.constants.EmployeeStatus;
 import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.LoginRequest;
+import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
+import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.exception.ResourceNotFoundException;
@@ -51,6 +54,7 @@ public class UserService {
     public UserEntity getUserByUserId(String userId) {
         return userRepository.findByUserId(userId);
     }
+
     /**
      * User
      */
@@ -86,6 +90,13 @@ public class UserService {
         return userRepository.save(entity);
     }
 
+    @Transactional
+    public UserEntity updateDoctor(DoctorUpdateInformationDto dto) {
+        userRepository.updateDoctor(dto);
+        return Optional.of(userRepository.findByUserId(dto.getUserId()))
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor {} not found".replace("{}", dto.getUserId())));
+    }
+
     public List<DoctorResponseDto> getDoctorByHospitalId(String hospitalId) {
         Map<String, Double> stars = commonService.getDoctorStar();
         List<UserEntity> entities = userRepository.findAllByHospitalId(hospitalId);
@@ -94,10 +105,18 @@ public class UserService {
                 .map(entity -> USER_MAPPER.convertEntityToDto(entity))
                 .collect(Collectors.toList());
         for (int i = 0; i < entities.size(); i++) {
-            dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()));
-            dtos.get(i).setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
+            dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()) == null ? 0 : stars.get(dtos.get(i).getUserId()));
+            if (dtos.get(i).getKnowledges() != null)
+                dtos.get(i).setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
         }
         return dtos;
+    }
+
+    public DoctorResponseDto getDoctorByDoctorId(String doctorId) {
+        return getAllDoctor().stream()
+                .filter(d -> d.getUserId().equals(doctorId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor {} not found".replace("{}", doctorId)));
     }
 
     public List<DoctorResponseDto> getAllDoctor() {
@@ -110,7 +129,7 @@ public class UserService {
         for (int i = 0; i < entities.size(); i++) {
             DoctorResponseDto dto = dtos.get(i);
             dto.setStar(stars.get(dto.getUserId()));
-            if(entities.get(i).getKnowledge() != null) {
+            if (entities.get(i).getKnowledge() != null) {
                 dto.setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
             }
         }
@@ -119,7 +138,6 @@ public class UserService {
 
         return dtos;
     }
-
 
 
     /**
@@ -137,17 +155,17 @@ public class UserService {
         return userRepository.save(entity);
     }
 
-    public List<?> getAllEmployeeByHospitalId(String hospitalId) {
+    public List<EmployeeResponseDto> getAllEmployeeByHospitalId(String hospitalId) {
         Map<String, Double> stars = commonService.getDoctorStar();
         List<UserEntity> entities = userRepository.findAllEmployeesByHospitalId(hospitalId);
-        List<EmployeeResponseDto> dtos = entities .stream()
+        List<EmployeeResponseDto> dtos = entities.stream()
                 .map(entity -> USER_MAPPER.convertEntityToEDto(entity))
                 .collect(Collectors.toList());
 
         for (int i = 0; i < entities.size(); i++) {
             EmployeeResponseDto dto = dtos.get(i);
             dto.setStar(stars.get(dto.getUserId()));
-            if(entities.get(i).getKnowledge() != null) {
+            if (entities.get(i).getKnowledge() != null) {
                 dto.setKnowledges(Arrays.stream(entities.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
             }
         }
@@ -158,16 +176,30 @@ public class UserService {
     }
 
     /**
+     * Employee
+     */
+    public UserEntity saveEmployee(EmployeeSaveDto dto) {
+
+        UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
+        entity.setUserId(generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail()));
+        entity.setStatus(EmployeeStatus.WORKING.toString());
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        entity.setDisable(false);
+        entity.setRoleId(dto.isDoctor() ? 4L : 3L);
+        return userRepository.save(entity);
+    }
+
+    /**
      * Login
      */
 
     public UserEntity login(LoginRequest loginRequest) {
         UserEntity entity = userRepository.findByPhone(loginRequest.getPhone());
-        if (entity != null && passwordEncoder.matches(loginRequest.getPassword(),entity.getPassword())){
+        if (entity != null && passwordEncoder.matches(loginRequest.getPassword(), entity.getPassword())) {
             return entity;
         }
 
-        throw new ResourceNotFoundException("User {} not found".replace("{}",loginRequest.getPhone()));
+        throw new ResourceNotFoundException("User {} not found".replace("{}", loginRequest.getPhone()));
     }
 
     private List<DoctorGetAllDto> convertProjectionToDto(List<DoctorGetAllProjection> projections) {

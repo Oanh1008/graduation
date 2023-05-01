@@ -22,9 +22,10 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
     public ResponseEntity<ApiErrorResponse> handleAnotherException(Exception e) {
 
+        e.printStackTrace();
         ApiErrorResponse errorResponse = ApiErrorResponse.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message(e.getMessage())
+                .message(e.getLocalizedMessage())
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

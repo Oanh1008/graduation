@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.LoginRequest;
+import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.response.RatingDoctorResponseDto;
@@ -79,7 +80,7 @@ public class CommonController {
 
     @ApiOperation("Get information by doctorId")
     @GetMapping("/doctor/information/{doctorId}")
-    public ResponseEntity<DoctorResponseDto> getDoctorByDoctorId(@PathVariable String doctorId) {
+    public ResponseEntity<DoctorInformationResponseDto> getDoctorByDoctorId(@PathVariable String doctorId) {
         return ResponseEntity.ok(userService.getDoctorByDoctorId(doctorId));
     }
 

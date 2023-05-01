@@ -16,12 +16,15 @@ import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.LoginRequest;
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
+import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
+import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
+import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.UserRepository;
@@ -35,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserService {
 
+    private final HospitalService hospitalService;
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
@@ -112,11 +116,17 @@ public class UserService {
         return dtos;
     }
 
-    public DoctorResponseDto getDoctorByDoctorId(String doctorId) {
-        return getAllDoctor().stream()
+    public DoctorInformationResponseDto getDoctorByDoctorId(String doctorId) {
+        DoctorResponseDto doctorResponseDto = getAllDoctor().stream()
                 .filter(d -> d.getUserId().equals(doctorId))
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor {} not found".replace("{}", doctorId)));
+
+        DoctorInformationResponseDto doctor = USER_MAPPER.convertDtoToDto(doctorResponseDto);
+        HospitalResponseDto hospital = hospitalService.getHospitalByHospitalId(doctor.getHospitalId());
+        doctor.setHospitalName(hospital.getHospitalName());
+        doctor.setHospitalAddress(hospital.getAddress());
+        return doctor;
     }
 
     public List<DoctorResponseDto> getAllDoctor() {

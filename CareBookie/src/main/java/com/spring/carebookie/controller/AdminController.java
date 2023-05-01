@@ -5,21 +5,27 @@ import javax.validation.Valid;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amazonaws.services.mturk.model.transform.ServiceExceptionUnmarshaller;
 import com.spring.carebookie.common.constants.UserRole;
+import com.spring.carebookie.dto.edit.ServiceUpdateDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.HospitalSaveDto;
+import com.spring.carebookie.dto.save.ServiceSaveDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.UserEntity;
+import com.spring.carebookie.service.CommonService;
 import com.spring.carebookie.service.HospitalService;
 import com.spring.carebookie.service.UserService;
 
@@ -34,6 +40,8 @@ public class AdminController {
     private final UserService userService;
 
     private final HospitalService hospitalService;
+
+    private final CommonService commonService;
 
     @ApiOperation("Create a doctor")
     @PostMapping("/create/doctor")
@@ -57,5 +65,24 @@ public class AdminController {
     @GetMapping("/employees/{hospitalId}")
     public ResponseEntity<List<EmployeeResponseDto>> getAllEmployee(@PathVariable String hospitalId) {
         return ResponseEntity.ok(userService.getAllEmployeeByHospitalId(hospitalId));
+    }
+
+    @ApiOperation("Add service")
+    @PostMapping("/service/create")
+    public ResponseEntity<?> createService(@RequestBody ServiceSaveDto dto) {
+        return ResponseEntity.ok(commonService.saveService(dto));
+    }
+
+    @ApiOperation("Delete service by serviceId")
+    @DeleteMapping("/service/delete/{serviceId}")
+    public ResponseEntity<?> deleteService(@PathVariable Long serviceId) {
+        commonService.deleteService(serviceId);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Update service information")
+    @PutMapping("/service/update")
+    public ResponseEntity<?> updateService(@RequestBody ServiceUpdateDto dto) {
+        return ResponseEntity.ok(commonService.updateService(dto));
     }
 }

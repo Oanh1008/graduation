@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.UserService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +46,12 @@ public class DoctorController {
     @PutMapping("/update/information")
     public ResponseEntity<UserEntity> updateInformation(@RequestBody DoctorUpdateInformationDto dto) {
         return ResponseEntity.ok(userService.updateDoctor(dto));
+    }
+
+    @ApiOperation("Update status")
+    @PutMapping("/update/status/{doctorId}")
+    public ResponseEntity<UserEntity> updateStatus(@PathVariable String doctorId, @RequestParam String status) {
+        return ResponseEntity.ok(userService.updateStatus(doctorId, status));
     }
 
 }

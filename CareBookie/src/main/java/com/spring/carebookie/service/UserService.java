@@ -90,7 +90,7 @@ public class UserService {
         entity.setDoctor(true);
         entity.setUserId(generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail()));
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-        entity.setStatus(EmployeeStatus.WORKING.toString());
+        entity.setStatus("Đang làm");
         return userRepository.save(entity);
     }
 
@@ -99,6 +99,13 @@ public class UserService {
         userRepository.updateDoctor(dto);
         return Optional.of(userRepository.findByUserId(dto.getUserId()))
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor {} not found".replace("{}", dto.getUserId())));
+    }
+
+    @Transactional
+    public UserEntity updateStatus(String doctorId, String status) {
+        userRepository.updateStatus(doctorId, status);
+        return Optional.of(userRepository.findByUserId(doctorId))
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor {} not found".replace("{}", doctorId)));
     }
 
     public List<DoctorResponseDto> getDoctorByHospitalId(String hospitalId) {
@@ -161,7 +168,7 @@ public class UserService {
         entity.setRoleId(3L);
         entity.setUserId(generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail()));
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-        entity.setStatus(EmployeeStatus.WORKING.toString());
+        entity.setStatus("Đang làm");
         return userRepository.save(entity);
     }
 
@@ -192,7 +199,7 @@ public class UserService {
 
         UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
         entity.setUserId(generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail()));
-        entity.setStatus(EmployeeStatus.WORKING.toString());
+        entity.setStatus("Đang làm");
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         entity.setDisable(false);
         entity.setRoleId(dto.isDoctor() ? 4L : 3L);
@@ -200,9 +207,10 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteEmployee(String employeeId ){
+    public void deleteEmployee(String employeeId) {
         userRepository.deleteByUserId(employeeId);
     }
+
     /**
      * Login
      */
@@ -248,4 +256,6 @@ public class UserService {
         return firstName.toCharArray()[0] + String.valueOf(lastName.toCharArray()[0]) + email.split("@")[0];
 
     }
+
+
 }

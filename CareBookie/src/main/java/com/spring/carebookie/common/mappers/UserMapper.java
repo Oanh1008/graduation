@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import com.spring.carebookie.dto.DoctorGetAllDto;
+import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
@@ -33,5 +34,7 @@ public interface UserMapper {
     EmployeeResponseDto convertEntityToEDto(UserEntity entity);
 
     UserEntity convertSaveToEntity(EmployeeSaveDto dto);
+
+    DoctorInformationResponseDto convertDtoToDto(DoctorResponseDto dto);
 
 }

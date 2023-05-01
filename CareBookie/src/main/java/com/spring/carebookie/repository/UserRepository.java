@@ -53,6 +53,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             " u.information = :#{#dto.information}, u.status = :#{#dto.status} where u.userId = :#{#dto.userId} and u.isDoctor = true")
     void updateDoctor(@Param("dto") DoctorUpdateInformationDto dto);
 
+    @Modifying
+    @Query(" update UserEntity u set u.status = :status where u.userId = :doctorId ")
+    void updateStatus(String doctorId,String status);
+
     /**
      * Employee
      */

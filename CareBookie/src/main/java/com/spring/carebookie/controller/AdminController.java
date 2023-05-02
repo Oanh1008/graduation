@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amazonaws.services.mturk.model.transform.ServiceExceptionUnmarshaller;
-import com.spring.carebookie.common.constants.UserRole;
 import com.spring.carebookie.dto.edit.ServiceUpdateDto;
+import com.spring.carebookie.dto.edit.WorkingDayDetailEditDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.EmployeeSaveDto;
-import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.dto.save.ServiceSaveDto;
-import com.spring.carebookie.dto.save.UserSaveDto;
+import com.spring.carebookie.dto.save.WorkingDayDetailDto;
 import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserEntity;
+import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 import com.spring.carebookie.service.CommonService;
 import com.spring.carebookie.service.HospitalService;
 import com.spring.carebookie.service.UserService;
@@ -92,4 +91,20 @@ public class AdminController {
     public ResponseEntity<ServiceEntity> updateService(@RequestBody ServiceUpdateDto dto) {
         return ResponseEntity.ok(commonService.updateService(dto));
     }
+
+    // TODO add workingDays api
+
+    @ApiOperation("Add working day detail of hospital")
+    @PostMapping("/working-day/{hospitalId}")
+    public ResponseEntity<List<WorkingDayDetailsEntity>> addWorkingDayDetails(@PathVariable String hospitalId,
+                                                                              @RequestBody List<WorkingDayDetailDto> dtos) {
+        return ResponseEntity.ok(commonService.saveWorkingDayDetail(hospitalId, dtos));
+    }
+
+    @ApiOperation("Update information woring day of hospital by id")
+    @PutMapping("/working-day/{hospitalId}")
+    public ResponseEntity<WorkingDayDetailsEntity> updateWorkingDayDetai(@PathVariable String hospitalId, @RequestBody WorkingDayDetailEditDto dto) {
+        return ResponseEntity.ok(commonService.updateWorkingDay(hospitalId,dto));
+    }
+
 }

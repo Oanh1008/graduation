@@ -3,6 +3,7 @@ package com.spring.carebookie.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -25,4 +26,10 @@ public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> 
     @Query(value = HospitalSql.GET_ALL_SERVICE_BY_HOSPITAL_ID, nativeQuery = true)
     List<ServiceByHospitalIdProjection> getAllServiceByHospitalId(@Param("hospitalId") String hospitalId);
 
+    @Modifying
+    @Query(" update HospitalEntity h set h.status = true where h.hospitalId = :hospitalId ")
+    void acceptHospital(String hospitalId);
+
+    @Query("select h from HospitalEntity h where h.hospitalId in (:hospitalIds)")
+    List<HospitalEntity> getAllByHospitalId(List<String> hospitalIds);
 }

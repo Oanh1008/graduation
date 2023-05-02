@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import com.spring.carebookie.dto.HospitalGetAllDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
+import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.ServiceRepository;
 import com.spring.carebookie.repository.UserRepository;
@@ -25,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class HospitalService {
+
+    private final PasswordEncoder passwordEncoder;
 
     private final HospitalRepository hospitalRepository;
 
@@ -70,11 +74,30 @@ public class HospitalService {
         HospitalEntity entity = HOSPITAL_MAPPER.convertSaveDtoToEntity(dto);
 
         entity.setHospitalId(generateHospitalId(entity.getHospitalName()));
-        entity.setStatus(false);
+        entity.setStatus(true); // Accept working
+
+        // Create an account for this hospital
+        UserEntity admin = new UserEntity();
+        admin.setFirstName(dto.getFirstName());
+        admin.setLastName(dto.getLastName());
+        admin.setUserId(generateUserId(dto.getFirstName(),dto.getLastName(),dto.getEmail()));
+        admin.setRoleId(2L);
+        admin.setEmail(dto.getEmail());
+        admin.setPhone(dto.getPhone());
+        admin.setPassword(passwordEncoder.encode(dto.getPassword()));
+        admin.setHospitalId(entity.getHospitalId());
+        UserEntity adminSave = userRepository.save(admin);
 
         log.info("Finished save {} hospital into database", entity.getHospitalName());
+        entity.setAdminId(adminSave.getUserId());
         return hospitalRepository.save(entity);
 
+    }
+
+    @Transactional
+    public HospitalResponseDto acceptHospital(String hospitalId) {
+        hospitalRepository.acceptHospital(hospitalId);
+        return getHospitalByHospitalId(hospitalId);
     }
 
     private String generateHospitalId(String hospitalName) {
@@ -88,4 +111,19 @@ public class HospitalService {
                 .append(random.nextInt(10)).append(random.nextInt(10)));
         return builder.toString();
     }
+    /**
+     * Generate userId <br>
+     * Example: firstName = "Oanh", lastName = "Pham Van", email = "poanh1002@gmail.com" <br>
+     * Result is "OPpoanh1002"
+     *
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @return String
+     */
+    private String generateUserId(String firstName, String lastName, String email) {
+        return firstName.toCharArray()[0] + String.valueOf(lastName.toCharArray()[0]) + email.split("@")[0];
+
+    }
+
 }

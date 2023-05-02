@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
@@ -27,7 +30,7 @@ public class SupperAdminController {
 
     private final UserService userService;
 
-    @ApiOperation("Create an account for hospital")
+    @ApiOperation("Create an hospital")
     @PostMapping("/hospital/save")
     public ResponseEntity<HospitalEntity> save(@RequestBody HospitalSaveDto dto) {
         return ResponseEntity.ok(hospitalService.saveHospital(dto));
@@ -43,5 +46,11 @@ public class SupperAdminController {
     @GetMapping("/users/patient")
     public ResponseEntity<List<UserEntity>> getAllPatients() {
         return ResponseEntity.ok( userService.getAllPatients());
+    }
+
+    @ApiOperation("Accept the hospital working")
+    @PutMapping("/hospital/accept/{hospitalId}")
+    public ResponseEntity<HospitalResponseDto> acceptHospital(@PathVariable String hospitalId) {
+        return ResponseEntity.ok(hospitalService.acceptHospital(hospitalId));
     }
 }

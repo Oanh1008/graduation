@@ -17,7 +17,6 @@ import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.UserService;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 

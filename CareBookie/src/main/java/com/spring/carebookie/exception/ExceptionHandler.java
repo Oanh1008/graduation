@@ -19,6 +19,26 @@ public class ExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = {BookDateNotValidException.class})
+    public ResponseEntity<ApiErrorResponse> handleBookDateNotValid(BookDateNotValidException e) {
+
+        ApiErrorResponse errorResponse = ApiErrorResponse.builder()
+                .code(HttpStatus.NOT_ACCEPTABLE.value())
+                .message(e.getMessage())
+                .build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = {ExistedResourceException.class})
+    public ResponseEntity<ApiErrorResponse> handleBookDateNotValid(ExistedResourceException e) {
+
+        ApiErrorResponse errorResponse = ApiErrorResponse.builder()
+                .code(HttpStatus.NOT_ACCEPTABLE.value())
+                .message(e.getMessage())
+                .build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
+    }
+
     @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
     public ResponseEntity<ApiErrorResponse> handleAnotherException(Exception e) {
 

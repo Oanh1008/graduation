@@ -1,6 +1,9 @@
 package com.spring.carebookie.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -8,29 +11,43 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.carebookie.common.mappers.HospitalMapper;
 import com.spring.carebookie.common.mappers.RatingDoctorMapper;
 import com.spring.carebookie.common.mappers.RatingHospitalMapper;
 import com.spring.carebookie.common.mappers.ServiceMapper;
 import com.spring.carebookie.common.mappers.UserMapper;
+import com.spring.carebookie.common.mappers.WorkingDayDetailMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.HospitalGetAllDto;
 import com.spring.carebookie.dto.SearchHomeDto;
 import com.spring.carebookie.dto.edit.ServiceUpdateDto;
+import com.spring.carebookie.dto.edit.WorkingDayDetailEditDto;
+import com.spring.carebookie.dto.response.DoctorAndFavouriteResponseDto;
+import com.spring.carebookie.dto.response.DoctorResponseDto;
+import com.spring.carebookie.dto.response.HospitalAndFavouriteResponseDto;
+import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.response.RatingDoctorResponseDto;
 import com.spring.carebookie.dto.response.RatingHospitalResponseDto;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
 import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
 import com.spring.carebookie.dto.save.ServiceSaveDto;
+import com.spring.carebookie.dto.save.WorkingDayDetailDto;
+import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.RatingDoctorEntity;
 import com.spring.carebookie.entity.RatingHospitalEntity;
 import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserEntity;
+import com.spring.carebookie.entity.UserFavoriteDoctorEntity;
+import com.spring.carebookie.entity.UserFavoriteHospitalEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
+import com.spring.carebookie.exception.ExistedResourceException;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.RatingDoctorRepository;
 import com.spring.carebookie.repository.RatingHospitalRepository;
 import com.spring.carebookie.repository.ServiceRepository;
+import com.spring.carebookie.repository.UserFavouriteDoctorRepository;
+import com.spring.carebookie.repository.UserFavouriteHospitalRepository;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.WorkingDayDetailsRepository;
 
@@ -53,6 +70,12 @@ public class CommonService {
 
     private final WorkingDayDetailsRepository workingDayDetailsRepository;
 
+    private final UserFavouriteDoctorRepository userFavouriteDoctorRepository;
+
+    private final UserFavouriteHospitalRepository userFavouriteHospitalRepository;
+
+    private static final HospitalMapper HOSPITAL_MAPPER = HospitalMapper.INSTANCE;
+
     private static final UserMapper USER_MAPPER = UserMapper.INSTANCE;
 
     private static final RatingDoctorMapper RATING_DOCTOR_MAPPER = RatingDoctorMapper.INSTANCE;
@@ -60,6 +83,8 @@ public class CommonService {
     private static final RatingHospitalMapper RATING_HOSPITAL_MAPPER = RatingHospitalMapper.INSTANCE;
 
     private static final ServiceMapper SERVICE_MAPPER = ServiceMapper.INSTANCE;
+
+    private static final WorkingDayDetailMapper WORKING_DAY_DETAIL_MAPPER = WorkingDayDetailMapper.INSTANCE;
 
     public SearchHomeDto searchByKey(String key) {
         if (StringUtil.isNullOrEmpty(key)) key = null;
@@ -165,6 +190,112 @@ public class CommonService {
         return serviceRepository.findById(dto.getServiceId()).orElseThrow(() ->
                 new ResourceNotFoundException("Service {} not found".replace("{}", dto.getServiceId().toString())));
     }
+
+    /**
+     * WorkingDayDetail
+     */
+    @Transactional
+    public List<WorkingDayDetailsEntity> saveWorkingDayDetail(String hospitalId, List<WorkingDayDetailDto> dayDetailDtos) {
+        List<WorkingDayDetailsEntity> entities = WORKING_DAY_DETAIL_MAPPER.convertSaveDtosToEntities(dayDetailDtos);
+        entities.forEach(w -> w.setHospitalId(hospitalId));
+        return workingDayDetailsRepository.saveAll(entities);
+    }
+
+    @Transactional
+    public WorkingDayDetailsEntity updateWorkingDay(String hospitalId, WorkingDayDetailEditDto dto) {
+        workingDayDetailsRepository.updateWorkingDay(hospitalId, dto.getId(), dto.getStartHour(), dto.getEndHour());
+        return workingDayDetailsRepository.findById(dto.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("Working day {} not found".replace("{}", dto.getId().toString()))
+        );
+    }
+
+    /**
+     * Favourite
+     */
+
+    @Transactional
+    public UserFavoriteDoctorEntity createDoctorFavourite(String userId, String doctorId) {
+        // Check condition
+        if (userFavouriteDoctorRepository.existsByDoctorIdAndUserId(doctorId, userId)) {
+            throw new ExistedResourceException("The doctor {} is favourite before".replace("{}", doctorId));
+        }
+        return userFavouriteDoctorRepository.save(new UserFavoriteDoctorEntity(null, userId, doctorId));
+    }
+
+    @Transactional
+    public void deleteDoctorFavourite(Long id) {
+        userFavouriteDoctorRepository.deleteById(id);
+    }
+
+    @Transactional
+    public UserFavoriteHospitalEntity createHospitalFavourite(String userId, String hospitalId) {
+        if (userFavouriteHospitalRepository.existsByHospitalIdAndUserId(hospitalId, userId)) {
+            throw new ExistedResourceException("The hospital {} is favourite before".replace("{}", hospitalId));
+        }
+        return userFavouriteHospitalRepository.save(new UserFavoriteHospitalEntity(null, userId, hospitalId));
+    }
+
+    @Transactional
+    public void deleteHospitalFavourite(Long id) {
+        userFavouriteHospitalRepository.deleteById(id);
+    }
+
+    public List<DoctorAndFavouriteResponseDto> getAllFavouriteDoctorByUserId(String userId) {
+
+        Map<String, Double> stars = getDoctorStar();
+
+        List<String> doctorId = userFavouriteDoctorRepository.getAllFavouriteDoctorIdByUserId(userId);
+        List<Long> favouriteId = userFavouriteDoctorRepository.getAllFavouriteIdByUserId(userId);
+        List<UserEntity> doctor = new ArrayList<>();
+        doctor.addAll(doctorId.stream()
+                .map(d -> userRepository.findByUserId(d))
+                .collect(Collectors.toList()));
+        List<DoctorResponseDto> dtos = doctor
+                .stream()
+                .map(entity -> USER_MAPPER.convertEntityToDto(entity))
+                .collect(Collectors.toList());
+        for (int i = 0; i < doctor.size(); i++) {
+            dtos.get(i).setStar(stars.get(dtos.get(i).getUserId()) == null ? 0 : stars.get(dtos.get(i).getUserId()));
+            if (doctor.get(i).getKnowledge() != null)
+                dtos.get(i).setKnowledges(Arrays.stream(doctor.get(i).getKnowledge().split(",")).collect(Collectors.toList()));
+        }
+
+        List<DoctorAndFavouriteResponseDto> result = new ArrayList<>();
+
+        for (int i = 0; i < favouriteId.size(); i++) {
+            result.add(new DoctorAndFavouriteResponseDto(dtos.get(i), favouriteId.get(i)));
+        }
+        return result;
+
+    }
+
+    public List<HospitalAndFavouriteResponseDto> getAllFavouriteHospitalByUserId(String userId) {
+        Map<String, Double> stars = getHospitalStar();
+
+        List<Long> favouriteId = userFavouriteHospitalRepository.getAllFavouriteIdByUserId(userId);
+
+        List<String> hospitalIds = userFavouriteHospitalRepository.getAllFavouriteHospitalIdByUserId(userId);
+
+        List<HospitalEntity> hospitalEntities = hospitalRepository.getAllByHospitalId(hospitalIds);
+
+        List<HospitalResponseDto> dtos = HOSPITAL_MAPPER.convertEntitiesToDtos(hospitalEntities);
+        dtos.forEach(dto -> {
+            dto.setStar(stars.get(dto.getHospitalId()) == null ? 0 : stars.get(dto.getHospitalId()));
+            dto.setServices(getAllServiceByHospitalId(dto.getHospitalId()));
+            dto.setWorkingDayDetails(getAllWorkingDayDetailByHospitalId(dto.getHospitalId()));
+            dto.setAdminInformation(userRepository.findByUserId(dto.getAdminId()));
+        });
+        dtos.sort(Comparator.nullsLast(Comparator.comparing(HospitalResponseDto::getStar,
+                Comparator.nullsFirst(Double::compareTo)).reversed()));
+
+        List<HospitalAndFavouriteResponseDto> result = new ArrayList<>();
+
+        for (int i = 0; i < favouriteId.size(); i++) {
+            result.add(new HospitalAndFavouriteResponseDto(dtos.get(i), favouriteId.get(i)));
+        }
+        return result;
+    }
+
 
     /**
      * Private

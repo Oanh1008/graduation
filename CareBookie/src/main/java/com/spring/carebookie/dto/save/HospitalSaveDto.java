@@ -1,5 +1,7 @@
 package com.spring.carebookie.dto.save;
 
+import javax.validation.constraints.NotBlank;
+
 import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
@@ -13,9 +15,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HospitalSaveDto {
 
+    @NotBlank
     private String hospitalName;
-
-    private String adminId;
 
     private Boolean isRate;
 
@@ -32,4 +33,19 @@ public class HospitalSaveDto {
     private String information;
 
     private String imageUrl;
+
+    @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
+
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String phone;
+
+    @NotBlank
+    private String password;
 }

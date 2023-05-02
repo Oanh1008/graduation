@@ -39,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
     private final HospitalService hospitalService;
+
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
@@ -256,6 +257,5 @@ public class UserService {
         return firstName.toCharArray()[0] + String.valueOf(lastName.toCharArray()[0]) + email.split("@")[0];
 
     }
-
 
 }

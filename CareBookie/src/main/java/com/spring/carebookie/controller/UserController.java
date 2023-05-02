@@ -1,20 +1,32 @@
 package com.spring.carebookie.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.edit.BookCancelDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
+import com.spring.carebookie.dto.response.DoctorAndFavouriteResponseDto;
+import com.spring.carebookie.dto.response.DoctorResponseDto;
+import com.spring.carebookie.dto.response.HospitalAndFavouriteResponseDto;
+import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
 import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
 import com.spring.carebookie.entity.RatingDoctorEntity;
 import com.spring.carebookie.entity.RatingHospitalEntity;
+import com.spring.carebookie.entity.UserFavoriteDoctorEntity;
+import com.spring.carebookie.entity.UserFavoriteHospitalEntity;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.CommonService;
 
@@ -53,5 +65,49 @@ public class UserController {
     @PutMapping("/book/cancel")
     public ResponseEntity<BookResponseDto> cancelBook(@RequestBody BookCancelDto dto) {
         return ResponseEntity.ok(bookService.cancelBook(dto));
+    }
+
+    @ApiOperation("Get all book with status with pending, cancel, accept, confirm from this day to future")
+    @GetMapping("/books/{userId}")
+    public ResponseEntity<List<BookResponseDto>> getAllBookByUserId(@PathVariable String userId) {
+        return ResponseEntity.ok(bookService.getAllBookByUserId(userId));
+    }
+
+    @ApiOperation("Create an favourite doctor for user")
+    @PostMapping("/doctor/favourite/{userId}")
+    public ResponseEntity<UserFavoriteDoctorEntity> createDoctorFavourite(@PathVariable String userId, @RequestParam String doctorId) {
+        return ResponseEntity.ok(commonService.createDoctorFavourite(userId,doctorId));
+    }
+
+    @ApiOperation("Create an favourite hospital for user")
+    @PostMapping("/hospital/favourite/{userId}")
+    public ResponseEntity<UserFavoriteHospitalEntity> createHospitalFavourite(@PathVariable String userId, @RequestParam String hospitalId) {
+        return ResponseEntity.ok(commonService.createHospitalFavourite(userId,hospitalId));
+    }
+
+    @ApiOperation("Delete an favourite doctor for user")
+    @DeleteMapping("/doctor/favourite")
+    public ResponseEntity<?> deleteDoctorFavourite(@RequestParam Long id) {
+        commonService.deleteDoctorFavourite(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Delete an favourite doctor for user")
+    @DeleteMapping("/hospital/favourite")
+    public ResponseEntity<?> deleteHospitalFavourite(@RequestParam Long id) {
+        commonService.deleteHospitalFavourite(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Get all doctor favourite by doctorId")
+    @GetMapping("/doctor/favourite/{userId}")
+    public ResponseEntity<List<DoctorAndFavouriteResponseDto>> getAllDoctorFavourite(@PathVariable String userId) {
+        return ResponseEntity.ok(commonService.getAllFavouriteDoctorByUserId(userId));
+    }
+
+    @ApiOperation("Get all doctor favourite by doctorId")
+    @GetMapping("/hospital/favourite/{userId}")
+    public ResponseEntity<List<HospitalAndFavouriteResponseDto>> getAllHospitalFavourite(@PathVariable String userId) {
+        return ResponseEntity.ok(commonService.getAllFavouriteHospitalByUserId(userId));
     }
 }

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +19,9 @@ import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.entity.BookEntity;
 import com.spring.carebookie.entity.InvoiceEntity;
 import com.spring.carebookie.entity.InvoiceShareEntity;
-import com.spring.carebookie.entity.MedicineEntity;
 import com.spring.carebookie.entity.ServiceBookEntity;
 import com.spring.carebookie.entity.ServiceEntity;
+import com.spring.carebookie.exception.BookDateNotValidException;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.BookRepository;
 import com.spring.carebookie.repository.InvoiceMedicineRepository;
@@ -61,6 +60,9 @@ public class BookService {
     @Transactional
     public BookResponseDto saveBook(BookSaveDto dto) {
 
+        if (dto.getDateExamination().isBefore(LocalDate.now())) {
+            throw new BookDateNotValidException("The date " + dto.getDateExamination() + " is not before now");
+        }
         BookEntity entity = BOOK_MAPPER.convertSaveDtoToEntity(dto);
         entity.setStatus(BookStatus.PENDING.toString());
         entity.setDateTimeBook(LocalDateTime.now());
@@ -100,22 +102,21 @@ public class BookService {
 
     @Transactional
     public BookEntity acceptBook(BookAcceptDto dto) {
-        bookRepository.acceptBook(dto.getBookId(),dto.getDoctorId(), dto.getDate(),dto.getDateExamination(), dto.getSession());
-        BookEntity bookEntity = bookRepository.findById(dto.getBookId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
-                                .replace("{}",dto.getBookId().toString())));
-
-        return bookEntity;
+        bookRepository.acceptBook(dto.getBookId(), dto.getDoctorId(), dto.getDate(), dto.getDateExamination(), dto.getSession());
+        return bookRepository.findById(dto.getBookId())
+                .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
+                        .replace("{}", dto.getBookId().toString())));
     }
 
     @Transactional
     public BookEntity confirmBook(Long bookId) {
-        bookRepository.confirmBook(bookId);
-        BookEntity bookEntity = bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
-                        .replace("{}",bookId.toString())));
 
-        return bookEntity;
+        // TODO create an invoice for bookId
+
+        bookRepository.confirmBook(bookId);
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
+                        .replace("{}", bookId.toString())));
     }
 
     @Transactional
@@ -162,6 +163,31 @@ public class BookService {
         return getAllBookByStatus(bookEntities);
     }
 
+    public List<BookResponseDto> getAllBookPendingByHospitalId(String hospitalId) {
+        List<BookEntity> bookEntities = bookRepository.getAllBookPendingByHospitalId(hospitalId);
+        return getAllBookByStatus(bookEntities);
+    }
+
+    public List<BookResponseDto> getAllBookAcceptByHospitalId(String hospitalId) {
+        List<BookEntity> bookEntities = bookRepository.getAllBookAcceptByHospitalId(hospitalId);
+        return getAllBookByStatus(bookEntities);
+    }
+
+    public List<BookResponseDto> getAllBookCancelByHospitalId(String hospitalId) {
+        List<BookEntity> bookEntities = bookRepository.getAllBookCancelByHospitalId(hospitalId);
+        return getAllBookByStatus(bookEntities);
+    }
+
+    public List<BookResponseDto> getAllBookConfirmByHospitalId(String hospitalId) {
+        List<BookEntity> bookEntities = bookRepository.getAllBookConfirmByHospitalId(hospitalId);
+        return getAllBookByStatus(bookEntities);
+    }
+
+    public List<BookResponseDto> getAllBookByUserId(String userId) {
+        List<BookEntity> bookEntities = bookRepository.getAllBookByUserId(userId);
+        return getAllBookByStatus(bookEntities);
+    }
+
     /**
      * All status
      *
@@ -172,7 +198,7 @@ public class BookService {
         List<BookResponseDto> bookResponseDtos = new ArrayList<>();
 
         // ignore book date after date now
-        bookEntities.removeIf(b ->b.getDateExamination().isBefore(LocalDate.now()));
+        bookEntities.removeIf(b -> b.getDateExamination().isBefore(LocalDate.now()));
 
         bookEntities.forEach(b -> {
             List<Long> serviceBookIds = bookRepository.getServiceIdsByBookId(b.getId());

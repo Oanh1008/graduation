@@ -63,6 +63,13 @@ public class HospitalService {
         return dtos;
     }
 
+    public List<HospitalResponseDto> getHospitalByDistrict(String district) {
+        return getAllHospitals()
+                .stream()
+                .filter(h -> h.getAddress().toLowerCase().contains(district.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
     public HospitalResponseDto getHospitalByHospitalId(String hospitalId) {
         return getAllHospitals().stream()
                 .filter(dto -> dto.getHospitalId().equals(hospitalId))
@@ -71,6 +78,9 @@ public class HospitalService {
 
     @Transactional
     public HospitalEntity saveHospital(HospitalSaveDto dto) {
+        if (dto.getAddress() == null) {
+            dto.setAddress("");
+        }
 
         HospitalEntity entity = HOSPITAL_MAPPER.convertSaveDtoToEntity(dto);
 

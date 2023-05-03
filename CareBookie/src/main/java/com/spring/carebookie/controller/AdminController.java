@@ -109,7 +109,7 @@ public class AdminController {
     }
 
     // TODO
-    @ApiOperation("Setting profile hopsital")
+    @ApiOperation("Setting profile hospital")
     @PutMapping("/setting/profile")
     public ResponseEntity<?> settingProfile(@RequestBody HospitalSettingProfileDto dto) {
         return ResponseEntity.ok(hospitalService.settingProfile(dto));

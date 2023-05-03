@@ -19,7 +19,10 @@ import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.common.mappers.WorkingDayDetailMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.HospitalGetAllDto;
+import com.spring.carebookie.dto.SearchHomeDoctorResponse;
 import com.spring.carebookie.dto.SearchHomeDto;
+import com.spring.carebookie.dto.SearchHomeHospitalResponse;
+import com.spring.carebookie.dto.SearchHomeResponse;
 import com.spring.carebookie.dto.edit.ServiceUpdateDto;
 import com.spring.carebookie.dto.edit.WorkingDayDetailEditDto;
 import com.spring.carebookie.dto.response.DoctorAndFavouriteResponseDto;
@@ -85,6 +88,21 @@ public class CommonService {
     private static final ServiceMapper SERVICE_MAPPER = ServiceMapper.INSTANCE;
 
     private static final WorkingDayDetailMapper WORKING_DAY_DETAIL_MAPPER = WorkingDayDetailMapper.INSTANCE;
+
+    public SearchHomeResponse searchHomeByKey(String key) {
+        List<SearchHomeHospitalResponse> hospitals =
+                hospitalRepository.searchByKey(key)
+                        .stream()
+                        .map(o -> new SearchHomeHospitalResponse(o.getId(), o.getName(), o.getImageUrl()))
+                        .collect(Collectors.toList());
+
+        List<SearchHomeDoctorResponse> doctors =
+                userRepository.searchByKey(key)
+                        .stream()
+                        .map(o -> new SearchHomeDoctorResponse(o.getId(), o.getName(), o.getImageUrl()))
+                        .collect(Collectors.toList());
+        return new SearchHomeResponse(hospitals, doctors);
+    }
 
     public SearchHomeDto searchByKey(String key) {
         if (StringUtil.isNullOrEmpty(key)) key = null;

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.LoginRequest;
+import com.spring.carebookie.dto.SearchHomeResponse;
 import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
@@ -38,8 +39,17 @@ public class CommonController {
 
     private final UserService userService;
 
-    public ResponseEntity<?> searchHome(@RequestParam String key) {
-        return null;
+    @ApiOperation("Search home, response will be list of hospital(search by hospitalName and hospitalService) " +
+            "and list of doctor (doctorName or speciality)")
+    @GetMapping("/search/home")
+    public ResponseEntity<SearchHomeResponse> searchHome(@RequestParam String key) {
+        return ResponseEntity.ok(commonService.searchHomeByKey(key));
+    }
+
+    @ApiOperation("Search hospital by district")
+    @GetMapping("/search/district")
+    public ResponseEntity<List<HospitalResponseDto>> getHospitalByDistrict(@RequestParam String district){
+        return ResponseEntity.ok(hospitalService.getHospitalByDistrict(district));
     }
 
     @ApiOperation("Get all hospital include {star, services, workingDayDetails}")
@@ -107,4 +117,7 @@ public class CommonController {
     public ResponseEntity<UserEntity> getUserInformation(@PathVariable String userId) {
         return ResponseEntity.ok(userService.getUserByUserId(userId));
     }
+
+    // TODO home search
+    // GetALlHospital search by district
 }

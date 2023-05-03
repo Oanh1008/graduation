@@ -10,10 +10,18 @@ import org.springframework.data.repository.query.Param;
 import com.spring.carebookie.dto.edit.HospitalSettingProfileDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.repository.projection.HospitalGetAllProjection;
+import com.spring.carebookie.repository.projection.SearchByKeyProjection;
 import com.spring.carebookie.repository.projection.ServiceByHospitalIdProjection;
 import com.spring.carebookie.repository.sql.HospitalSql;
 
 public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> {
+
+    @Query(value = "select distinct h.hospital_id id, h.hospital_name name, h.image_url imageUrl\n" +
+            "from hospital h \n" +
+            "join service s on h.hospital_id = s.hospital_id \n" +
+            "where lower(h.hospital_name) like lower(concat('%',:key,'%')) \n" +
+            "or lower(s.service_name) like lower(concat('%',:key,'%'));", nativeQuery = true)
+    List<SearchByKeyProjection> searchByKey(String key);
 
     @Query(value = HospitalSql.GET_ALL_HOSPITAL, nativeQuery = true)
     List<HospitalGetAllProjection> getAllHospital();
@@ -36,7 +44,7 @@ public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> 
 
     @Modifying
     @Query("update HospitalEntity h set h.information = :#{#dto.information}," +
-            " h.status = :#{#dto.status}, h.address = :#{#dto.address} , h.priceTo = :#{#dto.priceTo}," +
+            " h.address = :#{#dto.address} , h.priceTo = :#{#dto.priceTo}," +
             " h.priceFrom = :#{#dto.priceFrom} , h.isPublicPrice = :#{#dto.isPublicPrice} ," +
             " h.isChoosenDoctor = :#{#dto.getIsChoosenDoctor} , h.isRate = :#{#dto.getIsRate()}," +
             " h.imageUrl = :#{#dto.imageUrl} where h.hospitalId = :#{#dto.hospitalId}")

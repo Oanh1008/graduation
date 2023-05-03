@@ -11,9 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
+import com.spring.carebookie.repository.projection.SearchByKeyProjection;
 import com.spring.carebookie.repository.sql.UserSql;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
+    @Query(value = "select distinct u.user_id id, concat(u.last_name, ' ' , u.first_name) as name, u.image_url imageUrl\n" +
+            "from user u\n" +
+            "where u.is_doctor = true\n" +
+            "and (lower(concat(u.last_name,' ',u.first_name)) like lower(concat('%',:key,'%'))\n" +
+            "or lower(u.speciality) like lower(concat('%',:key,'%')))",nativeQuery = true)
+    List<SearchByKeyProjection> searchByKey(String key);
 
     @Query(value = UserSql.GET_ALL_DOCTORS, nativeQuery = true)
     List<DoctorGetAllProjection> getAllDoctors();

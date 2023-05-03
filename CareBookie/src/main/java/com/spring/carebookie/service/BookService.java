@@ -3,8 +3,10 @@ package com.spring.carebookie.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.ResourceAccessException;
@@ -21,6 +23,7 @@ import com.spring.carebookie.entity.InvoiceEntity;
 import com.spring.carebookie.entity.InvoiceShareEntity;
 import com.spring.carebookie.entity.ServiceBookEntity;
 import com.spring.carebookie.entity.ServiceEntity;
+import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.exception.BookDateNotValidException;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.BookRepository;
@@ -31,6 +34,7 @@ import com.spring.carebookie.repository.InvoiceShareRepository;
 import com.spring.carebookie.repository.MedicineRepository;
 import com.spring.carebookie.repository.ServiceBookRepository;
 import com.spring.carebookie.repository.ServiceRepository;
+import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.projection.InvoiceMedicineAmountProjection;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +42,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BookService {
+
+    private final UserRepository userRepository;
 
     private final BookRepository bookRepository;
 
@@ -223,7 +229,21 @@ public class BookService {
                 });
             }
 
-            bookResponseDtos.add(new BookResponseDto(b, serviceBooks, invoiceResponseDtos));
+            BookResponseDto bookResponseDto = new BookResponseDto(b, serviceBooks, invoiceResponseDtos);
+            UserEntity doctor = userRepository.findByUserId(b.getDoctorId());
+            String doctorName = doctor.getLastName() + " " + doctor.getFirstName();
+            UserEntity patient = userRepository.findByUserId(b.getUserId());
+            String fullName = patient.getLastName() + " " + patient.getFirstName();
+
+            bookResponseDto.setDoctorName(doctorName);
+            bookResponseDto.setFullName(fullName);
+            bookResponseDto.setUserId(b.getUserId());
+            bookResponseDto.setGender(patient.getGender());
+            bookResponseDto.setAddress(patient.getAddress());
+            String[] bd =  patient.getBirthDay().split("-");
+            int year = LocalDate.now().getYear() - Integer.parseInt(bd[2]);
+            bookResponseDto.setAge(year);
+            bookResponseDtos.add(bookResponseDto);
         });
 
         return bookResponseDtos;

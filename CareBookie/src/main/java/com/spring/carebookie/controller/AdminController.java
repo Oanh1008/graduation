@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.edit.HospitalSettingProfileDto;
 import com.spring.carebookie.dto.edit.ServiceUpdateDto;
 import com.spring.carebookie.dto.edit.WorkingDayDetailEditDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
@@ -101,10 +102,17 @@ public class AdminController {
         return ResponseEntity.ok(commonService.saveWorkingDayDetail(hospitalId, dtos));
     }
 
-    @ApiOperation("Update information woring day of hospital by id")
+    @ApiOperation("Update information working day of hospital by id")
     @PutMapping("/working-day/{hospitalId}")
     public ResponseEntity<WorkingDayDetailsEntity> updateWorkingDayDetai(@PathVariable String hospitalId, @RequestBody WorkingDayDetailEditDto dto) {
         return ResponseEntity.ok(commonService.updateWorkingDay(hospitalId,dto));
+    }
+
+    // TODO
+    @ApiOperation("Setting profile hopsital")
+    @PutMapping("/setting/profile")
+    public ResponseEntity<?> settingProfile(@RequestBody HospitalSettingProfileDto dto) {
+        return ResponseEntity.ok(hospitalService.settingProfile(dto));
     }
 
 }

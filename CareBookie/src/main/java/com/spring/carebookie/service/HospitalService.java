@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.carebookie.common.mappers.HospitalMapper;
 import com.spring.carebookie.dto.HospitalGetAllDto;
+import com.spring.carebookie.dto.edit.HospitalSettingProfileDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.save.HospitalSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
@@ -98,6 +99,12 @@ public class HospitalService {
     public HospitalResponseDto acceptHospital(String hospitalId) {
         hospitalRepository.acceptHospital(hospitalId);
         return getHospitalByHospitalId(hospitalId);
+    }
+
+    @Transactional
+    public HospitalResponseDto settingProfile(HospitalSettingProfileDto dto) {
+        hospitalRepository.settingProfile(dto);
+        return getHospitalByHospitalId(dto.getHospitalId());
     }
 
     private String generateHospitalId(String hospitalName) {

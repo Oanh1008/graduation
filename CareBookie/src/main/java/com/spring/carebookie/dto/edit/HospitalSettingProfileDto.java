@@ -29,8 +29,6 @@ public class HospitalSettingProfileDto {
 
     private BigDecimal priceTo;
 
-    private boolean status;
-
     private String information;
 
     private String imageUrl;

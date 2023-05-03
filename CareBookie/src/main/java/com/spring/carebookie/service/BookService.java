@@ -76,7 +76,7 @@ public class BookService {
         List<ServiceEntity> serviceBooks = new ArrayList<>();
         //add service in
         List<ServiceBookEntity> serviceBookEntities = new ArrayList<>();
-        if (dto.getServices().size() > 0) {
+        if (dto.getServices() != null && dto.getServices().size() > 0) {
             dto.getServices()
                     .forEach(s -> serviceBookEntities.add(new ServiceBookEntity(null, saveBook.getId(), s)));
             serviceBookRepository.saveAll(serviceBookEntities);

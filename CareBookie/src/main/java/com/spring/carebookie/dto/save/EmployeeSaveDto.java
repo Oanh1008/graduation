@@ -13,27 +13,22 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EmployeeSaveDto {
 
+    @NotBlank
     private String firstName;
 
+    @NotBlank
     private String lastName;
-
-    private String birthDay;
 
     @NotBlank
     private String email;
 
-    private int gender;
-
     @NotBlank
     private String phone;
-
-    private String address;
 
     @NotBlank
     private String password;
 
-    private String startWorkingDate;
-
+    @NotBlank
     private String hospitalId;
 
     private boolean isDoctor;

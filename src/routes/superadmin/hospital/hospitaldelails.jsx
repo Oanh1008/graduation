@@ -3,7 +3,7 @@ import React, { memo, useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
-import { Edit } from '../../../assets/svg';
+import { Check, Edit, Times } from '../../../assets/svg';
 import { useParams } from 'react-router-dom';
 import { get } from '../../../utils/apicommon';
 
@@ -19,19 +19,16 @@ const Hospitaldelails = ({ }) => {
         const fetchData = async () => {
             const hospitalDetais = await get(`common/hospital/${id}`);
             setData(hospitalDetais)
-            console.log(data);
-            // console.log(hospitalDetais.services);
             const listDoctor = await get(`common/doctor/${id}`);
             setDoctor(listDoctor)
-            console.log(listDoctor);
         }
         fetchData()
     }, []);
+    console.log(data);
 
-    console.log(doctor);
     return (
+        Object.keys(data).length > 0 &&
         <Layout>
-
             <div className=' mx-6 '>
                 <div className='flex gap-5 p-5 bg-white justify-around'>
                     <img src={data.imageUrl} className="w-[700px]" />
@@ -63,7 +60,7 @@ const Hospitaldelails = ({ }) => {
 
                                 <Divider />
                                 <div className='flex justify-around'>
-                                    {data.services &&
+                                    {
                                         data.services.map((item, index) => (
                                             <div key={index} className='flex flex-col gap-5 items-center '>
                                                 <div><Edit className='w-8' /></div>
@@ -78,11 +75,11 @@ const Hospitaldelails = ({ }) => {
                             <div className='p-5'>
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>Chuyên gia - Bác sĩ</div>
                                 <Divider />
-                                <div className='flex justify-between'>
+                                <div className='flex justify-around'>
                                     {doctor.map((item, index) => (
                                         <div key={index} className='flex flex-col gap-5 items-center'>
                                             <div className="drop-shadow-lg rounded-full">
-                                                <Avatar src={avatar} size={200} />
+                                                <Avatar src={item.imageUrl} size={200} />
 
                                             </div>
                                             <p className='text-base font-semibold'>{item.lastName} {item.firstName}</p>
@@ -98,20 +95,25 @@ const Hospitaldelails = ({ }) => {
 
                         <div className='flex  gap-5 mb-10 items-center justify-center '>
                             <p className='text-base'>Trạng thái:</p>
-                            <div className='bg-yellow-100 text-yellow-500 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
-                         before:w-2 before:h-2 before:bg-yellow-500 before:absolute before:rounded-full'>Chờ duyệt</div>
-                            <Edit className='w-8 fill-green-500' onClick={() => { }} />
-                            <Edit className='w-8' onClick={() => { }} />
+                            {data.status != true ?
+                                <>
+                                    <div className='bg-yellow-100 text-yellow-500 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
+                            before:w-2 before:h-2 before:bg-yellow-500 before:absolute before:rounded-full'>Chờ duyệt</div>
+                                    <Check className='w-8 h-8 fill-green-500 cursor-pointer' onClick={() => { }} />
+                                    <Times className='w-8 fill-red-500 cursor-pointer' onClick={() => { }} />
+                                </>
+                                : <div className='bg-green-200 text-green-700 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
+                            before:w-2 before:h-2 before:bg-green-500 before:absolute before:rounded-full'>Đã được duyệt</div>}
+
                         </div>
 
                         <Divider />
                         <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>thông tin - đánh giá</div>
-                        <div className='flex justify-center'>
-
-                            <Rate defaultValue={5} disabled />
-                            <div className='text-6xl'> 5</div>
+                        <div className='flex justify-center gap-3 mb-3'>
+                            <div className='text-6xl text-cyan-950'> {data.star}</div>
+                            <Rate defaultValue={data.star} disabled />
                         </div>
-                        <div className='flex justify-start gap-16 text-base px-5'>
+                        <div className='flex justify-center gap-16 text-base px-5'>
                             <div className='flex flex-col gap-3 font-semibold'>
 
                                 <div>Số điện thoại</div>
@@ -120,8 +122,8 @@ const Hospitaldelails = ({ }) => {
                             </div>
                             <div className='flex flex-col gap-3'>
 
-                                <div>0363755300</div>
-                                <div>matphongan@gmail.com</div>
+                                <div>{data.adminInformation.phone}</div>
+                                <div>{data.adminInformation.email}</div>
                                 <div>Thứ 2 - Thứ 6 (    8h00 - 17h00  )</div>
                             </div>
                         </div>

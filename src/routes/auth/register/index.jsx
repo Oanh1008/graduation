@@ -57,8 +57,7 @@ const Register = () => {
     return (
 
         <section className="relative flex items-center min-h-screen">
-            <div className="absolute bg-cover bg-center inset-0
-                    bg-[url('/home/xuantai/seftProject/graduation/care/src/assets/image/background_login.png')] "> </div>
+
             <div className="absolute bg-cover bg-top inset-0 bg-white opacity-20"> </div>
             <div className="relative z-20  w-full h-full p-6 m-auto bg-white rounded-lg shadow-lg lg:max-w-xl">
                 <h1 className="text-3xl font-semibold text-center text-cyan-800 underline">

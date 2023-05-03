@@ -11,7 +11,6 @@ import axios from 'axios';
     export const get = async (path, config) => {
       try {
         const response = await api.get(path, config);
-        console.log(response);
         return response.data;
 
       } catch (error) {

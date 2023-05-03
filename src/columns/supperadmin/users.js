@@ -36,6 +36,7 @@ const Columns = [
     key: '3',
     title: "Ngày sinh",
     dataIndex: "birthDay",
+    width:200,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         <div>{item.birthDay}</div>
@@ -48,7 +49,7 @@ const Columns = [
     key: '4',
     title: "Giới tính",
     dataIndex: "gender",
-    width: 200,
+    width: 150,
     render: (text, item) => ( text &&
       item.gender === 1 ?
       <div className='flex items-center gap-3'>

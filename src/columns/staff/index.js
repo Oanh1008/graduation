@@ -2,6 +2,7 @@ import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
 import { Edit, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
+import { del } from '../../utils/apicommon';
 
 const Columns = [
   {
@@ -80,6 +81,7 @@ const Columns = [
     key: '5',
     title: "Địa chi",
     dataIndex: "address",
+    width: 250,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         <div>{item.address}</div>
@@ -92,9 +94,13 @@ const Columns = [
     key: '7',
     title: "Phân Quyền",
     dataIndex: "",
-    render: () => (
-      <div>Khám chữa bệnh</div>
-    ),
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        {item.doctor == true ?
+        <div>Khám chữa bệnh</div>
+        : <div>Hỗ trợ hành chinh</div>
+        }
+      </div>),
     filters: [
       { text: "Tai, mũi, họng", value: true },
       { text: "Ung bướu", value: false },
@@ -106,25 +112,23 @@ const Columns = [
   {
     key: '6',
     title: "Ngày bắt đầu làm việc",
-    dataIndex: "date",
+    dataIndex: "startWorkingDate",
     // render: (text, item) => (text &&
     //   <div className='flex items-center gap-3'>
     //     <div>{item.address}</div>
     //   </div>),
-    render: () => (
-      <div>12 - 2 - 2020</div>
-    ),
-    sorter: (record1, record2) => {
-      return record1.address > record2.address
-    }
+    render: (text, item) => (text &&
+      <div className='flex items-center gap-3'>
+        <div>{item.startWorkingDate}</div>
+      </div>),
   },
   {
     key: '6',
     title: "Tình trạng",
     dataIndex: "status",
-    render: () => (
+    render: (text, item) => (
       <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
-                         before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Working</div>
+                         before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>{item.status}</div>
 
     ),
     filters: [
@@ -145,7 +149,7 @@ const Columns = [
           placement="bottomRight"
           title={"Bạn muốn xoá người này ? "}
           description={"Không thể khôi phục được"}
-          onConfirm={() => { console.log(data.id) }}
+          onConfirm={() => del(`/admin/employee/${data.userId}`)}
           okText="Yes"
           cancelText="No"
           icon={<Question className='w-5 h-5 fill-yellow-400 ' />}

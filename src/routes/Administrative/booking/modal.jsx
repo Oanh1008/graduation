@@ -1,7 +1,5 @@
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import {
 
-    Checkbox,
+import {
     Col,
     DatePicker,
     Divider,
@@ -9,57 +7,27 @@ import {
     Input,
     InputNumber,
     Radio,
-    Rate,
     Row,
     Select,
-    Slider,
-    Switch,
-    TimePicker,
-    Typography,
-    Upload,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-
+import CancelModal from './cancelModal'
 const { Option } = Select;
 
-const formItemLayout = {
-    labelCol: {
-        span: 6,
-    },
-    wrapperCol: {
-        span: 14,
-    },
-};
 
-
-const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e?.fileList;
-};
 
 const onFinish = (values) => {
     console.log('Received values of form: ', values);
 };
 
 const Modal = ({ isVisible, onClose }) => {
-    const [imageUrl, setImageUrl] = useState("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/300968750_116420874503674_2899111505842825407_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7s6DWjxmt0gAX_AYOsK&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAPESRJL2mdVRTaTbesT5jo5jqSZo6H4_itj0Sa0L5GYQ&oe=64435780");
-
+    const [showModal, setShowModal] = useState(false)
     const [form] = Form.useForm()
-    const handlePreviewAvatar = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState == 2) {
-                setImageUrl({ imageUrl: reader.result })
-            }
-        }
-        reader.readAsDataURL(e.target.files[0])
-    }
+
 
     if (!isVisible) return null
     const handleClose = (e) => {
@@ -91,11 +59,6 @@ const Modal = ({ isVisible, onClose }) => {
                             maxWidth: 600,
                         }}
                     >
-                        <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
-                            <img src={imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
-
-                        </Form.Item>
-
                         <Row gutter={[24, 8]}>
                             <Col span={12} >
                                 <Form.Item
@@ -107,35 +70,23 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <Input value='Phòng khám' disabled />
+                                    <Input defaultValue='Phòng khám' disabled />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
                                 <Form.Item
-                                    name='Dateofbirth'
-                                    label="Ngày sinh"
+                                    name='Age'
+                                    label="Tuổi"
                                     rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                 >
-                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" disabled />
+                                    <InputNumber className='w-full' defaultValue='25' disabled />
                                 </Form.Item>
                             </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name="phone"
-                                    label="Số điện thoại"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập số điện thoại' defaultValue="02554644" disabled />
-                                </Form.Item>
-                            </Col>
+
 
                             <Col span={12} >
                                 <Form.Item
@@ -167,19 +118,7 @@ const Modal = ({ isVisible, onClose }) => {
                                     <Input placeholder='Nhập địa chỉ' defaultValue="Phong Điền" disabled />
                                 </Form.Item>
                             </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='email'
-                                    label="Email"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập địa chỉ' defaultValue="213@gmail.com" disabled />
-                                </Form.Item>
-                            </Col>
+
                             <Col span={12} >
                                 <Form.Item
                                     name='date'
@@ -190,7 +129,20 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <DatePicker placeholder='Chọn ngày ' format="DD-MM-YYYY" />
+                                    <DatePicker placeholder='Chọn ngày ' defaultValue={dayjs('2015-01-01', 'YYYY-MM-DD')} />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12} >
+                                <Form.Item
+                                    name='Triệu chứng'
+                                    label="Triệu chứng"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Input placeholder='Nhập triệu chứng' defaultValue="Sốt" disabled />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
@@ -204,9 +156,9 @@ const Modal = ({ isVisible, onClose }) => {
                                     ]}
                                 >
                                     <Select placeholder="Chọn khung giờ">
-                                        <Option value="red">8h00 - 11h00</Option>
-                                        <Option value="green">14h00 - 17h00</Option>
-                                        <Option value="blue">17h00 - 20h00</Option>
+                                        <Option value="MORNING">Buổi sáng</Option>
+                                        <Option value="AFTERNOON">Buổi chiều</Option>
+                                        <Option value="EVENING">Buổi tối</Option>
                                     </Select>
                                 </Form.Item>
                             </Col>
@@ -230,34 +182,16 @@ const Modal = ({ isVisible, onClose }) => {
 
                         </Row>
 
-                        <Form.Item
-                            name='information'
-                            label="Triệu chứng"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <TextArea
-                                showCount
-                                maxLength={500}
-                                style={{ height: 120, resize: 'none' }}
-                                // onChange={onChange}
-                                value="Đau đầu, khó thở"
-                            />
-                        </Form.Item>
-
-
                         <div className='flex justify-around'>
                             <Button onClick={onClose}
-                                text="Huỷ" className=' w-1/4 mt-3 text-green-700 hover:opacity-75 bg-white border border-green-700 py-2 rounded-xl text-lg' />
+                                text="Huỷ" className=' w-1/4 mt-3 text-white hover:opacity-75 bg-red-500 border py-2 rounded-xl text-lg' />
                             <Button type="submit"
                                 text="Duyệt" className=' w-1/4 mt-3 bg-green-700 hover:opacity-75 text-white py-2 rounded-xl text-lg' />
 
                         </div>
 
                     </Form>
+                    {/* <CancelModal isVisible={showModal} onClose={() => setShowModal(false)} /> */}
                 </div>
             </div>
         </div >

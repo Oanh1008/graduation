@@ -13,46 +13,69 @@ import { DataStaff } from '../../admin/Staff/data'
 import classNames from 'classnames';
 import Layout from '../../../layout/index'
 
+const listTabs = [
+
+    {
+        name: 'Đơn bệnh chờ xét duyệt'
+    },
+    {
+        name: 'Đơn bệnh đã xét duyệt'
+    },
+    {
+        name: 'Đơn bệnh đã đến khám'
+    },
+    {
+        name: 'Đơn bệnh đã bị huỷ'
+    },
+]
 
 const ManagerBooking = () => {
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
-    const [data, setData] = useState([])
+    const [datapending, setPending] = useState([])
+    const [dataaccept, setAccept] = useState([])
+    const [dataconfirm, setConfirm] = useState([])
+    const [datacancel, setCancel] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
     const [toggle, setToggle] = useState(1)
 
-    const listTabs = [
+    useEffect(() => {
+        const fetchData = async () => {
+            const pending = await get('/administrative/book/pending/PKTMNTL7420');
+            setPending(pending)
+            const accept = await get('/administrative/book/accept/PKTMNTL7420');
+            setAccept(accept)
+            const confirm = await get('/administrative/book/confirm/PKTMNTL7420');
+            setConfirm(confirm)
 
-        {
-            name: 'Đơn bệnh chờ xét duyệt'
-        },
-        {
-            name: 'Đơn bệnh đã xét duyệt'
-        },
-        {
-            name: 'Đơn bệnh đã đến khám'
-        },
-        {
-            name: 'Đơn bệnh đã bị huỷ'
-        },
-    ]
+            const cancel = await get('/administrative/book/cancel/PKTMNTL7420');
+            // const filteredData = data.filter((item) => item.imageUrl)
+
+            setCancel(cancel)
+            // setSearch(filteredData)
+        };
+        fetchData();
+    }, [])
+
 
     function handleToggle(id) {
         setToggle(id)
     }
 
-    function handleSearch(event) {
-        if (event.target.value === '') {
-            setData(search)
-        } else {
-            const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value) || item.lastName.toLowerCase().includes(event.target.value))
-            setData(filterSearch)
-        }
-        setfilterVal(event.target.value)
-    }
+    // function handleSearch(event) {
+    //     if (event.target.value === '') {
+    //         setData(search)
+    //     } else {
+    //         const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value) || item.lastName.toLowerCase().includes(event.target.value))
+    //         setData(filterSearch)
+    //     }
+    //     setfilterVal(event.target.value)
+    // }
+
+
     return (
         <Layout>
             <div className='mx-6 bg-white p-6'>
@@ -61,10 +84,10 @@ const ManagerBooking = () => {
 
                     <div className=' text-lg font-bold text-cyan-950 '>
                         Tổng số bệnh nhân: {' '}
-                        {toggle === 1 ? <span>{DataStaff.length}</span>
-                            : toggle === 2 ? <span>{DataStaff.length}</span>
-                                : toggle === 3 ? <span>{DataStaff.length}</span>
-                                    : <span>{DataStaff.length}</span>
+                        {toggle === 1 ? <span>{datapending.length}</span>
+                            : toggle === 2 ? <span>{dataaccept.length}</span>
+                                : toggle === 3 ? <span>{dataconfirm.length}</span>
+                                    : <span>{datacancel.length}</span>
                         }
                         {' '} ( bệnh nhân )
                     </div>
@@ -91,7 +114,7 @@ const ManagerBooking = () => {
                         <Table
                             className=' !z-0'
                             columns={pending}
-                            dataSource={DataStaff}
+                            dataSource={datapending}
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{
@@ -112,7 +135,7 @@ const ManagerBooking = () => {
                         <Table
                             className=' !z-0'
                             columns={accept}
-                            dataSource={DataStaff}
+                            dataSource={dataaccept}
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{
@@ -134,7 +157,7 @@ const ManagerBooking = () => {
                         <Table
                             className=' !z-0'
                             columns={confirm}
-                            dataSource={DataStaff}
+                            dataSource={dataconfirm}
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{
@@ -155,7 +178,7 @@ const ManagerBooking = () => {
                         <Table
                             className=' !z-0'
                             columns={cancel}
-                            dataSource={DataStaff}
+                            dataSource={datacancel}
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{

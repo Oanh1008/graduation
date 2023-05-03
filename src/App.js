@@ -47,8 +47,8 @@ function App() {
           <Route path='/doctor/history_user' element={<UserBooking/>}></Route>
           <Route path='/doctor/profile' element={<DoctorProfile/>}></Route>
           <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
-          <Route path='/doctor/booking/booingDetails' element={<BookingDetails/>}></Route>
-          {/* <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route> */}
+          {/* <Route path='/doctor/booking/booingDetails' element={<BookingDetails/>}></Route> */}
+          <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route>
         </Routes>
     </BrowserRouter>
    </>

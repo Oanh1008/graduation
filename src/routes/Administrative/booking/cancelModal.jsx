@@ -1,21 +1,38 @@
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
+
+    Checkbox,
+    Col,
+    DatePicker,
     Divider,
     Form,
     Input,
+    InputNumber,
+    Radio,
+    Rate,
+    Row,
     Select,
+    Slider,
+    Switch,
+    TimePicker,
+    Typography,
+    Upload,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-import { post } from '../../../utils/apicommon';
+
+
 
 const onFinish = (values) => {
     console.log('Received values of form: ', values);
 };
 
-const Modal = ({ isVisible, onClose }) => {
+const CancelModal = ({ isVisible, onClose }) => {
     const [form] = Form.useForm()
+
     if (!isVisible) return null
     const handleClose = (e) => {
         console.log('hi');
@@ -24,53 +41,51 @@ const Modal = ({ isVisible, onClose }) => {
             onClose()
         }
     }
-
-    const handleCreate = async (value) => {
-        const add = await post('admin/service/create', {
-            hospitalId: 'BVMTP6198',
-            serviceName: value.serviceName,
-            price: value.price
-        })
-        onClose();
-    }
-
     return (
         <div className='fixed inset-0 z-10 '>
-            <div div className=' fixed inset-0 bg-black opacity-20 text-center z-10' id='wrapper' onClick={handleClose} ></div >
+            <div div className=' fixed inset-0 bg-black opacity-20 text-center z-20' id='wrapper' onClick={handleClose} ></div >
             <div className='absolute inset-0 flex justify-center items-center shadow-2xl'>
                 <div className='bg-white  rounded-lg px-6 py-5 z-20'>
                     <div className='flex flex-row-reverse justify-between mb-6'>
                         <button onClick={() => onClose()}><Times className='w-8 h-8 fill-black' /></button>
-                        <p className="text-cyan-900 text-2xl font-bold">
-                            Thêm dịch vụ
+                        <p className="text-red-500     text-3xl font-bold">
+                            Huỷ lịch khám
                         </p>
                     </div>
                     <Divider />
                     <Form
                         form={form}
-                        onFinish={handleCreate}
+                        labelCol={{ span: 12 }}
+                        wrapperCol={{ span: 18 }}
                         name="validate_other"
+                        onFinish={onFinish}
                         style={{
-                            width: 400,
+                            maxWidth: 600,
                         }}
                     >
-                        <Form.Item name="serviceName" label="Tên dịch vụ" rules={[{ required: true }]}>
-                            <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
+                        <Form.Item
+                            name='hospitalName  '
+                            label="Lý do huỷ"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Input defaultValue='Không thích khám' disabled />
                         </Form.Item>
 
-                        <Form.Item name="price" label="Giá khám" rules={[{ required: true }]}>
-                            <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
-                        </Form.Item>
-
-                        <div className='flex justify-center mt-5'>
+                        <div className='flex justify-around'>
                             <Button type="submit"
-                                text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
+                                text="Huỷ" className=' w-1/4 mt-3 text-white hover:opacity-75 bg-red-500 border py-2 rounded-xl text-lg' />
 
                         </div>
+
                     </Form>
+
                 </div>
             </div>
         </div >
     )
 }
-export default Modal;
+export default CancelModal;

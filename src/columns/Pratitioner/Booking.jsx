@@ -5,13 +5,13 @@ import Button from '../../components/button/index'
 
 const Columns = [
     {
-        title: 'STT',
-        dataIndex: 'count',
+        title: 'ID',
+        dataIndex: 'id',
         key: 'count',
         width: 60,
-        render: (text, record) => (
+        render: (text, item) => (
             <div>
-                <span>{text}</span>
+                <span>{item.bookInformation.id}</span>
             </div>
         ),
     },
@@ -23,15 +23,14 @@ const Columns = [
         fixed: 'left',
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <Avatar src={item.imageUrl} size={72} />
-                <div>{item.lastName} {item.firstName}</div>
+                <div>{item.bookInformation.userId} {item.firstName}</div>
             </div>)
 
     },
 
     {
         key: '3',
-        title: "Ngày sinh",
+        title: "Tuổi",
         dataIndex: "birthDay",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
@@ -47,19 +46,19 @@ const Columns = [
         dataIndex: "gender",
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <div>Nam</div>
+                <div>{item.bookInformation.gender}</div>
             </div>),
     },
 
-    {
-        key: '6',
-        title: "Số điện thoại",
-        dataIndex: "phone",
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div>{item.phone}</div>
-            </div>),
-    },
+    // {
+    //     key: '6',
+    //     title: "Số điện thoại",
+    //     dataIndex: "phone",
+    //     render: (text, item) => (text &&
+    //         <div className='flex items-center gap-3'>
+    //             <div>{item.bookInformation.phone}</div>
+    //         </div>),
+    // },
     {
         key: '7',
         title: "Địa chi",
@@ -72,10 +71,10 @@ const Columns = [
     {
         key: '4',
         title: "Triệu chứng",
-        dataIndex: "",
-        render: (text, item) => (text &&
+        dataIndex: "symptom",
+        render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <div>Sốt, sô mũi </div>
+                <div>{item.bookInformation.symptom}</div>
             </div>),
     },
 
@@ -85,7 +84,7 @@ const Columns = [
         dataIndex: "birthDay",
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <div>12 - 6 - 2023</div>
+                <div>{item.bookInformation.dateExamination}</div>
             </div>),
     },
     {
@@ -94,7 +93,7 @@ const Columns = [
         dataIndex: "birthDay",
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <div>8h00 - 12h00 </div>
+                <div>{item.bookInformation.dateTimeBook}</div>
             </div>),
     },
     {
@@ -107,7 +106,7 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<NoteMedical className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/doctor/booking/booingDetails`} />
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.bookInformation.id}?showSaveButton=true`} />
                 <Button
                     type='button'
                     className="hover:bg-red-300 rounded-lg"

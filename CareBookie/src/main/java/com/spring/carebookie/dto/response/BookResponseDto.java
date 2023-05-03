@@ -16,10 +16,27 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookResponseDto {
 
+    private String userId;
+
+    private String fullName;
+
+    private int gender;
+
+    private Integer age;
+
+    private String address;
+
+    private String doctorName;
+
     private BookEntity bookInformation;
 
     private List<ServiceEntity> services;
 
     private List<InvoiceResponseDto> invoiceShares;
 
+    public BookResponseDto(BookEntity b, List<ServiceEntity> serviceBooks, List<InvoiceResponseDto> invoiceResponseDtos) {
+        this.bookInformation = b;
+        this.services = serviceBooks;
+        this.invoiceShares = invoiceResponseDtos;
+    }
 }

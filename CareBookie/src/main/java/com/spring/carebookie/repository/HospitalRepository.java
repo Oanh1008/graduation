@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.spring.carebookie.dto.edit.HospitalSettingProfileDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.repository.projection.HospitalGetAllProjection;
 import com.spring.carebookie.repository.projection.ServiceByHospitalIdProjection;
@@ -32,4 +33,12 @@ public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> 
 
     @Query("select h from HospitalEntity h where h.hospitalId in (:hospitalIds)")
     List<HospitalEntity> getAllByHospitalId(List<String> hospitalIds);
+
+    @Modifying
+    @Query("update HospitalEntity h set h.information = :#{#dto.information}," +
+            " h.status = :#{#dto.status}, h.address = :#{#dto.address} , h.priceTo = :#{#dto.priceTo}," +
+            " h.priceFrom = :#{#dto.priceFrom} , h.isPublicPrice = :#{#dto.isPublicPrice} ," +
+            " h.isChoosenDoctor = :#{#dto.getIsChoosenDoctor} , h.isRate = :#{#dto.getIsRate()}," +
+            " h.imageUrl = :#{#dto.imageUrl} where h.hospitalId = :#{#dto.hospitalId}")
+    void settingProfile(@Param("dto") HospitalSettingProfileDto dto);
 }

@@ -32,4 +32,6 @@ public class DoctorUpdateInformationDto {
     private String information;
 
     private String status;
+
+    private String imageUrl;
 }

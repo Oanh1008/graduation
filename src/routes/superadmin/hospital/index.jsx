@@ -5,9 +5,7 @@ import Layout from '../../../layout/index'
 import { get } from '../../../utils/apicommon';
 import Button from '../../../components/button/index'
 import Columns from '../../../columns/supperadmin/hospital';
-import { DataHospital } from './data';
-import { Route, Routes } from 'react-router-dom';
-
+import Modal from './modal';
 
 const ManagerHospital = () => {
     const [loading, setLoading] = useState(false)
@@ -23,10 +21,13 @@ const ManagerHospital = () => {
     }, []);
 
     const fetchData = async () => {
+        setLoading(true)
         const data = await get('/common/hospital/getAll');
         const filteredData = data.filter((item) => item.hospitalName)
         setData(filteredData)
         setSearch(filteredData)
+        setLoading(false)
+
     };
 
     function handleSearch(event) {
@@ -58,11 +59,11 @@ const ManagerHospital = () => {
                         </div>
                     </div>
 
-                    {/* <Button icon={<Plus className='fill-white w-7 h-7 ' />}
-                            className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
-                            type="button"
-                            text="Thêm người dùng"
-                            onClick={() => setShowModal(true)} /> */}
+                    <Button icon={<Plus className='fill-white w-7 h-7 ' />}
+                        className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
+                        type="button"
+                        text="Thêm phòng khám "
+                        onClick={() => setShowModal(true)} />
                 </div>
 
                 <div className='mb-11 !z-0'>
@@ -79,16 +80,11 @@ const ManagerHospital = () => {
                                 setPageSize(pageSize);
                             }
                         }}
-                        onRow={(record) => {
-                            return {
-                                // onDoubleClick: () => setShowRoleModal(!roleModal),
-                            };
-                        }}
                     />
                 </div>
             </div>
-            {/* <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
-            </Modal> */}
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            </Modal>
         </Layout>
     )
 }

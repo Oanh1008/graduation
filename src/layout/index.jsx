@@ -22,7 +22,6 @@ const Index = ({ children }) => {
     let user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
-        console.log(user);
         if (!user) {
             navigate(`/login`)
         }
@@ -57,30 +56,30 @@ const Index = ({ children }) => {
                             </button>
                         </div>admin
 
-                        {user.role &&
-                            user.role === "Admin" ?
+                        {user.roleId &&
+                            user.roleId === 1 ?
                             <Menu
                                 className={classNames('!text-base fixed  !bg-white top-24 ',
                                     {
                                         '!w-[279px]': !collapsed,
                                         '!w-20': collapsed
                                     })}
-                                defaultSelectedKeys={['1']} mode="inline" items={list}
+                                defaultSelectedKeys={['1']} mode="inline" items={listSA}
                                 onClick={((key) => {
                                     navigate(key.keyPath[0])
                                 })} />
-                            : user.role === "superAdmin" ?
+                            : user.roleId === 3 ?
                                 <Menu
                                     className={classNames('!text-base fixed  !bg-white top-24 ',
                                         {
                                             '!w-[279px]': !collapsed,
                                             '!w-20': collapsed
                                         })}
-                                    defaultSelectedKeys={['1']} mode="inline" items={listSA}
+                                    defaultSelectedKeys={['1']} mode="inline" items={listAdministrative}
                                     onClick={((key) => {
                                         navigate(key.keyPath[0])
                                     })} />
-                                : user.role === "Doctor" ?
+                                : user.roleId === 4 ?
                                     <Menu
                                         className={classNames('!text-base fixed  !bg-white top-24 ',
                                             {
@@ -98,7 +97,7 @@ const Index = ({ children }) => {
                                                 '!w-[279px]': !collapsed,
                                                 '!w-20': collapsed
                                             })}
-                                        defaultSelectedKeys={['1']} mode="inline" items={listAdministrative}
+                                        defaultSelectedKeys={['1']} mode="inline" items={list}
                                         onClick={((key) => {
                                             navigate(key.keyPath[0])
                                         })} />
@@ -114,7 +113,7 @@ const Index = ({ children }) => {
                                 })}>
                             <div className='flex items-center my-4'>
                                 {
-                                    user.role === "superAdmin" ?
+                                    user.roleId === 1 ?
                                         <Dropdown
                                             menu={{
                                                 items: [
@@ -140,7 +139,7 @@ const Index = ({ children }) => {
                                                 <Avatar className='shadow-lg' src={avatar} size={50} />
                                             </a>
                                         </Dropdown>
-                                        : user.role === "Admin" ?
+                                        : user.roleId === 3 ?
                                             <Dropdown
                                                 menu={{
                                                     items: [
@@ -163,13 +162,13 @@ const Index = ({ children }) => {
                                             >
                                                 <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
                                                     <div className='mx-4'>
-                                                        <p className="font-bold text-black text-lg ">Phòng khám Từ Dũ</p>
+                                                        <p className="font-bold text-black text-lg ">{user.lastName} {user.firstName}</p>
 
                                                     </div>
                                                     <Avatar className='shadow-lg' src={avatar} size={50} />
                                                 </a>
                                             </Dropdown>
-                                            : user.role === "Doctor" ?
+                                            : user.roleId === 4 ?
                                                 <Dropdown
                                                     menu={{
                                                         items: [
@@ -192,10 +191,10 @@ const Index = ({ children }) => {
                                                 >
                                                     <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
                                                         <div className='mx-4'>
-                                                            <p className="font-bold text-black text-lg ">Minh Thư Nguyễn</p>
+                                                            <p className="font-bold text-black text-lg ">{user.lastName} {user.firstName}</p>
 
                                                         </div>
-                                                        <Avatar className='shadow-lg' src={avatar} size={50} />
+                                                        <Avatar className='shadow-lg' src={user.imageUrl} size={50} />
                                                     </a>
                                                 </Dropdown>
                                                 :
@@ -203,7 +202,7 @@ const Index = ({ children }) => {
                                                     menu={{
                                                         items: [
                                                             {
-                                                                label: <a href='/doctor/profile'>Thông tin cá nhân</a>,
+                                                                label: <a href='/myprofile'>Thông tin cá nhân</a>,
                                                                 key: '1',
                                                             },
                                                             {
@@ -221,42 +220,14 @@ const Index = ({ children }) => {
                                                 >
                                                     <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
                                                         <div className='mx-4'>
-                                                            <p className="font-bold text-black text-lg ">Min</p>
-
+                                                            <p className="font-bold text-black text-lg ">{user.hospitalName}</p>
                                                         </div>
-                                                        <Avatar className='shadow-lg' src={avatar} size={50} />
+                                                        <Avatar className='shadow-lg' src={user.imageUrl} size={50} />
                                                     </a>
                                                 </Dropdown>
 
-                                }
 
-                                {/* <Dropdown
-                            menu={{
-                                items: [
-                                    // {
-                                    //     label: <a href='/myprofile'>Thông tin cá nhân</a>,
-                                    //     key: '1',
-                                    // },
-                                    {
-                                        label: <button onClick={() => { setShowModal(!modal) }}>Đổi mật khâu</button>,
-                                        key: '2',
-                                    },
-                                    {
-                                        label: <a href='/login'>Đăng xuất</a>,
-                                        key: '3',
-                                    },
-                                ],
-                            }}
-                            onOpenChange={handleOpenChange}
-                            open={open}
-                        >
-                            <a className='flex items-center hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
-                                <div className='mx-4'>
-                                    <p className="font-bold text-black text-lg ">Super Admin</p>
-                                </div>
-                                <Avatar className='shadow-lg' src={avatar} size={50} />
-                            </a>
-                        </Dropdown> */}
+                                }
                             </div>
                         </Header>
                         <Content >

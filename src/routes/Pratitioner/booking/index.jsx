@@ -26,10 +26,12 @@ const Booking = () => {
     const [showModal, setShowModal] = useState(false)
     const [toggle, setToggle] = useState(1)
 
+    let user = JSON.parse(localStorage.getItem('user'));
+
     useEffect(() => {
         const fetchData = async () => {
-            const data = await get('/doctor/book/accept?doctorId=LLpoanh111');
-            const dataconfirm = await get('/doctor/book/confirm?doctorId=LLpoanh111');
+            const data = await get(`/doctor/book/accept?doctorId=${user.userId}`);
+            const dataconfirm = await get(`/doctor/book/confirm?doctorId=${user.userId}`);
             // const filteredData = data.filter((item) => item.imageUrl)
             setDataAcceppt(data)
             setDataConfirm(dataconfirm)

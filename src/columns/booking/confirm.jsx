@@ -36,7 +36,6 @@ const Columns = [
         key: '3',
         title: "Tuổi",
         dataIndex: "age",
-        width: 100,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.bookInformation.age}</div>
@@ -49,7 +48,6 @@ const Columns = [
         key: '4',
         title: "Giới tính",
         dataIndex: "gender",
-        width: 150,
         render: (text, item) => (
             <div className='flex items-center gap-3'>
                 <div>Nam</div>
@@ -59,7 +57,6 @@ const Columns = [
         key: '5',
         title: "Địa chi",
         dataIndex: "address",
-        width: 350,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.address}</div>
@@ -72,7 +69,6 @@ const Columns = [
         key: '6',
         title: "Triệu chứng",
         dataIndex: "",
-        width: 200,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.bookInformation.symptom}</div>
@@ -83,46 +79,22 @@ const Columns = [
     },
 
     {
-        key: '7',
+        key: '5',
         title: "Ngày đặt lịch",
         dataIndex: "",
-        width: 150,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.bookInformation.dateTimeBook} </div>
             </div>),
     },
     {
-        key: '8',
+        key: '6',
         title: "Bác sĩ đặt lịch",
-        width: 200,
+        fixed: 'right',
         dataIndex: "",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.bookInformation.doctorId} </div>
-            </div>),
-    },
-    {
-        key: '9',
-        title: "Lý do huỷ",
-        dataIndex: "birthDay",
-        fixed: 'right',
-        width: 250,
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div> </div>
-            </div>),
-    },
-
-    {
-        key: '10',
-        title: "Người xét duyệt",
-        fixed: 'right',
-        width: 200,
-        dataIndex: "birthDay",
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div> </div>
             </div>),
     },
 

@@ -16,6 +16,9 @@ const Index = () => {
     const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
 
+
+    let user = JSON.parse(localStorage.getItem('user'));
+
     useEffect(() => {
         fetchData();
     }, []);

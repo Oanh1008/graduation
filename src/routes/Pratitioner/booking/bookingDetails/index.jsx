@@ -112,14 +112,14 @@ const BookingDetails = () => {
                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-date">
                                         Ngày khám
                                     </label>
-                                    <DatePicker className='w-full py-3 px-4' id="grid-date" />
+                                    <DatePicker className='w-full py-3 px-4' id="grid-date" placeholder='Chọn ngày' />
 
                                 </div>
                                 <div className="w-full md:w-1/4 px-3 mb-2 md:mb-0">
                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-time">
                                         Giờ khám
                                     </label>
-                                    <TimePicker className='w-full py-3 px-4' id="grid-time" />
+                                    <TimePicker className='w-full py-3 px-4' id="grid-time" placeholder='Chọn giờ' />
                                 </div>
 
 
@@ -128,7 +128,7 @@ const BookingDetails = () => {
                                         Tổng số thuốc
                                     </label>
                                     <div className="relative">
-                                        <InputNumber className='w-full py-1 px-4' id='grid-total' />
+                                        <InputNumber className='w-full py-2 px-4' id='grid-total' />
 
                                     </div>
                                 </div>

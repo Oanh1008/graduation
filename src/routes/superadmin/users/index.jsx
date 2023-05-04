@@ -21,10 +21,13 @@ const ManagerUser = () => {
     }, []);
 
     const fetchData = async () => {
+        setLoading(true)
         const data = await get('/super-admin/users/patient');
         const filteredData = data.filter((item) => item.imageUrl)
         setData(filteredData)
         setSearch(filteredData)
+        setLoading(false)
+
     };
     function handleSearch(event) {
         if (event.target.value === '') {
@@ -55,11 +58,7 @@ const ManagerUser = () => {
                         </div>
                     </div>
 
-                    {/* <Button icon={<Plus className='fill-white w-7 h-7 ' />}
-                            className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
-                            type="button"
-                            text="Thêm người dùng"
-                            onClick={() => setShowModal(true)} /> */}
+
                 </div>
 
                 <div className='mb-11 !z-0'>
@@ -79,8 +78,6 @@ const ManagerUser = () => {
                     />
                 </div>
             </div>
-            {/* <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
-            </Modal> */}
         </Layout>
     )
 }

@@ -4,6 +4,7 @@ import {
     Divider,
     Form,
     Input,
+    message,
     Row,
     Select,
 } from 'antd';
@@ -13,7 +14,6 @@ import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { post } from '../../../utils/apicommon';
 
-const { Option } = Select;
 
 const formItemLayout = {
     labelCol: {
@@ -24,43 +24,38 @@ const formItemLayout = {
     },
 };
 
-
-const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e?.fileList;
-};
-
-const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-};
-
 const Modal = ({ isVisible, onClose }) => {
+    const [err, setErr] = useState('')
     const [form] = Form.useForm()
 
     if (!isVisible) return null
     const handleClose = (e) => {
-        console.log('hi');
-        console.log(e.target.id);
         if (e.target.id == 'wrapper') {
             onClose()
         }
     }
 
     const handleCreate = async (value) => {
-        const add = await post('admin/create/employee', {
-            hospitalId: 'BVMTP6198',
+        const add = await post('/hospital/save', {
+            hospitalName: value.hospitalName,
             email: value.email,
             lastName: value.lastName,
             firstName: value.firstName,
-            doctor: value.doctor,
             phone: value.phone,
             password: value.password
         })
-        console.log(value);
-        onClose();
+        if (add) {
+            console.log(add);
+            message.open({
+                type: 'Thành công!',
+                content: 'Thêm mới tài khoản phòng khám thành công!',
+            })
+            onClose();
+        }
+        else {
+            setErr('Số điện thoại đã tồn tại')
+        }
+
     }
 
 
@@ -72,8 +67,8 @@ const Modal = ({ isVisible, onClose }) => {
                 <div className='bg-white  rounded-lg px-6 py-5 z-20'>
                     <div className='flex flex-row-reverse justify-between mb-6'>
                         <button onClick={() => onClose()}><Times className='w-8 h-8 fill-black' /></button>
-                        <p className="text-cyan-900 text-2xl font-bold">
-                            Thêm người dùng
+                        <p className="text-green-800 text-2xl font-bold">
+                            Thêm phòng khám
                         </p>
                     </div>
                     <Divider />
@@ -91,39 +86,38 @@ const Modal = ({ isVisible, onClose }) => {
 
                             <div>
                                 <div span={12} >
+                                    <Form.Item name="hospitalName" label="Tên bệnh viện" rules={[{ required: true }]}>
+                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
+                                    </Form.Item>
+                                </div>
+                                <div span={12} >
                                     <Form.Item name="lastName" label="Họ" rules={[{ required: true }]}>
-                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' placeholder='Nhập họ ' />
+                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
                                     </Form.Item>
                                 </div>
                                 <div span={12} >
                                     <Form.Item name="firstName" label="Tên" rules={[{ required: true }]}>
-                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' placeholder='Nhập tên ' />
-                                    </Form.Item>
-                                </div>
-                                <div span={12} >
-                                    <Form.Item name="email" label="Email" rules={[{ required: true }]}>
-                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' placeholder='Nhập email ' />
+                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
                                     </Form.Item>
                                 </div>
                             </div>
 
                             <div>
                                 <div span={12} >
+                                    <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
+                                    </Form.Item>
+                                </div>
+                                <div span={12} >
                                     <Form.Item name="phone" label="Sô điện thoại" rules={[{ required: true }]}>
-                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' placeholder='Nhập sô điện thoại ' />
+                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
+                                        <p className='text-sm mt-2 text-red-600'>{err}</p>
                                     </Form.Item>
+
                                 </div>
                                 <div span={12} >
-                                    <Form.Item name="password" label="Mât khẩu" rules={[{ required: true }]}>
-                                        <Input placeholder='Nhập mật khẩu ' />
-                                    </Form.Item>
-                                </div>
-                                <div span={12} >
-                                    <Form.Item name="doctor" label="Phân quyền" rules={[{ required: true }]}>
-                                        <Select placeholder="Phân quyền nhân viên" >
-                                            <Option value={true}>Khám chữa bệnh</Option>
-                                            <Option value={false}>Hỗ trợ hành chính</Option>
-                                        </Select>
+                                    <Form.Item name="password" label="Mật khẩu" rules={[{ required: true }]}>
+                                        <Input />
                                     </Form.Item>
                                 </div>
                             </div>
@@ -133,7 +127,7 @@ const Modal = ({ isVisible, onClose }) => {
 
                         <div className='flex justify-center mt-5'>
                             <Button type="submit"
-                                text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
+                                text="Lưu" className=' w-1/4 mt-3 bg-green-700 hover:opacity-75 text-white py-2 rounded-xl text-lg' />
 
                         </div>
                     </Form>

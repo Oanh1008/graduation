@@ -5,26 +5,32 @@ import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
 import { Check, Edit, Times } from '../../../assets/svg';
 import { useParams } from 'react-router-dom';
-import { get } from '../../../utils/apicommon';
+import { get, put } from '../../../utils/apicommon';
 
 const Hospitaldelails = ({ }) => {
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState({});
     const [doctor, setDoctor] = useState([]);
-    const [toggle, setToggle] = useState(1)
-    const [showModal, setShowModal] = useState(false)
 
     const { id } = useParams();
 
     useEffect(() => {
-        const fetchData = async () => {
-            const hospitalDetais = await get(`common/hospital/${id}`);
-            setData(hospitalDetais)
-            const listDoctor = await get(`common/doctor/${id}`);
-            setDoctor(listDoctor)
-        }
         fetchData()
     }, []);
-    console.log(data);
+
+    const fetchData = async () => {
+        setLoading(true)
+        const hospitalDetais = await get(`common/hospital/${id}`);
+        setData(hospitalDetais)
+        const listDoctor = await get(`common/doctor/${id}`);
+        setDoctor(listDoctor)
+        setLoading(false)
+    }
+
+    const handleCensor = async () => {
+        const hos = await put(`/super-admin/hospital/accept/${id}`)
+        fetchData()
+    }
 
     return (
         Object.keys(data).length > 0 &&
@@ -99,7 +105,7 @@ const Hospitaldelails = ({ }) => {
                                 <>
                                     <div className='bg-yellow-100 text-yellow-500 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
                             before:w-2 before:h-2 before:bg-yellow-500 before:absolute before:rounded-full'>Chờ duyệt</div>
-                                    <Check className='w-8 h-8 fill-green-500 cursor-pointer' onClick={() => { }} />
+                                    <Check className='w-8 h-8 fill-green-500 cursor-pointer' onClick={handleCensor} />
                                     <Times className='w-8 fill-red-500 cursor-pointer' onClick={() => { }} />
                                 </>
                                 : <div className='bg-green-200 text-green-700 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
@@ -134,9 +140,6 @@ const Hospitaldelails = ({ }) => {
 
             </div>
 
-
-            {/* <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
-            </Modal> */}
         </Layout >
     )
 }

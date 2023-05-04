@@ -17,13 +17,14 @@ const Index = () => {
     const [showModal, setShowModal] = useState(false)
     const [roleModal, setShowRoleModal] = useState(false)
 
+    let user = JSON.parse(localStorage.getItem('user'));
+
     useEffect(() => {
         fetchData();
     }, []);
 
     const fetchData = async () => {
-        let user = localStorage.getItem('user');
-        const datajs = await get(`common/services/BVMTP6198`);
+        const datajs = await get(`common/services/${user.hospitalId}`);
         setData(datajs);
         // console.log(JSON.parse(user).userId);
         //     const filteredData = data.filter((item) => item.imageUrl)
@@ -92,7 +93,7 @@ const Index = () => {
                     />
                 </div>
             </div>
-            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} id={user.hospitalId} >
             </Modal>
         </Layout>
     )

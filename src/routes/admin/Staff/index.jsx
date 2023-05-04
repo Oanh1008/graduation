@@ -6,8 +6,6 @@ import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
 import Modal from './modal';
-import { DataStaff } from './data';
-import { useParams } from 'react-router-dom';
 
 const Index = () => {
     const [loading, setLoading] = useState(false)
@@ -19,6 +17,7 @@ const Index = () => {
     const [showModal, setShowModal] = useState(false)
     const [roleModal, setShowRoleModal] = useState(false)
 
+    let user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
         fetchData();
@@ -26,9 +25,8 @@ const Index = () => {
 
     const fetchData = async () => {
         // let user = localStorage.getItem('user');
-        const datajs = await get(`/admin/employees/BVMTP6198`);
+        const datajs = await get(`/admin/employees/${user.hospitalId}`);
         setData(datajs);
-        console.log(datajs);
         // console.log(JSON.parse(user).userId);
         //     const filteredData = data.filter((item) => item.imageUrl)
         //     setData(filteredData)

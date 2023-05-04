@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { FaLongArrowAltUp } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import hi from '../../../assets/image/background.jpeg'
-import { post } from '../../../utils/apicommon'
+import { get, post } from '../../../utils/apicommon'
 import users from './login.json'
 const Login = () => {
     const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
+    const [err, setErr] = useState('')
 
     const navigate = useNavigate();
 
@@ -14,45 +16,32 @@ const Login = () => {
         e.preventDefault();
 
         if (validate()) {
-            const user = users.users.find(
-                (user) => user.username === phone && user.password === password
-            );
+            const res = await post(`/common/login`, {
+                phone: phone,
+                password: password,
+            });
+            if (res) {
+                if (res.roleId == 2) {
+                    const hospital = await get(`/common/hospital/${res.hospitalId}`)
+                    localStorage.setItem("user", JSON.stringify(hospital));
+                    window.location.href = "/";
 
-            if (user) {
-                localStorage.setItem("user", JSON.stringify(user));
-                window.location.href = "/";
+                } else {
+                    localStorage.setItem("user", JSON.stringify(res));
+                    window.location.href = "/";
+                }
+                console.log(res);
             } else {
-                console.log("sai tk và mk");
+                setErr('Thông tin tài khoản không đúng!')
             }
-
         }
-
-        // try {
-        //     const response = await post('/common/login', {
-        //         phone: phone,
-        //         password: password,
-        //     });
-        //     const { token } = response;
-        //     localStorage.setItem('token', token);
-        //     console.log(response);
-        // } catch (error) {
-        //     console.log(error);
-        // }
-        // const response = await post('/common/login', {
-        //     phone: phone,
-        //     password: password,
-        // })
     }
 
     const validate = () => {
         let result = true;
-        if (phone === '' || phone === null) {
+        if (phone === '' || phone === null || password === '' || password === null) {
             result = false;
-            console.log("enter un");
-        }
-        if (password === '' || password === null) {
-            result = false;
-            console.log("enter pww");
+            setErr("Vui lòng nhập đủ thông tin!");
         }
         return result
     }
@@ -96,6 +85,7 @@ const Login = () => {
                             className="block w-full px-4 py-2 mt-2 text-cyan-800 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
+                    <p className='text-red-600 mb-5 text-sm' >{err}</p>
                     <a
                         href='/resetpassword'
                         className="text-xs text-cyan-700 hover:underline"
@@ -111,7 +101,7 @@ const Login = () => {
 
                 <p className="mt-8 text-xs font-light text-center text-gray-700">
                     {" "}
-                    Chưa có tài khoản? {" "}
+                    Tạo tài khoản phòng khám? {" "}
                     <button
                         onClick={() => navigate('/register')}
                         className="font-medium text-cyan-700 hover:underline"

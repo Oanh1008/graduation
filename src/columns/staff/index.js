@@ -5,27 +5,28 @@ import Button from '../../components/button/index'
 import { del } from '../../utils/apicommon';
 
 const Columns = [
-  {
-    key: '1',
-    title: "ID",
-    dataIndex: "id",
-    width: 60,
-    render: (text, item) => ( text &&
-      <p className='font-bold'>{item.id}</p>
-    ),
-    sorter: (record1, record2) => {
-      return record1.id > record2.id
-    },
-    fixed: 'left',
-  },
   // {
   //   key: '1',
-  //   title: 'No.',
-  //   render: (text, record, index) => index + 1,
+  //   title: "ID",
+  //   dataIndex: "id",
+  //   width: 60,
+  //   render: (text, item) => ( text &&
+  //     <p className='font-bold'>{item.id}</p>
+  //   ),
   //   sorter: (record1, record2) => {
   //     return record1.id > record2.id
-  //   }
+  //   },
+  //   fixed: 'left',
   // },
+  {
+    key: '1',
+    title: 'STT',
+    width: 60,
+    render: (text, record, index) =>  <p className='font-bold'>{index + 1}</p>,
+    sorter: (record1, record2) => {
+      return record1.id > record2.id
+    }
+  },
 
   {
     key: '2',
@@ -64,9 +65,6 @@ const Columns = [
       <div className='flex items-center gap-3'>
         <div>{item.email}</div>
       </div>),
-    sorter: (record1, record2) => {
-      return record1.email > record2.email
-    }
   },
   {
     key: '4',
@@ -113,10 +111,6 @@ const Columns = [
     key: '6',
     title: "Ngày bắt đầu làm việc",
     dataIndex: "startWorkingDate",
-    // render: (text, item) => (text &&
-    //   <div className='flex items-center gap-3'>
-    //     <div>{item.address}</div>
-    //   </div>),
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         <div>{item.startWorkingDate}</div>
@@ -126,17 +120,23 @@ const Columns = [
     key: '6',
     title: "Tình trạng",
     dataIndex: "status",
-    render: (text, item) => (
-      <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+    render: (text, item) => ( text &&
+      item.status === 'Đang làm'
+          ?
+            <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                          before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>{item.status}</div>
+          :
+            <div className='bg-red-100 text-red-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                         before:w-2 before:h-2 before:bg-red-700 before:absolute before:rounded-full'>{item.status}</div>
+
 
     ),
     filters: [
-          { text: "Đang làm việc", value: true },
-          { text: "Đã nghỉ việc", value: false },
+          { text: "Đang làm", value: "Đang làm" },
+          { text: "Nghỉ phép", value: "Nghỉ phép"},
         ],
     onFilter: (value, record) => {
-      return record.completed === value
+      return record.status === value
     }
   },
   {

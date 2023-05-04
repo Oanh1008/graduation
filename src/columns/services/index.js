@@ -9,8 +9,9 @@ import {del } from '../../utils/apicommon'
 const columns = [
   {
     key: '1',
-    title: "Số thứ tự",
-    dataIndex: "id",
+    title: 'STT',
+    width: 150,
+    render: (text, record, index) =>  <p className='font-bold'>{index + 1}</p>,
     sorter: (record1, record2) => {
       return record1.id > record2.id
     }

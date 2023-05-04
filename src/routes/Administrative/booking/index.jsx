@@ -42,20 +42,25 @@ const ManagerBooking = () => {
     const [showModal, setShowModal] = useState(false)
     const [toggle, setToggle] = useState(1)
 
+    let user = JSON.parse(localStorage.getItem('user'))
+
     useEffect(() => {
         const fetchData = async () => {
-            const pending = await get('/administrative/book/pending/PKTMNTL7420');
+            setLoading(true)
+            const pending = await get(`/administrative/book/pending/${user.hospitalId}`);
             setPending(pending)
-            const accept = await get('/administrative/book/accept/PKTMNTL7420');
+            const accept = await get(`/administrative/book/accept/${user.hospitalId}`);
             setAccept(accept)
-            const confirm = await get('/administrative/book/confirm/PKTMNTL7420');
+            const confirm = await get(`/administrative/book/confirm/${user.hospitalId}`);
             setConfirm(confirm)
 
-            const cancel = await get('/administrative/book/cancel/PKTMNTL7420');
+            const cancel = await get(`/administrative/book/cancel/${user.hospitalId}`);
             // const filteredData = data.filter((item) => item.imageUrl)
 
             setCancel(cancel)
             // setSearch(filteredData)
+            setLoading(false)
+
         };
         fetchData();
     }, [])

@@ -106,12 +106,12 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<NoteMedical className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.bookInformation.id}?showSaveButton=true`} />
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.bookInformation.userId}?showSaveButton=true`} />
                 <Button
                     type='button'
                     className="hover:bg-red-300 rounded-lg"
                     icon={<Trash className='w-9 h-9 fill-red-500 p-1' />}
-                    onClick={() => { console.log(data.id) }} />
+                    onClick={() => { console.log(data.userId) }} />
             </>
         )
     }

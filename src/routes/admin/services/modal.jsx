@@ -6,6 +6,7 @@ import {
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { post } from '../../../utils/apicommon';
@@ -14,12 +15,11 @@ const onFinish = (values) => {
     console.log('Received values of form: ', values);
 };
 
-const Modal = ({ isVisible, onClose }) => {
+const Modal = ({ isVisible, onClose, id }) => {
     const [form] = Form.useForm()
+
     if (!isVisible) return null
     const handleClose = (e) => {
-        console.log('hi');
-        console.log(e.target.id);
         if (e.target.id == 'wrapper') {
             onClose()
         }
@@ -27,7 +27,7 @@ const Modal = ({ isVisible, onClose }) => {
 
     const handleCreate = async (value) => {
         const add = await post('admin/service/create', {
-            hospitalId: 'BVMTP6198',
+            hospitalId: id,
             serviceName: value.serviceName,
             price: value.price
         })

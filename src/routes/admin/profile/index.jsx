@@ -5,9 +5,11 @@ import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
 import { Edit } from '../../../assets/svg';
 
-const Hospitaldelails = ({ }) => {
+const HospitalProfile = () => {
     const [toggle, setToggle] = useState(1)
     const [showModal, setShowModal] = useState(false)
+
+    let user = JSON.parse(localStorage.getItem('user'));
 
     return (
         <Layout>
@@ -27,22 +29,28 @@ const Hospitaldelails = ({ }) => {
                     <div className='basis-2/3 '>
                         <div className=' rounded-md bg-white '>
                             <div className='p-5'>
-                                <div className='text-3xl text-cyan-900 font-semibold mb-1'>Bệnh Viện Mắt Phong An</div>
-                                <div className='text-gray-600 text-lg'>Phong An, Phong Điền</div>
+                                <div className='text-3xl text-cyan-900 font-semibold mb-1'>{user.hospitalName}</div>
+                                <div className='text-gray-600 text-lg'>{user.address}</div>
                                 <Divider />
                                 <div className='text-base'>
-                                    - CIS (Clinical Information System): Hệ thống thông tin Lâm sàng, là một hệ thống máy tính với các ứng dụng giúp thu thập, lưu trữ, kiểm soát và làm cho dữ liệu lâm sàng có thể truy cập được khi cần thiết cho quá trình chăm sóc bệnh nhân. Thông thường, CIS được sử dụng như một phần của công tác văn phòng lâm sàng (sử dụng bởi các bác sĩ chuyên khoa và các trợ lý bác sĩ)
+                                    {user.information}
                                 </div>
                             </div>
                         </div>
 
                         <div className=' rounded-md bg-white mt-5'>
                             <div className='p-5'>
-                                <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>    dịch vụ</div>
+                                <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>dịch vụ</div>
 
                                 <Divider />
                                 <div className='flex justify-around'>
-                                    <div className='flex flex-col gap-5 items-center '>
+                                    {user.services.map((service) => (
+                                        <div className='flex flex-col gap-5 items-center '>
+                                            <div><Edit className='w-8' /></div>
+                                            <p className='text-base font-semibold'>{service.serviceName}</p>
+                                        </div>
+                                    ))}
+                                    {/* <div className='flex flex-col gap-5 items-center '>
                                         <div><Edit className='w-8' /></div>
                                         <p className='text-base font-semibold'>Cạo mắt</p>
                                     </div>
@@ -57,7 +65,7 @@ const Hospitaldelails = ({ }) => {
                                     <div className='flex flex-col gap-5 items-center'>
                                         <div><Edit className='w-8' /></div>
                                         <p className='text-base font-semibold'>Cạo mắt</p>
-                                    </div>
+                                    </div> */}
 
 
                                 </div>
@@ -99,7 +107,7 @@ const Hospitaldelails = ({ }) => {
 
 
                                 </div>
-                                <button className='mt-5 w-full text-end text-cyan-900 hover:font-semibold mb-1'>Xem thêm</button>
+                                {/* <button className='mt-5 w-full text-end text-cyan-900 hover:font-semibold mb-1'>Xem thêm</button> */}
                             </div>
                         </div>
                     </div>
@@ -141,4 +149,4 @@ const Hospitaldelails = ({ }) => {
     )
 }
 
-export default Hospitaldelails
+export default HospitalProfile

@@ -15,4 +15,6 @@ public class BookCancelDto {
 
     private String message;
 
+    private String operatorId;
+
 }

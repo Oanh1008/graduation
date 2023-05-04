@@ -44,8 +44,8 @@ public class AdministrativeController {
 
     @ApiOperation("Confirm book")
     @PutMapping("/book/confirm")
-    public ResponseEntity<BookEntity> confirmBook(@RequestParam Long bookId) {
-        return ResponseEntity.ok(bookService.confirmBook(bookId));
+    public ResponseEntity<BookEntity> confirmBook(@RequestParam Long bookId, @RequestParam String operatorId) {
+        return ResponseEntity.ok(bookService.confirmBook(bookId, operatorId));
     }
 
     @ApiOperation("Get all book with status accept from this day to future")

@@ -55,4 +55,6 @@ public class BookEntity {
     private String status;
 
     private LocalDateTime dateTimeBook;
+
+    private String operationId;
 }

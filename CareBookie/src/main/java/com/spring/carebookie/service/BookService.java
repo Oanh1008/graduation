@@ -106,18 +106,19 @@ public class BookService {
 
     @Transactional
     public BookEntity acceptBook(BookAcceptDto dto) {
-        bookRepository.acceptBook(dto.getBookId(), dto.getDoctorId(), dto.getDate(), dto.getDateExamination(), dto.getSession());
+
+        bookRepository.acceptBook(dto.getBookId(), dto.getDoctorId(), dto.getDate(), dto.getDateExamination(), dto.getSession(), dto.getOperatorId());
         return bookRepository.findById(dto.getBookId())
                 .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
                         .replace("{}", dto.getBookId().toString())));
     }
 
     @Transactional
-    public BookEntity confirmBook(Long bookId) {
+    public BookEntity confirmBook(Long bookId, String operatorId) {
 
         // TODO create an invoice for bookId
 
-        bookRepository.confirmBook(bookId);
+        bookRepository.confirmBook(bookId , operatorId);
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
                         .replace("{}", bookId.toString())));
@@ -126,7 +127,7 @@ public class BookService {
     @Transactional
     public BookResponseDto cancelBook(BookCancelDto dto) {
 
-        bookRepository.cancelBook(dto.getBookId(), dto.getMessage());
+        bookRepository.cancelBook(dto.getBookId(), dto.getMessage(), dto.getOperatorId());
         BookEntity bookEntity = bookRepository.findById(dto.getBookId())
                 .orElseThrow(() ->
                         new ResourceAccessException("Not found book with {}"
@@ -238,7 +239,7 @@ public class BookService {
             bookResponseDto.setUserId(b.getUserId());
             bookResponseDto.setGender(patient.getGender());
             bookResponseDto.setAddress(patient.getAddress());
-            String[] bd =  patient.getBirthDay().split("-");
+            String[] bd = patient.getBirthDay().split("-");
             int year = LocalDate.now().getYear() - Integer.parseInt(bd[2]);
             bookResponseDto.setAge(year);
             bookResponseDtos.add(bookResponseDto);

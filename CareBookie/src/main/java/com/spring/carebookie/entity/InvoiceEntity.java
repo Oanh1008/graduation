@@ -38,7 +38,11 @@ public class InvoiceEntity {
 
     private boolean isExamined;
 
-    private BigDecimal totalPrice;
-
     private LocalDateTime dateTimeInvoice;
+
+    private String userId;
+
+    private String operatorId;
+
+    private String hospitalId;
 }

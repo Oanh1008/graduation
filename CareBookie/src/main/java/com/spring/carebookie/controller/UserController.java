@@ -20,6 +20,7 @@ import com.spring.carebookie.dto.response.DoctorAndFavouriteResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.HospitalAndFavouriteResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
+import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
 import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
@@ -29,6 +30,7 @@ import com.spring.carebookie.entity.UserFavoriteDoctorEntity;
 import com.spring.carebookie.entity.UserFavoriteHospitalEntity;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.CommonService;
+import com.spring.carebookie.service.InvoiceService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -39,9 +41,11 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("*")
 public class UserController {
 
-    private CommonService commonService;
+    private final CommonService commonService;
 
-    private BookService bookService;
+    private final BookService bookService;
+
+    private final InvoiceService invoiceService;
 
     @ApiOperation("Create new comment for doctor")
     @PostMapping("comment/doctor")
@@ -109,5 +113,11 @@ public class UserController {
     @GetMapping("/hospital/favourite/{userId}")
     public ResponseEntity<List<HospitalAndFavouriteResponseDto>> getAllHospitalFavourite(@PathVariable String userId) {
         return ResponseEntity.ok(commonService.getAllFavouriteHospitalByUserId(userId));
+    }
+
+    @ApiOperation("Get all invoice by userId")
+    @GetMapping("/invoice/{userId}")
+    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoiceByUserId(@PathVariable String userId) {
+        return ResponseEntity.ok(invoiceService.getAllInvoiceByUserId(userId));
     }
 }

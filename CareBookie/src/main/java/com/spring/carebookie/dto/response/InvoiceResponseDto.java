@@ -19,9 +19,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InvoiceResponseDto {
 
+    private Double totalPrice;
+
     private InvoiceEntity invoiceInformation;
 
     private List<ServiceEntity> services;
 
     private List<InvoiceMedicineAmountProjection> medicines;
+
+    public InvoiceResponseDto(InvoiceEntity i, List<ServiceEntity> serviceInvoice, List<InvoiceMedicineAmountProjection> medicineInvoice) {
+        this.invoiceInformation = i;
+        this.services = serviceInvoice;
+        this.medicines =  medicineInvoice;
+    }
 }

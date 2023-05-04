@@ -16,6 +16,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookResponseDto {
 
+    private String operatorId;
+
+    private String fullNameOperator;
+
     private String userId;
 
     private String fullName;

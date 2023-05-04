@@ -20,4 +20,6 @@ public class BookAcceptDto {
 
     private String session;
 
+    private String operatorId;
+
 }

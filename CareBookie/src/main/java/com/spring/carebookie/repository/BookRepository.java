@@ -12,17 +12,17 @@ import com.spring.carebookie.entity.BookEntity;
 public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
     @Modifying
-    @Query("update BookEntity b set b.status = 'CANCEL', b.message = :message where b.id = :id")
-    void cancelBook(Long id, String message);
+    @Query("update BookEntity b set b.status = 'CANCEL', b.message = :message, b.operationId = :operatorId where b.id = :id")
+    void cancelBook(Long id, String message,String operatorId);
 
     @Modifying
     @Query(" update BookEntity b set b.status = 'ACCEPT', b.doctorId = :doctorId, " +
-            " b.date = :date, b.dateExamination = :dateExamination, b.session = :session where b.id = :id")
-    void acceptBook(Long id,String doctorId, String date, LocalDate dateExamination, String session);
+            " b.date = :date, b.dateExamination = :dateExamination, b.session = :session, b.operationId = :operatorId where b.id = :id")
+    void acceptBook(Long id,String doctorId, String date, LocalDate dateExamination, String session, String operatorId);
 
     @Modifying
-    @Query("update BookEntity b set b.status = 'CONFIRM' where b.id = :id")
-    void confirmBook(Long id);
+    @Query("update BookEntity b set b.status = 'CONFIRM', b.operationId = :operatorId where b.id = :id")
+    void confirmBook(Long id, String operatorId);
 
     @Query("select sb.serviceId from BookEntity b \n" +
             "join ServiceBookEntity sb on b.id = sb.bookId \n" +

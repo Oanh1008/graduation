@@ -34,7 +34,7 @@ public class InvoiceService {
             List<ServiceEntity> serviceInvoice = invoiceRepository.getAllServiceByInvoiceId(i.getId());
             List<InvoiceMedicineAmountProjection> medicineInvoice = invoiceRepository.getAllMedicineByInvoiceId(i.getId());
             invoiceResponseDtos.add(
-                    new InvoiceResponseDto(servicePrice.get(i.getId()) +
+                    new InvoiceResponseDto(servicePrice.get(i.getId()) == null ? 0 : servicePrice.get(i.getId()) +
                             (medicinePrice.get(i.getId()) == null ? 0 : medicinePrice.get(i.getId())),
                             i, serviceInvoice, medicineInvoice));
         });

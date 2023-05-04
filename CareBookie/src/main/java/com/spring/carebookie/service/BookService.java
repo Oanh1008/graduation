@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BookService {
+
+    private final InvoiceService invoiceService;
 
     private final UserRepository userRepository;
 
@@ -118,7 +121,7 @@ public class BookService {
 
         // TODO create an invoice for bookId
 
-        bookRepository.confirmBook(bookId , operatorId);
+        bookRepository.confirmBook(bookId, operatorId);
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
                         .replace("{}", bookId.toString())));
@@ -221,16 +224,20 @@ public class BookService {
                 // Response list of invoice share include list of medicine and list of service share
                 List<InvoiceEntity> invoices = invoiceRepository.findAllById(invoiceShareIds);
 
+                Map<Long, Double> servicePrice = invoiceService.getInvoicePriceService();
+                Map<Long, Double> medicinePrice = invoiceService.getInvoicePriceMedicine();
+
                 invoices.forEach(i -> {
                     List<ServiceEntity> serviceInvoice = invoiceRepository.getAllServiceByInvoiceId(i.getId());
                     List<InvoiceMedicineAmountProjection> medicineInvoice = invoiceRepository.getAllMedicineByInvoiceId(i.getId());
-                    invoiceResponseDtos.add(new InvoiceResponseDto(i, serviceInvoice, medicineInvoice));
+                    invoiceResponseDtos.add(new InvoiceResponseDto(servicePrice.get(i.getId()) == null ? 0 : servicePrice.get(i.getId()) +
+                            (medicinePrice.get(i.getId()) == null ? 0 : medicinePrice.get(i.getId())), i, serviceInvoice, medicineInvoice));
                 });
             }
 
             BookResponseDto bookResponseDto = new BookResponseDto(b, serviceBooks, invoiceResponseDtos);
             UserEntity doctor = userRepository.findByUserId(b.getDoctorId());
-            String doctorName = doctor.getLastName() + " " + doctor.getFirstName();
+            String doctorName = doctor == null ? "" : doctor.getLastName() + " " + doctor.getFirstName();
             UserEntity patient = userRepository.findByUserId(b.getUserId());
             String fullName = patient.getLastName() + " " + patient.getFirstName();
 
@@ -242,6 +249,10 @@ public class BookService {
             String[] bd = patient.getBirthDay().split("-");
             int year = LocalDate.now().getYear() - Integer.parseInt(bd[2]);
             bookResponseDto.setAge(year);
+
+            UserEntity operator = userRepository.findByUserId(b.getOperationId());
+            bookResponseDto.setOperatorId(b.getOperationId());
+            bookResponseDto.setFullNameOperator(operator == null ? "" : operator.getLastName() + " " + operator.getFirstName());
             bookResponseDtos.add(bookResponseDto);
         });
 

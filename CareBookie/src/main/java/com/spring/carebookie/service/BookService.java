@@ -18,6 +18,7 @@ import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.entity.BookEntity;
+import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.InvoiceEntity;
 import com.spring.carebookie.entity.InvoiceShareEntity;
 import com.spring.carebookie.entity.ServiceBookEntity;
@@ -26,6 +27,7 @@ import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.exception.BookDateNotValidException;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.BookRepository;
+import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.InvoiceMedicineRepository;
 import com.spring.carebookie.repository.InvoiceRepository;
 import com.spring.carebookie.repository.InvoiceServiceRepository;
@@ -42,6 +44,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookService {
 
+    private final HospitalRepository hospitalRepository;
+
     private final InvoiceService invoiceService;
 
     private final UserRepository userRepository;
@@ -53,6 +57,8 @@ public class BookService {
     private final ServiceBookRepository serviceBookRepository;
 
     private final ServiceRepository serviceRepository;
+
+    private final CommonService commonService;
 
     private final InvoiceRepository invoiceRepository;
 
@@ -236,6 +242,13 @@ public class BookService {
             }
 
             BookResponseDto bookResponseDto = new BookResponseDto(b, serviceBooks, invoiceResponseDtos);
+            HospitalEntity hospital = hospitalRepository.getHospitalId(b.getHospitalId());
+            bookResponseDto.setHospitalNameH(hospital.getHospitalName());
+            bookResponseDto.setAddressH(hospital.getAddress());
+            bookResponseDto.setImageUrlH(hospital.getImageUrl());
+            bookResponseDto.setStarH(commonService.getHospitalStar().get(hospital.getHospitalId()));
+
+
             UserEntity doctor = userRepository.findByUserId(b.getDoctorId());
             String doctorName = doctor == null ? "" : doctor.getLastName() + " " + doctor.getFirstName();
             UserEntity patient = userRepository.findByUserId(b.getUserId());

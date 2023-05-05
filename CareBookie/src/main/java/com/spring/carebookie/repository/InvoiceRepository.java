@@ -19,10 +19,10 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
             "where i.id = :invoiceId")
     List<ServiceEntity> getAllServiceByInvoiceId(Long invoiceId);
 
-    @Query(value = "select  me, ime.amount \n" +
+    @Query(value = "select  me.id as id,me.hospitalId as hospitalId ,me.medicineName as medicineName,me.medicinePrice as medicinePrice,me.medicineUnit as medicineUnit, ime.amount as amount\n" +
             "from InvoiceEntity i \n" +
             "left join InvoiceMedicineEntity ime on i.id = ime.invoiceId \n" +
-            "join MedicineEntity me on ime.medicineId = me.id \n" +
+            "left join MedicineEntity me on ime.medicineId = me.id \n" +
             "where i.id = :invoiceId")
     List<InvoiceMedicineAmountProjection> getAllMedicineByInvoiceId(Long invoiceId);
 
@@ -37,7 +37,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
             "group by i.id", nativeQuery = true)
     List<TotalInvoiceProjection> getTotalByService();
 
-    @Query(value = "select i.id , sum(s.medicine_price) price\n" +
+    @Query(value = "select i.id , sum(s.medicine_price * ise.amount) price\n" +
             "from invoice i\n" +
             "left join invoice_medicine ise on i.id = ise.invoice_id\n" +
             "left join medicine s on ise.medicine_id = s.id\n" +

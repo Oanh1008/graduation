@@ -40,6 +40,8 @@ public class InvoiceEntity {
 
     private LocalDateTime dateTimeInvoice;
 
+    private String doctorId;
+
     private String userId;
 
     private String operatorId;

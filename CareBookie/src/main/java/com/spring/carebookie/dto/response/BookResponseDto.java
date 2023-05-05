@@ -16,6 +16,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookResponseDto {
 
+    private String hospitalNameH;
+
+    private String addressH;
+
+    private Double starH;
+
+    private String imageUrlH;
+
     private String operatorId;
 
     private String fullNameOperator;

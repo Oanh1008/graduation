@@ -47,11 +47,8 @@ public class InvoiceService {
 
             HospitalEntity hospital = hospitalRepository.getHospitalId(i.getHospitalId());
             String hospitalName = hospital.getHospitalName();
-
             String address = hospital.getAddress();
-
             Double star = commonService.getHospitalStar().get(i.getHospitalId());
-
             String imageUrl = hospital.getImageUrl();
 
             UserEntity doctor = userRepository.findByUserId(i.getDoctorId());

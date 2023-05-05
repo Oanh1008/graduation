@@ -42,6 +42,9 @@ public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> 
     @Query("select h from HospitalEntity h where h.hospitalId in (:hospitalIds)")
     List<HospitalEntity> getAllByHospitalId(List<String> hospitalIds);
 
+    @Query("select h from HospitalEntity h where h.hospitalId = :hospitalId")
+    HospitalEntity getHospitalId(String hospitalId);
+
     @Modifying
     @Query("update HospitalEntity h set h.information = :#{#dto.information}," +
             " h.address = :#{#dto.address} , h.priceTo = :#{#dto.priceTo}," +
@@ -49,4 +52,5 @@ public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> 
             " h.isChoosenDoctor = :#{#dto.getIsChoosenDoctor} , h.isRate = :#{#dto.getIsRate()}," +
             " h.imageUrl = :#{#dto.imageUrl} where h.hospitalId = :#{#dto.hospitalId}")
     void settingProfile(@Param("dto") HospitalSettingProfileDto dto);
+
 }

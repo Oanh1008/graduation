@@ -1,5 +1,7 @@
 package com.spring.carebookie.controller;
 
+import javax.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.response.RatingDoctorResponseDto;
 import com.spring.carebookie.dto.response.RatingHospitalResponseDto;
+import com.spring.carebookie.dto.save.RegisterDto;
 import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
@@ -108,7 +111,7 @@ public class CommonController {
 
     @ApiOperation("Login")
     @PostMapping("/login")
-    public ResponseEntity<UserEntity> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<UserEntity> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 
@@ -118,6 +121,4 @@ public class CommonController {
         return ResponseEntity.ok(userService.getUserByUserId(userId));
     }
 
-    // TODO home search
-    // GetALlHospital search by district
 }

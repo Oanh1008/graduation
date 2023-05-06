@@ -89,7 +89,7 @@ public class AdminController {
 
     @ApiOperation("Update service information")
     @PutMapping("/service/update")
-    public ResponseEntity<ServiceEntity> updateService(@RequestBody ServiceUpdateDto dto) {
+    public ResponseEntity<ServiceEntity> updateService(@Valid @RequestBody ServiceUpdateDto dto) {
         return ResponseEntity.ok(commonService.updateService(dto));
     }
 

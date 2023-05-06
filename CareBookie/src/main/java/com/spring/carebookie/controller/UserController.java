@@ -1,5 +1,7 @@
 package com.spring.carebookie.controller;
 
+import javax.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -24,13 +26,17 @@ import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
 import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
+import com.spring.carebookie.dto.save.RegisterDto;
+import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.entity.RatingDoctorEntity;
 import com.spring.carebookie.entity.RatingHospitalEntity;
+import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.UserFavoriteDoctorEntity;
 import com.spring.carebookie.entity.UserFavoriteHospitalEntity;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.CommonService;
 import com.spring.carebookie.service.InvoiceService;
+import com.spring.carebookie.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -47,6 +53,21 @@ public class UserController {
 
     private final InvoiceService invoiceService;
 
+    private final UserService userService;
+
+    @ApiOperation("User register")
+    @PostMapping("/register")
+    public ResponseEntity<UserEntity> registerForUser(@Valid @RequestBody RegisterDto dto) {
+        return ResponseEntity.ok(userService.register(dto));
+    }
+
+    @ApiOperation("User register")
+    @PostMapping("/update/information")
+    public ResponseEntity<UserEntity> updateInformationForUser(@Valid @RequestBody UpdateUserInformationDto dto) {
+        return ResponseEntity.ok(userService.updateUser(dto));
+    }
+
+
     @ApiOperation("Create new comment for doctor")
     @PostMapping("comment/doctor")
     public ResponseEntity<RatingDoctorEntity> saveCommentDoctor(@RequestBody RatingDoctorSaveDto dto) {
@@ -61,13 +82,13 @@ public class UserController {
 
     @ApiOperation("Create a book")
     @PostMapping("/book")
-    public ResponseEntity<BookResponseDto> createNewBook(@RequestBody BookSaveDto dto) {
+    public ResponseEntity<BookResponseDto> createNewBook(@Valid @RequestBody BookSaveDto dto) {
         return ResponseEntity.ok(bookService.saveBook(dto));
     }
 
     @ApiOperation("Cancel book")
     @PutMapping("/book/cancel")
-    public ResponseEntity<BookResponseDto> cancelBook(@RequestBody BookCancelDto dto) {
+    public ResponseEntity<BookResponseDto> cancelBook(@Valid @RequestBody BookCancelDto dto) {
         return ResponseEntity.ok(bookService.cancelBook(dto));
     }
 

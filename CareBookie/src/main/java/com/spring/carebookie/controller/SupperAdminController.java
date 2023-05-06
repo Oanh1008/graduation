@@ -1,5 +1,7 @@
 package com.spring.carebookie.controller;
 
+import javax.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ public class SupperAdminController {
 
     @ApiOperation("Create an hospital")
     @PostMapping("/hospital/save")
-    public ResponseEntity<HospitalEntity> save(@RequestBody HospitalSaveDto dto) {
+    public ResponseEntity<HospitalEntity> save(@Valid @RequestBody HospitalSaveDto dto) {
         return ResponseEntity.ok(hospitalService.saveHospital(dto));
     }
 

@@ -1,5 +1,7 @@
 package com.spring.carebookie.dto.edit;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +13,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookCancelDto {
 
+    @NotBlank
     private Long bookId;
 
     private String message;
 
+    @NotBlank
     private String operatorId;
 
 }

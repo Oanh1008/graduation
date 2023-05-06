@@ -1,11 +1,13 @@
 package com.spring.carebookie.repository.projection;
 
-public interface SearchByKeyProjection {
+public interface SearchByKeyHospitalProjection {
 
     String getId();
 
     String getName();
 
     String getImageUrl();
+
+    String getAddress();
 
 }

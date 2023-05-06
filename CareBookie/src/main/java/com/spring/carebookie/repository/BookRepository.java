@@ -53,7 +53,7 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
     List<BookEntity> getAllBookConfirmByHospitalId(String hospitalId);
 
 
-    @Query("select b from BookEntity b where b.userId = ?1")
+    @Query("select b from BookEntity b where b.userId = ?1 and b.status in ('CANCEL','PENDING','ACCEPT')")
     List<BookEntity> getAllBookByUserId(String userId);
 
 }

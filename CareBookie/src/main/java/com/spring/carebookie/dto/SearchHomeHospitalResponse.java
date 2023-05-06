@@ -16,4 +16,9 @@ public class SearchHomeHospitalResponse {
     private String hospitalName;
 
     private String imageUrl;
+
+    private Double star;
+
+    private String address;
+
 }

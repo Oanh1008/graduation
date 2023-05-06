@@ -23,6 +23,8 @@ import lombok.Setter;
 @Builder
 public class InvoiceResponseDto {
 
+    private UserInvoiceResponse user;
+
     private String hospitalName;
 
     private String address;

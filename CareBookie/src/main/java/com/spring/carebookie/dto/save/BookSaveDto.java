@@ -3,6 +3,7 @@ package com.spring.carebookie.dto.save;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,17 +22,22 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookSaveDto {
 
+    @NotBlank
     private String userId;
 
+    @NotBlank
     private String hospitalId;
 
     private String doctorId;
 
+    @NotBlank
     private String date;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @NotBlank
     private LocalDate dateExamination;
 
+    @NotBlank
     private String session;
 
     private String symptom;

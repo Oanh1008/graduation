@@ -1,5 +1,6 @@
 package com.spring.carebookie.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,10 +12,14 @@ import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.dynamodbv2.xspec.M;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
+import com.spring.carebookie.dto.response.UserInvoiceResponse;
+import com.spring.carebookie.entity.BookEntity;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.InvoiceEntity;
 import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserEntity;
+import com.spring.carebookie.exception.ResourceNotFoundException;
+import com.spring.carebookie.repository.BookRepository;
 import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.InvoiceRepository;
 import com.spring.carebookie.repository.UserRepository;
@@ -36,6 +41,8 @@ public class InvoiceService {
 
     private final CommonService commonService;
 
+    private final BookRepository bookRepository;
+
     public List<InvoiceResponseDto> getAllInvoiceByUserId(String userId) {
         List<InvoiceEntity> invoices = invoiceRepository.getALlByUserId(userId);
         List<InvoiceResponseDto> invoiceResponseDtos = new ArrayList<>();
@@ -53,8 +60,25 @@ public class InvoiceService {
 
             UserEntity doctor = userRepository.findByUserId(i.getDoctorId());
             String doctorName = doctor == null ? null : doctor.getLastName() + " " + doctor.getFirstName();
+
+            UserInvoiceResponse user = new UserInvoiceResponse();
+            BookEntity b = bookRepository.findById(i.getBookId()).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+
+            UserEntity e = userRepository.findByUserId(i.getUserId());
+            String[] bd = e.getBirthDay().split("-");
+            int year = LocalDate.now().getYear() - Integer.parseInt(bd[2]);
+
+            user.setFullNameBook(b.getName());
+            user.setAgeBook(b.getAge());
+            user.setGenderBook(b.getGender());
+            user.setUserId(e.getUserId());
+            user.setFullName(e.getLastName() + " " + e.getFirstName());
+            user.setGender(e.getGender() == 1 ? "Nam" : "Nữ");
+            user.setAge(year);
+
+
             invoiceResponseDtos.add(
-                    new InvoiceResponseDto(hospitalName, address, star, imageUrl, doctorName, servicePrice.get(i.getId()) == null ? 0 : servicePrice.get(i.getId()) +
+                    new InvoiceResponseDto(user,hospitalName, address, star, imageUrl, doctorName, servicePrice.get(i.getId()) == null ? 0 : servicePrice.get(i.getId()) +
                             (medicinePrice.get(i.getId()) == null ? 0 : medicinePrice.get(i.getId())),
                             i, serviceInvoice, medicineInvoice));
         });

@@ -3,6 +3,7 @@ package com.spring.carebookie.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -110,7 +111,29 @@ public class BookService {
             });
         }
 
-        return new BookResponseDto(saveBook, serviceBooks, invoiceResponseDtos);
+        BookResponseDto bookResponseDto =  new BookResponseDto(saveBook, serviceBooks, invoiceResponseDtos);
+        HospitalEntity hospital = hospitalRepository.getHospitalId(dto.getHospitalId());
+        bookResponseDto.setHospitalNameH(hospital.getHospitalName());
+        bookResponseDto.setAddressH(hospital.getAddress());
+        bookResponseDto.setImageUrlH(hospital.getImageUrl());
+        bookResponseDto.setStarH(commonService.getHospitalStar().get(hospital.getHospitalId()));
+
+
+        UserEntity doctor = userRepository.findByUserId(dto.getDoctorId());
+        String doctorName = doctor == null ? "" : doctor.getLastName() + " " + doctor.getFirstName();
+        UserEntity patient = userRepository.findByUserId(dto.getUserId());
+        String fullName = patient.getLastName() + " " + patient.getFirstName();
+
+        bookResponseDto.setDoctorName(doctorName);
+        bookResponseDto.setFullName(fullName);
+        bookResponseDto.setUserId(dto.getUserId());
+        bookResponseDto.setGender(patient.getGender());
+        bookResponseDto.setAddress(patient.getAddress());
+        String[] bd = patient.getBirthDay().split("-");
+        int year = LocalDate.now().getYear() - Integer.parseInt(bd[2]);
+        bookResponseDto.setAge(year);
+
+        return bookResponseDto;
     }
 
     @Transactional
@@ -199,6 +222,7 @@ public class BookService {
 
     public List<BookResponseDto> getAllBookByUserId(String userId) {
         List<BookEntity> bookEntities = bookRepository.getAllBookByUserId(userId);
+        bookEntities.sort(Comparator.comparing(BookEntity::getDateExamination));
         return getAllBookByStatus(bookEntities);
     }
 

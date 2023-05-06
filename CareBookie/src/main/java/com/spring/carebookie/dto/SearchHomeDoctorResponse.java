@@ -16,4 +16,6 @@ public class SearchHomeDoctorResponse {
     private String doctorName;
 
     private String imageUrl;
+
+    private String speciality;
 }

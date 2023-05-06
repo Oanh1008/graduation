@@ -43,8 +43,25 @@ public class InvoiceService {
 
     private final BookRepository bookRepository;
 
+    public List<InvoiceResponseDto> getAllInvoiceByHospitalId(String hospitalId) {
+        List<InvoiceEntity> invoices = invoiceRepository.getALlByHospitalId(hospitalId);
+        return getInvoiceByIdCommon(invoices);
+    }
+
+    public List<InvoiceResponseDto> getAllInvoiceByDoctorId(String hospitalId, String doctorId) {
+        List<InvoiceEntity> invoices = invoiceRepository.getALlByHospitalId(hospitalId)
+                .stream()
+                .filter(i -> i.getDoctorId().equals(doctorId))
+                .collect(Collectors.toList());
+        return getInvoiceByIdCommon(invoices);
+    }
+
     public List<InvoiceResponseDto> getAllInvoiceByUserId(String userId) {
         List<InvoiceEntity> invoices = invoiceRepository.getALlByUserId(userId);
+        return getInvoiceByIdCommon(invoices);
+    }
+
+    public List<InvoiceResponseDto> getInvoiceByIdCommon(List<InvoiceEntity> invoices) {
         List<InvoiceResponseDto> invoiceResponseDtos = new ArrayList<>();
         Map<Long, Double> servicePrice = getInvoicePriceService();
         Map<Long, Double> medicinePrice = getInvoicePriceMedicine();
@@ -78,7 +95,7 @@ public class InvoiceService {
 
 
             invoiceResponseDtos.add(
-                    new InvoiceResponseDto(user,hospitalName, address, star, imageUrl, doctorName, servicePrice.get(i.getId()) == null ? 0 : servicePrice.get(i.getId()) +
+                    new InvoiceResponseDto(user, hospitalName, address, star, imageUrl, doctorName, servicePrice.get(i.getId()) == null ? 0 : servicePrice.get(i.getId()) +
                             (medicinePrice.get(i.getId()) == null ? 0 : medicinePrice.get(i.getId())),
                             i, serviceInvoice, medicineInvoice));
         });
@@ -86,9 +103,21 @@ public class InvoiceService {
     }
 
     public Map<Long, Double> getInvoicePriceService() {
-        return invoiceRepository.getTotalByService()
-                .stream()
-                .collect(Collectors.toMap(TotalInvoiceProjection::getId, TotalInvoiceProjection::getPrice));
+//        return invoiceRepository.getTotalByService()
+//                .stream()
+//                .collect(Collectors.toMap(TotalInvoiceProjection::getId, TotalInvoiceProjection::getPrice));
+
+        if (invoiceRepository.getTotalByService() == null || invoiceRepository.getTotalByService().size() == 0) {
+            return new HashMap<>();
+        }
+        Map<Long, Double> services = new HashMap<>();
+        invoiceRepository.getTotalByService()
+                .forEach(t -> {
+                    if (t.getId() != null && t.getPrice() != null) {
+                        services.put(t.getId(), t.getPrice());
+                    }
+                });
+        return services;
     }
 
     public Map<Long, Double> getInvoicePriceMedicine() {

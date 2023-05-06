@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
+import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.service.BookService;
+import com.spring.carebookie.service.InvoiceService;
 import com.spring.carebookie.service.UserService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +33,8 @@ public class DoctorController {
     private final UserService userService;
 
     private final BookService bookService;
+
+    private final InvoiceService invoiceService;
 
     @ApiOperation("Get all book doctorId and status is ACCEPT")
     @GetMapping("/book/accept")
@@ -53,6 +58,13 @@ public class DoctorController {
     @PutMapping("/update/status/{doctorId}")
     public ResponseEntity<UserEntity> updateStatus(@PathVariable String doctorId, @RequestParam String status) {
         return ResponseEntity.ok(userService.updateStatus(doctorId, status));
+    }
+
+    @ApiOperation("Get all invoice by  with isExamined = false")
+    @GetMapping("/invoice/{hospitalId}/{doctorId}")
+    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoiceByDoctorId(@PathVariable String hospitalId,
+                                                                            @PathVariable String doctorId) {
+        return ResponseEntity.ok(invoiceService.getAllInvoiceByDoctorId(hospitalId, doctorId));
     }
 
 }

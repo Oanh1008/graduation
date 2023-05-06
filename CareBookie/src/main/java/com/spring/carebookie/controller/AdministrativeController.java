@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.carebookie.dto.edit.BookAcceptDto;
 import com.spring.carebookie.dto.edit.BookCancelDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
+import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.entity.BookEntity;
 import com.spring.carebookie.service.BookService;
+import com.spring.carebookie.service.InvoiceService;
 import com.spring.carebookie.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +33,8 @@ public class AdministrativeController {
     private final BookService bookService;
 
     private final UserService userService;
+
+    private final InvoiceService invoiceService;
 
     @ApiOperation("Cancel book")
     @PutMapping("/book/cancel")
@@ -46,7 +50,7 @@ public class AdministrativeController {
 
     @ApiOperation("Confirm book")
     @PutMapping("/book/confirm")
-    public ResponseEntity<BookEntity> confirmBook(@RequestParam Long bookId, @RequestParam String operatorId) {
+    public ResponseEntity<InvoiceResponseDto> confirmBook(@RequestParam Long bookId, @RequestParam String operatorId) {
         return ResponseEntity.ok(bookService.confirmBook(bookId, operatorId));
     }
 
@@ -72,6 +76,12 @@ public class AdministrativeController {
     @GetMapping("/book/confirm/{hospitalId}")
     public ResponseEntity<List<BookResponseDto>> getAllConfirmBookByHospitalId(@PathVariable String hospitalId) {
         return ResponseEntity.ok(bookService.getAllBookConfirmByHospitalId(hospitalId));
+    }
+
+    @ApiOperation("Get all invoice by hospitalId with isExamined = false")
+    @GetMapping("/invoice/{hospitalId}")
+    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoiceByHospitalId(@PathVariable String hospitalId) {
+        return ResponseEntity.ok(invoiceService.getAllInvoiceByHospitalId(hospitalId));
     }
 
 }

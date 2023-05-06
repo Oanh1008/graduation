@@ -22,13 +22,17 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
     @Query(value = "select  me.id as id,me.hospitalId as hospitalId ,me.medicineName as medicineName,me.medicinePrice as medicinePrice,me.medicineUnit as medicineUnit, ime.amount as amount\n" +
             "from InvoiceEntity i \n" +
             "left join InvoiceMedicineEntity ime on i.id = ime.invoiceId \n" +
-            "left join MedicineEntity me on ime.medicineId = me.id \n" +
+            "join MedicineEntity me on ime.medicineId = me.id \n" +
             "where i.id = :invoiceId")
     List<InvoiceMedicineAmountProjection> getAllMedicineByInvoiceId(Long invoiceId);
 
 
     @Query("select i from InvoiceEntity i where i.userId = ?1")
     List<InvoiceEntity> getALlByUserId(String userId);
+
+
+    @Query("select i from InvoiceEntity i where i.hospitalId = ?1 and i.isExamined = false ")
+    List<InvoiceEntity> getALlByHospitalId(String hospitalId);
 
     @Query(value = "select i.id, sum(s.price) price\n" +
             "from invoice i\n" +

@@ -93,13 +93,13 @@ public class CommonService {
         List<SearchHomeHospitalResponse> hospitals =
                 hospitalRepository.searchByKey(key)
                         .stream()
-                        .map(o -> new SearchHomeHospitalResponse(o.getId(), o.getName(), o.getImageUrl()))
+                        .map(o -> new SearchHomeHospitalResponse(o.getId(), o.getName(), o.getImageUrl(), getHospitalStar().get(o.getId()), o.getAddress()))
                         .collect(Collectors.toList());
 
         List<SearchHomeDoctorResponse> doctors =
                 userRepository.searchByKey(key)
                         .stream()
-                        .map(o -> new SearchHomeDoctorResponse(o.getId(), o.getName(), o.getImageUrl()))
+                        .map(o -> new SearchHomeDoctorResponse(o.getId(), o.getName(), o.getImageUrl(),o.getSpeciality()))
                         .collect(Collectors.toList());
         return new SearchHomeResponse(hospitals, doctors);
     }

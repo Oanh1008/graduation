@@ -111,7 +111,7 @@ public class BookService {
             });
         }
 
-        BookResponseDto bookResponseDto =  new BookResponseDto(saveBook, serviceBooks, invoiceResponseDtos);
+        BookResponseDto bookResponseDto = new BookResponseDto(saveBook, serviceBooks, invoiceResponseDtos);
         HospitalEntity hospital = hospitalRepository.getHospitalId(dto.getHospitalId());
         bookResponseDto.setHospitalNameH(hospital.getHospitalName());
         bookResponseDto.setAddressH(hospital.getAddress());
@@ -146,14 +146,34 @@ public class BookService {
     }
 
     @Transactional
-    public BookEntity confirmBook(Long bookId, String operatorId) {
+    public InvoiceResponseDto confirmBook(Long bookId, String operatorId) {
 
         // TODO create an invoice for bookId
-
         bookRepository.confirmBook(bookId, operatorId);
-        return bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
-                        .replace("{}", bookId.toString())));
+
+        BookEntity b = bookRepository.findById(bookId).orElseThrow(() ->
+                new ResourceNotFoundException("Book {} not found".replace("{}", bookId.toString())));
+
+        // Create an invoice for this book;
+        InvoiceEntity invoice = new InvoiceEntity();
+        invoice.setBookId(b.getId());
+        invoice.setDateTimeInvoice(LocalDateTime.now());
+        invoice.setUserId(b.getUserId());
+        invoice.setHospitalId(b.getHospitalId());
+        invoice.setOperatorId(b.getOperationId());
+        invoice.setDoctorId(b.getDoctorId());
+        invoice.setDiscountInsurance(0D);
+        invoice.setExamined(false);
+
+        invoiceRepository.save(invoice);
+        // return 1 ResponseInvoiceDto theo bookId and hospitalId
+        InvoiceResponseDto invoiceResponseDto =  invoiceService.getAllInvoiceByHospitalId(invoice.getHospitalId())
+                .stream()
+                .filter(i -> i.getInvoiceInformation().getBookId().equals(bookId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Not found invoice"));
+
+        return invoiceResponseDto;
     }
 
     @Transactional

@@ -1,5 +1,7 @@
 package com.spring.carebookie.controller;
 
+import javax.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -32,13 +34,13 @@ public class AdministrativeController {
 
     @ApiOperation("Cancel book")
     @PutMapping("/book/cancel")
-    public ResponseEntity<BookResponseDto> cancelBook(@RequestBody BookCancelDto dto) {
+    public ResponseEntity<BookResponseDto> cancelBook(@Valid @RequestBody BookCancelDto dto) {
         return ResponseEntity.ok(bookService.cancelBook(dto));
     }
 
     @ApiOperation("Accept book")
     @PutMapping("/book/accept")
-    public ResponseEntity<BookEntity> acceptBook(@RequestBody BookAcceptDto dto) {
+    public ResponseEntity<BookEntity> acceptBook(@Valid @RequestBody BookAcceptDto dto) {
         return ResponseEntity.ok(bookService.acceptBook(dto));
     }
 

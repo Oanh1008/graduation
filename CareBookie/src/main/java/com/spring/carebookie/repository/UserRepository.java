@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
+import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 import com.spring.carebookie.repository.projection.SearchByKeyDoctorProjection;
@@ -15,6 +16,13 @@ import com.spring.carebookie.repository.projection.SearchByKeyHospitalProjection
 import com.spring.carebookie.repository.sql.UserSql;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
+    @Modifying
+    @Query("update UserEntity u set u.firstName = :#{#dto.firstName}," +
+            " u.lastName = :#{#dto.lastName}, u.email = :#{#dto.email}, u.phone = :#{#dto.phone}," +
+            " u.address = :#{#dto.address}, u.imageUrl = :#{#dto.imageUrl}, u.birthDay = :#{#dto.birthDay}," +
+            " u.gender = :#{#dto.gender} where u.userId = :#{#dto.userId}")
+    void updateUser(@Param("dto") UpdateUserInformationDto dto);
 
     @Query(value = "select distinct u.user_id id, concat(u.last_name, ' ' , u.first_name) as name, u.image_url imageUrl, u.speciality as speciality\n" +
             "from user u\n" +

@@ -23,6 +23,8 @@ import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.EmployeeSaveDto;
+import com.spring.carebookie.dto.save.RegisterDto;
+import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
@@ -63,6 +65,26 @@ public class UserService {
     /**
      * User
      */
+
+    @Transactional
+    public UserEntity register(RegisterDto dto) {
+        UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
+        String userId = generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail());
+        entity.setUserId(userId);
+        entity.setRoleId(5L);
+        entity.setDisable(false);
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+
+        return userRepository.save(entity);
+    }
+
+    @Transactional
+    public UserEntity updateUser(UpdateUserInformationDto dto) {
+        userRepository.updateUser(dto);
+        return Optional.of(userRepository.findByUserId(dto.getUserId()))
+                .orElseThrow(() -> new ResourceNotFoundException("User {} not found".replace("{}", dto.getUserId())));
+    }
+
     @Transactional
     public UserEntity save(UserSaveDto dto) {
 
@@ -257,5 +279,6 @@ public class UserService {
         return firstName.toCharArray()[0] + String.valueOf(lastName.toCharArray()[0]) + email.split("@")[0];
 
     }
+
 
 }

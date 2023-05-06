@@ -1,5 +1,7 @@
 package com.spring.carebookie.controller;
 
+import javax.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -43,7 +45,7 @@ public class DoctorController {
 
     @ApiOperation("Update doctor information")
     @PutMapping("/update/information")
-    public ResponseEntity<UserEntity> updateInformation(@RequestBody DoctorUpdateInformationDto dto) {
+    public ResponseEntity<UserEntity> updateInformation(@Valid @RequestBody DoctorUpdateInformationDto dto) {
         return ResponseEntity.ok(userService.updateDoctor(dto));
     }
 

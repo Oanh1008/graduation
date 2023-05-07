@@ -13,7 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookCancelDto {
 
-    @NotBlank
     private Long bookId;
 
     private String message;

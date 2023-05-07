@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MedicineUpdateDto {
-    @NotBlank
+
     private Long  id;
 
     @NotBlank

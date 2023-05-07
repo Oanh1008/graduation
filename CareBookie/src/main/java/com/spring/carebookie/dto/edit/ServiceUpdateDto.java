@@ -9,12 +9,10 @@ import lombok.Data;
 @Data
 public class ServiceUpdateDto {
 
-    @NotBlank
     private Long serviceId;
 
     @NotBlank
     private String serviceName;
 
-    @NotBlank
     private BigDecimal price;
 }

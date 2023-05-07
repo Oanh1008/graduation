@@ -19,7 +19,6 @@ public class BookAcceptDto {
     @NotBlank
     private String date;
 
-    @NotBlank
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateExamination;
 

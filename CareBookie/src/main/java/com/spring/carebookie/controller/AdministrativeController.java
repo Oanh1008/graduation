@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.edit.BookAcceptDto;
 import com.spring.carebookie.dto.edit.BookCancelDto;
+import com.spring.carebookie.dto.edit.ConfirmInvoiceDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.entity.BookEntity;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.InvoiceService;
+import com.spring.carebookie.service.MedicineService;
 import com.spring.carebookie.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +37,8 @@ public class AdministrativeController {
     private final UserService userService;
 
     private final InvoiceService invoiceService;
+
+    private final MedicineService medicineService;
 
     @ApiOperation("Cancel book")
     @PutMapping("/book/cancel")
@@ -84,4 +88,9 @@ public class AdministrativeController {
         return ResponseEntity.ok(invoiceService.getAllInvoiceByHospitalId(hospitalId));
     }
 
+    @ApiOperation("Confirm invoice isExamined = true and pass the discount for insurance")
+    @PutMapping("/invoice/confirm-examined")
+    public ResponseEntity<InvoiceResponseDto> confirmExamined(@RequestBody ConfirmInvoiceDto dto) {
+        return ResponseEntity.ok(invoiceService.confirmExamined(dto.getInvoiceId(), dto.getDiscountInsurance()));
+    }
 }

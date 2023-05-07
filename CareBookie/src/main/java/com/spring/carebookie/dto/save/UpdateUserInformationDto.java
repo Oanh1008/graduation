@@ -42,7 +42,6 @@ public class UpdateUserInformationDto {
     private String imageUrl;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @NotBlank
     private String birthDay;
 
     private int gender;

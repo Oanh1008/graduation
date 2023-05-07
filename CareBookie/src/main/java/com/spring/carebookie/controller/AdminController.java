@@ -15,19 +15,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.edit.HospitalSettingProfileDto;
+import com.spring.carebookie.dto.edit.MedicineUpdateDto;
 import com.spring.carebookie.dto.edit.ServiceUpdateDto;
 import com.spring.carebookie.dto.edit.WorkingDayDetailEditDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.EmployeeSaveDto;
+import com.spring.carebookie.dto.save.MedicineSaveDto;
 import com.spring.carebookie.dto.save.ServiceSaveDto;
 import com.spring.carebookie.dto.save.WorkingDayDetailDto;
+import com.spring.carebookie.entity.MedicineEntity;
 import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 import com.spring.carebookie.service.CommonService;
 import com.spring.carebookie.service.HospitalService;
+import com.spring.carebookie.service.MedicineService;
 import com.spring.carebookie.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +47,8 @@ public class AdminController {
     private final HospitalService hospitalService;
 
     private final CommonService commonService;
+
+    private final MedicineService medicineService;
 
     @ApiOperation("Create a doctor")
     @PostMapping("/create/doctor")
@@ -105,7 +111,7 @@ public class AdminController {
     @ApiOperation("Update information working day of hospital by id")
     @PutMapping("/working-day/{hospitalId}")
     public ResponseEntity<WorkingDayDetailsEntity> updateWorkingDayDetai(@PathVariable String hospitalId, @RequestBody WorkingDayDetailEditDto dto) {
-        return ResponseEntity.ok(commonService.updateWorkingDay(hospitalId,dto));
+        return ResponseEntity.ok(commonService.updateWorkingDay(hospitalId, dto));
     }
 
     // TODO
@@ -113,6 +119,34 @@ public class AdminController {
     @PutMapping("/setting/profile")
     public ResponseEntity<?> settingProfile(@RequestBody HospitalSettingProfileDto dto) {
         return ResponseEntity.ok(hospitalService.settingProfile(dto));
+    }
+
+    /**
+     * Medicine
+     */
+    @ApiOperation("Add a new medicine into hospital")
+    @PostMapping("/medicine")
+    public ResponseEntity<MedicineEntity> saveMedicine(@Valid @RequestBody MedicineSaveDto dto) {
+        return ResponseEntity.ok(medicineService.save(dto));
+    }
+
+    @ApiOperation("Update a medicine into hospital")
+    @PutMapping ("/medicine")
+    public ResponseEntity<MedicineEntity> updateMedicine(@Valid @RequestBody MedicineUpdateDto dto) {
+        return ResponseEntity.ok(medicineService.update(dto));
+    }
+
+    @ApiOperation("Delete medicine from hospital")
+    @DeleteMapping("/medicine/{medicineId}")
+    public ResponseEntity<?> deleteMedicine(@PathVariable Long medicineId) {
+        medicineService.delete(medicineId);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Get all medicine by hospital")
+    @GetMapping("/medicine/{hospitalId}")
+    public ResponseEntity<List<MedicineEntity>> getAllMedicineByHospitalId(@PathVariable String hospitalId) {
+        return ResponseEntity.ok(medicineService.getAllMedicineByHospitalId(hospitalId));
     }
 
 }

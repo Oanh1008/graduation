@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 public class BookAcceptDto {
 
-    @NotBlank
     private Long bookId;
 
     private String doctorId;

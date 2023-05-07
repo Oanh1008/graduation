@@ -20,12 +20,12 @@ const Columns = [
         width: 250,
         fixed: 'left',
         render: (text, item) => (text &&
-            item.bookInformation.name ?
+            item.user.fullNameBook ?
             <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.name}</p>
+                <p>{item.user.fullNameBook}</p>
             </div>
             : <div className='flex items-center gap-3'>
-                <p>{item.fullName}</p>
+                <p>{item.user.fullName}</p>
             </div>
         )
 
@@ -35,32 +35,31 @@ const Columns = [
         key: '3',
         title: "Tuổi",
         dataIndex: "age",
+        width: 100,
         render: (text, item) => (text &&
-            item.bookInformation.age ?
+            item.user.ageBook ?
             <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.age}</p>
+                <p>{item.user.ageBook}</p>
             </div>
             : <div className='flex items-center gap-3'>
-                <p>{item.age}</p>
+                <p>{item.user.age}</p>
             </div>
         )
-        // sorter: (record1, record2) => {
-        //   return record1.lastName > record2.lastName
-        // }
     },
     {
         key: '4',
         title: "Giới tính",
         dataIndex: "gender",
+        width: 100,
         render: (text, item) => (text &&
-            item.bookInformation.gender ?
+            item.user.genderBook ?
             <div className='flex items-center gap-3'>
-                {item.bookInformation.gender ?
+                {item.user.genderBook ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>
             : <div className='flex items-center gap-3'>
-                {item.gender ?
+                {item.user.gender ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>
@@ -70,41 +69,36 @@ const Columns = [
         key: '5',
         title: "Địa chi",
         dataIndex: "address",
+        width: 350,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.address}</div>
             </div>),
     },
+
     {
-        key: '66',
-        title: "Triệu chứng",
-        dataIndex: "symptom",
+        key: '6',
+        title: "Ngày đặt lịch",
+        dataIndex: "dateTimeInvoice",
+        width: 200,
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <div>{item.bookInformation.symptom}</div>
+                <div>{item.invoiceInformation.dateTimeInvoice}</div>
+            </div>),
+    },
+    {
+        key: '7',
+        title: "Chẩn đoán",
+        dataIndex: "diagnose",
+        width: 250,
+        render: (text, item) => (
+            <div className='flex items-center gap-3'>
+                <div>{item.invoiceInformation.diagnose}</div>
             </div>),
     },
 
     {
-        key: '7',
-        title: "Ngày đặt lịch",
-        dataIndex: "birthDay",
-        render: (text, item) => (
-            <div className='flex items-center gap-3'>
-                <div>{item.bookInformation.dateExamination}</div>
-            </div>),
-    },
-    {
         key: '8',
-        title: "Thời gian đặt lịch",
-        dataIndex: "birthDay",
-        render: (text, item) => (
-            <div className='flex items-center gap-3'>
-                <div>{item.bookInformation.dateTimeBook}</div>
-            </div>),
-    },
-    {
-        key: '9',
         title: "",
         fixed: 'right',
         render: (data) => (

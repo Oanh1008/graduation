@@ -6,12 +6,9 @@ import Button from '../../components/button/index'
 const Columns = [
   {
     key: '1',
-    title: "ID",
-    dataIndex: "id",
+    title: 'STT',
     width: 60,
-    render: (text, item) => ( text &&
-      <p className='font-bold'>{item.id}</p>
-    ),
+    render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
     sorter: (record1, record2) => {
       return record1.id > record2.id
     }
@@ -36,7 +33,7 @@ const Columns = [
     key: '3',
     title: "Ngày sinh",
     dataIndex: "birthDay",
-    width:200,
+    width: 200,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         <div>{item.birthDay}</div>
@@ -45,12 +42,12 @@ const Columns = [
       return record1.birthDay > record2.birthDay
     }
   },
-    {
+  {
     key: '4',
     title: "Giới tính",
     dataIndex: "gender",
     width: 150,
-    render: (text, item) => ( text &&
+    render: (text, item) => (text &&
       item.gender === 1 ?
       <div className='flex items-center gap-3'>
         <div>Nam</div>
@@ -101,22 +98,22 @@ const Columns = [
     title: "",
     width: 100,
     render: (data) => (
-        <Popconfirm
-          placement="bottomRight"
-          title={"Bạn muốn xoá người này ? "}
-          description={"Không thể khôi phục được"}
-          onConfirm={() => { console.log(data.id) }}
-          okText="Yes"
-          cancelText="No"
-          icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
-        >
+      <Popconfirm
+        placement="bottomRight"
+        title={"Bạn muốn xoá người này ? "}
+        description={"Không thể khôi phục được"}
+        onConfirm={() => { console.log(data.id) }}
+        okText="Yes"
+        cancelText="No"
+        icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
+      >
 
-          <Button
-            type='button'
-            className=" rounded-lg"
-            icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
-          />
-        </Popconfirm>
+        <Button
+          type='button'
+          className=" rounded-lg"
+          icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
+        />
+      </Popconfirm>
     )
   }
 ];

@@ -9,12 +9,9 @@ import BookingDetails from '../../routes/Pratitioner/booking/bookingDetails';
 const Columns = [
   {
     key: '1',
-    title: "ID",
-    dataIndex: "id",
+    title: 'STT',
     width: 60,
-    render: (text, item) => ( text &&
-      <p className='font-bold'>{item.id}</p>
-    ),
+    render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
     sorter: (record1, record2) => {
       return record1.id > record2.id
     }
@@ -74,20 +71,20 @@ const Columns = [
     dataIndex: "status",
     width: 210,
     render: (text, item) => (
-       item.status !== true ?
-             <div className='bg-yellow-100 text-yellow-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+      item.status !== true ?
+        <div className='bg-yellow-100 text-yellow-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                          before:w-2 before:h-2 before:bg-yellow-600 before:absolute before:rounded-full'>Chờ duyệt</div>
 
 
-          : <div className='bg-green-100 text-green-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+        : <div className='bg-green-100 text-green-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                          before:w-2 before:h-2 before:bg-green-600 before:absolute before:rounded-full'>Đã được duyệt</div>
 
 
     ),
     filters: [
-          { text: "Đã duyệt", value: true },
-          { text: "Chờ duyệt  ", value: false },
-        ],
+      { text: "Đã duyệt", value: true },
+      { text: "Chờ duyệt  ", value: false },
+    ],
     onFilter: (value, record) => {
       return record.completed === value
     }
@@ -97,15 +94,14 @@ const Columns = [
     title: "",
     width: 150,
     render: (data) => (
-     <div className='flex gap-4'>
+      <div className='flex gap-4'>
         <Button
-        type='button'
-        className=" rounded-lg"
-        icon={<Eye className='w-9 h-9 fill-indigo-400 rounded-lg hover:bg-indigo-100 p-1' />}
-        onClick={() => window.location.href=`/admin-hospital/hospitalDetail/${data.hospitalId}`}
-        // onClick={() => window.location.href=`/admin-hospital/hospitalDetail`}
+          type='button'
+          className=" rounded-lg"
+          icon={<Eye className='w-9 h-9 fill-indigo-400 rounded-lg hover:bg-indigo-100 p-1' />}
+          onClick={() => window.location.href = `/admin-hospital/hospitalDetail/${data.hospitalId}`}
 
-      />
+        />
         <Popconfirm
           placement="bottomRight"
           title={"Bạn muốn xoá tài khoản này ? "}
@@ -116,14 +112,12 @@ const Columns = [
           icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
         >
           <Button
-      type='button'
-      className=" rounded-lg"
-      icon={<Trash className='w-9 h-9 fill-red-500 rounded-lg hover:bg-red-100 p-1' />}
-    />
-
-
+            type='button'
+            className=" rounded-lg"
+            icon={<Trash className='w-9 h-9 fill-red-500 rounded-lg hover:bg-red-100 p-1' />}
+          />
         </Popconfirm>
-     </div>
+      </div>
     )
   }
 ];

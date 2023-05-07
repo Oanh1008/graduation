@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Avatar, Col, Divider, Row, Table } from 'antd';
-import { Edit, Plus } from '../../../assets/svg';
+import { Edit, Plus, User } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import Experience from './details/experience'
 import Review from './details/review'
@@ -14,13 +14,13 @@ import { get } from '../../../utils/apicommon';
 
 const listTabs = [
     {
-        name: 'Reviews'
+        name: 'Giới thiệu'
     },
     {
-        name: 'Time table'
+        name: 'Lịch làm việc'
     },
     {
-        name: 'Feedback'
+        name: 'Phản hồi của khách hàng'
     },
 ]
 
@@ -30,6 +30,8 @@ const Index = () => {
     const [toggle, setToggle] = useState(1)
     const [showModal, setShowModal] = useState(false)
 
+    let user = JSON.parse(localStorage.getItem('user'));
+
     function handleToggle(id) {
         setToggle(id)
     }
@@ -37,7 +39,7 @@ const Index = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const data = await get('/common/user/information/TTbacsi3');
+            const data = await get(`/common/user/information/${user.userId}`);
             setData(data)
             setLoading(false)
 
@@ -52,7 +54,15 @@ const Index = () => {
                 <div className='mx-6'>
                     <div className='bg-white rounded-md '>
                         <div className='flex flex-grow justify-between px-7 mb-10'>
-                            <div className='flex items-center justify-center mx-auto'><Avatar className='shadow-lg' src={data.imageUrl} size={220} /></div>
+                            <div className='flex items-center justify-center mx-auto'>
+                                {
+                                    data.imageUrl ?
+                                        <Avatar className='shadow-lg' src={data.imageUrl} size={220} />
+                                        : <Avatar className='shadow-lg' icon={<User className='fill-white w-56 h-56' />} size={220} />
+
+                                }
+
+                            </div>
                             <div className='basis-2/3'>
                                 <div className='flex justify-between py-3 items-end mt-5'>
                                     <div>
@@ -102,14 +112,14 @@ const Index = () => {
 
                     </div>
                     <div className={toggle === 1 ? "block" : "hidden"}>
-                        <Review />
+                        <Review user={user} />
                     </div>
                     <div className={toggle === 2 ? "block" : "hidden "}>
-                        <Timetable />
+                        <Timetable user={user} />
 
                     </div>
                     <div className={toggle === 3 ? "block" : "hidden "}>
-                        <Feedback />
+                        <Feedback user={user} />
                     </div>
 
 

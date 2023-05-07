@@ -1,8 +1,11 @@
 import { DatePicker, Table } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import Layout from '../../../../layout/index'
-const BookingDetails = () => {
+const Details = () => {
+    const { id } = useParams();
+    console.log(id);
     return (
         <Layout>
             <div className='mx-6 bg-white p-6  '>
@@ -14,14 +17,14 @@ const BookingDetails = () => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-user-id">
                                     Mã bệnh nhân
                                 </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border ưrounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-user-id" type="text" placeholder="Jane" />
+                                <input className="appearance-none block w-full text-gray-700 border ưrounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-user-id" type="text" placeholder="Jane" />
                                 {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
                             </div>
                             <div className="w-full md:w-1/3 px-3">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-user-name">
                                     Họ và tên bệnh nhân
                                 </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-user-name" type="text" placeholder="Doe" />
+                                <input className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-user-name" type="text" placeholder="Doe" />
                             </div>
 
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -29,7 +32,7 @@ const BookingDetails = () => {
                                     Giới tính
                                 </label>
                                 <div className="relative">
-                                    <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                    <select className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                         <option>Nam</option>
                                         <option>Nữ</option>
                                     </select>
@@ -52,14 +55,14 @@ const BookingDetails = () => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-phone">
                                     Số điện thoại
                                 </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-phone" type="text" placeholder="0558462143" />
+                                <input className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-phone" type="text" placeholder="0558462143" />
                             </div>
 
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-address">
                                     Địa chỉ
                                 </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-address" type="text" placeholder="Albuquerque" />
+                                <input className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-address" type="text" placeholder="Albuquerque" />
 
                             </div>
                         </div>
@@ -69,7 +72,7 @@ const BookingDetails = () => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-city">
                                     Kết quả khám bệnh
                                 </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque" />
+                                <input className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque" />
                             </div>
 
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -85,7 +88,7 @@ const BookingDetails = () => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
                                     Giờ khám
                                 </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder={90210} />
+                                <input className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder={90210} />
                             </div>
                         </div>
                         <div className=" -mx-3 mb-2">
@@ -98,7 +101,7 @@ const BookingDetails = () => {
                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-city">
                                         Số ngày thuốc
                                     </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque" />
+                                    <input className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque" />
                                 </div>
 
                                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -114,7 +117,7 @@ const BookingDetails = () => {
                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
                                         Giờ khám
                                     </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder={90210} />
+                                    <input className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder={90210} />
                                 </div>
                             </div>
 
@@ -127,4 +130,4 @@ const BookingDetails = () => {
     )
 }
 
-export default BookingDetails
+export default Details

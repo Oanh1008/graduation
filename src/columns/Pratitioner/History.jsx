@@ -6,10 +6,9 @@ import Button from '../../components/button/index'
 const Columns = [
     {
         key: '1',
-        title: "ID",
-        dataIndex: "id",
+        title: 'STT',
         width: 60,
-        fixed: 'left',
+        render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
         sorter: (record1, record2) => {
             return record1.id > record2.id
         }

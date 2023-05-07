@@ -1,4 +1,5 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
+import moment from 'moment';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
 import { Edit, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
@@ -6,19 +7,14 @@ import Button from '../../components/button/index'
 const Columns = [
     {
         key: '1',
-        title: "ID",
-        dataIndex: "",
-        width: 60,
+        title: 'STT',
         fixed: 'left',
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.id}</p>
-            </div>),
+        width: 60,
+        render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
         sorter: (record1, record2) => {
-            return record1.bookInformation.id > record2.bookInformation.id
+            return record1.id > record2.id
         }
     },
-
     {
         key: '2',
         title: "Tên bệnh nhân",
@@ -100,16 +96,28 @@ const Columns = [
 
     {
         key: '7',
-        title: "Ngày đặt lịch",
+        title: "Ngày khám",
         dataIndex: "",
         width: 200,
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.dateTimeBook} </p>
-            </div>),
+        render: (text, item) => {
+            return (text &&
+                <div className='flex items-center gap-3'>
+                    <div> {item.bookInformation.dateExamination} </div>
+                </div>)
+        },
     },
     {
         key: '8',
+        title: "Giờ khám",
+        dataIndex: "",
+        width: 150,
+        render: (text, item) => (text &&
+            <div className='flex items-center gap-3'>
+                <p>{item.bookInformation.session}</p>
+            </div>),
+    },
+    {
+        key: '9',
         title: "Bác sĩ đặt lịch",
         fixed: 'right',
         dataIndex: "",

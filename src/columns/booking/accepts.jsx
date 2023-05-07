@@ -6,19 +6,13 @@ import Button from '../../components/button/index'
 const Columns = [
     {
         key: '1',
-        title: "ID",
-        dataIndex: "",
+        title: 'STT',
         width: 60,
-        fixed: 'left',
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div>{item.bookInformation.id}</div>
-            </div>),
+        render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
         sorter: (record1, record2) => {
-            return record1.bookInformation.id > record2.bookInformation.id
+            return record1.id > record2.id
         }
     },
-
     {
         key: '2',
         title: "Tên bệnh nhân",

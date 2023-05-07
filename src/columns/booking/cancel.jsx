@@ -79,16 +79,29 @@ const Columns = [
     },
 
     {
-        key: '5',
-        title: "Ngày đặt lịch",
+        key: '7',
+        title: "Ngày khám",
         dataIndex: "",
+        width: 200,
+        render: (text, item) => {
+            return (text &&
+                <div className='flex items-center gap-3'>
+                    <div> {item.bookInformation.dateExamination} </div>
+                </div>)
+        },
+    },
+    {
+        key: '8',
+        title: "Giờ khám",
+        dataIndex: "",
+        width: 150,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>{item.bookInformation.dateTimeBook} </div>
+                <p>{item.bookInformation.session}</p>
             </div>),
     },
     {
-        key: '6',
+        key: '9',
         title: "Bác sĩ đặt lịch",
         fixed: 'right',
         dataIndex: "",
@@ -98,7 +111,7 @@ const Columns = [
             </div>),
     },
     {
-        key: '7',
+        key: '10',
         title: "Lý do huỷ",
         dataIndex: "birthDay",
         render: (text, item) => (text &&

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout/index';
 import columns from '../../../columns/Pratitioner/Booking';
 import columnsConfirm from '../../../columns/Pratitioner/Confirm';
+import columnsInvoice from '../../../columns/Pratitioner/Invoice';
 import { get } from '../../../utils/apicommon';
 
 const listTabs = [
@@ -11,7 +12,10 @@ const listTabs = [
         name: 'Danh sách đặt lịch'
     },
     {
-        name: 'Danh sách đã  đến khám'
+        name: 'Danh sách đã đến khám (confirm)'
+    },
+    {
+        name: 'Danh sách đã đến khám (invoice)'
     },
 ]
 
@@ -21,21 +25,25 @@ const Booking = () => {
     const [pageSize, setPageSize] = useState(6)
     const [accept, setDataAcceppt] = useState([])
     const [confirm, setDataConfirm] = useState([])
+    const [invoice, setDataIvoice] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
     const [toggle, setToggle] = useState(1)
 
     let user = JSON.parse(localStorage.getItem('user'));
-
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             const data = await get(`/doctor/book/accept?doctorId=${user.userId}`);
             const dataconfirm = await get(`/doctor/book/confirm?doctorId=${user.userId}`);
+            const datainvoice = await get(`/doctor/invoice/${user.hospitalId}/${user.userId}`);
             // const filteredData = data.filter((item) => item.imageUrl)
             setDataAcceppt(data)
             setDataConfirm(dataconfirm)
+            setDataIvoice(datainvoice)
             // setSearch(filteredData)
+            setLoading(false)
         };
         fetchData();
     }, [])
@@ -90,8 +98,10 @@ const Booking = () => {
                         </div>
                         <p className=' py-1 pr-3 text-lg font-bold text-cyan-950 '>
                             Tổng số bệnh nhân: {' '}
-                            {toggle === 1 ? <span>{accept.length}</span>
-                                : toggle === 2 && <span>{confirm.length}</span>
+                            {toggle === 1
+                                ? <span>{accept.length}</span>
+                                : toggle === 2 ? <span>{confirm.length}</span>
+                                    : <span>{invoice.length}</span>
                             }
                             {' '} ( bệnh nhân )
                         </p>
@@ -123,6 +133,28 @@ const Booking = () => {
                             className=' !z-0'
                             columns={columnsConfirm}
                             dataSource={confirm}
+                            scroll={{ y: 500 }}
+                            loading={loading}
+                            pagination={{
+                                pageSize: 5,
+                                onChange: (page, pageSize) => {
+                                    setPage(page);
+                                    setPageSize(pageSize);
+                                }
+                            }}
+                            onRow={(record) => {
+                                return {
+                                    onDoubleClick: () => setShowModal(!showModal),
+                                };
+                            }}
+                        />
+
+                    </div>
+                    <div className={toggle === 3 ? "block" : "hidden "}>
+                        <Table
+                            className=' !z-0'
+                            columns={columnsInvoice}
+                            dataSource={invoice}
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{

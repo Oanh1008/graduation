@@ -6,16 +6,14 @@ import Button from '../../components/button/index'
 
 const Columns = [
     {
+        key: '1',
         title: 'STT',
-        dataIndex: 'count',
-        key: 'count',
-        render: (text, record) => (
-            <div>
-                <span>{text}</span>
-            </div>
-        ),
+        width: 60,
+        render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
+        sorter: (record1, record2) => {
+            return record1.id > record2.id
+        }
     },
-
     {
         key: '2',
         title: "Tên thuốc",

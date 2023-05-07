@@ -1,22 +1,20 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
+import dayjs from 'dayjs';
+import moment from 'moment';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, Question, Trash } from '../../assets/svg';
+import { Edit, NoteMedical, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 
 
 const Columns = [
     {
         key: '1',
-        title: "ID",
-        dataIndex: "",
-        width: 60,
+        title: 'STT',
         fixed: 'left',
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.id}</p>
-            </div>),
+        width: 60,
+        render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
         sorter: (record1, record2) => {
-            return record1.bookInformation.id > record2.bookInformation.id
+            return record1.id > record2.id
         }
     },
 
@@ -27,12 +25,12 @@ const Columns = [
         width: 250,
         fixed: 'left',
         render: (text, item) => (text &&
-            item.bookInformation.name ?
+            item.user.fullNameBook ?
             <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.name}</p>
+                <p>{item.user.fullNameBook}</p>
             </div>
             : <div className='flex items-center gap-3'>
-                <p>{item.fullName}</p>
+                <p>{item.user.fullName}</p>
             </div>
         )
 
@@ -42,29 +40,32 @@ const Columns = [
         key: '3',
         title: "Tuổi",
         dataIndex: "age",
+        width: 100,
         render: (text, item) => (text &&
-            item.bookInformation.age ?
+            item.user.ageBook ?
             <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.age}</p>
+                <p>{item.user.ageBook}</p>
             </div>
             : <div className='flex items-center gap-3'>
-                <p>{item.age}</p>
+                <p>{item.user.age}</p>
             </div>
         )
     },
     {
         key: '4',
         title: "Giới tính",
+        width: 100,
+
         dataIndex: "gender",
         render: (text, item) => (text &&
-            item.bookInformation.gender ?
+            item.user.genderBook ?
             <div className='flex items-center gap-3'>
-                {item.bookInformation.gender ?
+                {item.user.genderBook ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>
             : <div className='flex items-center gap-3'>
-                {item.gender ?
+                {item.user.gender ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>
@@ -74,6 +75,8 @@ const Columns = [
         key: '5',
         title: "Địa chi",
         dataIndex: "address",
+        width: 200,
+
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <p>{item.address}</p>
@@ -86,9 +89,13 @@ const Columns = [
         key: '6',
         title: "Triệu chứng",
         dataIndex: "",
+        width: 150,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.symptom}</p>
+                {item.invoiceInformation.diagnose ?
+                    <p>{item.invoiceInformation.diagnose}</p>
+                    : <p>Không có </p>
+                }
             </div>),
         sorter: (record1, record2) => {
             return record1.firstName > record2.firstName
@@ -97,18 +104,22 @@ const Columns = [
 
     {
         key: '7',
-        title: "Ngày đặt lịch",
+        title: "Ngày khám",
         dataIndex: "",
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.dateTimeBook} </p>
-            </div>),
+        width: 200,
+        render: (text, item) => {
+            const formattedDate = dayjs(item.invoiceInformation.dateTimeInvoice).format('DD-MM-YYYY');
+            return (text &&
+                <div className='flex items-center gap-3'>
+                    <div> {formattedDate} </div>
+                </div>)
+        },
     },
     {
         key: '8',
         title: "Bác sĩ đặt lịch",
-        fixed: 'right',
         dataIndex: "",
+        width: 200,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <p>{item.doctorName}</p>
@@ -119,47 +130,27 @@ const Columns = [
         title: "Người xét duyệt",
         fixed: 'right',
         dataIndex: "",
-        render: () => (
+        width: 200,
+
+        render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <p>hi</p>
+                <p>{item.invoiceInformation.operatorId}</p>
             </div>),
     },
-    // {
-    //     key: '7',
-    //     title: "Trạng thái",
-    //     dataIndex: "completed",
-    //     fixed: "right",
-    //     render: (completed => {
-    //         return <p>{completed
-    //             ?
-    //             <div className=''>complete</div>
-    //             :
-    //             <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg flex items-center before:left-6
-    //                     before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Chờ xét duyệt</div>}
-    //         </p>
-    //     }),
-    //     filters: [
-    //         { text: "complete", value: true },
-    //         { text: "incompleted", value: false },
-    //     ],
-    //     onFilter: (value, record) => {
-    //         return record.completed === value
-    //     }
-    // },
-    // {
-    //     key: 8,
-    //     title: "Action",
-    //     fixed: 'right',
-    //     render: (data) => (
-    //         <>
-    //             <Button
-    //                 type='button'
-    //                 className="hover:bg-red-300 rounded-lg"
-    //                 icon={<Trash className='w-9 h-9 fill-red-500 p-1' />}
-    //                 onClick={() => { console.log(data.id) }} />
-    //         </>
-    //     )
-    // }
+    {
+        key: '10',
+        title: "Thao tác",
+        fixed: 'right',
+        width: 90,
+        render: (data) => (
+            <Button
+                type='button'
+                className=" rounded-lg"
+                icon={<NoteMedical className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
+                onClick={() => window.location.href = `/nurse/booking/booingDetails/${data.user.userId}?showSaveButton=true`} />
+
+        )
+    }
 
 
 ];

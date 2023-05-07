@@ -53,12 +53,10 @@ const Modal = ({ isVisible, onClose }) => {
             onClose();
         }
         else {
-            setErr('Số điện thoại đã tồn tại')
+            setErr('Thông tin đã đã tồn tại! ')
         }
 
     }
-
-
 
     return (
         <div className='fixed inset-0 z-10 '>
@@ -111,9 +109,8 @@ const Modal = ({ isVisible, onClose }) => {
                                 <div span={12} >
                                     <Form.Item name="phone" label="Sô điện thoại" rules={[{ required: true }]}>
                                         <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
-                                        <p className='text-sm mt-2 text-red-600'>{err}</p>
-                                    </Form.Item>
 
+                                    </Form.Item>
                                 </div>
                                 <div span={12} >
                                     <Form.Item name="password" label="Mật khẩu" rules={[{ required: true }]}>
@@ -124,6 +121,7 @@ const Modal = ({ isVisible, onClose }) => {
 
                         </div>
 
+                        <p className='text-center text-red-500 uppercase'>{err}</p>
 
                         <div className='flex justify-center mt-5'>
                             <Button type="submit"

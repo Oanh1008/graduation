@@ -12,6 +12,7 @@ import Modal from './modal';
 import { DataStaff } from '../../admin/Staff/data'
 import classNames from 'classnames';
 import Layout from '../../../layout/index'
+import ConfirmModal from './confirmModal';
 
 const listTabs = [
 
@@ -40,34 +41,40 @@ const ManagerBooking = () => {
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
+    const [showModalConfirm, setShowModalConfirm] = useState(false)
     const [toggle, setToggle] = useState(1)
+    const [formid, setFormid] = useState({})
 
     let user = JSON.parse(localStorage.getItem('user'))
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            const pending = await get(`/administrative/book/pending/${user.hospitalId}`);
-            setPending(pending)
-            const accept = await get(`/administrative/book/accept/${user.hospitalId}`);
-            setAccept(accept)
-            const confirm = await get(`/administrative/book/confirm/${user.hospitalId}`);
-            setConfirm(confirm)
-
-            const cancel = await get(`/administrative/book/cancel/${user.hospitalId}`);
-            // const filteredData = data.filter((item) => item.imageUrl)
-
-            setCancel(cancel)
-            // setSearch(filteredData)
-            setLoading(false)
-
-        };
         fetchData();
     }, [])
 
+    const fetchData = async () => {
+        setLoading(true)
+        const pending = await get(`/administrative/book/pending/${user.hospitalId}`);
+        setPending(pending)
+        const accept = await get(`/administrative/book/accept/${user.hospitalId}`);
+        setAccept(accept)
+        const confirm = await get(`/administrative/invoice//${user.hospitalId}`);
+        setConfirm(confirm)
+
+        const cancel = await get(`/administrative/book/cancel/${user.hospitalId}`);
+        // const filteredData = data.filter((item) => item.imageUrl)
+
+        setCancel(cancel)
+        // setSearch(filteredData)
+        setLoading(false)
+
+    };
 
     function handleToggle(id) {
         setToggle(id)
+    }
+
+    function handleEdit(e) {
+        setFormid(e)
     }
 
     // function handleSearch(event) {
@@ -131,7 +138,11 @@ const ManagerBooking = () => {
                             }}
                             onRow={(record) => {
                                 return {
-                                    onDoubleClick: () => setShowModal(!showModal),
+                                    onDoubleClick: () => {
+                                        handleEdit(record);
+                                        setShowModal(!showModal);
+
+                                    },
                                 };
                             }}
                         />
@@ -152,7 +163,10 @@ const ManagerBooking = () => {
                             }}
                             onRow={(record) => {
                                 return {
-                                    onDoubleClick: () => setShowModal(!showModal),
+                                    onDoubleClick: () => {
+                                        handleEdit(record);
+                                        setShowModalConfirm(!showModalConfirm);
+                                    }
                                 };
                             }}
                         />
@@ -172,11 +186,7 @@ const ManagerBooking = () => {
                                     setPageSize(pageSize);
                                 }
                             }}
-                            onRow={(record) => {
-                                return {
-                                    onDoubleClick: () => setShowModal(!showModal),
-                                };
-                            }}
+
                         />
                     </div>
                     <div className={toggle === 4 ? "block" : "hidden "}>
@@ -193,17 +203,15 @@ const ManagerBooking = () => {
                                     setPageSize(pageSize);
                                 }
                             }}
-                            onRow={(record) => {
-                                return {
-                                    onDoubleClick: () => setShowModal(!showModal),
-                                };
-                            }}
+
                         />
                     </div>
                 </div>
             </div>
-            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} user={user} fid={formid} fetchData={fetchData}>
             </Modal>
+            <ConfirmModal isVisible={showModalConfirm} onClose={() => setShowModalConfirm(false)} fid={formid} user={user} fetchData={fetchData}>
+            </ConfirmModal>
         </Layout>
     )
 }

@@ -3,6 +3,7 @@ package com.spring.carebookie.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.spring.carebookie.entity.InvoiceEntity;
@@ -34,17 +35,25 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
     @Query("select i from InvoiceEntity i where i.hospitalId = ?1 and i.isExamined = false ")
     List<InvoiceEntity> getALlByHospitalId(String hospitalId);
 
-    @Query(value = "select i.id, sum(s.price) price\n" +
+    @Query(value = "select i.id as id, sum(s.price) as price\n" +
             "from invoice i\n" +
             "left join invoice_service ise on i.id = ise.invoice_id\n" +
             "left join service s on ise.service_id = s.id\n" +
             "group by i.id", nativeQuery = true)
     List<TotalInvoiceProjection> getTotalByService();
 
-    @Query(value = "select i.id , sum(s.medicine_price * ise.amount) price\n" +
+    @Query(value = "select i.id as id, sum(s.medicine_price * ise.amount) as price\n" +
             "from invoice i\n" +
             "left join invoice_medicine ise on i.id = ise.invoice_id\n" +
             "left join medicine s on ise.medicine_id = s.id\n" +
             "group by i.id", nativeQuery = true)
     List<TotalInvoiceProjection> getTotalByMedicine();
+
+    @Modifying
+    @Query("update InvoiceEntity i set i.isExamined = true, i.discountInsurance = :discount where i.id = :invoiceId")
+    void confirmExamined(Long invoiceId, Double discount);
+
+    @Modifying
+    @Query("update InvoiceEntity i set i.diagnose = :diagnose, i.advices = :advices, i.symptomDetail = :symptomDetail")
+    void updateExamined(String diagnose, String advices, String symptomDetail);
 }

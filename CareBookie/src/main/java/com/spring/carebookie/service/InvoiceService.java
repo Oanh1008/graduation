@@ -53,6 +53,14 @@ public class InvoiceService {
 
     private final InvoiceMedicineRepository invoiceMedicineRepository;
 
+    public InvoiceResponseDto getInvoiceByHospitalIdAndUserId(String hospitalId,String userId) {
+        return getAllInvoiceByHospitalId(hospitalId)
+                .stream()
+                .filter(i -> i.getInvoiceInformation().getUserId().equals(userId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
+    }
+
     @Transactional
     public InvoiceResponseDto updateInvoice(InvoiceSaveDto dto) {
 

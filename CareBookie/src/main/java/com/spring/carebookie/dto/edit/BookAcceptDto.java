@@ -15,9 +15,6 @@ public class BookAcceptDto {
 
     private String doctorId;
 
-    @NotBlank
-    private String date;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateExamination;
 
@@ -26,5 +23,7 @@ public class BookAcceptDto {
 
     @NotBlank
     private String operatorId;
+
+    private String message;
 
 }

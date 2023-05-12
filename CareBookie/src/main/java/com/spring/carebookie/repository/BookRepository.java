@@ -13,12 +13,13 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
     @Modifying
     @Query("update BookEntity b set b.status = 'CANCEL', b.message = :message, b.operationId = :operatorId where b.id = :id")
-    void cancelBook(Long id, String message,String operatorId);
+    void cancelBook(Long id, String message, String operatorId);
 
     @Modifying
     @Query(" update BookEntity b set b.status = 'ACCEPT', b.doctorId = :doctorId, " +
-            " b.date = :date, b.dateExamination = :dateExamination, b.session = :session, b.operationId = :operatorId where b.id = :id")
-    void acceptBook(Long id,String doctorId, String date, LocalDate dateExamination, String session, String operatorId);
+            " b.date = :date, b.dateExamination = :dateExamination, b.session = :session, b.operationId = :operatorId," +
+            " b.message = :message where b.id = :id")
+    void acceptBook(Long id, String doctorId, String date, LocalDate dateExamination, String session, String operatorId, String message);
 
     @Modifying
     @Query("update BookEntity b set b.status = 'CONFIRM', b.operationId = :operatorId where b.id = :id")

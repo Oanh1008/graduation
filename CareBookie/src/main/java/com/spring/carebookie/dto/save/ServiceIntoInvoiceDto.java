@@ -10,8 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceIntoInvoiceDto {
-
-    private Long invoiceId;
-
     private Long serviceId;
 }

@@ -90,12 +90,12 @@ public class DoctorController {
         return ResponseEntity.ok(medicineService.search(hospitalId, name));
     }
 
-    // TODO  Add medicine into invoice
-    @ApiOperation("Add medicine into invoice with invoiceId")
-    @PostMapping("/invoice/add/medicine")
-    public ResponseEntity<InvoiceResponseDto> addMedicineIntoInvoice(@RequestBody MedicineIntoInvoiceDto dto) {
-        return ResponseEntity.ok(invoiceService.addMedicine(dto));
-    }
+//    // TODO  Add medicine into invoice
+//    @ApiOperation("Add medicine into invoice with invoiceId")
+//    @PostMapping("/invoice/add/medicine")
+//    public ResponseEntity<InvoiceResponseDto> addMedicineIntoInvoice(@RequestBody MedicineIntoInvoiceDto dto) {
+//        return ResponseEntity.ok(invoiceService.addMedicine(dto));
+//    }
 
     @ApiOperation("Remove medicine from invoice")
     @DeleteMapping("/invoice/remove/medicine")
@@ -111,11 +111,11 @@ public class DoctorController {
 
     // TODO Add service into invoice
 
-    @ApiOperation("Add service into invoice with invoiceId")
-    @PostMapping("/invoice/add/service")
-    public ResponseEntity<InvoiceResponseDto> addServiceIntoInvoice(@RequestBody ServiceIntoInvoiceDto dto) {
-        return ResponseEntity.ok(invoiceService.addService(dto));
-    }
+//    @ApiOperation("Add service into invoice with invoiceId")
+//    @PostMapping("/invoice/add/service")
+//    public ResponseEntity<InvoiceResponseDto> addServiceIntoInvoice(@RequestBody ServiceIntoInvoiceDto dto) {
+//        return ResponseEntity.ok(invoiceService.addService(dto));
+//    }
 
     @ApiOperation("Remove medicine from invoice")
     @DeleteMapping("/invoice/remove/service")

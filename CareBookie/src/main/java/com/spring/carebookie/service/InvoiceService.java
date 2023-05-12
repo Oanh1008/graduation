@@ -67,7 +67,7 @@ public class InvoiceService {
         // add service
         List<InvoiceServiceEntity> services = dto.getServices()
                 .stream()
-                .map(d -> new InvoiceServiceEntity(null, d.getInvoiceId(), d.getServiceId()))
+                .map(d -> new InvoiceServiceEntity(null, dto.getInvoiceId(), d.getServiceId()))
                 .collect(Collectors.toList());
 
         invoiceServiceRepository.saveAll(services);
@@ -75,7 +75,7 @@ public class InvoiceService {
         // add medicine
         List<InvoiceMedicineEntity> medicines = dto.getMedicines()
                 .stream()
-                .map(d -> new InvoiceMedicineEntity(null, d.getInvoiceId(), d.getMedicineId(), d.getAmount()))
+                .map(d -> new InvoiceMedicineEntity(null, dto.getInvoiceId(), d.getMedicineId(), d.getAmount()))
                 .collect(Collectors.toList());
 
         invoiceMedicineRepository.saveAll(medicines);
@@ -98,21 +98,21 @@ public class InvoiceService {
         return convertEntityToResponse(i);
     }
 
-    @Transactional
-    public InvoiceResponseDto addService(ServiceIntoInvoiceDto dto) {
-        InvoiceServiceEntity entity = invoiceServiceRepository.save(new InvoiceServiceEntity(null, dto.getInvoiceId(), dto.getServiceId()));
-
-        if (entity == null) {
-            throw new RuntimeException("Can not add service $1 into invoice $2"
-                    .replace("$1", dto.getServiceId().toString())
-                    .replace("$2", dto.getInvoiceId().toString()));
-        }
-
-        InvoiceEntity i = invoiceRepository.findById(dto.getInvoiceId())
-                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
-
-        return convertEntityToResponse(i);
-    }
+//    @Transactional
+//    public InvoiceResponseDto addService(ServiceIntoInvoiceDto dto) {
+//        InvoiceServiceEntity entity = invoiceServiceRepository.save(new InvoiceServiceEntity(null, dto.getInvoiceId(), dto.getServiceId()));
+//
+//        if (entity == null) {
+//            throw new RuntimeException("Can not add service $1 into invoice $2"
+//                    .replace("$1", dto.getServiceId().toString())
+//                    .replace("$2", dto.getInvoiceId().toString()));
+//        }
+//
+//        InvoiceEntity i = invoiceRepository.findById(dto.getInvoiceId())
+//                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
+//
+//        return convertEntityToResponse(i);
+//    }
 
     @Transactional
     public InvoiceResponseDto confirmExamined(Long invoiceId, Double discountInsurance) {
@@ -135,23 +135,23 @@ public class InvoiceService {
         return convertEntityToResponse(i);
     }
 
-    @Transactional
-    public InvoiceResponseDto addMedicine(MedicineIntoInvoiceDto dto) {
-
-        InvoiceMedicineEntity entity = invoiceMedicineRepository
-                .save(new InvoiceMedicineEntity(null, dto.getInvoiceId(), dto.getMedicineId(), dto.getAmount()));
-
-        if (entity == null) {
-            throw new RuntimeException("Can not add medicine $1 into invoice $2"
-                    .replace("$1", dto.getMedicineId().toString())
-                    .replace("$2", dto.getInvoiceId().toString()));
-        }
-
-        InvoiceEntity i = invoiceRepository.findById(dto.getInvoiceId())
-                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
-
-        return convertEntityToResponse(i);
-    }
+//    @Transactional
+//    public InvoiceResponseDto addMedicine(MedicineIntoInvoiceDto dto) {
+//
+//        InvoiceMedicineEntity entity = invoiceMedicineRepository
+//                .save(new InvoiceMedicineEntity(null, dto.getInvoiceId(), dto.getMedicineId(), dto.getAmount()));
+//
+//        if (entity == null) {
+//            throw new RuntimeException("Can not add medicine $1 into invoice $2"
+//                    .replace("$1", dto.getMedicineId().toString())
+//                    .replace("$2", dto.getInvoiceId().toString()));
+//        }
+//
+//        InvoiceEntity i = invoiceRepository.findById(dto.getInvoiceId())
+//                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
+//
+//        return convertEntityToResponse(i);
+//    }
 
     public List<InvoiceResponseDto> getAllInvoiceByHospitalId(String hospitalId) {
         List<InvoiceEntity> invoices = invoiceRepository.getALlByHospitalId(hospitalId);

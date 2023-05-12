@@ -1,5 +1,6 @@
 package com.spring.carebookie;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 public class Test {
@@ -25,6 +26,8 @@ public class Test {
 
         Double star = 4.4d;
         System.out.println(star % star.intValue() >= 0.5 ? (double) star.intValue() + 1 : (double)star.intValue());
+
+        System.out.println(LocalDate.of(2023,5,14).getDayOfWeek().getValue());
 
     }
 }

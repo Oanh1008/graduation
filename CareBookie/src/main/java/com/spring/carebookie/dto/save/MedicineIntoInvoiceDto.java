@@ -12,8 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MedicineIntoInvoiceDto {
 
-    private Long invoiceId;
-
     private Long medicineId;
 
     private Long amount;

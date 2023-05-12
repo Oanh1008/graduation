@@ -138,8 +138,8 @@ public class BookService {
 
     @Transactional
     public BookEntity acceptBook(BookAcceptDto dto) {
-
-        bookRepository.acceptBook(dto.getBookId(), dto.getDoctorId(), dto.getDate(), dto.getDateExamination(), dto.getSession(), dto.getOperatorId());
+        String date = (dto.getDateExamination().getDayOfWeek().getValue() + 1) + "";
+        bookRepository.acceptBook(dto.getBookId(), dto.getDoctorId(), date, dto.getDateExamination(), dto.getSession(), dto.getOperatorId(), dto.getMessage());
         return bookRepository.findById(dto.getBookId())
                 .orElseThrow(() -> new ResourceNotFoundException("Book {} not found"
                         .replace("{}", dto.getBookId().toString())));
@@ -167,7 +167,7 @@ public class BookService {
 
         invoiceRepository.save(invoice);
         // return 1 ResponseInvoiceDto theo bookId and hospitalId
-        InvoiceResponseDto invoiceResponseDto =  invoiceService.getAllInvoiceByHospitalId(invoice.getHospitalId())
+        InvoiceResponseDto invoiceResponseDto = invoiceService.getAllInvoiceByHospitalId(invoice.getHospitalId())
                 .stream()
                 .filter(i -> i.getInvoiceInformation().getBookId().equals(bookId))
                 .findFirst()

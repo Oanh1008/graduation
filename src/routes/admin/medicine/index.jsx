@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
-import columns from '../../../columns/staff/index';
+import columns from '../../../columns/medicine/index';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-import { get } from '../../../utils/apicommon'
+import { del, get, post } from '../../../utils/apicommon'
 import Modal from './modal';
 
 const Index = () => {
@@ -15,7 +15,7 @@ const Index = () => {
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
-
+    const [roleModal, setShowRoleModal] = useState(false)
 
     let user = JSON.parse(localStorage.getItem('user'));
 
@@ -24,12 +24,16 @@ const Index = () => {
     }, []);
 
     const fetchData = async () => {
-        const data = await get('/common/doctor/getAll');
-        // const filteredData = data.filter((item) => item.imageUrl)
-        console.log(data);
-        // setData(filteredData)
-        // setSearch(filteredData)
+        setLoading(true)
+        const datajs = await get(`/admin/medicine/${user.hospitalId}`);
+        setData(datajs);
+        setLoading(false)
+        // console.log(JSON.parse(user).userId);
+        //     const filteredData = data.filter((item) => item.imageUrl)
+        //     setData(filteredData)
+        //     setSearch(filteredData)
     };
+
 
     function handleSearch(event) {
         if (event.target.value === '') {
@@ -40,12 +44,14 @@ const Index = () => {
         }
         setfilterVal(event.target.value)
     }
-
+    // const handleClick = (record) => {
+    //     console.log('Clicked row:', record);
+    // };
     return (
         <Layout>
-            <div className='container mx-auto bg-white p-6'>
+            <div className=' mx-6 bg-white p-6'>
                 <div className='flex justify-between items-center'>
-                    <div className=' text-2xl font-bold text-cyan-950 '>Quản lý người dùng</div>
+                    <div className=' text-2xl font-bold text-cyan-950 '>Quản lý thuốc</div>
                 </div>
                 <div className=' border-b w-full my-3 flex justify-between items-center'>
                     <div className="relative m-3">
@@ -60,14 +66,14 @@ const Index = () => {
                         </div>
                     </div>
 
-                    {/* <Button icon={<Plus className='fill-white w-7 h-7 ' />}
+                    <Button icon={<Plus className='fill-white w-7 h-7 ' />}
                         className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
                         type="button"
-                        text="Thêm người dùng"
-                        onClick={() => setShowModal(true)} /> */}
+                        text="Thêm dịch vụ"
+                        onClick={() => setShowModal(true)} />
                 </div>
 
-                <div className='mb-11 !z-0'>
+                <div className='mb-2 !z-0'>
                     <Table
                         className=' !z-0'
                         columns={columns}
@@ -81,25 +87,15 @@ const Index = () => {
                                 setPageSize(pageSize);
                             }
                         }}
+                        onRow={(record) => {
+                            return {
+                                onDoubleClick: () => setShowRoleModal(!roleModal),
+                            };
+                        }}
                     />
-                    {/* <div className='grid grid-cols-5 gap-6'>
-                        {data.map((item) => (
-                            <div className='relative'>
-                                <div className='h-72 rounded-t-md' style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
-                                </div>
-                                <div className='text-center py-5 bg-white rounded-b-md'>
-                                    <p className='text-xl mb-2'>{item.lastName} {item.firstName}</p>
-                                    <p className='text-gray-500'>{item.email}</p>
-                                </div>
-                                <div className='flex flex-col'>
-                                    <div></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
                 </div>
             </div>
-            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} id={user.hospitalId} fetchData={fetchData} >
             </Modal>
         </Layout>
     )

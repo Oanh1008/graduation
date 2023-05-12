@@ -3,15 +3,15 @@ import { Space, Table, Tag } from 'antd';
 import { useRef } from 'react';
 import { Edit, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
-import {del } from '../../utils/apicommon'
+import { del } from '../../utils/apicommon'
 
 
-const columns = [
+const Columns = [
   {
     key: '1',
     title: 'STT',
     width: 150,
-    render: (text, record, index) =>  <p className='font-bold'>{index + 1}</p>,
+    render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
     sorter: (record1, record2) => {
       return record1.id > record2.id
     }
@@ -55,4 +55,4 @@ const columns = [
   }
 ];
 
-export default columns
+export default Columns

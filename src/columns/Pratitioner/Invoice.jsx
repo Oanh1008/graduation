@@ -84,7 +84,9 @@ const Columns = [
         render: (text, item) => (
             <div className='flex items-center gap-3'>
                 <div>{item.invoiceInformation.dateTimeInvoice}</div>
-            </div>),
+                {/* <div>10-05-2023</div> */}
+            </div>
+        ),
     },
     {
         key: '7',
@@ -93,7 +95,9 @@ const Columns = [
         width: 250,
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <div>{item.invoiceInformation.diagnose}</div>
+                {item.invoiceInformation.diagnose ?
+                    <div>{item.invoiceInformation.diagnose}</div>
+                    : <p>Không có</p>}
             </div>),
     },
 
@@ -107,7 +111,7 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.bookInformation.id}?showSaveButton=false`} />
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?showSaveButton=true`} />
                 <Button
                     type='button'
                     className="hover:bg-red-300 rounded-lg"

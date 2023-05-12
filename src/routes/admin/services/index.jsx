@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
-import columns from '../../../columns/services/index';
+import Columns from '../../../columns/services';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { del, get, post } from '../../../utils/apicommon'
@@ -74,7 +74,7 @@ const Index = () => {
                 <div className='mb-2 !z-0'>
                     <Table
                         className=' !z-0'
-                        columns={columns}
+                        columns={Columns}
                         dataSource={data}
                         scroll={{ y: 500 }}
                         loading={loading}

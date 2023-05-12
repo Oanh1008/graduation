@@ -11,9 +11,6 @@ import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { post } from '../../../utils/apicommon';
 
-const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-};
 
 const Modal = ({ isVisible, onClose, id, fetchData }) => {
     const [form] = Form.useForm()
@@ -26,10 +23,11 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
     }
 
     const handleCreate = async (value) => {
-        await post('admin/service/create', {
+        await post('admin/medicine', {
             hospitalId: id,
-            serviceName: value.serviceName,
-            price: value.price
+            medicineName: value.medicineName,
+            medicinePrice: value.medicinePrice,
+            medicineUnit: value.medicineUnit,
         })
         onClose();
         fetchData();
@@ -43,23 +41,28 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
                     <div className='flex flex-row-reverse justify-between mb-6'>
                         <button onClick={() => onClose()}><Times className='w-8 h-8 fill-black' /></button>
                         <p className="text-cyan-900 text-2xl font-bold">
-                            Thêm dịch vụ
+                            Thêm thuốc
                         </p>
                     </div>
                     <Divider />
                     <Form
                         form={form}
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 20 }}
                         onFinish={handleCreate}
                         name="validate_other"
                         style={{
                             width: 400,
                         }}
                     >
-                        <Form.Item name="serviceName" label="Tên dịch vụ" rules={[{ required: true }]}>
+                        <Form.Item name="medicineName" label="Tên thuốc" rules={[{ required: true }]}>
                             <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
                         </Form.Item>
 
-                        <Form.Item name="price" label="Giá khám" rules={[{ required: true }]}>
+                        <Form.Item name="medicinePrice" label="Giá thuốc" rules={[{ required: true }]}>
+                            <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
+                        </Form.Item>
+                        <Form.Item name="medicineUnit" label="Giá đơn vị tính" rules={[{ required: true }]}>
                             <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
                         </Form.Item>
 

@@ -1,6 +1,7 @@
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
 
+    Avatar,
     Checkbox,
     Col,
     DatePicker,
@@ -19,7 +20,7 @@ import {
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useState } from 'react';
-import { Times } from '../../../assets/svg';
+import { Times, User } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 
 const { Option } = Select;
@@ -46,8 +47,8 @@ const onFinish = (values) => {
     console.log('Received values of form: ', values);
 };
 
-const Modal = ({ isVisible, onClose }) => {
-    const [imageUrl, setImageUrl] = useState("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/300968750_116420874503674_2899111505842825407_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7s6DWjxmt0gAX_AYOsK&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAPESRJL2mdVRTaTbesT5jo5jqSZo6H4_itj0Sa0L5GYQ&oe=64435780");
+const Modal = ({ isVisible, onClose, user }) => {
+    const [imageUrl, setImageUrl] = useState("");
     const handlePreviewAvatar = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -74,26 +75,29 @@ const Modal = ({ isVisible, onClose }) => {
                     <div className='flex flex-row-reverse justify-between mb-6'>
                         <button onClick={() => onClose()}><Times className='w-8 h-8 fill-black' /></button>
                         <p className="text-cyan-900 text-3xl font-bold">
-                            Chỉnh sửa thông tin phòng khám
+                            Chỉnh sửa thông tin cá nhân
                         </p>
                     </div>
                     <Divider />
                     <Form
-                        labelCol={{ span: 12 }}
-                        wrapperCol={{ span: 18 }}
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 20 }}
                         name="validate_other"
                         onFinish={onFinish}
                         style={{
-                            maxWidth: 600,
+                            maxWidth: 700,
                         }}
                     >
                         <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
-                            <img src={imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
+                            {user.imageUrl ?
+                                <img src={user.imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
+                                : <Avatar className='shadow-lg' icon={<User className='fill-white w-56 h-56' />} size={220} />
+                            }
                             <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
                         </Form.Item>
 
                         <Row gutter={[24, 8]}>
-                            {/* <Col span={12} >
+                            <Col span={12} >
                                 <Form.Item
                                     name='lastName'
                                     label="Họ"
@@ -104,7 +108,7 @@ const Modal = ({ isVisible, onClose }) => {
                                     ]}
 
                                 >
-                                    <Input placeholder='Nhập họ' />
+                                    <Input placeholder='Nhập họ' defaultValue={user.lastName} />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
@@ -117,22 +121,10 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='Nhập tên' />
-                                </Form.Item>
-                            </Col> */}
-                            <Col span={12} >
-                                <Form.Item
-                                    name='hospitalName  '
-                                    label="Tên phòng khám"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" />
+                                    <Input placeholder='Nhập tên' defaultValue={user.firstName} />
                                 </Form.Item>
                             </Col>
+
                             <Col span={12} >
                                 <Form.Item
                                     name='Dateofbirth'
@@ -143,7 +135,7 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" />
+                                    <Input style={{ width: '100%' }} placeholder="Chọn ngày" defaultValue={user.birthDay} />
                                 </Form.Item>
                             </Col>
                             <Col span={12} >
@@ -156,11 +148,11 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='Nhập email' />
+                                    <Input placeholder='Nhập email' defaultValue={user.email} />
                                 </Form.Item>
                             </Col>
 
-                            {/* <Col span={12} >
+                            <Col span={12} >
                                 <Form.Item
                                     name='gender'
                                     label="Giới tính"
@@ -171,26 +163,13 @@ const Modal = ({ isVisible, onClose }) => {
                                     ]}
                                 >
                                     <Radio.Group>
-                                        <Radio value="female"> Nam </Radio>
-                                        <Radio value="male"> Nữ </Radio>
+                                        <Radio value="male" checked={true}> Nam </Radio>
+                                        <Radio value="female"> Nữ </Radio>
                                     </Radio.Group>
                                 </Form.Item>
-                            </Col> */}
+                            </Col>
 
                             <Col span={12} >
-                                <Form.Item
-                                    name='phone'
-                                    label="Số điện thoại"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập số điện thoại ' />
-                                </Form.Item>
-                            </Col>
-                            {/* <Col span={12} >
                                 <Form.Item
                                     name='role'
                                     label="Chức danh"
@@ -200,9 +179,10 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='Nhập chức danh ' />
+                                    <Input placeholder='Nhập chức danh ' defaultValue="Nhóm khám chữa bệnh" />
                                 </Form.Item>
-                            </Col> */}
+                            </Col>
+
                             <Col span={12} >
                                 <Form.Item
                                     name='address'
@@ -213,47 +193,7 @@ const Modal = ({ isVisible, onClose }) => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='Nhập chức danh ' />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='district'
-                                    label="Khu vực"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập chức danh ' />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='phone'
-                                    label="Lịch làm việc"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập lịch làm việc' />
-                                </Form.Item>
-                            </Col>
-
-                            <Col span={12} >
-                                <Form.Item
-                                    name='role'
-                                    label="Giá khám"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập giá khám ' />
+                                    <TextArea placeholder='Nhập địa chỉ ' defaultValue={user.address} />
                                 </Form.Item>
                             </Col>
 

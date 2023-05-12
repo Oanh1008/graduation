@@ -124,7 +124,7 @@ const Index = () => {
 
 
                 </div>
-                <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+                <Modal isVisible={showModal} user={user} onClose={() => setShowModal(false)} >
                 </Modal>
             </Layout >
     )

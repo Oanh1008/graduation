@@ -1,71 +1,77 @@
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
-
-    Checkbox,
-    Col,
-    DatePicker,
     Divider,
-    Form,
-    Input,
-    InputNumber,
-    Radio,
-    Rate,
-    Row,
-    Select,
-    Slider,
-    Switch,
-    Typography,
-    Upload,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
+import { put } from '../../../utils/apicommon';
 
-const { Option } = Select;
+const Modal = ({ isVisible, onClose, user }) => {
 
-const formItemLayout = {
-    labelCol: {
-        span: 6,
-    },
-    wrapperCol: {
-        span: 14,
-    },
-};
-
-
-const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e?.fileList;
-};
-
-const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-};
-
-const Modal = ({ isVisible, onClose }) => {
-    const [imageUrl, setImageUrl] = useState("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/300968750_116420874503674_2899111505842825407_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7s6DWjxmt0gAX_AYOsK&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAPESRJL2mdVRTaTbesT5jo5jqSZo6H4_itj0Sa0L5GYQ&oe=64435780");
-    const handlePreviewAvatar = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState == 2) {
-                setImageUrl({ imageUrl: reader.result })
-            }
-        }
-        reader.readAsDataURL(e.target.files[0])
-    }
+    const [form, setForm] = useState({
+        address: user.address,
+        hospitalId: user.hospitalId,
+        imageUrl: user.imageUrl,
+        information: user.information,
+        isChoosenDoctor: user.isChoosenDoctor,
+        isPublicPrice: user.isPublicPrice,
+        isRate: user.isRate,
+        priceFrom: user.priceFrom,
+        priceTo: user.priceTo
+    });
 
     if (!isVisible) return null
     const handleClose = (e) => {
-        console.log('hi');
-        console.log(e.target.id);
         if (e.target.id == 'wrapper') {
             onClose()
         }
     }
+
+    const handleInputChange = (event) => {
+        const { name, value, type, checked } = event.target;
+
+        if (type === 'checkbox' || type === 'radio') {
+            setForm((prevForm) => ({
+                ...prevForm,
+                [name]: value === 'true' ? true : false,
+            }));
+        } else {
+            setForm((prevForm) => ({
+                ...prevForm,
+                [name]: value,
+            }));
+        }
+    };
+
+
+    const handleSubmit = async () => {
+        await put('/admin/setting/profile', {
+            address: form.address,
+            hospitalId: form.hospitalId,
+            imageUrl: form.imageUrl,
+            information: form.information,
+            isChoosenDoctor: form.isChoosenDoctor,
+            isPublicPrice: form.isPublicPrice,
+            isRate: form.isRate,
+            priceFrom: form.priceFrom,
+            priceTo: form.priceTo
+        })
+        const updatedUser = {
+            ...user,
+            ...form,
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        onClose();
+
+        console.log(user);
+    };
+
+
+
+
     return (
         <div className='fixed inset-0 z-10 '>
             <div div className=' fixed inset-0 bg-black opacity-20 text-center z-20' id='wrapper' onClick={handleClose} ></div >
@@ -78,215 +84,130 @@ const Modal = ({ isVisible, onClose }) => {
                         </p>
                     </div>
                     <Divider />
-                    <Form
-                        labelCol={{ span: 12 }}
-                        wrapperCol={{ span: 18 }}
-                        name="validate_other"
-                        onFinish={onFinish}
-                        style={{
-                            maxWidth: 600,
-                        }}
-                    >
-                        <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
-                            <img src={imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
-                            <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
-                        </Form.Item>
+                    <div className="max-w-2xl mx-auto">
+                        <form >
+                            <div className='flex gap-5'>
+                                <div className='w-1/2'>
+                                    <div className="mb-4">
+                                        <label htmlFor="imageUrl" className="block mb-2">
+                                            Ảnh
+                                        </label>
+                                        <div name="Avatar" wrapperCol={{ span: 12, offset: 7 }}  >
+                                            <img src={user.imageUrl} alt="imageUrl" id="img" width={200} className=" mb-3" />
+                                            <input type="file" name="imageUrl" id="input" accept='image/*' />
+                                        </div>
+                                    </div>
 
-                        <Row gutter={[24, 8]}>
-                            {/* <Col span={12} >
-                                <Form.Item
-                                    name='lastName'
-                                    label="Họ"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
+                                    <div className="mb-4 mt-7">
+                                        <label htmlFor="address" className="block mb-2 ">
+                                            Địa chỉ
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="address"
+                                            name="address"
+                                            defaultValue={form.address}
+                                            // onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                        />
+                                    </div>
 
-                                >
-                                    <Input placeholder='Nhập họ' />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='firstname'
-                                    label="Tên"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập tên' />
-                                </Form.Item>
-                            </Col> */}
-                            <Col span={12} >
-                                <Form.Item
-                                    name='hospitalName  '
-                                    label="Tên phòng khám"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='Dateofbirth'
-                                    label="Ngày sinh"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <DatePicker style={{ width: '100%' }} placeholder="Chọn ngày" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name="email"
-                                    label="Email"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập email' />
-                                </Form.Item>
-                            </Col>
+                                </div>
 
-                            {/* <Col span={12} >
-                                <Form.Item
-                                    name='gender'
-                                    label="Giới tính"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Radio.Group>
-                                        <Radio value="female"> Nam </Radio>
-                                        <Radio value="male"> Nữ </Radio>
-                                    </Radio.Group>
-                                </Form.Item>
-                            </Col> */}
+                                <div className='w-1/2'>
+                                    <div className="mb-4">
+                                        <label htmlFor="isChoosenDoctor" className="block mb-2">
+                                            Cho phép chọn bác sĩ:
+                                        </label>
+                                        <div className='flex gap-4 w-full justify-around  h-10 items-center'>
+                                            <input type="radio" id="true" name="isChoosenDoctor" defaultValue="true"
+                                                checked={form.isChoosenDoctor === true}
+                                                onChange={handleInputChange} />
+                                            <label for="true">Có</label><br />
+                                            <input type="radio" id="false" name="isChoosenDoctor" value="false"
+                                                checked={form.isChoosenDoctor === false}
+                                                onChange={handleInputChange} />
+                                            <label for="true">Không</label><br />
+                                        </div>
+                                    </div>
+                                    <div className="mb-4">
+                                        <label htmlFor="isPublicPrice" className="block mb-2">
+                                            Công khai giá khám:
+                                        </label>
+                                        <div className='flex gap-4 w-full justify-around h-10 items-center'>
+                                            <input type="radio" id="true" name="isPublicPrice" defaultValue="true"
+                                                checked={form.isPublicPrice === true}
+                                                onChange={handleInputChange} />
+                                            <label for="true">Có</label><br />
+                                            <input type="radio" id="false" name="isPublicPrice" defaultValue="false"
+                                                checked={form.isPublicPrice === false}
+                                                onChange={handleInputChange} />
+                                            <label for="true">Không</label><br />
+                                        </div>
+                                    </div>
 
-                            <Col span={12} >
-                                <Form.Item
-                                    name='phone'
-                                    label="Số điện thoại"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập số điện thoại ' />
-                                </Form.Item>
-                            </Col>
-                            {/* <Col span={12} >
-                                <Form.Item
-                                    name='role'
-                                    label="Chức danh"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập chức danh ' />
-                                </Form.Item>
-                            </Col> */}
-                            <Col span={12} >
-                                <Form.Item
-                                    name='address'
-                                    label="Địa chỉ"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập chức danh ' />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='district'
-                                    label="Khu vực"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập chức danh ' />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='phone'
-                                    label="Lịch làm việc"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập lịch làm việc' />
-                                </Form.Item>
-                            </Col>
+                                    <div className="mb-4">
+                                        <label htmlFor="isRate" className="block mb-2">
+                                            Công khai đánh giá:
+                                        </label>
 
-                            <Col span={12} >
-                                <Form.Item
-                                    name='role'
-                                    label="Giá khám"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập giá khám ' />
-                                </Form.Item>
-                            </Col>
+                                        <div className='flex gap-4 w-full justify-around  h-10 items-center'>
+                                            <input type="radio" id="true" name="isRate" defaultValue="true"
+                                                checked={form.isRate === true}
+                                                onChange={handleInputChange} />
+                                            <label for="true">Có</label><br />
+                                            <input type="radio" id="false" name="isRate" defaultValue="false"
+                                                checked={form.isRate === false}
+                                                onChange={handleInputChange} />
+                                            <label for="true">Không</label><br />
+                                        </div>
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-2">
+                                            Giá khám
+                                        </label>
+                                        <div className='flex  gap-3'>
+                                            <input
+                                                type="number"
+                                                id="priceFrom"
+                                                name="priceFrom"
+                                                placeholder='Từ'
+                                                defaultValue={form.priceFrom}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                            />
+                                            <input
+                                                type="number"
+                                                id="priceTo"
+                                                name="priceTo"
+                                                placeholder='Đến'
+                                                defaultValue={form.priceTo}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
 
-                        </Row>
+                            </div>
 
-                        {/* <Col span={24} >
-                            <Form.Item
-                                name='information'
-                                label="Giới thiệu"
-                                rules={[
-                                    {
-                                        required: true,
-                                    },
-                                ]}
-                            >
-                                <TextArea
-                                    showCount
-                                    maxLength={500}
-                                    style={{ height: 120, resize: 'none' }}
-                                    // onChange={onChange}
-                                    placeholder="Giới thiệu bản thân"
-                                />
-                            </Form.Item>
-                        </Col> */}
+                            <div className="mb-4">
+                                <label htmlFor="information" className="block mb-2">
+                                    Thông tin của bệnh viện
+                                </label>
+                                <textarea id="information" name="information" className='border p-2 w-full text-neutral-600' onChange={handleInputChange} rows="6" cols="50" defaultValue={form.information} />
+                                <br />
 
-                        <div className='flex justify-center'>
-                            <Button type="submit"
-                                text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
+                            </div>
 
-                        </div>
-                    </Form>
+                            <div className='flex justify-center'>
+                                <Button type="button" onClick={handleSubmit}
+                                    text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </div >
         </div >
     )
 }

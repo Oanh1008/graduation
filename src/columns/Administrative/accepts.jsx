@@ -80,13 +80,12 @@ const Columns = [
         key: '6',
         title: "Triệu chứng",
         dataIndex: "",
+        width: 150,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <p>{item.bookInformation.symptom}</p>
             </div>),
-        sorter: (record1, record2) => {
-            return record1.firstName > record2.firstName
-        }
+
     },
 
     {

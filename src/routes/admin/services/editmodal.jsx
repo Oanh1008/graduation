@@ -15,7 +15,7 @@ const onFinish = (values) => {
     console.log('Received values of form: ', values);
 };
 
-const Modal = ({ isVisible, onClose, id, fetchData }) => {
+const EditModal = ({ isVisible, onClose, id }) => {
     const [form] = Form.useForm()
 
     if (!isVisible) return null
@@ -26,13 +26,12 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
     }
 
     const handleCreate = async (value) => {
-        await post('admin/service/create', {
+        const add = await post('admin/service/create', {
             hospitalId: id,
             serviceName: value.serviceName,
             price: value.price
         })
         onClose();
-        fetchData();
     }
 
     return (
@@ -74,4 +73,4 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
         </div >
     )
 }
-export default Modal;
+export default EditModal;

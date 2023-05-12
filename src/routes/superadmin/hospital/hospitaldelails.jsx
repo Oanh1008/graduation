@@ -3,7 +3,7 @@ import React, { memo, useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
-import { Check, Edit, Times } from '../../../assets/svg';
+import { Check, Edit, IconBriefCase, Times } from '../../../assets/svg';
 import { useParams } from 'react-router-dom';
 import { get, put } from '../../../utils/apicommon';
 
@@ -69,7 +69,7 @@ const Hospitaldelails = ({ }) => {
                                     {
                                         data.services.map((item, index) => (
                                             <div key={index} className='flex flex-col gap-5 items-center '>
-                                                <div><Edit className='w-8' /></div>
+                                                <div><IconBriefCase className='w-8' /></div>
                                                 <p className='text-base font-semibold'>{item.serviceName}</p>
                                             </div>
                                         ))}

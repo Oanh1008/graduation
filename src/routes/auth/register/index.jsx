@@ -73,7 +73,7 @@ const Register = () => {
                                     htmlFor="text"
                                     className="block text-sm font-semibold text-gray-800"
                                 >
-                                    Username
+                                    Tên phòng khám
                                 </label>
                                 <input
                                     type="text"
@@ -87,7 +87,7 @@ const Register = () => {
                                     htmlFor="password"
                                     className="block text-sm font-semibold text-gray-800"
                                 >
-                                    Password
+                                    Số điện thoại
                                 </label>
                                 <input
                                     onChange={(e) => setPassword(e.target.value)}
@@ -101,7 +101,22 @@ const Register = () => {
                                     htmlFor="password"
                                     className="block text-sm font-semibold text-gray-800"
                                 >
-                                    Password
+                                    Mật khẩu
+                                </label>
+                                <input
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    type="password"
+                                    value={password}
+                                    className="block w-full px-4 py-2 mt-2 text-cyan-800 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                />
+                            </div>
+
+                            <div className="mb-2">
+                                <label
+                                    htmlFor="password"
+                                    className="block text-sm font-semibold text-gray-800"
+                                >
+                                    Email
                                 </label>
                                 <input
                                     onChange={(e) => setPassword(e.target.value)}
@@ -115,21 +130,7 @@ const Register = () => {
                                     htmlFor="password"
                                     className="block text-sm font-semibold text-gray-800"
                                 >
-                                    Password
-                                </label>
-                                <input
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    type="password"
-                                    value={password}
-                                    className="block w-full px-4 py-2 mt-2 text-cyan-800 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                />
-                            </div>
-                            <div className="mb-2">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-sm font-semibold text-gray-800"
-                                >
-                                    Password
+                                    Địa chỉ
                                 </label>
                                 <input
                                     onChange={(e) => setPassword(e.target.value)}

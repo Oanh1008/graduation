@@ -57,7 +57,7 @@ const ManagerBooking = () => {
         setPending(pending)
         const accept = await get(`/administrative/book/accept/${user.hospitalId}`);
         setAccept(accept)
-        const confirm = await get(`/administrative/invoice//${user.hospitalId}`);
+        const confirm = await get(`/administrative/invoice/${user.hospitalId}`);
         setConfirm(confirm)
 
         const cancel = await get(`/administrative/book/cancel/${user.hospitalId}`);

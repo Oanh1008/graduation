@@ -227,6 +227,11 @@ public class CommonService {
         );
     }
 
+    @Transactional
+    public List<WorkingDayDetailsEntity> updateWorkingDays(String hospitalId, List<WorkingDayDetailEditDto> dtos) {
+        dtos.forEach(dto -> workingDayDetailsRepository.updateWorkingDay(hospitalId, dto.getId(), dto.getStartHour(), dto.getEndHour()));
+        return getAllWorkingDayDetailByHospitalId(hospitalId);
+    }
     /**
      * Favourite
      */

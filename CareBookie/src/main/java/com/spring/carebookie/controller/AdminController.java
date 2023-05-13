@@ -110,8 +110,14 @@ public class AdminController {
 
     @ApiOperation("Update information working day of hospital by id")
     @PutMapping("/working-day/{hospitalId}")
-    public ResponseEntity<WorkingDayDetailsEntity> updateWorkingDayDetai(@PathVariable String hospitalId, @RequestBody WorkingDayDetailEditDto dto) {
+    public ResponseEntity<WorkingDayDetailsEntity> updateWorkingDayDetail(@PathVariable String hospitalId, @RequestBody WorkingDayDetailEditDto dto) {
         return ResponseEntity.ok(commonService.updateWorkingDay(hospitalId, dto));
+    }
+
+    @ApiOperation("Update information working day of hospital by id")
+    @PutMapping("/working-days/{hospitalId}")
+    public ResponseEntity<List<WorkingDayDetailsEntity>> updateWorkingDayDetail(@PathVariable String hospitalId, @RequestBody List<WorkingDayDetailEditDto> dtos) {
+        return ResponseEntity.ok(commonService.updateWorkingDays(hospitalId, dtos));
     }
 
     // TODO

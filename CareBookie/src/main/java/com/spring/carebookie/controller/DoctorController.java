@@ -129,4 +129,10 @@ public class DoctorController {
         return ResponseEntity.ok(invoiceService.updateInvoice(dto));
     }
 
+    @ApiOperation("Api get all history invoice by doctorId")
+    @GetMapping("/invoice/history")
+    public ResponseEntity<List<InvoiceResponseDto>> getHistoryInvoiceByDoctorId(@RequestParam String doctorId) {
+        return ResponseEntity.ok(invoiceService.getAllInvoiceDoneByDoctorId(doctorId));
+    }
+
 }

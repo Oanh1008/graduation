@@ -71,6 +71,32 @@ public class BookService {
 
     private static final BookMapper BOOK_MAPPER = BookMapper.INSTANCE;
 
+    public BookResponseDto getBookDetailPending(String hospitalId, Long bookId) {
+        return getAllBookPendingByHospitalId(hospitalId)
+                .stream()
+                .filter(b -> b.getBookInformation().getHospitalId().equals(hospitalId)
+                        && b.getBookInformation().getId().equals(bookId))
+                .findAny()
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+    }
+
+    public BookResponseDto getBookDetailAccept(String hospitalId, Long bookId) {
+        return getAllBookAcceptByHospitalId(hospitalId)
+                .stream()
+                .filter(b -> b.getBookInformation().getHospitalId().equals(hospitalId)
+                        && b.getBookInformation().getId().equals(bookId))
+                .findAny()
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+    }
+
+    public BookResponseDto getBookDetailConfirm(String hospitalId, Long bookId) {
+        return getAllBookConfirmByHospitalId(hospitalId)
+                .stream()
+                .filter(b -> b.getBookInformation().getHospitalId().equals(hospitalId)
+                        && b.getBookInformation().getId().equals(bookId))
+                .findAny()
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+    }
     @Transactional
     public BookResponseDto saveBook(BookSaveDto dto) {
 

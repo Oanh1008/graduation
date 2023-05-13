@@ -12,9 +12,6 @@ const listTabs = [
         name: 'Danh sách đặt lịch'
     },
     {
-        name: 'Danh sách đã đến khám (confirm)'
-    },
-    {
         name: 'Danh sách đã đến khám (invoice)'
     },
 ]
@@ -47,6 +44,7 @@ const Booking = () => {
         };
         fetchData();
     }, [])
+    console.log(confirm);
 
     function handleToggle(id) {
         setToggle(id)
@@ -100,7 +98,7 @@ const Booking = () => {
                             Tổng số bệnh nhân: {' '}
                             {toggle === 1
                                 ? <span>{accept.length}</span>
-                                : toggle === 2 ? <span>{confirm.length}</span>
+                                : toggle === 3 ? <span>{confirm.length}</span>
                                     : <span>{invoice.length}</span>
                             }
                             {' '} ( bệnh nhân )
@@ -128,7 +126,7 @@ const Booking = () => {
                         />
 
                     </div>
-                    <div className={toggle === 2 ? "block" : "hidden "}>
+                    <div className={toggle === 3 ? "block" : "hidden "}>
                         <Table
                             className=' !z-0'
                             columns={columnsConfirm}
@@ -150,7 +148,7 @@ const Booking = () => {
                         />
 
                     </div>
-                    <div className={toggle === 3 ? "block" : "hidden "}>
+                    <div className={toggle === 2 ? "block" : "hidden "}>
                         <Table
                             className=' !z-0'
                             columns={columnsInvoice}
@@ -182,3 +180,8 @@ const Booking = () => {
 }
 
 export default Booking
+
+// confirm
+// xem được dịch vụ book,
+//     thông tin cá nhân,
+//         thông tin invoice chia sẻ

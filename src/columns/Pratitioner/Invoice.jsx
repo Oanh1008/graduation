@@ -1,6 +1,6 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, Eye, NoteMedical, Question, Trash } from '../../assets/svg';
+import { Edit, Eye, IconBook, NoteMedical, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 
 const Columns = [
@@ -110,7 +110,12 @@ const Columns = [
                 <Button
                     type='button'
                     className=" rounded-lg"
-                    icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
+                    icon={<Eye className='w-9 h-9 fill-slate-700 rounded-lg hover:bg-indigo-100 p-1' />}
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?showSaveButton=true`} />
+                <Button
+                    type='button'
+                    className=" rounded-lg"
+                    icon={<IconBook className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
                     onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?showSaveButton=true`} />
                 <Button
                     type='button'

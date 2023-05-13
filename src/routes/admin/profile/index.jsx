@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
-import { Edit, IconBriefCase } from '../../../assets/svg';
+import { Edit, IconBriefCase, IconCalender } from '../../../assets/svg';
 import { get } from '../../../utils/apicommon';
 import Modal from './modal';
 
@@ -12,7 +12,11 @@ const HospitalProfile = () => {
     const [doctor, setDoctor] = useState([]);
     const [loading, setLoading] = useState(false)
 
+
     let user = JSON.parse(localStorage.getItem('user'));
+
+    const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
+    const session = ["MORNING", 'AFTERNOON', 'EVENING'];
 
     useEffect(() => {
         fetchData()
@@ -27,7 +31,7 @@ const HospitalProfile = () => {
 
     return (
         <Layout>
-            <div className='container mx-auto '>
+            <div className=' mx-6 '>
                 <div className='flex gap-5 p-5 bg-white justify-around'>
                     <img src={user.imageUrl} className="w-[700px]" />
                     <div className='grid grid-cols-2 gap-2'>
@@ -40,7 +44,7 @@ const HospitalProfile = () => {
                 </div>
 
                 <div className='flex gap-5 w-full  mt-4'>
-                    <div className='basis-2/3 '>
+                    <div className='w-3/5 '>
                         <div className=' rounded-md bg-white '>
                             <div className='p-5'>
                                 <div className='flex items-center gap-10'>
@@ -94,7 +98,7 @@ const HospitalProfile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='basis-1/3 bg-white p-4'>
+                    <div className='w-2/5 bg-white p-4'>
 
                         <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>thông tin - đánh giá</div>
                         <div className='flex justify-center'>
@@ -140,7 +144,41 @@ const HospitalProfile = () => {
 
                         </div>
                         <Divider />
-                        <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>Lịch làm việc</div>
+                        <div className='text-xl gap-4 flex items-center justify-center font-semibold text-cyan-900 uppercase  mt-3 mb-8'>
+                            <p>Lịch làm việc</p>
+                            <IconCalender className='w-8 fill-emerald-900' />
+                        </div>
+                        <table className='w-full'>
+                            <thead>
+                                <tr className='bg-slate-700 text-white'>
+                                    <th>Buổi</th>
+                                    {daysOfWeek.map((day) => (
+                                        day === '8' ?
+                                            <th key={day}>Chủ nhật</th>
+                                            :
+                                            <th key={day}>Thứ {day}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {session.map((time) => (
+                                    <tr key={time} className="border-b ">
+                                        {time === 'MORNING' ?
+                                            <td className='py-5 font-semibold border-r w-20'>Sáng</td>
+                                            : time === 'AFTERNOON' ?
+                                                <td className='py-5 font-semibold border-r w-20'>Chiều</td> :
+                                                time === 'EVENING'
+                                                && <td className='py-5 font-semibold border-r w-20'>Tối</td>
+                                        }
+
+                                        {daysOfWeek.map((day) => {
+                                            const course = user.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
+                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course ? course.startHour + '-' + course.endHour : ''}</td>;
+                                        })}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
                     </div>
                 </div>

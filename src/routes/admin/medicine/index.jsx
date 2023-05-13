@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
 import columns from '../../../columns/medicine/index';
-import { Edit, Plus } from '../../../assets/svg';
+import { Edit, Plus, Trash } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { del, get, post } from '../../../utils/apicommon'
 import Modal from './modal';
+import EditModal from './editmodal';
 
 const Index = () => {
     const [loading, setLoading] = useState(false)
@@ -15,7 +16,8 @@ const Index = () => {
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
-    const [roleModal, setShowRoleModal] = useState(false)
+    const [editModal, setEditModel] = useState(false)
+    const [formid, setFormid] = useState({})
 
     let user = JSON.parse(localStorage.getItem('user'));
 
@@ -26,27 +28,85 @@ const Index = () => {
     const fetchData = async () => {
         setLoading(true)
         const datajs = await get(`/admin/medicine/${user.hospitalId}`);
-        setData(datajs);
+        setData(datajs)
+        setSearch(datajs)
         setLoading(false)
-        // console.log(JSON.parse(user).userId);
-        //     const filteredData = data.filter((item) => item.imageUrl)
-        //     setData(filteredData)
-        //     setSearch(filteredData)
     };
+    const columns = [
+        {
+            key: '1',
+            title: 'STT',
+            dataIndex: 'id',
+            width: 150,
+            render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
+            sorter: (record1, record2) => {
+                return record1.id > record2.id
+            }
+        },
+        {
+            key: '2',
+            title: "Tên thuốc",
+            dataIndex: "medicineName",
+            fixed: window.innerWidth > 767,
+            render: (text, item) => text &&
+                <div>{item.medicineName}</div>
+        },
+        {
+            key: '3',
+            title: "Giá thuốc",
+            dataIndex: "medicinePrice",
+            render: (text, item) => (
+                <p>{item.medicinePrice}.000 vnđ</p>
+            ),
+
+        },
+        {
+            key: '3',
+            title: "Đơn vị tính",
+            dataIndex: "medicineUnit",
+            render: (text, item) => (
+                <p>{item.medicineUnit}</p>
+            ),
+
+        },
+        {
+            key: 4,
+            title: "Thao tác",
+            render: (data) => (
+                <>
+                    <Button
+                        type='button'
+                        className="hover:bg-sky-200 rounded-lg"
+                        icon={<Edit className='w-9 h-9 fill-sky-700 p-1' />}
+                        onClick={() => {
+                            setFormid(data)
+                            setEditModel(true)
+                        }} />
+                    <Button
+                        type='button'
+                        className="hover:bg-red-300 rounded-lg"
+                        icon={<Trash className='w-9 h-9 fill-red-500 p-1' />}
+                        onClick={() => {
+                            del(`/admin/medicine/${data.id}`)
+                            fetchData()
+                        }} />
+                </>
+            )
+        }
+    ];
 
 
     function handleSearch(event) {
         if (event.target.value === '') {
             setData(search)
         } else {
-            const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value) || item.lastName.toLowerCase().includes(event.target.value))
+            const filterSearch = search.filter(item => item.medicineName.toLowerCase().includes(event.target.value))
             setData(filterSearch)
         }
         setfilterVal(event.target.value)
     }
-    // const handleClick = (record) => {
-    //     console.log('Clicked row:', record);
-    // };
+
+
     return (
         <Layout>
             <div className=' mx-6 bg-white p-6'>
@@ -87,16 +147,13 @@ const Index = () => {
                                 setPageSize(pageSize);
                             }
                         }}
-                        onRow={(record) => {
-                            return {
-                                onDoubleClick: () => setShowRoleModal(!roleModal),
-                            };
-                        }}
                     />
                 </div>
             </div>
             <Modal isVisible={showModal} onClose={() => setShowModal(false)} id={user.hospitalId} fetchData={fetchData} >
             </Modal>
+            <EditModal isVisible={editModal} Close={() => setEditModel(false)} formid={formid} fetchData={fetchData}>
+            </EditModal>
         </Layout>
     )
 }

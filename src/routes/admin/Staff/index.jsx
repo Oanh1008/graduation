@@ -24,19 +24,13 @@ const Index = () => {
     }, []);
 
     const fetchData = async () => {
-        // let user = localStorage.getItem('user');
+        setLoading(true)
         const datajs = await get(`/admin/employees/${user.hospitalId}`);
-        setData(datajs);
-        // console.log(JSON.parse(user).userId);
-        //     const filteredData = data.filter((item) => item.imageUrl)
-        //     setData(filteredData)
-        //     setSearch(filteredData)
+        const filteredData = datajs.filter((item) => item.firstName)
+        setData(filteredData)
+        setSearch(filteredData)
+        setLoading(false)
     };
-
-    // const handleDelete = async (id) => {
-    //     await del(`/${id}`);
-    //     fetchData();
-    // };
 
     function handleSearch(event) {
         if (event.target.value === '') {
@@ -47,9 +41,7 @@ const Index = () => {
         }
         setfilterVal(event.target.value)
     }
-    // const handleClick = (record) => {
-    //     console.log('Clicked row:', record);
-    // };
+    console.log(data);
     return (
         <Layout>
             <div className=' mx-6 bg-white p-6'>
@@ -92,13 +84,13 @@ const Index = () => {
                         }}
                         onRow={(record) => {
                             return {
-                                onDoubleClick: () => setShowRoleModal(!roleModal),
+                                onDoubleClick: () => setShowRoleModal(roleModal),
                             };
                         }}
                     />
                 </div>
             </div>
-            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} id={user.hospitalId} fetchData={fetchData} >
             </Modal>
         </Layout>
     )

@@ -14,6 +14,10 @@ const Hospitaldelails = ({ }) => {
 
     const { id } = useParams();
 
+    const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
+    const session = ["MORNING", 'AFTERNOON', 'EVENING'];
+
+
     useEffect(() => {
         fetchData()
     }, []);
@@ -48,7 +52,7 @@ const Hospitaldelails = ({ }) => {
                 </div>
 
                 <div className='flex gap-5 w-full  mt-4'>
-                    <div className='basis-2/3 '>
+                    <div className='w-3/5 '>
                         <div className=' rounded-md bg-white '>
                             <div className='p-5'>
                                 <div className='text-3xl text-cyan-900 font-semibold mb-1'>{data.hospitalName}</div>
@@ -96,7 +100,7 @@ const Hospitaldelails = ({ }) => {
                             </div>
                         </div>
                     </div>
-                    <div className='basis-1/3 bg-white p-4'>
+                    <div className='w-2/5 bg-white p-4'>
                         <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>Duyệt và tạo phòng khám mới</div>
 
                         <div className='flex  gap-5 mb-10 items-center justify-center '>
@@ -133,6 +137,39 @@ const Hospitaldelails = ({ }) => {
                                 <div>Thứ 2 - Thứ 6 (    8h00 - 17h00  )</div>
                             </div>
                         </div>
+                        <Divider />
+                        <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>Lịch làm việc</div>
+                        <table className='w-full'>
+                            <thead>
+                                <tr className='bg-slate-700 text-white'>
+                                    <th>Buổi</th>
+                                    {daysOfWeek.map((day) => (
+                                        day === '8' ?
+                                            <th key={day}>Chủ nhật</th>
+                                            :
+                                            <th key={day}>Thứ {day}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {session.map((time) => (
+                                    <tr key={time} className="border-b ">
+                                        {time === 'MORNING' ?
+                                            <td className='py-5 font-semibold border-r w-20'>Sáng</td>
+                                            : time === 'AFTERNOON' ?
+                                                <td className='py-5 font-semibold border-r w-20'>Chiều</td> :
+                                                time === 'EVENING'
+                                                && <td className='py-5 font-semibold border-r w-20'>Tối</td>
+                                        }
+
+                                        {daysOfWeek.map((day) => {
+                                            const course = data.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
+                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course ? course.startHour + '-' + course.endHour : ''}</td>;
+                                        })}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
                     </div>
                 </div>

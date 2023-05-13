@@ -4,6 +4,7 @@ import {
     Divider,
     Form,
     Input,
+    message,
     Row,
     Select,
 } from 'antd';
@@ -25,25 +26,12 @@ const formItemLayout = {
 };
 
 
-const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e?.fileList;
-};
-
-const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-};
-
-const Modal = ({ isVisible, onClose }) => {
+const Modal = ({ isVisible, onClose, id, fetchData }) => {
+    const [err, setErr] = useState('')
     const [form] = Form.useForm()
 
     if (!isVisible) return null
     const handleClose = (e) => {
-        console.log('hi');
-        console.log(e.target.id);
         if (e.target.id == 'wrapper') {
             onClose()
         }
@@ -51,7 +39,7 @@ const Modal = ({ isVisible, onClose }) => {
 
     const handleCreate = async (value) => {
         const add = await post('admin/create/employee', {
-            hospitalId: 'BVMTP6198',
+            hospitalId: id,
             email: value.email,
             lastName: value.lastName,
             firstName: value.firstName,
@@ -59,8 +47,18 @@ const Modal = ({ isVisible, onClose }) => {
             phone: value.phone,
             password: value.password
         })
-        console.log(value);
-        onClose();
+        if (add) {
+            console.log(add);
+            message.open({
+                type: 'Thành công!',
+                content: 'Thêm mới tài khoản phòng khám thành công!',
+            })
+            onClose();
+            fetchData();
+        }
+        else {
+            setErr('Tài khoản email hoặc số điện thoại đã tồn tại! ')
+        }
     }
 
 
@@ -102,14 +100,15 @@ const Modal = ({ isVisible, onClose }) => {
                                 </div>
                                 <div span={12} >
                                     <Form.Item name="email" label="Email" rules={[{ required: true }]}>
-                                        <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' placeholder='Nhập email ' />
+                                        <Input type='email' className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' placeholder='Nhập email ' />
                                     </Form.Item>
                                 </div>
                             </div>
 
                             <div>
                                 <div span={12} >
-                                    <Form.Item name="phone" label="Sô điện thoại" rules={[{ required: true }]}>
+                                    <Form.Item name="phone" label="Sô điện thoại"
+                                        rules={[{ required: true }, { min: 10 }]}>
                                         <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' placeholder='Nhập sô điện thoại ' />
                                     </Form.Item>
                                 </div>
@@ -130,7 +129,7 @@ const Modal = ({ isVisible, onClose }) => {
 
                         </div>
 
-
+                        <p className='text-red-500 text-center text-lg'>{err}</p>
                         <div className='flex justify-center mt-5'>
                             <Button type="submit"
                                 text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />

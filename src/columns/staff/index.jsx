@@ -1,28 +1,15 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, Question, Trash } from '../../assets/svg';
+import { Edit, Question, Trash, User } from '../../assets/svg';
 import Button from '../../components/button/index'
 import { del } from '../../utils/apicommon';
 
 const Columns = [
-  // {
-  //   key: '1',
-  //   title: "ID",
-  //   dataIndex: "id",
-  //   width: 60,
-  //   render: (text, item) => ( text &&
-  //     <p className='font-bold'>{item.id}</p>
-  //   ),
-  //   sorter: (record1, record2) => {
-  //     return record1.id > record2.id
-  //   },
-  //   fixed: 'left',
-  // },
   {
     key: '1',
     title: 'STT',
     width: 60,
-    render: (text, record, index) =>  <p className='font-bold'>{index + 1}</p>,
+    render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
     sorter: (record1, record2) => {
       return record1.id > record2.id
     }
@@ -35,7 +22,11 @@ const Columns = [
     width: 250,
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
-        <Avatar src={item.imageUrl} size={50} />
+        {item.imageUrl ?
+          <Avatar src={item.imageUrl} size={50} />
+          :
+          <Avatar src={<User />} className="bg-gray-400 fill-white" size={50} />
+        }
         <div>{item.lastName} {item.firstName}</div>
       </div>),
     sorter: (record1, record2) => {
@@ -95,8 +86,8 @@ const Columns = [
     render: (text, item) => (text &&
       <div className='flex items-center gap-3'>
         {item.doctor == true ?
-        <div>Khám chữa bệnh</div>
-        : <div>Hỗ trợ hành chinh</div>
+          <div>Khám chữa bệnh</div>
+          : <div>Hỗ trợ hành chinh</div>
         }
       </div>),
     filters: [
@@ -120,21 +111,21 @@ const Columns = [
     key: '6',
     title: "Tình trạng",
     dataIndex: "status",
-    render: (text, item) => ( text &&
+    render: (text, item) => (text &&
       item.status === 'Đang làm'
-          ?
-            <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+      ?
+      <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                          before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>{item.status}</div>
-          :
-            <div className='bg-red-100 text-red-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+      :
+      <div className='bg-red-100 text-red-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                          before:w-2 before:h-2 before:bg-red-700 before:absolute before:rounded-full'>{item.status}</div>
 
 
     ),
     filters: [
-          { text: "Đang làm", value: "Đang làm" },
-          { text: "Nghỉ phép", value: "Nghỉ phép"},
-        ],
+      { text: "Đang làm", value: "Đang làm" },
+      { text: "Nghỉ phép", value: "Nghỉ phép" },
+    ],
     onFilter: (value, record) => {
       return record.status === value
     }
@@ -145,22 +136,22 @@ const Columns = [
     width: 80,
     fixed: 'rght',
     render: (data) => (
-        <Popconfirm
-          placement="bottomRight"
-          title={"Bạn muốn xoá người này ? "}
-          description={"Không thể khôi phục được"}
-          onConfirm={() => del(`/admin/employee/${data.userId}`)}
-          okText="Yes"
-          cancelText="No"
-          icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
-        >
+      <Popconfirm
+        placement="bottomRight"
+        title={"Bạn muốn xoá người này ? "}
+        description={"Không thể khôi phục được"}
+        onConfirm={() => del(`/admin/employee/${data.userId}`)}
+        okText="Yes"
+        cancelText="No"
+        icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
+      >
 
-          <Button
-            type='button'
-            className=" rounded-lg"
-            icon={<Trash className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
-          />
-        </Popconfirm>
+        <Button
+          type='button'
+          className=" rounded-lg"
+          icon={<Trash className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
+        />
+      </Popconfirm>
     )
   }
 ];

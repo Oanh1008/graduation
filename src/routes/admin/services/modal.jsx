@@ -11,10 +11,6 @@ import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { post } from '../../../utils/apicommon';
 
-const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-};
-
 const Modal = ({ isVisible, onClose, id, fetchData }) => {
     const [form] = Form.useForm()
 
@@ -49,6 +45,8 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
                     <Divider />
                     <Form
                         form={form}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 20 }}
                         onFinish={handleCreate}
                         name="validate_other"
                         style={{
@@ -56,7 +54,8 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
                         }}
                     >
                         <Form.Item name="serviceName" label="Tên dịch vụ" rules={[{ required: true }]}>
-                            <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
+                            <Input className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300'
+                                defaultValue={form.serviceName} />
                         </Form.Item>
 
                         <Form.Item name="price" label="Giá khám" rules={[{ required: true }]}>

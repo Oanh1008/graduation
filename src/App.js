@@ -43,7 +43,6 @@ function App() {
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
           <Route path='/admin-hospital' element={<ManagerHospital/>}></Route>
           <Route path='/admin-user' element={<ManagerUser/>}></Route>
-          {/* <Route path='/admin-hospital/hospitalDetail' element={<Hospitaldelails/>}></Route> */}
           <Route path='/admin-hospital/hospitalDetail/:id' element={<Hospitaldelails />}></Route>
           <Route path='/doctor/booking' element={<DoctorBooking/>}></Route>
           <Route path='/doctor/history' element={<History/>}></Route>

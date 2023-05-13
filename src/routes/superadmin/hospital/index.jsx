@@ -34,7 +34,7 @@ const ManagerHospital = () => {
         if (event.target.value === '') {
             setData(search)
         } else {
-            const filterSearch = search.filter(item => item.hospitalName.toLowerCase().includes(event.target.value) || item.lastName.toLowerCase().includes(event.target.value))
+            const filterSearch = search.filter(item => item.hospitalName.toLowerCase().includes(event.target.value))
             setData(filterSearch)
         }
         setfilterVal(event.target.value)

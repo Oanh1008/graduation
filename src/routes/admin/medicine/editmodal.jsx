@@ -16,8 +16,9 @@ const EditModal = ({ isVisible, Close, formid, fetchData }) => {
 
     useEffect(() => {
         form.setFieldsValue({
-            serviceName: formid.serviceName,
-            price: formid.price,
+            medicineName: formid.medicineName,
+            medicinePrice: formid.medicinePrice,
+            medicineUnit: formid.medicineUnit,
         });
     }, [formid, form]);
 
@@ -29,10 +30,12 @@ const EditModal = ({ isVisible, Close, formid, fetchData }) => {
     }
 
     const handleEdit = async (value) => {
-        await put('admin/service/update', {
-            serviceId: formid.id,
-            serviceName: value.serviceName,
-            price: value.price
+        await put('admin/medicine', {
+            id: formid.id,
+            medicineName: value.medicineName,
+            medicinePrice: value.medicinePrice,
+            medicineUnit: value.medicineUnit,
+
         })
         fetchData();
         Close();
@@ -47,7 +50,7 @@ const EditModal = ({ isVisible, Close, formid, fetchData }) => {
                     <div className='flex flex-row-reverse justify-between mb-6'>
                         <button onClick={() => Close()}><Times className='w-8 h-8 fill-black' /></button>
                         <p className="text-cyan-900 text-2xl font-bold">
-                            Chỉnh sửa dịch vụ
+                            Chỉnh sửa thuôc
                         </p>
                     </div>
                     <Divider />
@@ -61,12 +64,16 @@ const EditModal = ({ isVisible, Close, formid, fetchData }) => {
                             width: 400,
                         }}
                     >
-                        <Form.Item name="serviceName" label="Tên dịch vụ" rules={[{ required: true }]}>
+                        <Form.Item name="medicineName" label="Tên thuốc" rules={[{ required: true }]}>
                             <Input
                                 className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
                         </Form.Item>
 
-                        <Form.Item name="price" label="Giá khám" rules={[{ required: true }]}>
+                        <Form.Item name="medicinePrice" label="Giá thuốc" rules={[{ required: true }]}>
+                            <Input
+                                className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
+                        </Form.Item>
+                        <Form.Item name="medicineUnit" label="Đơn vị tính" rules={[{ required: true }]}>
                             <Input
                                 className='px-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-neutral-300' />
                         </Form.Item>

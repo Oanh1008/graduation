@@ -18,6 +18,7 @@ import com.spring.carebookie.dto.SearchHomeResponse;
 import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
+import com.spring.carebookie.dto.response.LoginResponseDto;
 import com.spring.carebookie.dto.response.RatingDoctorResponseDto;
 import com.spring.carebookie.dto.response.RatingHospitalResponseDto;
 import com.spring.carebookie.dto.save.RegisterDto;
@@ -112,7 +113,7 @@ public class CommonController {
 
     @ApiOperation("Login")
     @PostMapping("/login")
-    public ResponseEntity<UserEntity> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 

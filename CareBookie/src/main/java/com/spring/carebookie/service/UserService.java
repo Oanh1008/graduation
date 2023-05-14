@@ -1,5 +1,6 @@
 package com.spring.carebookie.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
+import com.spring.carebookie.dto.response.LoginResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.EmployeeSaveDto;
@@ -29,6 +31,7 @@ import com.spring.carebookie.dto.save.UserSaveDto;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.exception.ResourceNotFoundException;
+import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
@@ -41,6 +44,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
     private final HospitalService hospitalService;
+
+    private final HospitalRepository hospitalRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -238,11 +243,17 @@ public class UserService {
      * Login
      */
 
-    public UserEntity login(LoginRequest loginRequest) {
+    public LoginResponseDto login(LoginRequest loginRequest) {
         UserEntity entity = userRepository.findByPhone(loginRequest.getPhone());
         if (entity != null && passwordEncoder.matches(loginRequest.getPassword(), entity.getPassword())) {
-            return entity;
+
+            LoginResponseDto responseDto = USER_MAPPER.convertEntityToLoginDto(entity);
+            responseDto.setKnowledges(entity.getKnowledge() == null ? new ArrayList<>() : Arrays.asList(entity.getKnowledge().split(",")));
+            responseDto.setStar(commonService.getDoctorStar().get(entity.getUserId()) == null ? 0 : commonService.getDoctorStar().get(entity.getUserId()));
+            responseDto.setHospital(hospitalRepository.getHospitalId(entity.getHospitalId()));
+            return responseDto;
         }
+
 
         throw new ResourceNotFoundException("User {} not found".replace("{}", loginRequest.getPhone()));
     }

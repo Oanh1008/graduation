@@ -51,7 +51,7 @@ function App() {
           <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route>
            <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
           <Route path='/nurse/booking/booingDetails/:id' element={<Details/>}></Route>
-          <Route path='/booking/confirm/bookingDetails/:id' element={<BookingDetailsConfirm/>}></Route>
+          <Route path='/booking/bookingDetails/:id' element={<BookingDetailsConfirm/>}></Route>
         </Routes>
     </BrowserRouter>
    </>

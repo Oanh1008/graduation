@@ -8,6 +8,7 @@ const Columns = [
         key: '1',
         title: 'STT',
         width: 60,
+        fixed: 'left',
         render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
         sorter: (record1, record2) => {
             return record1.id > record2.id
@@ -34,6 +35,7 @@ const Columns = [
         key: '3',
         title: "Tuổi",
         dataIndex: "birthDay",
+        width: 100,
         render: (text, item) => (text &&
             item.bookInformation.age ?
             <div className='flex items-center gap-3'>
@@ -48,6 +50,8 @@ const Columns = [
         key: '4',
         title: "Giới tính",
         dataIndex: "gender",
+        width: 100,
+
         render: (text, item) => (text &&
             item.bookInformation.gender ?
             <div className='flex items-center gap-3'>
@@ -62,20 +66,12 @@ const Columns = [
             </div>
         ),
     },
-
-    // {
-    //     key: '6',
-    //     title: "Số điện thoại",
-    //     dataIndex: "phone",
-    //     render: (text, item) => (text &&
-    //         <div className='flex items-center gap-3'>
-    //             <div>{item.bookInformation.phone}</div>
-    //         </div>),
-    // },
     {
         key: '7',
         title: "Địa chi",
         dataIndex: "address",
+        width: 350,
+
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.address}</div>
@@ -85,6 +81,8 @@ const Columns = [
         key: '4',
         title: "Triệu chứng",
         dataIndex: "symptom",
+        width: 200,
+
         render: (text, item) => (
             <div className='flex items-center gap-3'>
                 <div>{item.bookInformation.symptom}</div>
@@ -93,8 +91,10 @@ const Columns = [
 
     {
         key: '5',
-        title: "Ngày đặt lịch",
+        title: "Ngày khám",
         dataIndex: "birthDay",
+        width: 150,
+
         render: (text, item) => (
             <div className='flex items-center gap-3'>
                 <div>{item.bookInformation.dateExamination}</div>
@@ -102,7 +102,7 @@ const Columns = [
     },
     {
         key: '8',
-        title: "Giờ khám",
+        title: "Buổi khám",
         dataIndex: "",
         width: 150,
         render: (text, item) => (text &&
@@ -113,19 +113,17 @@ const Columns = [
     {
         key: 8,
         title: "Thao tác",
+        width: 100,
+
         fixed: 'right',
         render: (data) => (
             <>
                 <Button
                     type='button'
                     className=" rounded-lg"
-                    icon={<NoteMedical className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.bookInformation.userId}?showSaveButton=true`} />
-                <Button
-                    type='button'
-                    className="hover:bg-red-300 rounded-lg"
-                    icon={<Trash className='w-9 h-9 fill-red-500 p-1' />}
-                    onClick={() => { console.log(data.userId) }} />
+                    icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
+                    onClick={() => window.location.href = `/booking/bookingDetails/${data.bookInformation.id}?status=accept`} />
+
             </>
         )
     }

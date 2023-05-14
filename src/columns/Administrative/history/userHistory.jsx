@@ -1,7 +1,4 @@
-import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
-import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Trash } from '../../../assets/svg';
-import Button from '../../../components/button/index'
+
 const Columns = [
     {
         key: '1',
@@ -17,43 +14,46 @@ const Columns = [
     {
         key: '9',
         title: "Bệnh viện khám",
-        fixed: 'right',
-        dataIndex: "birthDay",
+        width: 200,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div> </div>
+                <div> {item.invoiceShares.hospitalName}</div>
             </div>),
     },
 
     {
         key: '9',
         title: "Bác sĩ khám",
-        fixed: 'right',
-        dataIndex: "birthDay",
+        width: 200,
+
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div> </div>
+                <div>{item.invoiceShares.doctorName} </div>
             </div>),
     },
 
     {
         key: '9',
         title: "Các dịch vụ đã khám",
-        fixed: 'right',
-        dataIndex: "birthDay",
+        width: 300,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div> </div>
+                {item.invoiceShares.services.map((item) => (
+                    <p key={item.id}>{item.serviceName} </p>
+                ))}
+
             </div>),
     },
     {
         key: '9',
         title: "Các loại thuốc đã uống",
         fixed: 'right',
-        dataIndex: "birthDay",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div> </div>
+                {item.invoiceShares.medicines.map((item) => (
+                    <p key={item.id}>{item.medicineName} </p>
+                ))}
+
             </div>),
     },
     {
@@ -62,20 +62,17 @@ const Columns = [
         dataIndex: "",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>Sốt, sô mũi </div>
+                <div>{item.invoiceShares.symptomDetail} </div>
             </div>),
-        sorter: (record1, record2) => {
-            return record1.firstName > record2.firstName
-        }
+
     },
 
     {
         key: '7',
         title: "Kết quả khám bệnh",
-        dataIndex: "birthDay",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div> </div>
+                <div>{item.invoiceShares.diagnose} </div>
             </div>),
     },
     {
@@ -85,7 +82,8 @@ const Columns = [
         dataIndex: "birthDay",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div> </div>
+                <div>{item.invoiceShares.advices} </div>
+
             </div>),
     },
 

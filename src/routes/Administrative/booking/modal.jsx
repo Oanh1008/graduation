@@ -42,7 +42,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
         };
         fetch();
     }, [])
-
     useEffect(() => {
         Object.keys(fid).length > 0 &&
             form.setFieldsValue({
@@ -53,7 +52,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                 session: fid.bookInformation.session,
                 symptom: fid.bookInformation.symptom,
                 date: fid.bookInformation.date,
-                fullName: fid.fullName,
                 dateExamination: dayjs(fid.bookInformation.dateExamination, 'DD-MM-YYYY'),
                 gender: fid.gender,
             });
@@ -69,7 +67,20 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
         setShowModal(true)
     }
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+        const dateString = values.dateExamination.toString();
+        const dateObject = new Date(dateString);
+
+        const day = dateObject.getDate();
+        const month = dateObject.getMonth() + 1;
+        const year = dateObject.getFullYear();
+
+        const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+        console.log(fid.bookInformation.id);
+        console.log(values.doctorName);
+        console.log(values.session);
+        console.log(values.symptom);
+        console.log(formattedDate);
+        console.log(values.gender);
         fetchData()
     };
 

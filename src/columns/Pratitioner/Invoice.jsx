@@ -81,11 +81,18 @@ const Columns = [
         title: "Ngày đặt lịch",
         dataIndex: "dateTimeInvoice",
         width: 200,
-        render: (text, item) => (
-            <div className='flex items-center gap-3'>
-                <div>{item.invoiceInformation.dateTimeInvoice}</div>
-            </div>
-        ),
+        render: (text, item) => {
+            const dateObject = new Date(item.invoiceInformation.dateTimeInvoice);
+            const day = dateObject.getDate();
+            const month = dateObject.getMonth() + 1; // Lưu ý: Tháng trong JavaScript bắt đầu từ 0, nên cần cộng thêm 1
+            const year = dateObject.getFullYear();
+
+            return (
+                <div className='flex items-center gap-3'>
+                    <div>{day + " - " + month + ' - ' + year}</div>
+                </div>
+            )
+        },
     },
     {
         key: '7',
@@ -110,7 +117,7 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<Eye className='w-9 h-9 fill-slate-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/booking/confirm/bookingDetails/${data.user.userId}`} />
+                    onClick={() => window.location.href = `/booking/bookingDetails/${data.invoiceInformation.bookId}?status=confirm`} />
                 <Button
                     type='button'
                     className=" rounded-lg"

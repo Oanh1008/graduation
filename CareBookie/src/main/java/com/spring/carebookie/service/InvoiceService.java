@@ -53,7 +53,17 @@ public class InvoiceService {
 
     private final InvoiceMedicineRepository invoiceMedicineRepository;
 
-    public InvoiceResponseDto getInvoiceByHospitalIdAndUserId(String hospitalId,String userId) {
+    public List<InvoiceResponseDto> getAllInvoiceDoneByDoctorId(String doctorId) {
+        List<InvoiceEntity> invoiceEntities = invoiceRepository.getAllInvoiceDoneByDoctorId(doctorId);
+        return getInvoiceByIdCommon(invoiceEntities);
+    }
+
+    public List<InvoiceResponseDto> getAllInvoiceDoneByHospitalId(String hospitalId) {
+        List<InvoiceEntity> invoiceEntities = invoiceRepository.getAllInvoiceDoneByHospitalId(hospitalId);
+        return getInvoiceByIdCommon(invoiceEntities);
+    }
+
+    public InvoiceResponseDto getInvoiceByHospitalIdAndUserId(String hospitalId, String userId) {
         return getAllInvoiceByHospitalId(hospitalId)
                 .stream()
                 .filter(i -> i.getInvoiceInformation().getUserId().equals(userId))
@@ -80,7 +90,7 @@ public class InvoiceService {
 
         invoiceMedicineRepository.saveAll(medicines);
 
-        invoiceRepository.updateExamined(dto.getDiagnose(), dto.getAdvices(),dto.getSymptomDetail());
+        invoiceRepository.updateExamined(dto.getDiagnose(), dto.getAdvices(), dto.getSymptomDetail());
 
         InvoiceEntity i = invoiceRepository.findById(dto.getInvoiceId())
                 .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));

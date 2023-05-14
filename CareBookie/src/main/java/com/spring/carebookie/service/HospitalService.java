@@ -15,11 +15,14 @@ import com.spring.carebookie.dto.HospitalGetAllDto;
 import com.spring.carebookie.dto.edit.HospitalSettingProfileDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.save.HospitalSaveDto;
+import com.spring.carebookie.dto.save.RegisterHospital;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
+import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.ServiceRepository;
 import com.spring.carebookie.repository.UserRepository;
+import com.spring.carebookie.repository.WorkingDayDetailsRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +39,8 @@ public class HospitalService {
     private final CommonService commonService;
 
     private final UserRepository userRepository;
+
+    private final WorkingDayDetailsRepository workingDayDetailsRepository;
 
     private static final HospitalMapper HOSPITAL_MAPPER = HospitalMapper.INSTANCE;
 
@@ -91,7 +96,7 @@ public class HospitalService {
         UserEntity admin = new UserEntity();
         admin.setFirstName(dto.getFirstName());
         admin.setLastName(dto.getLastName());
-        admin.setUserId(generateUserId(dto.getFirstName(),dto.getLastName(),dto.getEmail()));
+        admin.setUserId(generateUserId(dto.getFirstName(), dto.getLastName(), dto.getEmail()));
         admin.setRoleId(2L);
         admin.setEmail(dto.getEmail());
         admin.setPhone(dto.getPhone());
@@ -128,6 +133,7 @@ public class HospitalService {
                 .append(random.nextInt(10)).append(random.nextInt(10)));
         return builder.toString();
     }
+
     /**
      * Generate userId <br>
      * Example: firstName = "Oanh", lastName = "Pham Van", email = "poanh1002@gmail.com" <br>
@@ -141,6 +147,57 @@ public class HospitalService {
     private String generateUserId(String firstName, String lastName, String email) {
         return firstName.toCharArray()[0] + String.valueOf(lastName.toCharArray()[0]) + email.split("@")[0];
 
+    }
+
+    public HospitalResponseDto registerHospital(RegisterHospital model) {
+
+        HospitalEntity hospital = new HospitalEntity();
+        hospital.setHospitalName(model.getHospitalName());
+        hospital.setHospitalId(generateHospitalId(model.getHospitalName()));
+        hospital.setStatus(false);
+
+        // User
+        UserEntity user = new UserEntity();
+        user.setUserId(generateUserId(model.getFirstName(), model.getLastName(), model.getEmail()));
+        user.setFirstName(model.getFirstName());
+        user.setLastName(model.getLastName());
+        user.setEmail(model.getEmail());
+        user.setPhone(model.getPhone());
+        user.setPassword(passwordEncoder.encode(model.getPassword()));
+        user.setRoleId(2L);
+        user.setHospitalId(hospital.getHospitalId());
+        userRepository.save(user);
+
+        hospital.setAdminId(user.getUserId());
+        hospitalRepository.save(hospital);
+
+        int k = 0;
+        // Create working day detail
+        for (int i = 1; i < 22; i++) {
+
+            String date = "";
+            if (i <= 3) {
+                date = "2";
+            } else if (i <= 6) {
+                date = "3";
+            } else if (i <= 9) {
+                date = "4";
+            } else if (i <= 12) {
+                date = "5";
+            } else if (i <= 15) {
+                date = "6";
+            } else if (i <= 18) {
+                date = "7";
+            } else {
+                date = "8";
+            }
+            String[] sessions = {"Sáng", "Chiều", "Tối"};
+            String session = sessions[k];
+            k++;
+            k = k == 3 ? 0 : k;
+            workingDayDetailsRepository.save(new WorkingDayDetailsEntity(null, date, session, null, null, hospital.getHospitalId()));
+        }
+        return getHospitalByHospitalId(hospital.getHospitalId());
     }
 
 }

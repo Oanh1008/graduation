@@ -21,6 +21,7 @@ import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.response.RatingDoctorResponseDto;
 import com.spring.carebookie.dto.response.RatingHospitalResponseDto;
 import com.spring.carebookie.dto.save.RegisterDto;
+import com.spring.carebookie.dto.save.RegisterHospital;
 import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
@@ -119,6 +120,12 @@ public class CommonController {
     @GetMapping("/user/information/{userId}")
     public ResponseEntity<UserEntity> getUserInformation(@PathVariable String userId) {
         return ResponseEntity.ok(userService.getUserByUserId(userId));
+    }
+
+    @ApiOperation("Api register a hospital")
+    @PostMapping("/register/hospital")
+    public ResponseEntity<?> registerHospital(@Valid @RequestBody RegisterHospital model) {
+        return ResponseEntity.ok(hospitalService.registerHospital(model));
     }
 
 }

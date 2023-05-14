@@ -28,8 +28,14 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
     List<InvoiceMedicineAmountProjection> getAllMedicineByInvoiceId(Long invoiceId);
 
 
-    @Query("select i from InvoiceEntity i where i.userId = ?1")
+    @Query("select i from InvoiceEntity i where i.userId = ?1 and i.isExamined = true")
     List<InvoiceEntity> getALlByUserId(String userId);
+
+    @Query("select i from InvoiceEntity i where i.doctorId = :doctorId and i.isExamined = true")
+    List<InvoiceEntity> getAllInvoiceDoneByDoctorId(String doctorId);
+
+    @Query("select i from InvoiceEntity i where i.hospitalId = :hospitalId and i.isExamined = true")
+    List<InvoiceEntity> getAllInvoiceDoneByHospitalId(String hospitalId);
 
 
     @Query("select i from InvoiceEntity i where i.hospitalId = ?1 and i.isExamined = false ")

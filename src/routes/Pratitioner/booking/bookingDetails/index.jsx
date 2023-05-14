@@ -1,13 +1,12 @@
-import { DatePicker, InputNumber, Table, TimePicker } from 'antd'
-import TextArea from 'antd/es/input/TextArea'
+
 import React, { useEffect, useState } from 'react'
-import service from '../../../../columns/Pratitioner/Services'
 import Layout from '../../../../layout/index'
 import Button from '../../../../components/button/index'
 import { useLocation, useParams } from 'react-router-dom'
-import { get } from '../../../../utils/apicommon'
+import { get, put } from '../../../../utils/apicommon'
 import MedicineComponent from './Medicine'
 import ServicesComponent from './Services'
+import { message } from 'antd'
 
 const BookingDetails = () => {
     const [loading, setLoading] = useState(false)
@@ -24,13 +23,13 @@ const BookingDetails = () => {
     const [totalService, setTotalServices] = useState(0);
     const [medicineCounter, setMedicineCounter] = useState({});
     const [formData, setFormData] = useState({
-        invoiceId: '',
         advices: '',
         diagnose: '',
+        medicines: [],
         services: [],
         symptomDetail: '',
-        medicines: [],
     });
+    const [formDataAmount, setFormDataAmount] = useState({});
     let user = JSON.parse(localStorage.getItem('user'));
 
     const { id } = useParams()
@@ -39,27 +38,29 @@ const BookingDetails = () => {
 
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            const data = await get(`/employee/invoice/detail/${user.hospitalId}/${id}`);
-            setData(data)
-            setLoading(false)
-        };
         fetchData();
     }, [])
+    const fetchData = async () => {
+        setLoading(true)
+        const data = await get(`/employee/invoice/detail/${user.hospitalId}/${id}`);
+        setData(data)
+        setLoading(false)
+    };
+
     const handleChangeMedinces = async (searchQuery) => {
         const response = await get(`/doctor/medicine/search/${user.hospitalId}?name=${searchQuery} `)
         setResults(response);
     };
 
     const handleChangeServices = async (searchQuery) => {
+        console.log(searchQuery);
         const response = await get(`/doctor/service/search/${user.hospitalId}?name=${searchQuery} `)
         setResultsServices(response);
     };
 
     const handleInputChangeServices = (e) => {
         const newQuery = e.target.value;
-        setServices(newQuery);
+        setQuery(newQuery)
         handleChangeServices(newQuery);
     };
 
@@ -71,53 +72,79 @@ const BookingDetails = () => {
 
     const handleMedicineClick = (data) => {
         const isDataExist = selectedDataMedicine.find((item) => item.id === data.id)
-        console.log(data.id);
-        console.log((medicineCounter[data.id] ?? 0) + 1);
-
-        const medicineWithAmount = {
-            ...data,
-            amount: ((medicineCounter[data.id] ?? 0) + 1)
-        }
-        console.log(medicineWithAmount);
 
         if (!isDataExist) {
 
-            setselectedDataMedicine((prevSelectedData) => [...prevSelectedData, medicineWithAmount]);
+            setselectedDataMedicine((prevSelectedData) => [...prevSelectedData, data]);
             setFormData((prevFormData) => ({
                 ...prevFormData,
-                medicines: [...prevFormData.medicines, medicineWithAmount],
+                medicines: [...prevFormData.medicines, data],
             }));
         }
+        setFormDataAmount(() => {
+            const updatedMedicines = formData.medicines.map((medicine) => {
+                if (medicine.id === data.id && !medicine.amount) {
+                    return { ...medicine, amount: ((medicineCounter[data.id] ?? 0) + 1) };
+                }
+                return { ...medicine, amount: medicineCounter[medicine.id] };
+            });
 
+            return {
+                ...formData,
+                medicines: [...updatedMedicines],
+            };
+        });
 
     };
-    console.log(medicineCounter);
-    console.log(formData);
+
     const handleMedicineRemove = (data) => {
         setselectedDataMedicine((prevSelectedData) => {
             const newData = prevSelectedData.filter((item) => item.id !== data.id);
             return newData;
         });
+        setFormDataAmount(() => {
+            const newData = formDataAmount.medicines.filter((item) => item.id !== data.id);
+            return {
+                ...formDataAmount,
+                medicines: newData,
+            };
+        })
     };
     const handleServicesClick = (data) => {
-        const isDataExist = selectedDataServices.find((item) =>
-            item.id === data.id)
+        const isDataExist = selectedDataServices.find((item) => item.id === data.id)
+
         if (!isDataExist) {
-            setselectedDataServices((prevSelectedData) => {
-                const newData = [...prevSelectedData, data];
-                return newData;
+            setselectedDataServices((prevSelectedData) => [...prevSelectedData, data]);
+            setFormData((prevSelectedData) => {
+                return {
+                    ...prevSelectedData,
+                    services: [...prevSelectedData.services, data],
+                };
             });
+            setFormDataAmount(() => {
+                return {
+                    ...formData,
+                    services: [...formData.services, data],
+                };
+            });
+
         }
 
-    };
+    }
 
     const handleServicesRemove = (data) => {
         setselectedDataServices((prevSelectedData) => {
             const newData = prevSelectedData.filter((item) => item.id !== data.id);
             return newData;
         });
-    };
-
+        setFormDataAmount(() => {
+            const newData = formData.services.filter((item) => item.id !== data.id);
+            return {
+                ...formData,
+                services: newData,
+            };
+        })
+    }
 
     const calculateTotalMedicine = (results, medicineCounter) => {
         const newTotal = results.reduce((accumulator, item) => {
@@ -144,11 +171,38 @@ const BookingDetails = () => {
             ...prevFormData,
             [id]: value,
         }));
+        setFormDataAmount(() => ({
+            ...formData,
+        }))
+        console.log({ [id]: value });
+        console.log(formData);
+        console.log(formDataAmount.symptomDetail);
+
     };
 
-    const hanldeSumbit = () => {
-        console.log(formData);
-        console.log(selectedDataMedicine);
+
+    const hanldeSumbit = async () => {
+        const add = await put(`/doctor/invoice/update`, {
+            advices: formDataAmount.advices,
+            diagnose: formDataAmount.diagnose,
+            invoiceId: data.invoiceInformation.id,
+            medicines: formDataAmount.medicines,
+            services: formDataAmount.services,
+            symptomDetail: formDataAmount.symptomDetail
+        })
+        if (add) {
+            message.open({
+                type: 'success',
+                content: 'Cập nhật hoá đơn thành công!',
+            })
+            // fetchData();
+        }
+        else {
+            message.open({
+                type: 'error',
+                content: 'Cập nhật hoá đơn không thành công!',
+            })
+        }
     }
 
     return (
@@ -162,7 +216,7 @@ const BookingDetails = () => {
                             <div className='text-2xl font-bold text-gray-700 mb-5'>Chi tiết đơn bệnh </div>
                             {showSaveButton === 'true' &&
                                 <Button
-                                    className="bg-green-700 uppercase font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
+                                    className="bg-green-700 uppercase hover:opacity-80 font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
                                     type="button"
                                     text="Lưu"
                                     onClick={hanldeSumbit} />}
@@ -218,14 +272,16 @@ const BookingDetails = () => {
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-2">
                             <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="symtomDetails">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="symptomDetail">
                                     Triệu chứng chi tiết
                                 </label>
-                                <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="symtomDetails"
+                                <textarea className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="symptomDetail"
                                     type="text"
                                     value={data.invoiceInformation.symptomDetail}
                                     onChange={handleChange}
+                                    placeholder="Nhập triệu chứng chi tiết"
+
                                 />
 
                             </div>
@@ -233,11 +289,13 @@ const BookingDetails = () => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="advices">
                                     Lời khuyên
                                 </label>
-                                <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                <textarea className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="advices"
                                     type="text"
                                     value={data.invoiceInformation.advices}
                                     onChange={handleChange}
+                                    placeholder="Nhập lời khuyên"
+
                                 />
 
                             </div>
@@ -245,62 +303,19 @@ const BookingDetails = () => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="diagnose">
                                     Kết quả khám bệnh
                                 </label>
-                                <input className=" appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                <textarea className=" appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="diagnose"
                                     type="text"
                                     value={data.invoiceInformation.diagnose}
                                     onChange={handleChange}
+                                    placeholder="Nhập kết quả khám bệnh"
                                 />
                             </div>
 
                         </div>
 
                         <div className='flex gap-5 w-full'>
-                            {/* <div className="w-3/5 px-3 -mx-3 mb-2">
-                                <label className="block uppercase tracking-wide text-green-900 text-lg font-bold  my-5" htmlFor="grid-invoice">
-                                    Đơn thuốc
-                                </label>
-                                <div div className="w-full md:w-1/3 px-3 mb-2" >
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-total">
-                                        Tìm kiếm thuốc
-                                    </label>
-                                    <div className="relative">
-                                        <input className='w-full py-2 px-4 border focus:outline-none border-gray-200 focus:group'
-                                            id='grid-total'
-                                            placeholder='Tìm thuốc...'
-                                            value={query}
-                                            onChange={handleInputChangeMedicines}
-                                        />
-                                        <div className='absolute w-full z-10 rounded-sm'>
-                                            {results.length > 0 &&
-                                                results.map((medicine) => (
-                                                    <div className='bg-white border-b border-x py-2 px-5 cursor-pointer hover:bg-gray-300'
-                                                        onClick={() => handleMedicineClick(medicine)}>
-                                                        {medicine.medicineName}
-                                                    </div>
-                                                ))
-                                            }
 
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <Table
-                                    className=' !z-0'
-                                    columns={Columns}
-                                    dataSource={selectedDataMedicine}
-                                    scroll={{ y: 500 }}
-                                    loading={loading}
-                                    pagination={{
-                                        pageSize: 5,
-                                        onChange: (page, pageSize) => {
-                                            setPage(page);
-                                            setPageSize(pageSize);
-                                        }
-                                    }}
-                                />
-                            </div> */}
                             <MedicineComponent
                                 results={results}
                                 query={query}
@@ -330,14 +345,14 @@ const BookingDetails = () => {
 
                         </div>
                         <div className='flex justify-between'>
-                            {/* <div className="w-full md:w-1/4 px-3 mb-2 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-bhyt">
+                            <div className="w-full md:w-1/4 px-3 mb-2 md:mb-0">
+                                {/* <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-bhyt">
                                     Bảo hiểm y tế
                                 </label>
                                 <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance} />
-                            </div> */}
-                            <div className="w-full md:w-1/4 px-3 mb-2 md:mb-0">
+                                    id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance} /> */}
+                            </div>
+                            <div className="w-full md:w-1/4  px-3 mb-2 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-money">
                                     Tổng tiền (tự tính trên FE)
                                 </label>

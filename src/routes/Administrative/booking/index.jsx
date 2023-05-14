@@ -9,7 +9,6 @@ import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
 import Modal from './modal';
-import { DataStaff } from '../../admin/Staff/data'
 import classNames from 'classnames';
 import Layout from '../../../layout/index'
 import ConfirmModal from './confirmModal';

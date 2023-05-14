@@ -21,6 +21,7 @@ import DoctorProfile from './routes/Pratitioner/profile/index';
 import BookingDetails from './routes/Pratitioner/booking/bookingDetails/index';
 import DoctorBooking from './routes/Pratitioner/booking/index';
 import Details from './routes/Administrative/booking/bookingDetails';
+import BookingDetailsConfirm from './routes/common/BookingDetails';
 
 function App() {
 
@@ -46,11 +47,11 @@ function App() {
           <Route path='/admin-hospital/hospitalDetail/:id' element={<Hospitaldelails />}></Route>
           <Route path='/doctor/booking' element={<DoctorBooking/>}></Route>
           <Route path='/doctor/history' element={<History/>}></Route>
-          <Route path='/doctor/history_user' element={<UserBooking/>}></Route>
           <Route path='/doctor/profile' element={<DoctorProfile/>}></Route>
           <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route>
            <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
           <Route path='/nurse/booking/booingDetails/:id' element={<Details/>}></Route>
+          <Route path='/booking/confirm/bookingDetails/:id' element={<BookingDetailsConfirm/>}></Route>
         </Routes>
     </BrowserRouter>
    </>

@@ -5,7 +5,18 @@ import { Edit, Eye, IconTimes, Question, Trash } from '../../../../assets/svg';
 import Button from '../../../../components/button/index'
 
 
-const ServicesComponent = ({ loading, setPage, setPageSize, handleServicesClick, handleInputChangeServices, services, resultsServices, selectedDataServices, handleServicesRemove, calculateTotalServices }) => {
+const ServicesComponent = ({
+    loading,
+    setPage,
+    setPageSize,
+    handleServicesClick,
+    handleInputChangeServices,
+    services,
+    resultsServices,
+    selectedDataServices,
+    handleServicesRemove,
+    calculateTotalServices,
+}) => {
 
     const Columns = [
         {
@@ -77,7 +88,7 @@ const ServicesComponent = ({ loading, setPage, setPageSize, handleServicesClick,
                         value={services}
                         onChange={handleInputChangeServices}
                     />
-                    <div className='absolute w-full z-10 rounded-sm'>
+                    <div className='absolute w-full z-20 rounded-sm'>
                         {resultsServices.length > 0 &&
                             resultsServices.map((service) => (
                                 <div className='bg-white border-b border-x py-2 px-5 cursor-pointer hover:bg-gray-300'
@@ -88,6 +99,7 @@ const ServicesComponent = ({ loading, setPage, setPageSize, handleServicesClick,
                         }
 
                     </div>
+
 
                 </div>
             </div>

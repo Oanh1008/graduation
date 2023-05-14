@@ -1,11 +1,24 @@
-import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
+import { Table } from 'antd';
 import { useState } from 'react';
-import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
+
 import { Edit, Eye, IconTimes, Question, Trash } from '../../../../assets/svg';
 import Button from '../../../../components/button/index'
 
 
-const MedicineComponent = ({ loading, setPage, setPageSize, handleMedicineClick, handleInputChangeMedicines, query, results, selectedDataMedicine, handleMedicineRemove, calculateTotalMedicine, setMedicineCounter, medicineCounter }) => {
+const MedicineComponent = ({
+    loading,
+    setPage,
+    setPageSize,
+    query,
+    results,
+    medicineCounter,
+    setMedicineCounter,
+    selectedDataMedicine,
+    handleMedicineClick,
+    handleInputChangeMedicines,
+    handleMedicineRemove,
+    calculateTotalMedicine,
+}) => {
 
     const Columns = [
         {
@@ -91,6 +104,7 @@ const MedicineComponent = ({ loading, setPage, setPageSize, handleMedicineClick,
 
 
 
+
     return (
         <div className="w-3/5 px-3 -mx-3 mb-2">
             <label className="block uppercase tracking-wide text-green-900 text-lg font-bold  my-5" htmlFor="grid-invoice">
@@ -121,6 +135,7 @@ const MedicineComponent = ({ loading, setPage, setPageSize, handleMedicineClick,
                         }
 
                     </div>
+
 
                 </div>
             </div>

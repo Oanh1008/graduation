@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useHistory } from 'react-router-dom';
 import logo from '../assets/image/logo_1.png'
 import logo_svg from '../assets/svg/logo.svg'
 import classNames from 'classnames';
-import { Avatar, Breadcrumb, Collapse, Dropdown, Layout, Menu, Popover, theme } from 'antd';
+import { Avatar, Dropdown, Layout, Menu, } from 'antd';
 import list from '../components/header/menu/menu'
 import listSA from '../components/header/menu/menuSA'
 import listPratitioner from '../components/header/menu/menuPractitioner'

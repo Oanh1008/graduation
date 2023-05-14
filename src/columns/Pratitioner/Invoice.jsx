@@ -84,7 +84,6 @@ const Columns = [
         render: (text, item) => (
             <div className='flex items-center gap-3'>
                 <div>{item.invoiceInformation.dateTimeInvoice}</div>
-                {/* <div>10-05-2023</div> */}
             </div>
         ),
     },
@@ -111,7 +110,7 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<Eye className='w-9 h-9 fill-slate-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?showSaveButton=true`} />
+                    onClick={() => window.location.href = `/booking/confirm/bookingDetails/${data.user.userId}`} />
                 <Button
                     type='button'
                     className=" rounded-lg"

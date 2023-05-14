@@ -19,8 +19,8 @@ const Layout = [
 
     {
             icon: <MdStackedBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100 fill-cyan-900'/>,
-            label: "Lịch sử khám bệnh của bệnh nhân",
-            key: "/doctor/history_user",
+            label: "Lịch sử khám bệnh",
+            key: "/doctor/history",
         },
 ]
 

@@ -3,7 +3,6 @@ import Layout from '../../../layout'
 import { Avatar, Col, Divider, Row, Table } from 'antd';
 import { Edit, Plus, User } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-import Experience from './details/experience'
 import Review from './details/review'
 import Timetable from './details/timetable'
 import classNames from 'classnames';

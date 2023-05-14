@@ -10,6 +10,10 @@ const Review = ({ user }) => {
                     <div className=''>
                         <p className='text-lg text-gray-700 indent-8'>{user.information}</p>
                     </div>
+                    <div className='text-xl font-bold text-cyan-950 mx-8 mt-6 mb-3 underline'>Trình độ học vấn</div>
+                    <div className=''>
+                        <p className='text-lg text-gray-700 indent-14'>{user.knowledge}</p>
+                    </div>
                 </div>
             </div>
         </section >

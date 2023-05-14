@@ -1,72 +1,78 @@
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
-
-    Avatar,
-    Checkbox,
-    Col,
-    DatePicker,
     Divider,
-    Form,
-    Input,
-    InputNumber,
-    Radio,
-    Rate,
-    Row,
-    Select,
-    Slider,
-    Switch,
-    Typography,
-    Upload,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { useState } from 'react';
-import { Times, User } from '../../../assets/svg';
+import { useEffect, useState } from 'react';
+import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-
-const { Option } = Select;
-
-const formItemLayout = {
-    labelCol: {
-        span: 6,
-    },
-    wrapperCol: {
-        span: 14,
-    },
-};
-
-
-const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e?.fileList;
-};
-
-const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-};
+import { put } from '../../../utils/apicommon';
 
 const Modal = ({ isVisible, onClose, user }) => {
-    const [imageUrl, setImageUrl] = useState("");
-    const handlePreviewAvatar = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState == 2) {
-                setImageUrl({ imageUrl: reader.result })
-            }
-        }
-        reader.readAsDataURL(e.target.files[0])
-    }
+
+    const [form, setForm] = useState({
+        address: user.address,
+        userId: user.userId,
+        imageUrl: user.imageUrl,
+        email: user.email,
+        information: user.information,
+        phone: user.phone,
+        speciality: user.speciality,
+        knowledge: user.knowledge,
+        startWorkingDate: user.startWorkingDate,
+        status: user.status
+    });
 
     if (!isVisible) return null
     const handleClose = (e) => {
-        console.log('hi');
-        console.log(e.target.id);
         if (e.target.id == 'wrapper') {
             onClose()
         }
     }
+
+    const handleInputChange = (event) => {
+        const { name, value, type, checked } = event.target;
+
+        if (type === 'checkbox' || type === 'radio') {
+            setForm((prevForm) => ({
+                ...prevForm,
+                [name]: value === 'true' ? true : false,
+            }));
+        } else {
+            setForm((prevForm) => ({
+                ...prevForm,
+                [name]: value,
+            }));
+        }
+    };
+
+
+    const handleSubmit = async () => {
+        await put('/admin/setting/profile', {
+            address: form.address,
+            userId: form.userId,
+            imageUrl: form.imageUrl,
+            email: form.email,
+            information: form.information,
+            phone: form.phone,
+            speciality: form.speciality,
+            knowledge: form.knowledge,
+            startWorkingDate: form.startWorkingDate,
+            status: form.status,
+
+        })
+        const updatedUser = {
+            ...user,
+            ...form,
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        onClose();
+    };
+
+
+
+
     return (
         <div className='fixed inset-0 z-10 '>
             <div div className=' fixed inset-0 bg-black opacity-20 text-center z-20' id='wrapper' onClick={handleClose} ></div >
@@ -79,154 +85,169 @@ const Modal = ({ isVisible, onClose, user }) => {
                         </p>
                     </div>
                     <Divider />
-                    <Form
-                        labelCol={{ span: 8 }}
-                        wrapperCol={{ span: 20 }}
-                        name="validate_other"
-                        onFinish={onFinish}
-                        style={{
-                            maxWidth: 700,
-                        }}
-                    >
-                        <Form.Item name="Avatar" wrapperCol={{ span: 12, offset: 7 }} >
-                            {user.imageUrl ?
-                                <img src={user.imageUrl} alt="avatar" id="img" width={200} className="rounded-full mb-3" />
-                                : <Avatar className='shadow-lg' icon={<User className='fill-white w-56 h-56' />} size={220} />
-                            }
-                            <input type="file" name="img-upload" id="input" accept='image/*' onChange={handlePreviewAvatar} />
-                        </Form.Item>
+                    <div className="max-w-2xl mx-auto">
+                        <form >
+                            <div className='flex gap-5'>
+                                <div className='w-1/3'>
+                                    <div className="mb-4">
+                                        <label htmlFor="imageUrl" className="block mb-2 font-semibold">
+                                            Ảnh
+                                        </label>
+                                        <div name="Avatar" wrapperCol={{ span: 12, offset: 7 }}  >
+                                            <img src={user.imageUrl} alt="imageUrl" id="img" width={200} className=" mb-3" />
+                                            <input type="file" name="imageUrl" id="input" accept='image/*' />
+                                        </div>
+                                    </div>
+                                    <div className="mb-4">
+                                        <div className="mb-4 mt-5">
+                                            <label htmlFor="startWorkingDate" className="block mb-2 font-semibold">
+                                                Ngày bắt đầu làm việc
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="startWorkingDate"
+                                                name="startWorkingDate"
+                                                defaultValue={form.startWorkingDate}
+                                                className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                            />
+                                        </div>
+                                    </div>
 
-                        <Row gutter={[24, 8]}>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='lastName'
-                                    label="Họ"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
 
-                                >
-                                    <Input placeholder='Nhập họ' defaultValue={user.lastName} />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name='firstname'
-                                    label="Tên"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập tên' defaultValue={user.firstName} />
-                                </Form.Item>
-                            </Col>
+                                </div>
 
-                            <Col span={12} >
-                                <Form.Item
-                                    name='Dateofbirth'
-                                    label="Ngày sinh"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input style={{ width: '100%' }} placeholder="Chọn ngày" defaultValue={user.birthDay} />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} >
-                                <Form.Item
-                                    name="email"
-                                    label="Email"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập email' defaultValue={user.email} />
-                                </Form.Item>
-                            </Col>
+                                <div className='w-2/3 '>
+                                    <div className=' flex gap-5'>
+                                        <div className='w-1/2'>
+                                            <div className="mb-4">
+                                                <div className="mb-4">
+                                                    <label htmlFor="userName" className="block mb-2 font-semibold ">
+                                                        Họ tên
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="userName"
+                                                        name="userName"
+                                                        value={user.lastName + ' ' + user.firstName}
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-4">
+                                                <div className="mb-4 mt-7">
+                                                    <label htmlFor="phone" className="block mb-2 font-semibold">
+                                                        Số điện thoại
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="phone"
+                                                        name="phone"
+                                                        defaultValue={form.phone}
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-4">
+                                                <div className="mb-4 mt-7">
+                                                    <label htmlFor="speciality" className="block mb-2 font-semibold">
+                                                        Chuyên môn
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="speciality"
+                                                        name="speciality"
+                                                        defaultValue={form.speciality}
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                    />
+                                                </div>
+                                            </div>
 
-                            <Col span={12} >
-                                <Form.Item
-                                    name='gender'
-                                    label="Giới tính"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Radio.Group>
-                                        <Radio value="male" checked={true}> Nam </Radio>
-                                        <Radio value="female"> Nữ </Radio>
-                                    </Radio.Group>
-                                </Form.Item>
-                            </Col>
 
-                            <Col span={12} >
-                                <Form.Item
-                                    name='role'
-                                    label="Chức danh"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='Nhập chức danh ' defaultValue="Nhóm khám chữa bệnh" />
-                                </Form.Item>
-                            </Col>
 
-                            <Col span={12} >
-                                <Form.Item
-                                    name='address'
-                                    label="Địa chỉ"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <TextArea placeholder='Nhập địa chỉ ' defaultValue={user.address} />
-                                </Form.Item>
-                            </Col>
+                                        </div>
+                                        <div className='w-1/2'>
 
-                        </Row>
+                                            <div className="mb-4">
+                                                <div className="mb-4 ">
+                                                    <label htmlFor="knowledge" className="block mb-2 font-semibold">
+                                                        Học vấn
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="knowledge"
+                                                        name="knowledge"
+                                                        defaultValue={form.knowledge}
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-4">
+                                                <div className="mb-4 mt-7">
+                                                    <label htmlFor="email" className="block mb-2 font-semibold">
+                                                        Email
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="email"
+                                                        name="email"
+                                                        defaultValue={form.email}
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-4">
+                                                <div className="mb-4 mt-7">
+                                                    <label htmlFor="status" className="block mb-2 font-semibold">
+                                                        Tình trạng
+                                                    </label>
+                                                    <select className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 bg-white ">
+                                                        <option defaultValue="Đang làm" selected={form.status === "Đang làm"}>Đang làm</option>
+                                                        <option defaultValue="Nghỉ phép" checked={form.status === "Nghỉ phép"}>Nghỉ phép</option>
+                                                    </select>
 
-                        {/* <Col span={24} >
-                            <Form.Item
-                                name='information'
-                                label="Giới thiệu"
-                                rules={[
-                                    {
-                                        required: true,
-                                    },
-                                ]}
-                            >
-                                <TextArea
-                                    showCount
-                                    maxLength={500}
-                                    style={{ height: 120, resize: 'none' }}
-                                    // onChange={onChange}
-                                    placeholder="Giới thiệu bản thân"
-                                />
-                            </Form.Item>
-                        </Col> */}
+                                                </div>
+                                            </div>
 
-                        <div className='flex justify-center'>
-                            <Button type="submit"
-                                text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
+                                        </div>
+                                    </div>
+                                    <div className="mb-4 mt-3">
+                                        <label htmlFor="address" className="block mb-2 font-semibold">
+                                            Địa chỉ
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="address"
+                                            name="address"
+                                            defaultValue={form.address}
 
-                        </div>
-                    </Form>
+                                            className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                        />
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div className="mb-4">
+                                <label htmlFor="information" className="block mb-2 font-semibold">
+                                    Thông tin của bệnh viện
+                                </label>
+                                <textarea id="information" name="information" className='border p-2 w-full text-neutral-600' onChange={handleInputChange} rows="6" cols="50" defaultValue={form.information} />
+                                <br />
+
+                            </div>
+
+                            <div className='flex justify-center'>
+                                <Button type="button" onClick={handleSubmit}
+                                    text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </div >
         </div >
     )
 }

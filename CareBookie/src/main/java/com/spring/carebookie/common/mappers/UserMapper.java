@@ -1,5 +1,4 @@
 package com.spring.carebookie.common.mappers;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;

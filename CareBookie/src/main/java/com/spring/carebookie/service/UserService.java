@@ -12,10 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.carebookie.common.constants.EmployeeStatus;
 import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.LoginRequest;
+import com.spring.carebookie.dto.edit.ChangePasswordDto;
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
 import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
@@ -28,7 +28,6 @@ import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.RegisterDto;
 import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
-import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.HospitalRepository;
@@ -230,6 +229,7 @@ public class UserService {
         entity.setStatus("Đang làm");
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         entity.setDisable(false);
+        entity.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/OOjs_UI_icon_userAvatar.svg/1200px-OOjs_UI_icon_userAvatar.svg.png?fbclid=IwAR2YhMPIGSkRNRbgGk3indgelORexNBxQ358TRKOVIKQ0yZ2HiIwWSLE-9Q");
         entity.setRoleId(dto.isDoctor() ? 4L : 3L);
         return userRepository.save(entity);
     }
@@ -292,4 +292,15 @@ public class UserService {
     }
 
 
+    public UserEntity changePassword(ChangePasswordDto dto) {
+        UserEntity user = userRepository.findByUserId(dto.getUserId());
+        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword()))    {
+            throw new ResourceNotFoundException("Old password is not valid");
+        }
+        if(!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            throw new ResourceNotFoundException("New password is not matched wiht confirm password");
+        }
+        userRepository.updatePassword(dto.getUserId(),passwordEncoder.encode(dto.getNewPassword()));
+        return userRepository.findByUserId(dto.getUserId());
+    }
 }

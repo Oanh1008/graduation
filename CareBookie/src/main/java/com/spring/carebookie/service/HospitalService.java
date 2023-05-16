@@ -111,8 +111,8 @@ public class HospitalService {
     }
 
     @Transactional
-    public HospitalResponseDto acceptHospital(String hospitalId) {
-        hospitalRepository.acceptHospital(hospitalId);
+    public HospitalResponseDto acceptHospital(String hospitalId, boolean accept) {
+        hospitalRepository.acceptHospital(hospitalId,accept);
         return getHospitalByHospitalId(hospitalId);
     }
 

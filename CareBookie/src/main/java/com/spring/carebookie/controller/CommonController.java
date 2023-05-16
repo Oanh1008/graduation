@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.LoginRequest;
 import com.spring.carebookie.dto.SearchHomeResponse;
+import com.spring.carebookie.dto.edit.ChangePasswordDto;
 import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
 import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
@@ -129,4 +130,8 @@ public class CommonController {
         return ResponseEntity.ok(hospitalService.registerHospital(model));
     }
 
+    @ApiOperation("Api change password")
+    public ResponseEntity<UserEntity> changePassword(@Valid @RequestBody ChangePasswordDto dto) {
+        return ResponseEntity.ok(userService.changePassword(dto));
+    }
 }

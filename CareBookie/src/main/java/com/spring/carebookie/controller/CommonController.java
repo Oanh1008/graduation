@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.CheckCode;
 import com.spring.carebookie.dto.ForgotPasswordDto;
 import com.spring.carebookie.dto.LoginRequest;
 import com.spring.carebookie.dto.SearchHomeResponse;
@@ -140,8 +141,14 @@ public class CommonController {
 
     @ApiOperation("Forgot password, send mail a code")
     @PostMapping("/user/forgot-password")
-    public ResponseEntity<UserCode> forgotPassword(@RequestParam String userId) {
-        return ResponseEntity.ok(userService.forgotPassword(userId));
+    public ResponseEntity<UserCode> forgotPassword(@RequestParam String phone) {
+        return ResponseEntity.ok(userService.forgotPassword(phone));
+    }
+
+    @ApiOperation("Check code for forgot password")
+    @PostMapping("/user/check-code")
+    public ResponseEntity<Boolean> checkCode(@RequestBody CheckCode dto) {
+        return ResponseEntity.ok(userService.checkCode(dto.getPhone(), dto.getCode()));
     }
 
     @ApiOperation("Api change password")

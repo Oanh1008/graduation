@@ -90,7 +90,7 @@ public class UserService {
         entity.setRoleId(5L);
         entity.setDisable(false);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-
+        entity.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/OOjs_UI_icon_userAvatar.svg/1200px-OOjs_UI_icon_userAvatar.svg.png?fbclid=IwAR2feu8hZAfDllAJfvFKc4P6lQH3eSJ5Q_lEYm1iz6pDwmez4bSiBZdDhbA");
         return userRepository.save(entity);
     }
 

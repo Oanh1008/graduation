@@ -29,5 +29,9 @@ public class Test {
 
         System.out.println(LocalDate.of(2023,5,14).getDayOfWeek().getValue());
 
+        for (int i =1; i< 100 ;i++) {
+            String id = String.format("%04d", random.nextInt(10000));
+            System.out.println(id);
+        }
     }
 }

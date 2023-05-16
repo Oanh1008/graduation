@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.carebookie.common.mappers.UserMapper;
 import com.spring.carebookie.dto.DoctorGetAllDto;
+import com.spring.carebookie.dto.EmailDetails;
+import com.spring.carebookie.dto.ForgotPasswordDto;
 import com.spring.carebookie.dto.LoginRequest;
 import com.spring.carebookie.dto.edit.ChangePasswordDto;
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
@@ -28,9 +31,11 @@ import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.RegisterDto;
 import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.dto.save.UserSaveDto;
+import com.spring.carebookie.entity.UserCode;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.HospitalRepository;
+import com.spring.carebookie.repository.UserCodeRepository;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 
@@ -40,7 +45,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class UserService {
+
+    private final UserCodeRepository userCodeRepository;
+
+    private final UserCodeService userCodeService;
+
+    private final EmailService emailService;
 
     private final HospitalService hospitalService;
 
@@ -292,6 +304,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public UserEntity changePassword(ChangePasswordDto dto) {
         UserEntity user = userRepository.findByUserId(dto.getUserId());
         if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword()))    {
@@ -300,6 +313,30 @@ public class UserService {
         if(!dto.getNewPassword().equals(dto.getConfirmPassword())) {
             throw new ResourceNotFoundException("New password is not matched wiht confirm password");
         }
+        userRepository.updatePassword(dto.getUserId(),passwordEncoder.encode(dto.getNewPassword()));
+        return userRepository.findByUserId(dto.getUserId());
+    }
+
+    public UserCode forgotPassword(String userId) {
+        Random random = new Random();
+        String id = String.format("%04d", random.nextInt(10000));
+        UserEntity user = userRepository.findByUserId(userId);
+        emailService.sendSimpleMail(new EmailDetails(user.getEmail(),id,"Your code confirm password is",""));
+
+        return userCodeService.upsert(userId,id);
+    }
+
+
+    public UserEntity resetPassword(ForgotPasswordDto dto) {
+        UserCode code = userCodeRepository.findByUserId(dto.getUserId());
+        if (!dto.getCode().equals(code.getCode())) {
+            throw new ResourceNotFoundException("Code {} is not valid".replace("{}",dto.getCode()));
+        }
+
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            throw new ResourceNotFoundException("Confirm password is not valid");
+        }
+
         userRepository.updatePassword(dto.getUserId(),passwordEncoder.encode(dto.getNewPassword()));
         return userRepository.findByUserId(dto.getUserId());
     }

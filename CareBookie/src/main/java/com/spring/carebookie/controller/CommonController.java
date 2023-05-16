@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.ForgotPasswordDto;
 import com.spring.carebookie.dto.LoginRequest;
 import com.spring.carebookie.dto.SearchHomeResponse;
 import com.spring.carebookie.dto.edit.ChangePasswordDto;
@@ -25,6 +26,7 @@ import com.spring.carebookie.dto.response.RatingHospitalResponseDto;
 import com.spring.carebookie.dto.save.RegisterDto;
 import com.spring.carebookie.dto.save.RegisterHospital;
 import com.spring.carebookie.entity.ServiceEntity;
+import com.spring.carebookie.entity.UserCode;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 import com.spring.carebookie.service.CommonService;
@@ -131,7 +133,20 @@ public class CommonController {
     }
 
     @ApiOperation("Api change password")
+    @PostMapping("/user/change-password")
     public ResponseEntity<UserEntity> changePassword(@Valid @RequestBody ChangePasswordDto dto) {
         return ResponseEntity.ok(userService.changePassword(dto));
+    }
+
+    @ApiOperation("Forgot password, send mail a code")
+    @PostMapping("/user/forgot-password")
+    public ResponseEntity<UserCode> forgotPassword(@RequestParam String userId) {
+        return ResponseEntity.ok(userService.forgotPassword(userId));
+    }
+
+    @ApiOperation("Api change password")
+    @PostMapping("/user/reset-password")
+    public ResponseEntity<UserEntity> changePassword(@Valid @RequestBody ForgotPasswordDto dto) {
+        return ResponseEntity.ok(userService.resetPassword(dto));
     }
 }

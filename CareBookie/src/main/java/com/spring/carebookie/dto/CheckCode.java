@@ -9,11 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ForgotPasswordDto {
+public class CheckCode {
 
     private String phone;
 
-    private String newPassword;
-
-    private String confirmPassword;
+    private String code;
 }

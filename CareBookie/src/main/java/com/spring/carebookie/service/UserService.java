@@ -84,14 +84,20 @@ public class UserService {
 
     @Transactional
     public UserEntity register(RegisterDto dto) {
+        // check mail and phone existed
         UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
+        Random random = new Random();
+        String id = String.format("%04d", random.nextInt(10000));
+        emailService.sendSimpleMail(new EmailDetails(dto.getEmail(), id, "Confirm email", null));
         String userId = generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail());
         entity.setUserId(userId);
         entity.setRoleId(5L);
         entity.setDisable(false);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         entity.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/OOjs_UI_icon_userAvatar.svg/1200px-OOjs_UI_icon_userAvatar.svg.png?fbclid=IwAR2feu8hZAfDllAJfvFKc4P6lQH3eSJ5Q_lEYm1iz6pDwmez4bSiBZdDhbA");
-        return userRepository.save(entity);
+        UserEntity user = userRepository.save(entity);
+        userCodeService.upsert(userId, id);
+        return user;
     }
 
     @Transactional
@@ -307,37 +313,43 @@ public class UserService {
     @Transactional
     public UserEntity changePassword(ChangePasswordDto dto) {
         UserEntity user = userRepository.findByUserId(dto.getUserId());
-        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword()))    {
+        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())) {
             throw new ResourceNotFoundException("Old password is not valid");
         }
-        if(!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
             throw new ResourceNotFoundException("New password is not matched wiht confirm password");
         }
-        userRepository.updatePassword(dto.getUserId(),passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.updatePassword(dto.getUserId(), passwordEncoder.encode(dto.getNewPassword()));
         return userRepository.findByUserId(dto.getUserId());
     }
 
-    public UserCode forgotPassword(String userId) {
+    public UserCode forgotPassword(String phone) {
         Random random = new Random();
         String id = String.format("%04d", random.nextInt(10000));
-        UserEntity user = userRepository.findByUserId(userId);
-        emailService.sendSimpleMail(new EmailDetails(user.getEmail(),id,"Your code confirm password is",""));
+        UserEntity user = userRepository.findByPhone(phone);
+        emailService.sendSimpleMail(new EmailDetails(user.getEmail(), id, "Your code confirm password is", ""));
 
-        return userCodeService.upsert(userId,id);
+        return userCodeService.upsert(user.getUserId(), id);
     }
 
+    public boolean checkCode(String phone, String codeH) {
+        UserEntity user = userRepository.findByPhone(phone);
+        UserCode code = userCodeRepository.findByUserId(user.getUserId());
+        if (!codeH.equals(code.getCode())) {
+            return false;
+        }
+        return true;
+    }
 
     public UserEntity resetPassword(ForgotPasswordDto dto) {
-        UserCode code = userCodeRepository.findByUserId(dto.getUserId());
-        if (!dto.getCode().equals(code.getCode())) {
-            throw new ResourceNotFoundException("Code {} is not valid".replace("{}",dto.getCode()));
-        }
+        UserEntity user = userRepository.findByPhone(dto.getPhone());
+        UserCode code = userCodeRepository.findByUserId(user.getUserId());
 
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
             throw new ResourceNotFoundException("Confirm password is not valid");
         }
 
-        userRepository.updatePassword(dto.getUserId(),passwordEncoder.encode(dto.getNewPassword()));
-        return userRepository.findByUserId(dto.getUserId());
+        userRepository.updatePassword(user.getUserId(), passwordEncoder.encode(dto.getNewPassword()));
+        return userRepository.findByUserId(user.getUserId());
     }
 }

@@ -33,6 +33,4 @@ public class RegisterDto {
     @NotBlank
     private String password;
 
-    private String imageUrl;
-
 }

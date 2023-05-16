@@ -74,6 +74,42 @@ public class InvoiceService {
     @Transactional
     public InvoiceResponseDto updateInvoice(InvoiceSaveDto dto) {
 
+        InvoiceEntity invoice = invoiceRepository.findById(dto.getInvoiceId())
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
+
+        InvoiceResponseDto invoiceRp = convertEntityToResponse(invoice);
+
+        List<Long> serviceIdDto = dto.getServices()
+                .stream()
+                .map(t -> t.getServiceId())
+                .collect(Collectors.toList());
+
+        List<Long> serviceIdE = invoiceRp.getServices()
+                .stream()
+                .map(t -> t.getId())
+                .collect(Collectors.toList());
+
+        for (Long id : serviceIdDto) {
+            if (serviceIdE.contains(id)) {
+                throw new ResourceNotFoundException("Service id = {} existed in invoice".replace("{}",id.toString()));
+            }
+        }
+
+        List<Long> medicineIdDto = dto.getMedicines()
+                .stream()
+                .map(t -> t.getMedicineId())
+                .collect(Collectors.toList());
+
+        List<Long> medicineIdE = invoiceRp.getMedicines()
+                .stream()
+                .map(t -> t.getId())
+                .collect(Collectors.toList());
+
+        for (Long id : medicineIdDto) {
+            if (medicineIdE.contains(id)) {
+                throw new ResourceNotFoundException("Medicine id = {} existed in invoice".replace("{}",id.toString()));
+            }
+        }
         // add service
         List<InvoiceServiceEntity> services = dto.getServices()
                 .stream()

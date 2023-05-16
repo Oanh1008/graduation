@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.response.HospitalResponseDto;
@@ -52,7 +53,7 @@ public class SupperAdminController {
 
     @ApiOperation("Accept the hospital working")
     @PutMapping("/hospital/accept/{hospitalId}")
-    public ResponseEntity<HospitalResponseDto> acceptHospital(@PathVariable String hospitalId) {
-        return ResponseEntity.ok(hospitalService.acceptHospital(hospitalId));
+    public ResponseEntity<HospitalResponseDto> acceptHospital(@PathVariable String hospitalId, @RequestParam boolean accept) {
+        return ResponseEntity.ok(hospitalService.acceptHospital(hospitalId, accept));
     }
 }

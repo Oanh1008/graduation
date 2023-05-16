@@ -36,8 +36,8 @@ public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> 
     List<ServiceByHospitalIdProjection> getAllServiceByHospitalId(@Param("hospitalId") String hospitalId);
 
     @Modifying
-    @Query(" update HospitalEntity h set h.status = true where h.hospitalId = :hospitalId ")
-    void acceptHospital(String hospitalId);
+    @Query(" update HospitalEntity h set h.status = :accept where h.hospitalId = :hospitalId ")
+    void acceptHospital(String hospitalId, boolean accept);
 
     @Query("select h from HospitalEntity h where h.hospitalId in (:hospitalIds)")
     List<HospitalEntity> getAllByHospitalId(List<String> hospitalIds);

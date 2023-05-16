@@ -28,7 +28,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "from user u\n" +
             "where u.is_doctor = true\n" +
             "and (lower(concat(u.last_name,' ',u.first_name)) like lower(concat('%',:key,'%'))\n" +
-            "or lower(u.speciality) like lower(concat('%',:key,'%')))",nativeQuery = true)
+            "or lower(u.speciality) like lower(concat('%',:key,'%')))", nativeQuery = true)
     List<SearchByKeyDoctorProjection> searchByKey(String key);
 
     @Query(value = UserSql.GET_ALL_DOCTORS, nativeQuery = true)
@@ -71,7 +71,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Modifying
     @Query(" update UserEntity u set u.status = :status where u.userId = :doctorId ")
-    void updateStatus(String doctorId,String status);
+    void updateStatus(String doctorId, String status);
 
     /**
      * Employee
@@ -80,4 +80,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("delete from UserEntity u where u.userId = ?1")
     void deleteByUserId(String userId);
 
+    @Modifying
+    @Query("update UserEntity u set u.password = :newPassword where u.userId = :userId")
+    void updatePassword(String userId, String newPassword);
 }

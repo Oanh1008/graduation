@@ -117,7 +117,7 @@ public class DoctorController {
 //        return ResponseEntity.ok(invoiceService.addService(dto));
 //    }
 
-    @ApiOperation("Remove medicine from invoice")
+    @ApiOperation("Remove service from invoice")
     @DeleteMapping("/invoice/remove/service")
     public ResponseEntity<InvoiceResponseDto> removeServiceFromInvoice(@RequestBody ServiceRemoveInvoiceDto dto) {
         return ResponseEntity.ok(invoiceService.removeService(dto));

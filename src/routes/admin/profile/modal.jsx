@@ -124,7 +124,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                 checked={form.isChoosenDoctor === true}
                                                 onChange={handleInputChange} />
                                             <label for="true">Có</label><br />
-                                            <input type="radio" id="false" name="isChoosenDoctor" value="false"
+                                            <input type="radio" id="false" name="isChoosenDoctor" defaultValue="false"
                                                 checked={form.isChoosenDoctor === false}
                                                 onChange={handleInputChange} />
                                             <label for="true">Không</label><br />

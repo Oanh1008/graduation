@@ -23,6 +23,7 @@ const ServicesComponent = ({
             key: '1',
             title: 'STT',
             width: 60,
+            fixed: 'left',
             render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
             sorter: (record1, record2) => {
                 return record1.id > record2.id
@@ -48,7 +49,7 @@ const ServicesComponent = ({
             width: 200,
             render: (text, item) => (text &&
                 <div className='flex items-center gap-3'>
-                    <div>{item.price}</div>
+                    <div>{item.price}.000 vnđ</div>
                 </div>),
         },
         {

@@ -18,8 +18,14 @@ const BookingDetailsConfirm = () => {
     }, [])
     const fetchData = async () => {
         setLoading(true)
-        const data = await get(`/employee/book/${status}/detail/${user.hospitalId}/${id}`);
-        setData(data)
+        const db = {}
+        if (status !== 'invoice') {
+            db = await get(`/employee/book/${status}/detail/${user.hospitalId}/${id}`);
+        }
+        else {
+            db = await get(`/employee/${status}/detail/${user.hospitalId}/${id}`);
+        }
+        setData(db)
         setLoading(false)
     };
 

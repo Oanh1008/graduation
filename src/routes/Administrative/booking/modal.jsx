@@ -16,7 +16,7 @@ import moment from 'moment';
 import { memo, useEffect, useState } from 'react';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-import { get } from '../../../utils/apicommon';
+import { get, put } from '../../../utils/apicommon';
 import CancelModal from './cancelModal'
 
 const { Option } = Select;
@@ -28,7 +28,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
     const [working, setWorking] = useState([])
     const [availableSessions, setAvailableSessions] = useState('');
     const [form] = Form.useForm()
-
 
     useEffect(() => {
         const fetch = async () => {
@@ -48,7 +47,7 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                 fullName: fid.fullName,
                 age: fid.age,
                 address: fid.address,
-                doctorName: fid.doctorName,
+                doctorId: fid.bookInformation.doctorId,
                 session: fid.bookInformation.session,
                 symptom: fid.bookInformation.symptom,
                 date: fid.bookInformation.date,
@@ -56,6 +55,7 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                 gender: fid.gender,
             });
     }, [fid, form]);
+
 
     if (!isVisible) return null
     const handleClose = (e) => {
@@ -66,7 +66,7 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
     const hanldeCancel = () => {
         setShowModal(true)
     }
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         const dateString = values.dateExamination.toString();
         const dateObject = new Date(dateString);
 
@@ -75,15 +75,17 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
         const year = dateObject.getFullYear();
 
         const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
-        console.log(fid.bookInformation.id);
-        console.log(values.doctorName);
-        console.log(values.session);
-        console.log(values.symptom);
-        console.log(formattedDate);
-        console.log(values.gender);
+        const update = await put(`/administrative/book/accept`, {
+            bookId: fid.bookInformation.id,
+            dateExamination: formattedDate,
+            doctorId: values.doctorId,
+            message: values.message,
+            operatorId: user.userId,
+            session: values.session
+        })
         fetchData()
+        onClose()
     };
-
     return (
         Object.keys(fid).length > 0 &&
         <div className='fixed inset-0 z-10 '>
@@ -179,9 +181,10 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                                     <TextArea placeholder='Nhập triệu chứng' disabled />
                                 </Form.Item>
                             </Col>
+
                             <Col span={12} >
                                 <Form.Item
-                                    name='doctorName'
+                                    name='doctorId'
                                     label="Bác sĩ đặt lịch"
                                     rules={[
                                         {
@@ -189,9 +192,11 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                                         },
                                     ]}
                                 >
-                                    <Select placeholder="Chọn bác sĩ" >
+                                    <Select placeholder="Chọn bác sĩ" defaultValue={fid.doctorName} >
                                         {doctor.map((item) => (
-                                            <Option key={item.id} value={item.userId}>{item.lastName} {item.firstName}</Option>
+                                            <Option key={item.id} value={item.userId} >
+                                                {item.lastName} {item.firstName}
+                                            </Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
@@ -228,7 +233,7 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                             <Col span={12} >
                                 <Form.Item
                                     name='session'
-                                    label="Giờ đặt lịch"
+                                    label="Giờ khám"
                                     rules={[
                                         {
                                             required: true,
@@ -262,6 +267,17 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
 
 
                         </Row>
+                        <Form.Item
+                            name='message'
+                            label="Chi tiết khám"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <TextArea />
+                        </Form.Item>
 
                         <div className='flex justify-around'>
                             <Button onClick={hanldeCancel}

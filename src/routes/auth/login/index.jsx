@@ -21,12 +21,20 @@ const Login = () => {
                 password: password,
             });
             if (res) {
-                if (res.roleId == 2) {
-                    const hospital = await get(`/common/hospital/${res.hospitalId}`)
-                    localStorage.setItem("user", JSON.stringify(hospital));
-                    window.location.href = "/";
+                if (res.roleId === 2) {
+                    if (res.hospital.status === true) {
+                        const hospital = await get(`/common/hospital/${res.hospitalId}`)
+                        localStorage.setItem("user", JSON.stringify(hospital));
+                        window.location.href = "/";
+                    }
+                    else {
+                        setErr('Thông tin tài khoản không đúng!')
+                    }
 
-                } else {
+                } else if (res.roleId == 5) {
+                    setErr('Thông tin tài khoản không đúng!')
+                }
+                else {
                     localStorage.setItem("user", JSON.stringify(res));
                     window.location.href = "/";
                 }
@@ -88,7 +96,7 @@ const Login = () => {
                                     className="block w-full px-4 py-2 mt-2 text-cyan-800 bg-white border rounded-md focus:border-[#070C52] focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                             </div>
-                            <p className='text-red-600 mb-5 text-sm' >{err}</p>
+                            <p className='text-red-600 text-center mb-5 text-sm' >{err}</p>
                             <a
                                 href='/resetpassword'
                                 className="text-xs text-cyan-700 hover:underline"
@@ -102,7 +110,7 @@ const Login = () => {
                             </div>
                         </form>
 
-                        <p className="mt-8 text-xs font-light text-center text-gray-700">
+                        <p className="mt-4 text-xs font-light text-center text-gray-700">
                             {" "}
                             Tạo tài khoản phòng khám? {" "}
                             <button

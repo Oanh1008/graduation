@@ -3,20 +3,23 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
-import { Edit, IconBriefCase, IconCalender } from '../../../assets/svg';
+import { Edit, IconBriefCase, IconCalender, IconLeftSolid, IconRightSolid } from '../../../assets/svg';
 import { get } from '../../../utils/apicommon';
 import Modal from './modal';
+import WorkingDate from './workingModal';
 
 const HospitalProfile = () => {
     const [showModal, setShowModal] = useState(false)
     const [doctor, setDoctor] = useState([]);
     const [loading, setLoading] = useState(false)
-
+    const [startIndex, setStartIndex] = useState(0);
+    const [editTime, setEdit] = useState(false);
+    const [dtId, setdtId] = useState(null);
 
     let user = JSON.parse(localStorage.getItem('user'));
 
     const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
-    const session = ["MORNING", 'AFTERNOON', 'EVENING'];
+    const session = ["MORNING", 'AFTERNOON'];
 
     useEffect(() => {
         fetchData()
@@ -29,6 +32,27 @@ const HospitalProfile = () => {
         setLoading(false)
     }
 
+    const handleCourseClick = (daytime) => {
+        setdtId(daytime);
+        setEdit(true);
+    };
+
+    const handleNext = () => {
+        if (startIndex + 4 < doctor.length) {
+            setStartIndex((prevIndex) => prevIndex + 1);
+        }
+        console.log(startIndex);
+    };
+
+    const handlePrev = () => {
+        if (startIndex > 0) {
+            setStartIndex((prevIndex) => prevIndex - 1);
+        }
+    };
+    const doctorSider = doctor.slice(
+        startIndex,
+        startIndex + 4
+    );
     return (
         <Layout>
             <div className=' mx-6 '>
@@ -83,7 +107,14 @@ const HospitalProfile = () => {
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>Chuyên gia - Bác sĩ</div>
                                 <Divider />
                                 <div className='flex justify-around'>
-                                    {doctor.map((item, index) => (
+                                    {startIndex != 0 &&
+                                        <button className="absolute -translate-y-1/2 bg-white border rounded-full border-neutral-300 -left-4 top-1/2 w-9 h-9">
+                                            <IconLeftSolid
+                                                className="p-2 fill-neutral-500"
+                                                onClick={handlePrev}
+                                            />
+                                        </button>}
+                                    {doctorSider.map((item, index) => (
                                         <div key={index} className='flex flex-col gap-5 items-center'>
                                             <div className="drop-shadow-lg rounded-full">
                                                 <Avatar src={item.imageUrl} size={200} />
@@ -92,6 +123,14 @@ const HospitalProfile = () => {
                                             <p className='text-base font-semibold'>{item.lastName} {item.firstName}</p>
                                         </div>
                                     ))}
+                                    {startIndex + 3 !== doctorSider.length &&
+                                        <button className="absolute -translate-y-1/2 bg-white border rounded-full border-neutral-300 -right-4 top-1/2 w-9 h-9">
+                                            <IconRightSolid
+                                                className="p-2 fill-neutral-500"
+                                                onClick={handleNext}
+                                            />
+                                        </button>
+                                    }
                                 </div>
 
                                 {/* <button className='mt-5 w-full text-end text-cyan-900 hover:font-semibold mb-1'>Xem thêm</button> */}
@@ -162,7 +201,7 @@ const HospitalProfile = () => {
                             </thead>
                             <tbody>
                                 {session.map((time) => (
-                                    <tr key={time} className="border-b ">
+                                    <tr key={time} className="border-b text-center      ">
                                         {time === 'MORNING' ?
                                             <td className='py-5 font-semibold border-r w-20'>Sáng</td>
                                             : time === 'AFTERNOON' ?
@@ -171,9 +210,9 @@ const HospitalProfile = () => {
                                                 && <td className='py-5 font-semibold border-r w-20'>Tối</td>
                                         }
 
-                                        {daysOfWeek.map((day) => {
-                                            const course = user.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
-                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course ? course.startHour + '-' + course.endHour : ''}</td>;
+                                        {daysOfWeek.map((day, index) => {
+                                            const daytime = user.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
+                                            return <td key={index} className="border-r w-20 text-center" onDoubleClick={() => handleCourseClick(daytime.id)}>{daytime ? daytime.startHour + '-' + daytime.endHour : ''}</td>;
                                         })}
                                     </tr>
                                 ))}
@@ -187,7 +226,7 @@ const HospitalProfile = () => {
             </div>
 
             <Modal isVisible={showModal} onClose={() => setShowModal(false)} fetchData={fetchData} user={user} />
-
+            <WorkingDate isVisible={editTime} onClose={() => setEdit(false)} fetchData={fetchData} user={user} dtId={dtId} />
         </Layout >
     )
 }

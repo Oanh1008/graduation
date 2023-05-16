@@ -1,7 +1,7 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import moment from 'moment';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, Question, Trash } from '../../assets/svg';
+import { Edit, Eye, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 
 const Columns = [
@@ -127,42 +127,24 @@ const Columns = [
                 <p>{item.doctorName}</p>
             </div>),
     },
-    // {
-    //     key: '7',
-    //     title: "Trạng thái",
-    //     dataIndex: "completed",
-    //     fixed: "right",
-    //     render: (completed => {
-    //         return <p>{completed
-    //             ?
-    //             <div className=''>complete</div>
-    //             :
-    //             <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg flex items-center before:left-6
-    //                     before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Chờ xét duyệt</div>}
-    //         </p>
-    //     }),
-    //     filters: [
-    //         { text: "complete", value: true },
-    //         { text: "incompleted", value: false },
-    //     ],
-    //     onFilter: (value, record) => {
-    //         return record.completed === value
-    //     }
-    // },
-    // {
-    //     key: 8,
-    //     title: "Action",
-    //     fixed: 'right',
-    //     render: (data) => (
-    //         <>
-    //             <Button
-    //                 type='button'
-    //                 className="hover:bg-red-300 rounded-lg"
-    //                 icon={<Trash className='w-9 h-9 fill-red-500 p-1' />}
-    //                 onClick={() => { console.log(data.id) }} />
-    //         </>
-    //     )
-    // }
+    {
+        key: 8,
+        title: "Thao tác",
+        width: 100,
+
+        fixed: 'right',
+        render: (data) => (
+            <>
+                <Button
+                    type='button'
+                    className=" rounded-lg"
+                    icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
+                    onClick={() => window.location.href = `/booking/bookingDetails/${data.bookInformation.id}?status=pending`} />
+
+            </>
+        )
+    }
+
 
 
 ];

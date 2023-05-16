@@ -18,12 +18,14 @@ const MedicineComponent = ({
     handleInputChangeMedicines,
     handleMedicineRemove,
     calculateTotalMedicine,
+    hanldeAmount
 }) => {
 
     const Columns = [
         {
             key: '1',
             title: 'STT',
+            fixed: 'lef',
             width: 60,
             render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
             sorter: (record1, record2) => {
@@ -58,9 +60,13 @@ const MedicineComponent = ({
             title: "Số lượng",
             dataIndex: "",
             width: 100,
-            render: (medicine) => (
+            render: (medicine, item) => (
                 <div className='flex items-center gap-3'>
-                    <div>{medicineCounter[medicine.id] || 0}</div>
+                    {item.amount ?
+                        <div>{item.amount + (medicineCounter[medicine.id] || 0)}</div>
+                        : <div>{medicineCounter[medicine.id] || 0}</div>
+
+                    }
                 </div>
             ),
         },
@@ -120,6 +126,7 @@ const MedicineComponent = ({
                         placeholder='Tìm thuốc...'
                         value={query}
                         onChange={handleInputChangeMedicines}
+
                     />
                     <div className='absolute w-full z-10 rounded-sm group-focus:block '>
                         {results.length > 0 &&
@@ -128,14 +135,14 @@ const MedicineComponent = ({
                                     onClick={() => {
                                         handleMedicineClick(medicine)
                                         handleMedicineClickAmount(medicine)
-                                    }}>
+                                    }}
+                                >
                                     {medicine.medicineName}
                                 </div>
                             ))
                         }
 
                     </div>
-
 
                 </div>
             </div>

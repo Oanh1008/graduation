@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../../../layout/index'
 import Button from '../../../../components/button/index'
 import { useLocation, useParams } from 'react-router-dom'
-import { get, put } from '../../../../utils/apicommon'
+import { del, get, put } from '../../../../utils/apicommon'
 import MedicineComponent from './Medicine'
 import ServicesComponent from './Services'
 import { message } from 'antd'
@@ -22,6 +22,7 @@ const BookingDetails = () => {
     const [totalMedicince, setTotalMedicince] = useState(0);
     const [totalService, setTotalServices] = useState(0);
     const [medicineCounter, setMedicineCounter] = useState({});
+    const [discount, setDiscount] = useState('');
     const [formData, setFormData] = useState({
         advices: '',
         diagnose: '',
@@ -29,7 +30,13 @@ const BookingDetails = () => {
         services: [],
         symptomDetail: '',
     });
-    const [formDataAmount, setFormDataAmount] = useState({});
+    const [formDataAmount, setFormDataAmount] = useState({
+        advices: '',
+        diagnose: '',
+        medicines: [],
+        services: [],
+        symptomDetail: '',
+    });
     let user = JSON.parse(localStorage.getItem('user'));
 
     const { id } = useParams()
@@ -44,8 +51,12 @@ const BookingDetails = () => {
         setLoading(true)
         const data = await get(`/employee/invoice/detail/${user.hospitalId}/${id}`);
         setData(data)
+        setselectedDataMedicine(data.medicines)
+        setselectedDataServices(data.services)
         setLoading(false)
     };
+
+    console.log(data);
 
     const handleChangeMedinces = async (searchQuery) => {
         const response = await get(`/doctor/medicine/search/${user.hospitalId}?name=${searchQuery} `)
@@ -53,14 +64,13 @@ const BookingDetails = () => {
     };
 
     const handleChangeServices = async (searchQuery) => {
-        console.log(searchQuery);
         const response = await get(`/doctor/service/search/${user.hospitalId}?name=${searchQuery} `)
         setResultsServices(response);
     };
 
     const handleInputChangeServices = (e) => {
         const newQuery = e.target.value;
-        setQuery(newQuery)
+        setServices(newQuery)
         handleChangeServices(newQuery);
     };
 
@@ -81,34 +91,41 @@ const BookingDetails = () => {
                 medicines: [...prevFormData.medicines, data],
             }));
         }
-        setFormDataAmount(() => {
-            const updatedMedicines = formData.medicines.map((medicine) => {
-                if (medicine.id === data.id && !medicine.amount) {
-                    return { ...medicine, amount: ((medicineCounter[data.id] ?? 0) + 1) };
-                }
-                return { ...medicine, amount: medicineCounter[medicine.id] };
-            });
-
+    };
+    const hanldeAmount = () => {
+        const updatedMedicines = formData.medicines.map((medicine) => {
             return {
-                ...formData,
-                medicines: [...updatedMedicines],
+                ...medicine,
+                amount: medicineCounter[medicine.id],
             };
         });
 
-    };
+        setFormDataAmount(() => ({
+            ...formData,
+            medicines: updatedMedicines,
+        }));
+    }
 
-    const handleMedicineRemove = (data) => {
+    const handleMedicineRemove = (db) => {
         setselectedDataMedicine((prevSelectedData) => {
-            const newData = prevSelectedData.filter((item) => item.id !== data.id);
+            const newData = prevSelectedData.filter((item) => item.id !== db.id);
             return newData;
         });
-        setFormDataAmount(() => {
-            const newData = formDataAmount.medicines.filter((item) => item.id !== data.id);
+        setFormData(() => {
+            const newData = formData.medicines.filter((item) => item.id !== db.id);
             return {
-                ...formDataAmount,
+                ...formData,
                 medicines: newData,
             };
         })
+        if (data.medicines.length > 0) {
+            del('/doctor/invoice/remove/medicine', {
+                invoiceId: data.invoiceInformation.id,
+                medicineId: db.id
+            })
+            console.log(data.invoiceInformation.id);
+            console.log(db.id);
+        }
     };
     const handleServicesClick = (data) => {
         const isDataExist = selectedDataServices.find((item) => item.id === data.id)
@@ -121,46 +138,54 @@ const BookingDetails = () => {
                     services: [...prevSelectedData.services, data],
                 };
             });
-            setFormDataAmount(() => {
-                return {
-                    ...formData,
-                    services: [...formData.services, data],
-                };
-            });
-
         }
 
     }
 
-    const handleServicesRemove = (data) => {
+    const handleServicesRemove = (db) => {
         setselectedDataServices((prevSelectedData) => {
-            const newData = prevSelectedData.filter((item) => item.id !== data.id);
+            const newData = prevSelectedData.filter((item) => item.id !== db.id);
             return newData;
         });
-        setFormDataAmount(() => {
-            const newData = formData.services.filter((item) => item.id !== data.id);
+        setFormData(() => {
+            const newData = formData.services.filter((item) => item.id !== db.id);
             return {
                 ...formData,
                 services: newData,
             };
         })
+        if (data.medicines.length > 0) {
+            del('/doctor/invoice/remove/service', {
+                invoiceId: data.invoiceInformation.id,
+                serviceId: db.id
+            })
+            console.log(data.invoiceInformation.id);
+            console.log(db.id);
+        }
     }
+    console.log(formDataAmount);
 
     const calculateTotalMedicine = (results, medicineCounter) => {
-        const newTotal = results.reduce((accumulator, item) => {
-            const price = item.medicinePrice || 0;
-            const counter = medicineCounter[item.id] || 0;
-            return accumulator + price * counter;
-        }, 0);
+        const newTotal = 0;
+        if (results) {
+            const newTotal = results.reduce((accumulator, item) => {
+                const price = item.medicinePrice || 0;
+                const counter = medicineCounter[item.id] || 0;
+                return accumulator + price * counter;
+            }, 0);
+        }
 
         setTotalMedicince(newTotal);
     };
 
     const calculateTotalServices = (resultsServices) => {
-        const newTotal = resultsServices.reduce((accumulator, item) => {
-            const price = item.price || 0;
-            return accumulator + price;
-        }, 0);
+        const newTotal = 0;
+        if (resultsServices) {
+            const newTotal = resultsServices.reduce((accumulator, item) => {
+                const price = item.price || 0;
+                return accumulator + price;
+            }, 0);
+        }
 
         setTotalServices(newTotal);
     };
@@ -171,31 +196,53 @@ const BookingDetails = () => {
             ...prevFormData,
             [id]: value,
         }));
-        setFormDataAmount(() => ({
-            ...formData,
-        }))
-        console.log({ [id]: value });
-        console.log(formData);
-        console.log(formDataAmount.symptomDetail);
-
     };
 
+    const medicinesToSend = formDataAmount.medicines.map((medicine) => ({
+        amount: medicine.amount,
+        medicineId: medicine.id,
+    }));
+    const serviceToSend = selectedDataServices.map((service) => ({
+        serviceId: service.id,
+    }));
 
     const hanldeSumbit = async () => {
         const add = await put(`/doctor/invoice/update`, {
             advices: formDataAmount.advices,
             diagnose: formDataAmount.diagnose,
             invoiceId: data.invoiceInformation.id,
-            medicines: formDataAmount.medicines,
-            services: formDataAmount.services,
+            medicines: medicinesToSend,
+            services: serviceToSend,
             symptomDetail: formDataAmount.symptomDetail
         })
+
         if (add) {
             message.open({
                 type: 'success',
                 content: 'Cập nhật hoá đơn thành công!',
             })
-            // fetchData();
+            fetchData();
+            console.log(formDataAmount);
+        }
+        else {
+            message.open({
+                type: 'error',
+                content: 'Cập nhật hoá đơn không thành công!',
+            })
+        }
+    }
+
+    const hanldeSubmitDiscount = async () => {
+        const add = await put(`/administrative/invoice/confirm-examined`, {
+            discountInsurance: discount,
+            invoiceId: data.invoiceInformation.id
+        })
+
+        if (add) {
+            message.open({
+                type: 'success',
+                content: 'Cập nhật hoá đơn thành công!',
+            })
         }
         else {
             message.open({
@@ -210,16 +257,24 @@ const BookingDetails = () => {
             :
             Object.keys(data).length > 0 &&
             <Layout>
-                <div className='mx-6 bg-white p-6  '>
+                <div className='mx-6 bg-white p-6  '
+                    onClick={hanldeAmount}>
                     <form className="w-full ">
                         <div className='flex justify-between'>
                             <div className='text-2xl font-bold text-gray-700 mb-5'>Chi tiết đơn bệnh </div>
-                            {showSaveButton === 'true' &&
+                            {user.roleId === 4 ?
                                 <Button
                                     className="bg-green-700 uppercase hover:opacity-80 font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
                                     type="button"
                                     text="Lưu"
-                                    onClick={hanldeSumbit} />}
+                                    onClick={hanldeSumbit} />
+                                : user.roleId === 3 &&
+                                <Button
+                                    className="bg-green-700 uppercase hover:opacity-80 font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
+                                    type="button"
+                                    text="Lưu"
+                                    onClick={hanldeSubmitDiscount} />
+                            }
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-2">
                             <div className="w-full md:w-1/3 px-3">
@@ -278,7 +333,8 @@ const BookingDetails = () => {
                                 <textarea className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="symptomDetail"
                                     type="text"
-                                    value={data.invoiceInformation.symptomDetail}
+                                    name='symptomDetail'
+                                    defaultValue={data.invoiceInformation.symptomDetail}
                                     onChange={handleChange}
                                     placeholder="Nhập triệu chứng chi tiết"
 
@@ -292,7 +348,8 @@ const BookingDetails = () => {
                                 <textarea className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="advices"
                                     type="text"
-                                    value={data.invoiceInformation.advices}
+                                    name='advices'
+                                    defaultValue={data.invoiceInformation.advices}
                                     onChange={handleChange}
                                     placeholder="Nhập lời khuyên"
 
@@ -306,7 +363,8 @@ const BookingDetails = () => {
                                 <textarea className=" appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="diagnose"
                                     type="text"
-                                    value={data.invoiceInformation.diagnose}
+                                    name='diagnose'
+                                    defaultValue={data.invoiceInformation.diagnose}
                                     onChange={handleChange}
                                     placeholder="Nhập kết quả khám bệnh"
                                 />
@@ -317,6 +375,7 @@ const BookingDetails = () => {
                         <div className='flex gap-5 w-full'>
 
                             <MedicineComponent
+                                data={data}
                                 results={results}
                                 query={query}
                                 selectedDataMedicine={selectedDataMedicine}
@@ -329,6 +388,7 @@ const BookingDetails = () => {
                                 handleMedicineRemove={handleMedicineRemove}
                                 setMedicineCounter={setMedicineCounter}
                                 medicineCounter={medicineCounter}
+                                hanldeAmount={hanldeAmount}
 
                             />
                             <ServicesComponent
@@ -346,15 +406,21 @@ const BookingDetails = () => {
                         </div>
                         <div className='flex justify-between'>
                             <div className="w-full md:w-1/4 px-3 mb-2 md:mb-0">
-                                {/* <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-bhyt">
-                                    Bảo hiểm y tế
-                                </label>
-                                <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance} /> */}
+                                {user.roleId === 3 &&
+                                    <>
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-bhyt">
+                                            Bảo hiểm y tế
+                                        </label>
+                                        <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                            id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance}
+                                            onChange={(e) => setDiscount(e.target.value)} />
+                                    </>
+                                }
+
                             </div>
                             <div className="w-full md:w-1/4  px-3 mb-2 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-money">
-                                    Tổng tiền (tự tính trên FE)
+                                    Tổng tiền
                                 </label>
                                 <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-money" type="text" value={`${totalMedicince + totalService}.000 vnđ`} />

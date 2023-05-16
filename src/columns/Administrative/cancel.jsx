@@ -1,6 +1,6 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, Question, Trash } from '../../assets/svg';
+import { Edit, Eye, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 import moment from 'moment';
 
@@ -152,6 +152,7 @@ const Columns = [
                 <p>{item.fullNameOperator}</p>
             </div>),
     },
+
 
 ];
 

@@ -57,7 +57,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("Api get history invoice by hospitalId and bookId")
-    @GetMapping("/invoice/history")
+    @GetMapping("/invoice/history/details")
     public ResponseEntity<InvoiceResponseDto> getHistoryInvoiceByHospitalIdAndBookId(@RequestParam String hospitalId, @RequestParam Long bookId) {
         return ResponseEntity.ok(invoiceService.getAllInvoiceDoneByHospitalIdAndBookId(hospitalId,bookId));
     }

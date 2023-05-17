@@ -122,7 +122,7 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<IconBook className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?showSaveButton=true`} />
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?history=false`} />
                 <Button
                     type='button'
                     className="hover:bg-red-300 rounded-lg"

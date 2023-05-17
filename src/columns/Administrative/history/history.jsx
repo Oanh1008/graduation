@@ -1,14 +1,14 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
+import dayjs from 'dayjs';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Trash } from '../../../assets/svg';
+import { Eye, Trash } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 const Columns = [
     {
         key: '1',
-        title: "ID",
-        dataIndex: "id",
+        title: 'STT',
         width: 60,
-        fixed: 'left',
+        render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
         sorter: (record1, record2) => {
             return record1.id > record2.id
         }
@@ -21,45 +21,50 @@ const Columns = [
         width: 250,
         fixed: 'left',
         render: (text, item) => (text &&
+            item.user.fullNameBook ?
             <div className='flex items-center gap-3'>
-                <Avatar src={item.imageUrl} size={72} />
-                <div>{item.lastName} {item.firstName}</div>
-            </div>)
+                <p>{item.user.fullNameBook}</p>
+            </div>
+            : <div className='flex items-center gap-3'>
+                <p>{item.user.fullName}</p>
+            </div>
+        )
 
     },
 
     {
         key: '3',
-        title: "Ngày sinh",
-        dataIndex: "birthDay",
+        title: "Tuổi",
+        dataIndex: "age",
+        width: 100,
         render: (text, item) => (text &&
+            item.user.ageBook ?
             <div className='flex items-center gap-3'>
-                <div>{item.birthDay}</div>
-            </div>),
-        // sorter: (record1, record2) => {
-        //   return record1.lastName > record2.lastName
-        // }
+                <p>{item.user.ageBook}</p>
+            </div>
+            : <div className='flex items-center gap-3'>
+                <p>{item.user.age}</p>
+            </div>
+        )
     },
     {
         key: '4',
         title: "Giới tính",
         dataIndex: "gender",
-        render: (text, item) => (
-            <div className='flex items-center gap-3'>
-                <div>Nam</div>
-            </div>),
-    },
-    {
-        key: '4',
-        title: "Số điện thoại",
-        dataIndex: "phone",
+        width: 100,
         render: (text, item) => (text &&
+            item.user.genderBook ?
             <div className='flex items-center gap-3'>
-                <div>{item.phone}</div>
-            </div>),
-        sorter: (record1, record2) => {
-            return record1.phone > record2.phone
-        }
+                {item.user.genderBook ?
+                    <p>Nam</p>
+                    : <p>Nữ</p>}
+            </div>
+            : <div className='flex items-center gap-3'>
+                {item.user.gender ?
+                    <p>Nam</p>
+                    : <p>Nữ</p>}
+            </div>
+        ),
     },
     {
         key: '5',
@@ -69,9 +74,6 @@ const Columns = [
             <div className='flex items-center gap-3'>
                 <div>{item.address}</div>
             </div>),
-        sorter: (record1, record2) => {
-            return record1.address > record2.address
-        }
     },
     {
         key: '6',
@@ -79,7 +81,10 @@ const Columns = [
         dataIndex: "",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>Sốt, sô mũi </div>
+                {item.invoiceInformation.symptomDetail ?
+                    <p>{item.invoiceInformation.symptomDetail}</p>
+                    : <p>Không có </p>
+                }
             </div>),
         sorter: (record1, record2) => {
             return record1.firstName > record2.firstName
@@ -88,33 +93,47 @@ const Columns = [
 
     {
         key: '7',
-        title: "Ngày đặt lịch",
-        dataIndex: "birthDay",
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div> </div>
-            </div>),
+        title: "Ngày khám",
+        dataIndex: "",
+        width: 200,
+        render: (text, item) => {
+            const formattedDate = dayjs(item.invoiceInformation.dateTimeInvoice).format('DD-MM-YYYY');
+            return (text &&
+                <div className='flex items-center gap-3'>
+                    <div> {formattedDate} </div>
+                </div>)
+        },
     },
     {
         key: '8',
-        title: "Chuẩn đoán",
-        fixed: 'right',
-        dataIndex: "birthDay",
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div> </div>
-            </div>),
-    },
-    {
-        key: '9',
         title: "Kết quả khám bệnh",
         fixed: 'right',
-        dataIndex: "birthDay",
-        render: (text, item) => (text &&
+        dataIndex: "diagnose",
+        render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <div> </div>
+                {item.invoiceInformation.diagnose ?
+                    <p>{item.invoiceInformation.diagnose}</p>
+                    : <p>Không có </p>
+                }
             </div>),
+
     },
+
+    {
+        key: '9',
+        title: "Thao tác",
+        fixed: 'right',
+        width: 90,
+        render: (data) => (
+            <div className='flex justify-center'>
+                <Button
+                    type='button'
+                    className=" rounded-lg"
+                    icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.invoiceInformation.bookId}?history=true`} />
+            </div>
+        )
+    }
 
 
 ];

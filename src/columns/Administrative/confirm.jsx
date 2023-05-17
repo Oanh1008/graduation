@@ -55,7 +55,6 @@ const Columns = [
         key: '4',
         title: "Giới tính",
         width: 100,
-
         dataIndex: "gender",
         render: (text, item) => (text &&
             item.user.genderBook ?
@@ -81,9 +80,6 @@ const Columns = [
             <div className='flex items-center gap-3'>
                 <p>{item.address}</p>
             </div>),
-        sorter: (record1, record2) => {
-            return record1.address > record2.address
-        }
     },
     {
         key: '6',
@@ -148,13 +144,13 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/booking/bookingDetails/${data.user.userId}?status=ivoice`} />
+                    onClick={() => window.location.href = `/booking/bookingDetails/${data.invoiceInformation.bookId}?status=confirm`} />
 
                 <Button
                     type='button'
                     className=" rounded-lg"
                     icon={<NoteMedical className='w-9 h-9 fill-emerald-900 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?showSaveButton=true`} />
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.user.userId}?history=false`} />
 
             </div>
         )

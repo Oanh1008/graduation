@@ -18,21 +18,18 @@ const BookingDetailsConfirm = () => {
     }, [])
     const fetchData = async () => {
         setLoading(true)
-        const db = {}
-        if (status !== 'invoice') {
-            db = await get(`/employee/book/${status}/detail/${user.hospitalId}/${id}`);
-        }
-        else {
-            db = await get(`/employee/${status}/detail/${user.hospitalId}/${id}`);
-        }
-        setData(db)
+
+        const data = await get(`/employee/book/${status}/detail/${user.hospitalId}/${id}`);
+        setData(data)
+
+        console.log(data);
         setLoading(false)
     };
 
     return (
         Object.keys(data).length > 0 &&
         <Layout>
-            <div className='mx-6 bg-white p-6  '>
+            <div className='mx-6 bg-white p-6 h-[calc(100vh - 5.5rem)] '>
                 <form className="w-full ">
                     <div className='flex items-center gap-4'>
                         <p className='text-2xl font-bold text-gray-700 mb-5'>Chi tiết đặt lịch </p>

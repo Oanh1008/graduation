@@ -41,21 +41,32 @@ const BookingDetails = () => {
 
     const { id } = useParams()
     const location = useLocation();
-    const showSaveButton = new URLSearchParams(location.search).get('showSaveButton');
+    const history = new URLSearchParams(location.search).get('history');
 
+    console.log(user.hospitalId);
 
     useEffect(() => {
         fetchData();
     }, [])
     const fetchData = async () => {
         setLoading(true)
-        const data = await get(`/employee/invoice/detail/${user.hospitalId}/${id}`);
-        setData(data)
-        setselectedDataMedicine(data.medicines)
-        setselectedDataServices(data.services)
+        if (history === 'true') {
+            const data = await get(`/employee/invoice/history/details?bookId=${id}&hospitalId=${user.hospitalId}`);
+            setData(data)
+            setselectedDataMedicine(data.medicines)
+            setselectedDataServices(data.services)
+        }
+        if (history === 'false') {
+            const data = await get(`/employee/invoice/detail/${user.hospitalId}/${id}`);
+            setData(data)
+            setselectedDataMedicine(data.medicines)
+            setselectedDataServices(data.services)
+        }
+
         setLoading(false)
     };
 
+    console.log(selectedDataMedicine);
     console.log(data);
 
     const handleChangeMedinces = async (searchQuery) => {
@@ -197,14 +208,26 @@ const BookingDetails = () => {
             [id]: value,
         }));
     };
+    var medicinesToSend = []
+    if (Object.keys(data).length > 0) {
+        if (data.medicines.length > 0) {
+            medicinesToSend = selectedDataMedicine.map((medicine) => ({
+                amount: medicine.amount,
+                medicineId: medicine.id,
+            }));
+        }
+        else {
+            medicinesToSend = formDataAmount.medicines.map((medicine) => ({
+                amount: medicine.amount,
+                medicineId: medicine.id,
+            }));
+        }
+    }
+    console.log(medicinesToSend);
 
-    const medicinesToSend = formDataAmount.medicines.map((medicine) => ({
-        amount: medicine.amount,
-        medicineId: medicine.id,
-    }));
-    const serviceToSend = selectedDataServices.map((service) => ({
-        serviceId: service.id,
-    }));
+    // const serviceToSend = selectedDataServices.map((service) => ({
+    //     serviceId: service.id,
+    // }));
 
     const hanldeSumbit = async () => {
         const add = await put(`/doctor/invoice/update`, {
@@ -212,7 +235,7 @@ const BookingDetails = () => {
             diagnose: formDataAmount.diagnose,
             invoiceId: data.invoiceInformation.id,
             medicines: medicinesToSend,
-            services: serviceToSend,
+            // services: serviceToSend,
             symptomDetail: formDataAmount.symptomDetail
         })
 
@@ -262,18 +285,20 @@ const BookingDetails = () => {
                     <form className="w-full ">
                         <div className='flex justify-between'>
                             <div className='text-2xl font-bold text-gray-700 mb-5'>Chi tiết đơn bệnh </div>
-                            {user.roleId === 4 ?
-                                <Button
-                                    className="bg-green-700 uppercase hover:opacity-80 font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
-                                    type="button"
-                                    text="Lưu"
-                                    onClick={hanldeSumbit} />
-                                : user.roleId === 3 &&
-                                <Button
-                                    className="bg-green-700 uppercase hover:opacity-80 font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
-                                    type="button"
-                                    text="Lưu"
-                                    onClick={hanldeSubmitDiscount} />
+                            {history === 'false' ?
+                                user.roleId === 4 ?
+                                    <Button
+                                        className="bg-green-700 uppercase hover:opacity-80 font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
+                                        type="button"
+                                        text="Lưu"
+                                        onClick={hanldeSumbit} />
+                                    : user.roleId === 3 &&
+                                    <Button
+                                        className="bg-green-700 uppercase hover:opacity-80 font-semibold text-white flex items-center rounded-md px-5 py-2 gap-3 mr-3"
+                                        type="button"
+                                        text="Lưu"
+                                        onClick={hanldeSubmitDiscount} />
+                                : <></>
                             }
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-2">
@@ -411,9 +436,13 @@ const BookingDetails = () => {
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-bhyt">
                                             Bảo hiểm y tế
                                         </label>
-                                        <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance}
-                                            onChange={(e) => setDiscount(e.target.value)} />
+                                        <div className='relative'>
+                                            <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance}
+                                                onChange={(e) => setDiscount(e.target.value)} />
+                                            <p className='absolute top-0 right-0 py-1 px-5 rounded-r font-semibold text-lg
+                                             bg-slate-300'>%</p>
+                                        </div>
                                     </>
                                 }
 

@@ -4,6 +4,7 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Check, Edit, Eye, Question, Times, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 import BookingDetails from '../../routes/Pratitioner/booking/bookingDetails';
+import { del } from '../../utils/apicommon';
 
 
 const Columns = [
@@ -106,7 +107,7 @@ const Columns = [
           placement="bottomRight"
           title={"Bạn muốn xoá tài khoản này ? "}
           description={"Sau khi xoá sẽ không thể khôi phục được"}
-          onConfirm={() => { console.log(data.id) }}
+          onConfirm={() => del(`/super-admin/hospital/delete/${data.hospitalId}`)}
           okText="Yes"
           cancelText="No"
           icon={<Question className='w-5 h-5 fill-yellow-400 ' />}

@@ -1,11 +1,10 @@
 
 import React, { useEffect, useState } from 'react'
 import { Col, Row, Table } from 'antd';
-import columns from '../../../columns/Administrative/history/history';
+import columns from '../../../columns/Pratitioner/History';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
-import { DataStaff } from '../../admin/Staff/data'
 import classNames from 'classnames';
 import Layout from '../../../layout/index'
 
@@ -17,8 +16,18 @@ const History = () => {
     const [data, setData] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
-    const [showModal, setShowModal] = useState(false)
 
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+    const fetchData = async () => {
+        setLoading(true)
+        const data = await get(`/doctor/invoice/history?doctorId=${user.userId}`);
+        setData(data)
+        setLoading(false)
+    };
 
     function handleSearch(event) {
         if (event.target.value === '') {
@@ -36,7 +45,7 @@ const History = () => {
                     <div className=' text-2xl font-bold text-cyan-950 '>Lịch sử  khám bệnh</div>
 
                     <div className=' text-lg font-bold text-cyan-950 '>
-                        Tổng số bệnh nhân: {DataStaff.length} ( ca bệnh )
+                        Tổng số bệnh nhân: {data.length} ( ca bệnh )
                     </div>
                 </div>
 
@@ -44,7 +53,7 @@ const History = () => {
                     <Table
                         className=' !z-0'
                         columns={columns}
-                        dataSource={DataStaff}
+                        dataSource={data}
                         scroll={{ y: 500 }}
                         loading={loading}
                         pagination={{

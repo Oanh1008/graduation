@@ -32,7 +32,13 @@ const Hospitaldelails = ({ }) => {
     }
 
     const handleCensor = async () => {
-        const hos = await put(`/super-admin/hospital/accept/${id}`)
+        const hos = await put(`/super-admin/hospital/accept/${id}?accept=true`)
+        fetchData()
+    }
+
+
+    const handleCancel = async () => {
+        const hos = await put(`/super-admin/hospital/accept/${id}?accept=false`)
         fetchData()
     }
 
@@ -110,10 +116,13 @@ const Hospitaldelails = ({ }) => {
                                     <div className='bg-yellow-100 text-yellow-500 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
                             before:w-2 before:h-2 before:bg-yellow-500 before:absolute before:rounded-full'>Chờ duyệt</div>
                                     <Check className='w-8 h-8 fill-green-500 cursor-pointer' onClick={handleCensor} />
-                                    <Times className='w-8 fill-red-500 cursor-pointer' onClick={() => { }} />
+
                                 </>
-                                : <div className='bg-green-200 text-green-700 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
-                            before:w-2 before:h-2 before:bg-green-500 before:absolute before:rounded-full'>Đã được duyệt</div>}
+                                : <>
+                                    <div className='bg-green-200 text-green-700 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
+                            before:w-2 before:h-2 before:bg-green-500 before:absolute before:rounded-full'>Đã được duyệt</div>
+                                    <Times className='w-8 fill-red-500 cursor-pointer' onClick={handleCancel} />
+                                </>}
 
                         </div>
 

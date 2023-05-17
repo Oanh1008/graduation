@@ -16,12 +16,12 @@ import Hospitaldelails from './routes/superadmin/hospital/hospitaldelails';
 import ManagerUser from './routes/superadmin/users';
 import ManagerBooking from './routes/Administrative/booking';
 import History from './routes/Pratitioner/history';
-import UserBooking from './routes/Pratitioner/userBooking';
 import DoctorProfile from './routes/Pratitioner/profile/index';
 import BookingDetails from './routes/Pratitioner/booking/bookingDetails/index';
 import DoctorBooking from './routes/Pratitioner/booking/index';
 import Details from './routes/Administrative/booking/bookingDetails';
 import BookingDetailsConfirm from './routes/common/BookingDetails';
+import HospitalHistoryBooking from './routes/Administrative/history/index'
 
 function App() {
 
@@ -49,7 +49,8 @@ function App() {
           <Route path='/doctor/history' element={<History/>}></Route>
           <Route path='/doctor/profile' element={<DoctorProfile/>}></Route>
           <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route>
-           <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
+          <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
+          <Route path='/nurse/booking/history' element={<HospitalHistoryBooking/>}></Route>
           <Route path='/nurse/booking/booingDetails/:id' element={<Details/>}></Route>
           <Route path='/booking/bookingDetails/:id' element={<BookingDetailsConfirm/>}></Route>
         </Routes>

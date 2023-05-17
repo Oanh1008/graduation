@@ -129,7 +129,7 @@ const Index = () => {
                     <Button icon={<Plus className='fill-white w-7 h-7 ' />}
                         className="bg-cyan-800 text-white flex items-center rounded-md px-3 py-2 gap-3 mr-3"
                         type="button"
-                        text="Thêm dịch vụ"
+                        text="Thêm thuốc"
                         onClick={() => setShowModal(true)} />
                 </div>
 

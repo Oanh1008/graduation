@@ -17,7 +17,8 @@ const ManagerHospital = () => {
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        fetchData();
+        fetchData()
+
     }, []);
 
     const fetchData = async () => {
@@ -27,8 +28,11 @@ const ManagerHospital = () => {
         setData(filteredData)
         setSearch(filteredData)
         setLoading(false)
-
     };
+
+    setTimeout(() => {
+        fetchData();
+    }, 5000);
 
     function handleSearch(event) {
         if (event.target.value === '') {

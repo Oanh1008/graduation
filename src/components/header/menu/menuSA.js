@@ -5,7 +5,7 @@ import { FaRegChartBar } from 'react-icons/fa';
 const Layout = [
     {
         icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
-        key: "/dashboard ",
+        key: "/admin-hospital/dashboard",
         label: "Dashboard",
         permission: ''
     },
@@ -21,12 +21,6 @@ const Layout = [
         label: "Quản lý khách hàng",
         permission: ''
     },
-
-    {
-            icon: <MdStackedBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100 fill-cyan-900'/>,
-            label: "Thống kê",
-            key: "/admin-hospital/dashboard",
-        },
 ]
 
 export default Layout

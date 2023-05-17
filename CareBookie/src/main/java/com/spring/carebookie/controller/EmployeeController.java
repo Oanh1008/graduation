@@ -35,24 +35,30 @@ public class EmployeeController {
     @ApiOperation("Get detail book")
     @GetMapping("/book/pending/detail/{hospitalId}/{bookId}")
     public ResponseEntity<BookResponseDto> getBookPending(@PathVariable String hospitalId, @PathVariable Long bookId) {
-        return ResponseEntity.ok(bookService.getBookDetailPending(hospitalId,bookId));
+        return ResponseEntity.ok(bookService.getBookDetailPending(hospitalId, bookId));
     }
 
     @ApiOperation("Get detail book")
     @GetMapping("/book/accept/detail/{hospitalId}/{bookId}")
     public ResponseEntity<BookResponseDto> getBookAccept(@PathVariable String hospitalId, @PathVariable Long bookId) {
-        return ResponseEntity.ok(bookService.getBookDetailAccept(hospitalId,bookId));
+        return ResponseEntity.ok(bookService.getBookDetailAccept(hospitalId, bookId));
     }
 
     @ApiOperation("Get detail book")
     @GetMapping("/book/confirm/detail/{hospitalId}/{bookId}")
     public ResponseEntity<BookResponseDto> getBookConfirm(@PathVariable String hospitalId, @PathVariable Long bookId) {
-        return ResponseEntity.ok(bookService.getBookDetailConfirm(hospitalId,bookId));
+        return ResponseEntity.ok(bookService.getBookDetailConfirm(hospitalId, bookId));
     }
 
     @ApiOperation("Api get all history invoice by hospitalId")
     @GetMapping("/invoice/history")
     public ResponseEntity<List<InvoiceResponseDto>> getHistoryInvoiceByHospitalId(@RequestParam String hospitalId) {
         return ResponseEntity.ok(invoiceService.getAllInvoiceDoneByHospitalId(hospitalId));
+    }
+
+    @ApiOperation("Api get history invoice by hospitalId and bookId")
+    @GetMapping("/invoice/history")
+    public ResponseEntity<InvoiceResponseDto> getHistoryInvoiceByHospitalIdAndBookId(@RequestParam String hospitalId, @RequestParam Long bookId) {
+        return ResponseEntity.ok(invoiceService.getAllInvoiceDoneByHospitalIdAndBookId(hospitalId,bookId));
     }
 }

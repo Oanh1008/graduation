@@ -63,6 +63,15 @@ public class InvoiceService {
         return getInvoiceByIdCommon(invoiceEntities);
     }
 
+    public InvoiceResponseDto getAllInvoiceDoneByHospitalIdAndBookId(String hospitalId, Long bookId) {
+        return getAllInvoiceDoneByHospitalId(hospitalId)
+                .stream()
+                .filter(t -> t.getInvoiceInformation().getBookId().equals(bookId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Not found invoice with bookId = {}"
+                        .replace("{}", bookId.toString())));
+    }
+
     public InvoiceResponseDto getInvoiceByHospitalIdAndUserId(String hospitalId, String userId) {
         return getAllInvoiceByHospitalId(hospitalId)
                 .stream()
@@ -91,7 +100,7 @@ public class InvoiceService {
 
         for (Long id : serviceIdDto) {
             if (serviceIdE.contains(id)) {
-                throw new ResourceNotFoundException("Service id = {} existed in invoice".replace("{}",id.toString()));
+                throw new ResourceNotFoundException("Service id = {} existed in invoice".replace("{}", id.toString()));
             }
         }
 
@@ -107,7 +116,7 @@ public class InvoiceService {
 
         for (Long id : medicineIdDto) {
             if (medicineIdE.contains(id)) {
-                throw new ResourceNotFoundException("Medicine id = {} existed in invoice".replace("{}",id.toString()));
+                throw new ResourceNotFoundException("Medicine id = {} existed in invoice".replace("{}", id.toString()));
             }
         }
         // add service

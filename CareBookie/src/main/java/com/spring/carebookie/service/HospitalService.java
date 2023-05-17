@@ -19,6 +19,7 @@ import com.spring.carebookie.dto.save.RegisterHospital;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
+import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.ServiceRepository;
 import com.spring.carebookie.repository.UserRepository;
@@ -78,7 +79,8 @@ public class HospitalService {
     public HospitalResponseDto getHospitalByHospitalId(String hospitalId) {
         return getAllHospitals().stream()
                 .filter(dto -> dto.getHospitalId().equals(hospitalId))
-                .findFirst().get();
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Hospital not found"));
     }
 
     @Transactional
@@ -200,4 +202,8 @@ public class HospitalService {
         return getHospitalByHospitalId(hospital.getHospitalId());
     }
 
+    @Transactional
+    public void deleteHospital(String hospitalId) {
+        hospitalRepository.delete(hospitalRepository.getHospitalId(hospitalId));
+    }
 }

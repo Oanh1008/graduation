@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,5 +56,12 @@ public class SupperAdminController {
     @PutMapping("/hospital/accept/{hospitalId}")
     public ResponseEntity<HospitalResponseDto> acceptHospital(@PathVariable String hospitalId, @RequestParam boolean accept) {
         return ResponseEntity.ok(hospitalService.acceptHospital(hospitalId, accept));
+    }
+
+    @ApiOperation("Delete hospital")
+    @DeleteMapping("/hospital/delete/{hospitalId}")
+    public ResponseEntity<?> deleteHospital(@PathVariable String hospitalId) {
+        hospitalService.deleteHospital(hospitalId);
+        return ResponseEntity.ok().build();
     }
 }

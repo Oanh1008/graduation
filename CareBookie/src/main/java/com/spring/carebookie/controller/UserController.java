@@ -59,7 +59,7 @@ public class UserController {
         return ResponseEntity.ok(userService.register(dto));
     }
 
-    @ApiOperation("User register")
+    @ApiOperation("User update information")
     @PostMapping("/update/information")
     public ResponseEntity<UserEntity> updateInformationForUser(@Valid @RequestBody UpdateUserInformationDto dto) {
         return ResponseEntity.ok(userService.updateUser(dto));

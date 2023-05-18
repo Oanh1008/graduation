@@ -12,7 +12,6 @@ import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 import com.spring.carebookie.repository.projection.SearchByKeyDoctorProjection;
-import com.spring.carebookie.repository.projection.SearchByKeyHospitalProjection;
 import com.spring.carebookie.repository.sql.UserSql;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
@@ -43,7 +42,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value = "select u from UserEntity u where u.isDoctor is true and u.hospitalId = :hospitalId")
     List<UserEntity> findAllByHospitalId(@Param("hospitalId") String hospitalId);
 
-
     @Query("select u from UserEntity u where u.isDoctor = true")
     List<UserEntity> findAllByDoctorIsTrue();
 
@@ -55,7 +53,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "select u from UserEntity u where u.hospitalId = :hospitalId")
     List<UserEntity> findAllEmployeesByHospitalId(String hospitalId);
-
 
     @Query("select u from UserEntity u where u.phone = ?1")
     UserEntity findByPhone(String phone);

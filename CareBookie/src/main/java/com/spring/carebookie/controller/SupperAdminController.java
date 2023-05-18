@@ -43,13 +43,13 @@ public class SupperAdminController {
     @ApiOperation("Get all users include user, employee, admin")
     @GetMapping("/users")
     public ResponseEntity<List<UserEntity>> getAllUsers() {
-       return ResponseEntity.ok( userService.getAllUsers());
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @ApiOperation("Get all users (patients)")
     @GetMapping("/users/patient")
     public ResponseEntity<List<UserEntity>> getAllPatients() {
-        return ResponseEntity.ok( userService.getAllPatients());
+        return ResponseEntity.ok(userService.getAllPatients());
     }
 
     @ApiOperation("Accept the hospital working")

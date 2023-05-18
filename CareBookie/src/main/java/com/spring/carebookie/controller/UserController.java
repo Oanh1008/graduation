@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.carebookie.dto.edit.BookCancelDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.DoctorAndFavouriteResponseDto;
-import com.spring.carebookie.dto.response.DoctorResponseDto;
 import com.spring.carebookie.dto.response.HospitalAndFavouriteResponseDto;
-import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.dto.save.BookSaveDto;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
@@ -101,13 +99,13 @@ public class UserController {
     @ApiOperation("Create an favourite doctor for user")
     @PostMapping("/doctor/favourite/{userId}")
     public ResponseEntity<UserFavoriteDoctorEntity> createDoctorFavourite(@PathVariable String userId, @RequestParam String doctorId) {
-        return ResponseEntity.ok(commonService.createDoctorFavourite(userId,doctorId));
+        return ResponseEntity.ok(commonService.createDoctorFavourite(userId, doctorId));
     }
 
     @ApiOperation("Create an favourite hospital for user")
     @PostMapping("/hospital/favourite/{userId}")
     public ResponseEntity<UserFavoriteHospitalEntity> createHospitalFavourite(@PathVariable String userId, @RequestParam String hospitalId) {
-        return ResponseEntity.ok(commonService.createHospitalFavourite(userId,hospitalId));
+        return ResponseEntity.ok(commonService.createHospitalFavourite(userId, hospitalId));
     }
 
     @ApiOperation("Delete an favourite doctor for user")
@@ -117,7 +115,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @ApiOperation("Delete an favourite doctor for user")
+    @ApiOperation("Delete an favourite hospital for user")
     @DeleteMapping("/hospital/favourite")
     public ResponseEntity<?> deleteHospitalFavourite(@RequestParam Long id) {
         commonService.deleteHospitalFavourite(id);

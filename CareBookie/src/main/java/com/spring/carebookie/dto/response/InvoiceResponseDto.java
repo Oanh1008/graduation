@@ -35,6 +35,8 @@ public class InvoiceResponseDto {
 
     private String doctorName;
 
+    private String operatorName;
+
     private Double totalPrice;
 
     private InvoiceEntity invoiceInformation;

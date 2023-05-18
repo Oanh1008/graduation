@@ -27,7 +27,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
             "where i.id = :invoiceId")
     List<InvoiceMedicineAmountProjection> getAllMedicineByInvoiceId(Long invoiceId);
 
-
     @Query("select i from InvoiceEntity i where i.userId = ?1 and i.isExamined = true")
     List<InvoiceEntity> getALlByUserId(String userId);
 

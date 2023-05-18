@@ -16,6 +16,6 @@ public class ServiceService {
     private final ServiceRepository serviceRepository;
 
     public List<ServiceEntity> search(String hospitalId, String name) {
-        return serviceRepository.search(hospitalId,name);
+        return serviceRepository.search(hospitalId, name);
     }
 }

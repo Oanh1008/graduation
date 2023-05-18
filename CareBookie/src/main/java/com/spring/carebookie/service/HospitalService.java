@@ -89,7 +89,7 @@ public class HospitalService {
     }
 
     @Transactional
-    public HospitalEntity saveHospital(HospitalSaveDto dto) {
+    public HospitalResponseDto saveHospital(HospitalSaveDto dto) {
         if (dto.getAddress() == null) {
             dto.setAddress("");
         }
@@ -101,6 +101,7 @@ public class HospitalService {
 
         // Create an account for this hospital
         UserEntity admin = new UserEntity();
+        admin.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/OOjs_UI_icon_userAvatar.svg/1200px-OOjs_UI_icon_userAvatar.svg.png?fbclid=IwAR2feu8hZAfDllAJfvFKc4P6lQH3eSJ5Q_lEYm1iz6pDwmez4bSiBZdDhbA");
         admin.setFirstName(dto.getFirstName());
         admin.setLastName(dto.getLastName());
         admin.setUserId(generateUserId(dto.getFirstName(), dto.getLastName(), dto.getEmail()));
@@ -113,8 +114,35 @@ public class HospitalService {
 
         log.info("Finished save {} hospital into database", entity.getHospitalName());
         entity.setAdminId(adminSave.getUserId());
-        return hospitalRepository.save(entity);
 
+        HospitalEntity hospital = hospitalRepository.save(entity);
+        int k = 0;
+        // Create working day detail
+        for (int i = 1; i < 22; i++) {
+
+            String date = "";
+            if (i <= 3) {
+                date = "2";
+            } else if (i <= 6) {
+                date = "3";
+            } else if (i <= 9) {
+                date = "4";
+            } else if (i <= 12) {
+                date = "5";
+            } else if (i <= 15) {
+                date = "6";
+            } else if (i <= 18) {
+                date = "7";
+            } else {
+                date = "8";
+            }
+            String[] sessions = {"Sáng", "Chiều", "Tối"};
+            String session = sessions[k];
+            k++;
+            k = k == 3 ? 0 : k;
+            workingDayDetailsRepository.save(new WorkingDayDetailsEntity(null, date, session, null, null, hospital.getHospitalId()));
+        }
+        return getHospitalByHospitalId(hospital.getHospitalId());
     }
 
     @Transactional

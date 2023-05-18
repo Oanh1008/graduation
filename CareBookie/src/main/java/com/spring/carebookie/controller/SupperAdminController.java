@@ -58,7 +58,7 @@ public class SupperAdminController {
         return ResponseEntity.ok(hospitalService.acceptHospital(hospitalId, accept));
     }
 
-    @ApiOperation("Delete hospital")
+    @ApiOperation("Delete hospital, delete all table relationship with hospital")
     @DeleteMapping("/hospital/delete/{hospitalId}")
     public ResponseEntity<?> deleteHospital(@PathVariable String hospitalId) {
         hospitalService.deleteHospital(hospitalId);

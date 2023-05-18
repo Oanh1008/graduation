@@ -21,6 +21,8 @@ import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 import com.spring.carebookie.exception.ResourceNotFoundException;
 import com.spring.carebookie.repository.HospitalRepository;
+import com.spring.carebookie.repository.MedicineRepository;
+import com.spring.carebookie.repository.ServiceRepository;
 import com.spring.carebookie.repository.UserRepository;
 import com.spring.carebookie.repository.WorkingDayDetailsRepository;
 
@@ -39,6 +41,10 @@ public class HospitalService {
     private final CommonService commonService;
 
     private final UserRepository userRepository;
+
+    private final MedicineRepository medicineRepository;
+
+    private final ServiceRepository serviceRepository;
 
     private final WorkingDayDetailsRepository workingDayDetailsRepository;
 
@@ -203,6 +209,19 @@ public class HospitalService {
 
     @Transactional
     public void deleteHospital(String hospitalId) {
+        // Delete hospital
         hospitalRepository.delete(hospitalRepository.getHospitalId(hospitalId));
+
+        // Delete employee
+        userRepository.deleteAll(userRepository.findAllEmployeesByHospitalId(hospitalId));
+
+        // Delete all working day detail
+        workingDayDetailsRepository.deleteAll(workingDayDetailsRepository.findAllByHospitalId(hospitalId));
+
+        // Delete all medicine
+        medicineRepository.deleteAll(medicineRepository.getAllByHospitalId(hospitalId));
+
+        // Delete all service
+        serviceRepository.deleteAll(serviceRepository.getServiceEntityByHospitalId(hospitalId));
     }
 }

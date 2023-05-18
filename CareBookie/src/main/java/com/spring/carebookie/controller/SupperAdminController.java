@@ -64,4 +64,11 @@ public class SupperAdminController {
         hospitalService.deleteHospital(hospitalId);
         return ResponseEntity.ok().build();
     }
+
+    @ApiOperation("Delete user")
+    @DeleteMapping("/user/delete/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
+        userService.deleteEmployee(userId);
+        return ResponseEntity.ok().build();
+    }
 }

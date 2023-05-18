@@ -36,7 +36,7 @@ public class SupperAdminController {
 
     @ApiOperation("Create an hospital")
     @PostMapping("/hospital/save")
-    public ResponseEntity<HospitalEntity> save(@Valid @RequestBody HospitalSaveDto dto) {
+    public ResponseEntity<HospitalResponseDto> save(@Valid @RequestBody HospitalSaveDto dto) {
         return ResponseEntity.ok(hospitalService.saveHospital(dto));
     }
 

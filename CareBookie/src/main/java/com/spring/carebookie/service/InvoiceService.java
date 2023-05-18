@@ -15,8 +15,6 @@ import com.spring.carebookie.dto.edit.ServiceRemoveInvoiceDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.dto.response.UserInvoiceResponse;
 import com.spring.carebookie.dto.save.InvoiceSaveDto;
-import com.spring.carebookie.dto.save.MedicineIntoInvoiceDto;
-import com.spring.carebookie.dto.save.ServiceIntoInvoiceDto;
 import com.spring.carebookie.entity.BookEntity;
 import com.spring.carebookie.entity.HospitalEntity;
 import com.spring.carebookie.entity.InvoiceEntity;
@@ -289,11 +287,17 @@ public class InvoiceService {
         user.setGender(e.getGender() == 1 ? "Nam" : "Nữ");
         user.setAge(year);
 
+        UserEntity operator = userRepository.findByUserId(i.getOperatorId());
+        String operatorName = "";
+        if (operator != null) {
+            operatorName = operator.getLastName() + " " + operator.getFirstName();
+        }
+
         Double totalPrice = (servicePrice.get(i.getId()) == null ? 0 : servicePrice.get(i.getId())) +
                 (medicinePrice.get(i.getId()) == null ? 0 : medicinePrice.get(i.getId()));
 
         totalPrice = totalPrice - (totalPrice * (i.getDiscountInsurance() / 100));
-        return new InvoiceResponseDto(user, hospitalName, address, star, imageUrl, doctorName, totalPrice,
+        return new InvoiceResponseDto(user, hospitalName, address, star, imageUrl, doctorName, operatorName, totalPrice,
                 i, serviceInvoice, medicineInvoice);
     }
 

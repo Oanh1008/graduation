@@ -16,11 +16,11 @@ public class UserCodeService {
 
     @Transactional
     public UserCode upsert(String userId, String code) {
-        if (userCodeRepository.existsUserCodeByUserId(userId)){
-            userCodeRepository.update(userId,code);
+        if (userCodeRepository.existsUserCodeByUserId(userId)) {
+            userCodeRepository.update(userId, code);
             return userCodeRepository.findByUserId(userId);
         }
-        return userCodeRepository.save(new UserCode(null,userId,code));
+        return userCodeRepository.save(new UserCode(null, userId, code));
     }
 
 }

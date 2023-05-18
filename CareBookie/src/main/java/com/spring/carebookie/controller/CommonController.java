@@ -24,7 +24,6 @@ import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.response.LoginResponseDto;
 import com.spring.carebookie.dto.response.RatingDoctorResponseDto;
 import com.spring.carebookie.dto.response.RatingHospitalResponseDto;
-import com.spring.carebookie.dto.save.RegisterDto;
 import com.spring.carebookie.dto.save.RegisterHospital;
 import com.spring.carebookie.entity.ServiceEntity;
 import com.spring.carebookie.entity.UserCode;
@@ -57,7 +56,7 @@ public class CommonController {
 
     @ApiOperation("Search hospital by district")
     @GetMapping("/search/district")
-    public ResponseEntity<List<HospitalResponseDto>> getHospitalByDistrict(@RequestParam String district){
+    public ResponseEntity<List<HospitalResponseDto>> getHospitalByDistrict(@RequestParam String district) {
         return ResponseEntity.ok(hospitalService.getHospitalByDistrict(district));
     }
 

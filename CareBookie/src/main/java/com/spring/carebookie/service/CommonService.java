@@ -98,7 +98,7 @@ public class CommonService {
         List<SearchHomeDoctorResponse> doctors =
                 userRepository.searchByKey(key)
                         .stream()
-                        .map(o -> new SearchHomeDoctorResponse(o.getId(), o.getName(), o.getImageUrl(),o.getSpeciality()))
+                        .map(o -> new SearchHomeDoctorResponse(o.getId(), o.getName(), o.getImageUrl(), o.getSpeciality()))
                         .collect(Collectors.toList());
         return new SearchHomeResponse(hospitals, doctors);
     }
@@ -231,6 +231,7 @@ public class CommonService {
         dtos.forEach(dto -> workingDayDetailsRepository.updateWorkingDay(hospitalId, dto.getId(), dto.getStartHour(), dto.getEndHour()));
         return getAllWorkingDayDetailByHospitalId(hospitalId);
     }
+
     /**
      * Favourite
      */

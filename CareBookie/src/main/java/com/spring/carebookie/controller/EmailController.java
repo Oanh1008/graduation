@@ -1,11 +1,11 @@
 package com.spring.carebookie.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
 
 import com.spring.carebookie.dto.EmailDetails;
 import com.spring.carebookie.dto.EmailRequest;
@@ -34,8 +34,7 @@ public class EmailController {
     // Sending a simple Email
     @PostMapping("/sendMail")
     public String
-    sendMail(@RequestBody EmailDetails details)
-    {
+    sendMail(@RequestBody EmailDetails details) {
         String status
                 = emailService.sendSimpleMail(details);
 
@@ -45,8 +44,7 @@ public class EmailController {
     // Sending email with attachment
     @PostMapping("/sendMailWithAttachment")
     public String sendMailWithAttachment(
-            @RequestBody EmailDetails details)
-    {
+            @RequestBody EmailDetails details) {
         String status
                 = emailService.sendMailWithAttachment(details);
 

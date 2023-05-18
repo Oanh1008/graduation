@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.spring.carebookie.entity.WorkingDayDetailsEntity;
 
-public interface WorkingDayDetailsRepository extends JpaRepository<WorkingDayDetailsEntity,Long> {
+public interface WorkingDayDetailsRepository extends JpaRepository<WorkingDayDetailsEntity, Long> {
 
     List<WorkingDayDetailsEntity> findAllByHospitalId(String hospitalId);
 

@@ -15,7 +15,6 @@ public interface UserFavouriteDoctorRepository extends JpaRepository<UserFavorit
     @Query("select u.id from UserFavoriteDoctorEntity u where u.userId = ?1")
     List<Long> getAllFavouriteIdByUserId(String userId);
 
-
     @Query("select (count(u) > 0) from UserFavoriteDoctorEntity u where u.doctorId = ?1 and u.userId = ?2")
     boolean existsByDoctorIdAndUserId(String doctorId, String userId);
 }

@@ -137,7 +137,7 @@ public class AdminController {
     }
 
     @ApiOperation("Update a medicine into hospital")
-    @PutMapping ("/medicine")
+    @PutMapping("/medicine")
     public ResponseEntity<MedicineEntity> updateMedicine(@Valid @RequestBody MedicineUpdateDto dto) {
         return ResponseEntity.ok(medicineService.update(dto));
     }

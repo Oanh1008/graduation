@@ -111,20 +111,10 @@ const Columns = [
                 </div>)
         },
     },
-    {
-        key: '8',
-        title: "Bác sĩ đặt lịch",
-        dataIndex: "",
-        width: 200,
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <p>{item.doctorName}</p>
-            </div>),
-    },
+
     {
         key: '9',
         title: "Người xét duyệt",
-        fixed: 'right',
         dataIndex: "",
         width: 200,
 
@@ -134,7 +124,35 @@ const Columns = [
             </div>),
     },
     {
+        key: '8',
+        title: "Bác sĩ đặt lịch",
+        dataIndex: "",
+        fixed: 'right',
+
+        width: 200,
+        render: (text, item) => (text &&
+            <div className='flex items-center gap-3'>
+                <p>{item.doctorName}</p>
+            </div>),
+    },
+    {
         key: '10',
+        title: "Trạng thái",
+        fixed: 'right',
+        dataIndex: "",
+        width: 200,
+        render: (text, item) => (
+            <div className='flex items-center gap-3'>
+                {item.invoiceInformation.diagnose !== "" ?
+                    <p className='text-green-700 bg-green-100 py-1 px-2 rounded-xl'>Đã khám xong</p>
+                    :
+                    <p className='text-red-500 bg-red-100 py-1 px-2 rounded-xl'>Chưa khám xong</p>
+
+                }
+            </div>),
+    },
+    {
+        key: '11',
         title: "Thao tác",
         fixed: 'right',
         width: 90,

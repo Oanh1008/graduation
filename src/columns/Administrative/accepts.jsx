@@ -36,7 +36,7 @@ const Columns = [
         key: '3',
         title: "Tuổi",
         dataIndex: "age",
-        width: 100,
+        width: 60,
         render: (text, item) => (text &&
             item.bookInformation.age ?
             <div className='flex items-center gap-3'>
@@ -92,7 +92,7 @@ const Columns = [
         key: '7',
         title: "Ngày khám",
         dataIndex: "",
-        width: 200,
+        width: 140,
         render: (text, item) => {
             return (text &&
                 <div className='flex items-center gap-3'>
@@ -104,10 +104,14 @@ const Columns = [
         key: '8',
         title: "Giờ khám",
         dataIndex: "",
-        width: 150,
+        width: 100,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <p>{item.bookInformation.session}</p>
+                {item.bookInformation.session === 'MORNING' ?
+                    <p>Sáng</p>
+                    : item.bookInformation.session === 'AFTERNOON' ?
+                        <p>Chiều</p>
+                        : <p>{item.bookInformation.session}</p>}
             </div>),
     },
     {

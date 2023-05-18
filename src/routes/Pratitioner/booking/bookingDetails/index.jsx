@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../../layout/index'
 import Button from '../../../../components/button/index'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { del, get, put } from '../../../../utils/apicommon'
 import MedicineComponent from './Medicine'
 import ServicesComponent from './Services'
@@ -37,6 +37,8 @@ const BookingDetails = () => {
         services: [],
         symptomDetail: '',
     });
+
+    const navigate = useNavigate();
     let user = JSON.parse(localStorage.getItem('user'));
 
     const { id } = useParams()
@@ -67,7 +69,6 @@ const BookingDetails = () => {
     };
 
     console.log(selectedDataMedicine);
-    console.log(data);
 
     const handleChangeMedinces = async (searchQuery) => {
         const response = await get(`/doctor/medicine/search/${user.hospitalId}?name=${searchQuery} `)
@@ -223,11 +224,20 @@ const BookingDetails = () => {
             }));
         }
     }
-    console.log(medicinesToSend);
 
-    // const serviceToSend = selectedDataServices.map((service) => ({
-    //     serviceId: service.id,
-    // }));
+    var serviceToSend = []
+    if (Object.keys(data).length > 0) {
+        if (data.medicines.length > 0) {
+            serviceToSend = selectedDataServices.map((service) => ({
+                serviceId: service.id,
+            }));
+        }
+        else {
+            serviceToSend = formDataAmount.services.map((service) => ({
+                serviceId: service.id,
+            }));
+        }
+    }
 
     const hanldeSumbit = async () => {
         const add = await put(`/doctor/invoice/update`, {
@@ -235,7 +245,7 @@ const BookingDetails = () => {
             diagnose: formDataAmount.diagnose,
             invoiceId: data.invoiceInformation.id,
             medicines: medicinesToSend,
-            // services: serviceToSend,
+            services: serviceToSend,
             symptomDetail: formDataAmount.symptomDetail
         })
 
@@ -243,6 +253,13 @@ const BookingDetails = () => {
             message.open({
                 type: 'success',
                 content: 'Cập nhật hoá đơn thành công!',
+            })
+            setFormDataAmount({
+                advices: '',
+                diagnose: '',
+                medicines: [],
+                services: [],
+                symptomDetail: '',
             })
             fetchData();
             console.log(formDataAmount);
@@ -266,6 +283,8 @@ const BookingDetails = () => {
                 type: 'success',
                 content: 'Cập nhật hoá đơn thành công!',
             })
+            navigate('/nurse/booking')
+
         }
         else {
             message.open({
@@ -452,7 +471,7 @@ const BookingDetails = () => {
                                     Tổng tiền
                                 </label>
                                 <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-money" type="text" value={`${totalMedicince + totalService}.000 vnđ`} />
+                                    id="grid-money" type="text" value={data.totalPrice === 0 ? `${totalMedicince + totalService}.000 vnđ` : `${data.totalPrice}00 vnđ`} />
                             </div>
                         </div>
                     </form>

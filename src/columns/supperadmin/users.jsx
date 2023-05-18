@@ -93,29 +93,29 @@ const Columns = [
       return record1.address > record2.address
     }
   },
-  {
-    key: '8',
-    title: "",
-    width: 100,
-    render: (data) => (
-      <Popconfirm
-        placement="bottomRight"
-        title={"Bạn muốn xoá người này ? "}
-        description={"Không thể khôi phục được"}
-        onConfirm={() => { console.log(data.id) }}
-        okText="Yes"
-        cancelText="No"
-        icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
-      >
+  // {
+  //   key: '8',
+  //   title: "",
+  //   width: 100,
+  //   render: (data) => (
+  //     <Popconfirm
+  //       placement="bottomRight"
+  //       title={"Bạn muốn xoá người này ? "}
+  //       description={"Không thể khôi phục được"}
+  //       onConfirm={() => { console.log(data.id) }}
+  //       okText="Yes"
+  //       cancelText="No"
+  //       icon={<Question className='w-5 h-5 fill-yellow-400 ' />}
+  //     >
 
-        <Button
-          type='button'
-          className=" rounded-lg"
-          icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
-        />
-      </Popconfirm>
-    )
-  }
+  //       <Button
+  //         type='button'
+  //         className=" rounded-lg"
+  //         icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
+  //       />
+  //     </Popconfirm>
+  //   )
+  // }
 ];
 
 export default Columns

@@ -26,6 +26,8 @@ import com.spring.carebookie.dto.response.EmployeeResponseDto;
 import com.spring.carebookie.dto.response.HospitalResponseDto;
 import com.spring.carebookie.dto.response.LoginResponseDto;
 import com.spring.carebookie.dto.save.AdministrativeSaveDto;
+import com.spring.carebookie.dto.save.CheckConfirmRegisterMail;
+import com.spring.carebookie.dto.save.ConfirmRegisterMail;
 import com.spring.carebookie.dto.save.DoctorSaveDto;
 import com.spring.carebookie.dto.save.EmployeeSaveDto;
 import com.spring.carebookie.dto.save.RegisterDto;
@@ -82,13 +84,24 @@ public class UserService {
      * User
      */
 
+    public UserCode confirmRegisterMail(ConfirmRegisterMail dto) {
+        Random random = new Random();
+        String id = String.format("%04d", random.nextInt(10000));
+        String userId = generateUserId(dto.getFirstName(), dto.getLastName(), dto.getEmail());
+        emailService.sendSimpleMail(new EmailDetails(dto.getEmail(), id, "Confirm email", null));
+        return userCodeService.upsert(userId, id);
+    }
+
+    public boolean checkCodeConfirmMail(CheckConfirmRegisterMail dto) {
+        String userId = generateUserId(dto.getFirstName(), dto.getLastName(), dto.getEmail());
+        UserCode userCode = userCodeRepository.findByUserId(userId);
+        return userCode.getCode().equals(dto.getCode());
+    }
+
     @Transactional
     public UserEntity register(RegisterDto dto) {
         // check mail and phone existed
         UserEntity entity = USER_MAPPER.convertSaveToEntity(dto);
-        Random random = new Random();
-        String id = String.format("%04d", random.nextInt(10000));
-        emailService.sendSimpleMail(new EmailDetails(dto.getEmail(), id, "Confirm email", null));
         String userId = generateUserId(entity.getFirstName(), entity.getLastName(), entity.getEmail());
         entity.setUserId(userId);
         entity.setRoleId(5L);
@@ -96,7 +109,6 @@ public class UserService {
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         entity.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/OOjs_UI_icon_userAvatar.svg/1200px-OOjs_UI_icon_userAvatar.svg.png?fbclid=IwAR2feu8hZAfDllAJfvFKc4P6lQH3eSJ5Q_lEYm1iz6pDwmez4bSiBZdDhbA");
         UserEntity user = userRepository.save(entity);
-        userCodeService.upsert(userId, id);
         return user;
     }
 
@@ -352,4 +364,5 @@ public class UserService {
         userRepository.updatePassword(user.getUserId(), passwordEncoder.encode(dto.getNewPassword()));
         return userRepository.findByUserId(user.getUserId());
     }
+
 }

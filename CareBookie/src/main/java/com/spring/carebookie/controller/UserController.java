@@ -22,12 +22,15 @@ import com.spring.carebookie.dto.response.DoctorAndFavouriteResponseDto;
 import com.spring.carebookie.dto.response.HospitalAndFavouriteResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.dto.save.BookSaveDto;
+import com.spring.carebookie.dto.save.CheckConfirmRegisterMail;
+import com.spring.carebookie.dto.save.ConfirmRegisterMail;
 import com.spring.carebookie.dto.save.RatingDoctorSaveDto;
 import com.spring.carebookie.dto.save.RatingHospitalSaveDto;
 import com.spring.carebookie.dto.save.RegisterDto;
 import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.entity.RatingDoctorEntity;
 import com.spring.carebookie.entity.RatingHospitalEntity;
+import com.spring.carebookie.entity.UserCode;
 import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.entity.UserFavoriteDoctorEntity;
 import com.spring.carebookie.entity.UserFavoriteHospitalEntity;
@@ -52,6 +55,18 @@ public class UserController {
     private final InvoiceService invoiceService;
 
     private final UserService userService;
+
+    @ApiOperation("Confirm register mail")
+    @PostMapping("/confirm/mail")
+    public ResponseEntity<UserCode> confirmMail(@Valid @RequestBody ConfirmRegisterMail dto) {
+        return ResponseEntity.ok(userService.confirmRegisterMail(dto));
+    }
+
+    @ApiOperation("Confirm register mail")
+    @PostMapping("/confirm/mail/check")
+    public ResponseEntity<Boolean> checkConfirmMail(@Valid @RequestBody CheckConfirmRegisterMail dto) {
+        return ResponseEntity.ok(userService.checkCodeConfirmMail(dto));
+    }
 
     @ApiOperation("User register")
     @PostMapping("/register")

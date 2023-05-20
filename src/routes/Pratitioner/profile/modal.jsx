@@ -204,12 +204,12 @@ const Modal = ({ isVisible, onClose, user }) => {
                                             </div>
                                             <div className="mb-4">
                                                 <div className="mb-4 mt-7">
-                                                    <label htmlFor="status" className="block mb-2 font-semibold">
+                                                    <label htmlFor="status" className="block mb-2 font-semibold" onChange={handleInputChange}>
                                                         Tình trạng
                                                     </label>
                                                     <select className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 bg-white ">
-                                                        <option defaultValue="Đang làm" onChange={handleInputChange} selected={form.status === "Đang làm"}>Đang làm</option>
-                                                        <option defaultValue="Nghỉ phép" onChange={handleInputChange} checked={form.status === "Nghỉ phép"}>Nghỉ phép</option>
+                                                        <option defaultValue="Đang làm" selected={form.status === "Đang làm"}>Đang làm</option>
+                                                        <option defaultValue="Nghỉ phép" checked={form.status === "Nghỉ phép"}>Nghỉ phép</option>
                                                     </select>
 
                                                 </div>

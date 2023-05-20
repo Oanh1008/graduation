@@ -47,27 +47,28 @@ const Modal = ({ isVisible, onClose, user }) => {
     };
 
 
-    const handleSubmit = async () => {
-        await put('/admin/setting/profile', {
-            address: form.address,
-            userId: form.userId,
-            imageUrl: form.imageUrl,
-            email: form.email,
-            information: form.information,
-            phone: form.phone,
-            speciality: form.speciality,
-            knowledge: form.knowledge,
-            startWorkingDate: form.startWorkingDate,
-            status: form.status,
+    const handleSubmit = () => {
+        // await put('/admin/setting/profile', {
+        //     address: form.address,
+        //     userId: form.userId,
+        //     imageUrl: form.imageUrl,
+        //     email: form.email,
+        //     information: form.information,
+        //     phone: form.phone,
+        //     speciality: form.speciality,
+        //     knowledge: form.knowledge,
+        //     startWorkingDate: form.startWorkingDate,
+        //     status: form.status,
 
-        })
-        const updatedUser = {
-            ...user,
-            ...form,
-        };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        // })
+        // const updatedUser = {
+        //     ...user,
+        //     ...form,
+        // };
+        // localStorage.setItem('user', JSON.stringify(updatedUser));
 
-        onClose();
+        // onClose();
+        console.log(form);
     };
 
 
@@ -108,6 +109,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                 id="startWorkingDate"
                                                 name="startWorkingDate"
                                                 defaultValue={form.startWorkingDate}
+                                                onChange={handleInputChange}
                                                 className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                             />
                                         </div>
@@ -129,6 +131,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                         id="userName"
                                                         name="userName"
                                                         value={user.lastName + ' ' + user.firstName}
+                                                        onChange={handleInputChange}
                                                         className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                                     />
                                                 </div>
@@ -143,6 +146,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                         id="phone"
                                                         name="phone"
                                                         defaultValue={form.phone}
+                                                        onChange={handleInputChange}
                                                         className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                                     />
                                                 </div>
@@ -157,6 +161,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                         id="speciality"
                                                         name="speciality"
                                                         defaultValue={form.speciality}
+                                                        onChange={handleInputChange}
                                                         className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                                     />
                                                 </div>
@@ -177,6 +182,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                         id="knowledge"
                                                         name="knowledge"
                                                         defaultValue={form.knowledge}
+                                                        onChange={handleInputChange}
                                                         className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                                     />
                                                 </div>
@@ -191,6 +197,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                         id="email"
                                                         name="email"
                                                         defaultValue={form.email}
+                                                        onChange={handleInputChange}
                                                         className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                                     />
                                                 </div>
@@ -201,8 +208,8 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                         Tình trạng
                                                     </label>
                                                     <select className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 bg-white ">
-                                                        <option defaultValue="Đang làm" selected={form.status === "Đang làm"}>Đang làm</option>
-                                                        <option defaultValue="Nghỉ phép" checked={form.status === "Nghỉ phép"}>Nghỉ phép</option>
+                                                        <option defaultValue="Đang làm" onChange={handleInputChange} selected={form.status === "Đang làm"}>Đang làm</option>
+                                                        <option defaultValue="Nghỉ phép" onChange={handleInputChange} checked={form.status === "Nghỉ phép"}>Nghỉ phép</option>
                                                     </select>
 
                                                 </div>
@@ -219,7 +226,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                             id="address"
                                             name="address"
                                             defaultValue={form.address}
-
+                                            onChange={handleInputChange}
                                             className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                         />
                                     </div>
@@ -233,7 +240,7 @@ const Modal = ({ isVisible, onClose, user }) => {
 
                             <div className="mb-4">
                                 <label htmlFor="information" className="block mb-2 font-semibold">
-                                    Thông tin của bệnh viện
+                                    Thông tin cá nhân
                                 </label>
                                 <textarea id="information" name="information" className='border p-2 w-full text-neutral-600' onChange={handleInputChange} rows="6" cols="50" defaultValue={form.information} />
                                 <br />

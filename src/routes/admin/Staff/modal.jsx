@@ -51,7 +51,7 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
             console.log(add);
             message.open({
                 type: 'Thành công!',
-                content: 'Thêm mới tài khoản phòng khám thành công!',
+                content: 'Thêm mới tài khoản nhân viên thành công!',
             })
             onClose();
             fetchData();

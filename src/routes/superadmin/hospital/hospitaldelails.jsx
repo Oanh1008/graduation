@@ -97,7 +97,7 @@ const Hospitaldelails = ({ }) => {
                                 <div className='grid grid-cols-4 gap-4 justify-items-center'>
                                     {
                                         data.services.map((item, index) => (
-                                            <div key={index} className='flex flex-col gap-5 items-center '>
+                                            <div key={index} className='flex flex-col gap-5 items-center border '>
                                                 <div><IconBriefCase className='w-8' /></div>
                                                 <p className='text-base font-semibold'>{item.serviceName}</p>
                                             </div>

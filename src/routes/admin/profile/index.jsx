@@ -104,9 +104,9 @@ const HospitalProfile = () => {
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>dịch vụ</div>
 
                                 <Divider />
-                                <div className='grid grid-cols-4 gap-4 justify-items-center'>
+                                <div className='grid grid-cols-4 gap-4 justify-items-center '>
                                     {user.services.map((service) => (
-                                        <div className='flex flex-col gap-5 items-center '>
+                                        <div className='flex flex-col gap-5 items-center text-center '>
                                             <IconBriefCase className='w-8 fill-gray-500' />
                                             <p className='text-base font-semibold text-gray-800'>{service.serviceName}</p>
                                         </div>
@@ -137,7 +137,7 @@ const HospitalProfile = () => {
                                             <p className='text-base font-semibold'>{item.lastName} {item.firstName}</p>
                                         </div>
                                     ))}
-                                    {startIndex + 3 !== doctorSider.length &&
+                                    {startIndex + 4 < doctorSider.length &&
                                         <button className="absolute -translate-y-1/2 -right-6 top-1/2 w-9 h-9">
                                             <IconRightSolid
                                                 className="p-2 fill-neutral-500"
@@ -161,7 +161,7 @@ const HospitalProfile = () => {
                         </div>
                         <div className='flex flex-col text-base gap-5'>
                             <div className='flex w-full'>
-                                <p className='font-semibold w-2/5'>Số điện thoại</p>
+                                <p className='font-semibold w-2/5'>Địa chỉ</p>
                                 <p className='w-3/5'>{user.address}</p>
                             </div>
                             <div className='flex w-full'>
@@ -216,11 +216,11 @@ const HospitalProfile = () => {
                             <tbody>
                                 {session.map((time) => (
                                     <tr key={time} className="border-b text-center      ">
-                                        {time === 'MORNING' ?
+                                        {time === 'Sáng' ?
                                             <td className='py-5 font-semibold border-r w-20'>Sáng</td>
-                                            : time === 'AFTERNOON' ?
+                                            : time === 'Chiều' ?
                                                 <td className='py-5 font-semibold border-r w-20'>Chiều</td> :
-                                                time === 'EVENING'
+                                                time === 'Tối'
                                                 && <td className='py-5 font-semibold border-r w-20'>Tối</td>
                                         }
 

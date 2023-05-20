@@ -58,6 +58,7 @@ const Modal = ({ isVisible, onClose, user }) => {
             priceFrom: form.priceFrom,
             priceTo: form.priceTo
         })
+
         const updatedUser = {
             ...user,
             ...form,
@@ -105,7 +106,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                             id="address"
                                             name="address"
                                             defaultValue={form.address}
-                                            // onChange={handleInputChange}
+                                            onChange={handleInputChange}
                                             className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                         />
                                     </div>

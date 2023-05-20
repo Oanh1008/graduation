@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
-import columns from '../../../columns/staff/index';
+import Staff from '../../../columns/staff/index';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
@@ -9,13 +9,10 @@ import Modal from './modal';
 
 const Index = () => {
     const [loading, setLoading] = useState(false)
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(6)
     const [data, setData] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
-    const [roleModal, setShowRoleModal] = useState(false)
 
     let user = JSON.parse(localStorage.getItem('user'));
 
@@ -41,7 +38,7 @@ const Index = () => {
         }
         setfilterVal(event.target.value)
     }
-    console.log(data);
+
     return (
         <Layout>
             <div className=' mx-6 bg-white p-6'>
@@ -69,25 +66,9 @@ const Index = () => {
                 </div>
 
                 <div className='mb-2 !z-0'>
-                    <Table
-                        className=' !z-0'
-                        columns={columns}
-                        dataSource={data}
-                        scroll={{ y: 500 }}
-                        loading={loading}
-                        pagination={{
-                            pageSize: 5,
-                            onChange: (page, pageSize) => {
-                                setPage(page);
-                                setPageSize(pageSize);
-                            }
-                        }}
-                        onRow={(record) => {
-                            return {
-                                onDoubleClick: () => setShowRoleModal(roleModal),
-                            };
-                        }}
-                    />
+                    <Staff loading={loading}
+                        data={data}
+                        fetchData={fetchData} />
                 </div>
             </div>
             <Modal isVisible={showModal} onClose={() => setShowModal(false)} id={user.hospitalId} fetchData={fetchData} >

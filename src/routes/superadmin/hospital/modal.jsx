@@ -24,7 +24,7 @@ const formItemLayout = {
     },
 };
 
-const Modal = ({ isVisible, onClose }) => {
+const Modal = ({ isVisible, onClose, fetchData }) => {
     const [err, setErr] = useState('')
     const [form] = Form.useForm()
 
@@ -36,21 +36,31 @@ const Modal = ({ isVisible, onClose }) => {
     }
 
     const handleCreate = async (value) => {
-        const add = await post('/hospital/save', {
+        const add = await post('/super-admin/hospital/save', {
             hospitalName: value.hospitalName,
             email: value.email,
             lastName: value.lastName,
             firstName: value.firstName,
             phone: value.phone,
-            password: value.password
+            password: value.password,
+            address: '',
+            imageUrl: '',
+            information: '',
+            isChoosenDoctor: false,
+            isPublicPrice: false,
+            isRate: false,
+            priceFrom: 0,
+            priceTo: 0
         })
         if (add) {
             console.log(add);
             message.open({
-                type: 'Thành công!',
+                type: 'success',
                 content: 'Thêm mới tài khoản phòng khám thành công!',
             })
             onClose();
+            fetchData();
+
         }
         else {
             setErr('Thông tin đã đã tồn tại! ')
@@ -80,8 +90,6 @@ const Modal = ({ isVisible, onClose }) => {
                         }}
                     >
                         <div className='flex'>
-
-
                             <div>
                                 <div span={12} >
                                     <Form.Item name="hospitalName" label="Tên bệnh viện" rules={[{ required: true }]}>
@@ -114,7 +122,7 @@ const Modal = ({ isVisible, onClose }) => {
                                 </div>
                                 <div span={12} >
                                     <Form.Item name="password" label="Mật khẩu" rules={[{ required: true }]}>
-                                        <Input />
+                                        <Input type='password' />
                                     </Form.Item>
                                 </div>
                             </div>

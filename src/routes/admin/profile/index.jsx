@@ -7,6 +7,7 @@ import { Edit, IconBriefCase, IconCalender, IconLeftSolid, IconRightSolid } from
 import { get } from '../../../utils/apicommon';
 import Modal from './modal';
 import WorkingDate from './workingModal';
+import AddWorkingDate from './addWorkingDay';
 
 const HospitalProfile = () => {
     const [showModal, setShowModal] = useState(false)
@@ -14,12 +15,17 @@ const HospitalProfile = () => {
     const [loading, setLoading] = useState(false)
     const [startIndex, setStartIndex] = useState(0);
     const [editTime, setEdit] = useState(false);
+    const [addTime, setAddTime] = useState(false)
     const [dtId, setdtId] = useState(null);
+    const [start, setStart] = useState(null);
+    const [end, setEnd] = useState(null);
+    const [time, setTime] = useState(null);
+    const [day, setDay] = useState(null);
 
     let user = JSON.parse(localStorage.getItem('user'));
 
     const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
-    const session = ["MORNING", 'AFTERNOON'];
+    const session = ["MORNING", 'AFTERNOON', 'EVENING'];
 
     useEffect(() => {
         fetchData()
@@ -33,9 +39,17 @@ const HospitalProfile = () => {
     }
 
     const handleCourseClick = (daytime) => {
-        setdtId(daytime);
+        setdtId(daytime.id);
+        setStart(daytime.startHour);
+        setEnd(daytime.endHour);
         setEdit(true);
-    };
+    }
+
+    const handleCourseAdd = (time, day) => {
+        setTime(time)
+        setDay(day)
+        setAddTime(true)
+    }
 
     const handleNext = () => {
         if (startIndex + 4 < doctor.length) {
@@ -90,11 +104,11 @@ const HospitalProfile = () => {
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>dịch vụ</div>
 
                                 <Divider />
-                                <div className='flex justify-around'>
+                                <div className='grid grid-cols-4 gap-4 justify-items-center'>
                                     {user.services.map((service) => (
                                         <div className='flex flex-col gap-5 items-center '>
-                                            <IconBriefCase className='w-8 text-neutral-600' />
-                                            <p className='text-base font-semibold text-neutral-800'>{service.serviceName}</p>
+                                            <IconBriefCase className='w-8 fill-gray-500' />
+                                            <p className='text-base font-semibold text-gray-800'>{service.serviceName}</p>
                                         </div>
                                     ))}
 
@@ -106,9 +120,9 @@ const HospitalProfile = () => {
                             <div className='p-5'>
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>Chuyên gia - Bác sĩ</div>
                                 <Divider />
-                                <div className='flex justify-around'>
+                                <div className='flex relative justify-around'>
                                     {startIndex != 0 &&
-                                        <button className="absolute -translate-y-1/2 bg-white border rounded-full border-neutral-300 -left-4 top-1/2 w-9 h-9">
+                                        <button className="absolute -translate-y-1/2 -left-6 top-1/2 w-9 h-9">
                                             <IconLeftSolid
                                                 className="p-2 fill-neutral-500"
                                                 onClick={handlePrev}
@@ -124,7 +138,7 @@ const HospitalProfile = () => {
                                         </div>
                                     ))}
                                     {startIndex + 3 !== doctorSider.length &&
-                                        <button className="absolute -translate-y-1/2 bg-white border rounded-full border-neutral-300 -right-4 top-1/2 w-9 h-9">
+                                        <button className="absolute -translate-y-1/2 -right-6 top-1/2 w-9 h-9">
                                             <IconRightSolid
                                                 className="p-2 fill-neutral-500"
                                                 onClick={handleNext}
@@ -133,7 +147,7 @@ const HospitalProfile = () => {
                                     }
                                 </div>
 
-                                {/* <button className='mt-5 w-full text-end text-cyan-900 hover:font-semibold mb-1'>Xem thêm</button> */}
+
                             </div>
                         </div>
                     </div>
@@ -185,7 +199,7 @@ const HospitalProfile = () => {
                         <Divider />
                         <div className='text-xl gap-4 flex items-center justify-center font-semibold text-cyan-900 uppercase  mt-3 mb-8'>
                             <p>Lịch làm việc</p>
-                            <IconCalender className='w-8 fill-emerald-900' />
+
                         </div>
                         <table className='w-full'>
                             <thead>
@@ -212,7 +226,12 @@ const HospitalProfile = () => {
 
                                         {daysOfWeek.map((day, index) => {
                                             const daytime = user.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
-                                            return <td key={index} className="border-r w-20 text-center" onDoubleClick={() => handleCourseClick(daytime.id)}>{daytime ? daytime.startHour + '-' + daytime.endHour : ''}</td>;
+                                            return <td key={index} className="border-r w-20 text-center"
+                                                onDoubleClick={() => {
+                                                    if (!daytime) { handleCourseAdd(time, day) }
+                                                    else { handleCourseClick(daytime) }
+
+                                                }}>{daytime && daytime.startHour ? daytime.startHour + ' - ' + daytime.endHour : ''}</td>;
                                         })}
                                     </tr>
                                 ))}
@@ -226,7 +245,8 @@ const HospitalProfile = () => {
             </div>
 
             <Modal isVisible={showModal} onClose={() => setShowModal(false)} fetchData={fetchData} user={user} />
-            <WorkingDate isVisible={editTime} onClose={() => setEdit(false)} fetchData={fetchData} user={user} dtId={dtId} />
+            <WorkingDate isVisible={editTime} onClose={() => setEdit(false)} fetchData={fetchData} user={user} dtId={dtId} start={start} end={end} />
+            <AddWorkingDate isVisible={addTime} onClose={() => setAddTime(false)} setLoading={setLoading} user={user} day={day} time={time} />
         </Layout >
     )
 }

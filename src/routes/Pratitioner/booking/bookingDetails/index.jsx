@@ -45,7 +45,6 @@ const BookingDetails = () => {
     const location = useLocation();
     const history = new URLSearchParams(location.search).get('history');
 
-    console.log(user.hospitalId);
 
     useEffect(() => {
         fetchData();
@@ -67,8 +66,6 @@ const BookingDetails = () => {
 
         setLoading(false)
     };
-
-    console.log(selectedDataMedicine);
 
     const handleChangeMedinces = async (searchQuery) => {
         const response = await get(`/doctor/medicine/search/${user.hospitalId}?name=${searchQuery} `)
@@ -135,8 +132,6 @@ const BookingDetails = () => {
                 invoiceId: data.invoiceInformation.id,
                 medicineId: db.id
             })
-            console.log(data.invoiceInformation.id);
-            console.log(db.id);
         }
     };
     const handleServicesClick = (data) => {
@@ -166,16 +161,14 @@ const BookingDetails = () => {
                 services: newData,
             };
         })
+
         if (data.medicines.length > 0) {
             del('/doctor/invoice/remove/service', {
                 invoiceId: data.invoiceInformation.id,
                 serviceId: db.id
             })
-            console.log(data.invoiceInformation.id);
-            console.log(db.id);
         }
     }
-    console.log(formDataAmount);
 
     const calculateTotalMedicine = (results, medicineCounter) => {
         const newTotal = 0;
@@ -227,7 +220,7 @@ const BookingDetails = () => {
 
     var serviceToSend = []
     if (Object.keys(data).length > 0) {
-        if (data.medicines.length > 0) {
+        if (data.services.length > 0) {
             serviceToSend = selectedDataServices.map((service) => ({
                 serviceId: service.id,
             }));
@@ -237,6 +230,7 @@ const BookingDetails = () => {
                 serviceId: service.id,
             }));
         }
+
     }
 
     const hanldeSumbit = async () => {
@@ -254,15 +248,7 @@ const BookingDetails = () => {
                 type: 'success',
                 content: 'Cập nhật hoá đơn thành công!',
             })
-            setFormDataAmount({
-                advices: '',
-                diagnose: '',
-                medicines: [],
-                services: [],
-                symptomDetail: '',
-            })
             fetchData();
-            console.log(formDataAmount);
         }
         else {
             message.open({

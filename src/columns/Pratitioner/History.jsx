@@ -129,7 +129,7 @@ const Columns = [
                     type='button'
                     className=" rounded-lg"
                     icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-                    onClick={() => window.location.href = `/booking/bookingDetails/${data.invoiceInformation.bookId}?status=confirm`} />
+                    onClick={() => window.location.href = `/doctor/booking/booingDetails/${data.invoiceInformation.bookId}?history=true`} />
             </div>
         )
     }

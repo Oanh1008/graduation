@@ -5,13 +5,6 @@ import welcome from '../../../assets/image/welcome.jpg'
 
 const Home = () => {
 
-    return (
-        <Layout>
-            <div className='flex justify-center items-center text-5xl text-cyan-900 font-bold'>
-                WELCOME TO MY WEBSITE
-            </div>
-        </Layout>
-    )
 }
 
 export default Home

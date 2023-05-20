@@ -8,7 +8,6 @@ import confirm from '../../../columns/booking/confirm';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'
-import { DataStaff } from '../Staff/data'
 import classNames from 'classnames';
 
 const listTabs = [

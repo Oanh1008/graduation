@@ -6,24 +6,35 @@ import TextArea from 'antd/es/input/TextArea';
 import { memo, useEffect, useState } from 'react';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
-import { put } from '../../../utils/apicommon';
+import { get, post, put } from '../../../utils/apicommon';
 
-const WorkingDate = ({ isVisible, onClose, fetchData, user, dtId, start, end }) => {
+const AddWorkingDate = ({ isVisible, onClose, setLoading, user, day, time }) => {
+    const [hospital, setHospital] = useState([]);
 
     const [form, setForm] = useState({
+        date: null,
         endHour: null,
-        id: null,
+        session: null,
         startHour: null
     });
 
     useEffect(() => {
         setForm({
-            endHour: end,
-            id: dtId,
-            startHour: start
+            date: day,
+            session: time,
         });
-    }, [end, dtId, start]);
+    }, [day, time]);
 
+    useEffect(() => {
+        fetchData()
+    }, []);
+
+    const fetchData = async () => {
+        setLoading(true)
+        const list = await get(`common/hospital/${user.hospitalId}`);
+        setHospital(list)
+        setLoading(false)
+    }
 
     if (!isVisible) return null
     const handleClose = (e) => {
@@ -42,46 +53,18 @@ const WorkingDate = ({ isVisible, onClose, fetchData, user, dtId, start, end }) 
     };
 
     const handleSubmit = async () => {
-        const update = await put(`admin/working-day/${user.hospitalId}`, {
+        const add = await post(`/admin/working-day/${user.hospitalId}`, [{
+            date: form.date.trim(),
             endHour: form.endHour,
-            id: dtId,
+            session: form.session,
             startHour: form.startHour
 
-        })
-
-        user.workingDayDetails.forEach((day) => {
-            if (day.id === dtId) {
-                day.startHour = form.startHour;
-                day.endHour = form.endHour;
-            }
-        });
-
-        localStorage.setItem('user', JSON.stringify(user));
+        }])
         onClose();
         fetchData();
 
     };
-
-    const HandleDelete = async () => {
-        await put(`admin/working-day/${user.hospitalId}`, {
-            endHour: null,
-            id: dtId,
-            startHour: null
-
-        })
-
-        user.workingDayDetails.forEach((day) => {
-            if (day.id === dtId) {
-                day.startHour = '';
-                day.endHour = '';
-            }
-        });
-
-        localStorage.setItem('user', JSON.stringify(user));
-        console.log(form);
-        onClose();
-        fetchData();
-    }
+    localStorage.setItem('user', JSON.stringify(hospital));
 
     return (
         <div className='fixed inset-0 z-10 '>
@@ -97,14 +80,14 @@ const WorkingDate = ({ isVisible, onClose, fetchData, user, dtId, start, end }) 
                     <Divider />
                     <form >
                         <div className="mb-4 mt-7 w-full flex gap-3 items-center">
-                            <label htmlFor="startHour" className="block mb-2  w-1/2">
+                            <label htmlFor="startHour" className="block mb-2 w-1/2">
                                 Giờ bắt đầu
                             </label>
                             <input
                                 type="text"
                                 id="startHour"
                                 name="startHour"
-                                defaultValue={form.startHour}
+                                placeholder='Nhập giờ bắt đầu'
                                 onChange={handleInputChange}
                                 className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                             />
@@ -117,15 +100,13 @@ const WorkingDate = ({ isVisible, onClose, fetchData, user, dtId, start, end }) 
                                 type="text"
                                 id="endHour"
                                 name="endHour"
-                                defaultValue={form.endHour}
+                                placeholder='Nhập giờ kết thúc'
                                 onChange={handleInputChange}
                                 className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                             />
                         </div>
 
                         <div className='flex justify-around'>
-                            <Button type="button" onClick={HandleDelete}
-                                text="Xoá" className=' w-1/4 mt-3 bg-red-500 hover:opacity-75 text-white py-2 rounded-xl text-lg' />
                             <Button type="button" onClick={handleSubmit}
                                 text="Lưu" className=' w-1/4 mt-3 bg-[#457b9d] hover:opacity-75 text-white py-2 rounded-xl text-lg' />
                         </div>
@@ -135,4 +116,4 @@ const WorkingDate = ({ isVisible, onClose, fetchData, user, dtId, start, end }) 
         </div >
     )
 }
-export default WorkingDate;
+export default AddWorkingDate;

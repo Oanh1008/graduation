@@ -65,8 +65,6 @@ const Modal = ({ isVisible, onClose, user }) => {
         localStorage.setItem('user', JSON.stringify(updatedUser));
 
         onClose();
-
-        console.log(user);
     };
 
 

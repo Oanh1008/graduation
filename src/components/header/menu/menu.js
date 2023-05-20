@@ -5,7 +5,7 @@ import { FaRegChartBar } from 'react-icons/fa';
 const Layout = [
     {
         icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
-        key: "/dashboard ",
+        key: "/ ",
         label: "Dashboard",
     },
     {

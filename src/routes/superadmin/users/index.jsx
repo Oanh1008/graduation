@@ -3,18 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { Plus } from '../../../assets/svg';
 import Layout from '../../../layout/index'
 import { get } from '../../../utils/apicommon';
-import Button from '../../../components/button/index'
-import Columns from '../../../columns/supperadmin/users';
+import User from '../../../columns/supperadmin/users';
 
 
 const ManagerUser = () => {
     const [loading, setLoading] = useState(false)
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(6)
+
     const [data, setData] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
-    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         fetchData();
@@ -57,25 +54,12 @@ const ManagerUser = () => {
                             <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                     </div>
-
-
                 </div>
 
                 <div className='mb-11 !z-0'>
-                    <Table
-                        className=' !z-0'
-                        columns={Columns}
-                        dataSource={data}
-                        scroll={{ y: 500 }}
-                        loading={loading}
-                        pagination={{
-                            pageSize: 5,
-                            onChange: (page, pageSize) => {
-                                setPage(page);
-                                setPageSize(pageSize);
-                            }
-                        }}
-                    />
+                    <User loading={loading}
+                        data={data}
+                        fetchData={fetchData} />
                 </div>
             </div>
         </Layout>

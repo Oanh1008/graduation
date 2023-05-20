@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Table } from 'antd';
-// import Columns from '../../../columns/services/index'
+import Services from '../../../columns/services/index'
 import { Edit, Plus, Trash } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { del, get } from '../../../utils/apicommon'
@@ -12,8 +12,7 @@ import EditModal from './editmodal';
 
 const Index = () => {
     const [loading, setLoading] = useState(false)
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(6)
+
     const [data, setData] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
@@ -36,58 +35,6 @@ const Index = () => {
         setLoading(false)
 
     };
-    const Columns = [
-        {
-            key: '1',
-            title: 'STT',
-            width: 150,
-            render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
-            sorter: (record1, record2) => {
-                return record1.id > record2.id
-            }
-        },
-        {
-            key: '2',
-            title: "Tên dịch vụ",
-            dataIndex: "serviceName",
-            fixed: window.innerWidth > 767,
-            render: (text, item) => text &&
-                <div>{item.serviceName}</div>
-        },
-        {
-            key: '3',
-            title: "Giá khám",
-            dataIndex: "price",
-            render: (text, item) => (
-                <p>{item.price}.000 vnđ</p>
-            ),
-
-        },
-        {
-            key: 4,
-            title: "Thao tác",
-            render: (data) => (
-                <>
-                    <Button
-                        type='button'
-                        className="hover:bg-sky-200 rounded-lg"
-                        icon={<Edit className='w-9 h-9 fill-sky-700 p-1' />}
-                        onClick={() => {
-                            setFormid(data)
-                            setEditModel(true)
-                        }} />
-                    <Button
-                        type='button'
-                        className="hover:bg-red-300 rounded-lg"
-                        icon={<Trash className='w-9 h-9 fill-red-500 p-1' />}
-                        onClick={() => {
-                            del(`admin/service/delete/${data.id}`)
-                            fetchData();
-                        }} />
-                </>
-            )
-        }
-    ];
 
 
     function handleSearch(event) {
@@ -128,20 +75,11 @@ const Index = () => {
                 </div>
 
                 <div className='mb-2 !z-0'>
-                    <Table
-                        className=' !z-0'
-                        columns={Columns}
-                        dataSource={data}
-                        scroll={{ y: 500 }}
+                    <Services data={data}
                         loading={loading}
-                        pagination={{
-                            pageSize: 5,
-                            onChange: (page, pageSize) => {
-                                setPage(page);
-                                setPageSize(pageSize);
-                            }
-                        }}
-                    />
+                        setFormid={setFormid}
+                        setEditModel={setEditModel}
+                        fetchData={fetchData} />
                 </div>
             </div>
             <Modal isVisible={showModal} onClose={() => setShowModal(false)} id={user.hospitalId} fetchData={fetchData}>

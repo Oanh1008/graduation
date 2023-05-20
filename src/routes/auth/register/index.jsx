@@ -34,7 +34,7 @@ const Register = () => {
                 })
                 setTimeout(() => {
                     navigate('/login')
-                }, 2000);
+                }, 3000);
             }
             else {
                 setErr("Thông tin phòng khám đã tồn tại!");
@@ -173,12 +173,22 @@ const Register = () => {
 
                             </div>
 
-                            <div className="mt-6">
+                            <div className="mt-3">
                                 <p className='text-red-500 text-center mb-3'>{err}</p>
                                 <button type="button" onClick={ProceedLogin}
                                     className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-[#050a49] rounded-md hover:bg-cyan-500 focus:outline-none focus:bg-cyan-500">
                                     Đăng ký
                                 </button>
+                                <p className="mt-4 text-xs font-light text-center text-gray-700">
+                                    {" "}
+                                    Đã có tài khoản phòng khám? {" "}
+                                    <button
+                                        onClick={() => navigate('/login')}
+                                        className="font-medium text-cyan-700 hover:underline"
+                                    >
+                                        Đăng nhập
+                                    </button>
+                                </p>
                             </div>
                         </form>
 

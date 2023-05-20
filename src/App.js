@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Router, Routes, useNavigate } from 'react-router-dom';
-import Home from './routes/admin/home/index';
 import Staff from './routes/admin/Staff/index'
 import Services from './routes/admin/services/index'
 import Specialist from './routes/admin/specialist/index'
@@ -10,7 +9,6 @@ import Register from './routes/auth/register/index'
 import ResetPassword from './routes/auth/reset-password/index'
 import Invoice from './routes/admin/invoice/index'
 import Medicine from './routes/admin/medicine/index'
-import DoanhThu from './routes/admin/dashboard/doanhthu';
 import ManagerHospital from './routes/superadmin/hospital';
 import Hospitaldelails from './routes/superadmin/hospital/hospitaldelails';
 import ManagerUser from './routes/superadmin/users';
@@ -22,6 +20,7 @@ import DoctorBooking from './routes/Pratitioner/booking/index';
 import Details from './routes/Administrative/booking/bookingDetails';
 import BookingDetailsConfirm from './routes/common/BookingDetails';
 import HospitalHistoryBooking from './routes/Administrative/history/index'
+import Dashboard from './routes/common/Dashboard'
 
 function App() {
 
@@ -29,7 +28,7 @@ function App() {
    <>
     <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home/>}></Route>
+          <Route path='/' element={<Dashboard/>}></Route>
           <Route path='/staff' element={<Staff/>}></Route>
           <Route path='/services' element={<Services/>}></Route>
           <Route path='/specialist' element={<Specialist/>}></Route>
@@ -40,7 +39,6 @@ function App() {
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/register' element={<Register/>}></Route>
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
-          <Route path='/dashboard' element={<DoanhThu/>}></Route>
           <Route path='/resetpassword' element={<ResetPassword/>}></Route>
           <Route path='/admin-hospital' element={<ManagerHospital/>}></Route>
           <Route path='/admin-user' element={<ManagerUser/>}></Route>

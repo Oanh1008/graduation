@@ -39,7 +39,7 @@ import axios from 'axios';
 
   export const del = async (path, config) => {
     try {
-      const response = await api.delete(path, config);
+      const response = await api.delete(path, {data: config});
       return response.data;
     } catch (error) {
       console.error(error);

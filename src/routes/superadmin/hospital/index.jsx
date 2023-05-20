@@ -4,13 +4,11 @@ import { Plus } from '../../../assets/svg';
 import Layout from '../../../layout/index'
 import { get } from '../../../utils/apicommon';
 import Button from '../../../components/button/index'
-import Columns from '../../../columns/supperadmin/hospital';
+import HospitalTable from '../../../columns/supperadmin/hospital';
 import Modal from './modal';
 
 const ManagerHospital = () => {
     const [loading, setLoading] = useState(false)
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(6)
     const [data, setData] = useState([])
     const [filterVal, setfilterVal] = useState('');
     const [search, setSearch] = useState([]);
@@ -29,10 +27,6 @@ const ManagerHospital = () => {
         setSearch(filteredData)
         setLoading(false)
     };
-
-    setTimeout(() => {
-        fetchData();
-    }, 5000);
 
     function handleSearch(event) {
         if (event.target.value === '') {
@@ -71,23 +65,13 @@ const ManagerHospital = () => {
                 </div>
 
                 <div className='mb-11 !z-0'>
-                    <Table
-                        className=' !z-0'
-                        columns={Columns}
-                        dataSource={data}
-                        scroll={{ y: 500 }}
+                    <HospitalTable
+                        data={data}
                         loading={loading}
-                        pagination={{
-                            pageSize: 5,
-                            onChange: (page, pageSize) => {
-                                setPage(page);
-                                setPageSize(pageSize);
-                            }
-                        }}
-                    />
+                        fetchData={fetchData} />
                 </div>
             </div>
-            <Modal isVisible={showModal} onClose={() => setShowModal(false)} >
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} fetchData={fetchData}>
             </Modal>
         </Layout>
     )

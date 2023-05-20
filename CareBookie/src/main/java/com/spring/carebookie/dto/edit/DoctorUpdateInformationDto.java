@@ -2,6 +2,8 @@ package com.spring.carebookie.dto.edit;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,4 +36,7 @@ public class DoctorUpdateInformationDto {
     private String status;
 
     private String imageUrl;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private String birthDay;
 }

@@ -61,7 +61,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
      * Doctor
      */
     @Modifying
-    @Query(" update UserEntity u set u.imageUrl = :#{#dto.imageUrl} ,u.email = :#{#dto.email}, u.phone = :#{#dto.phone},u.address = :#{#dto.address}," +
+    @Query(" update UserEntity u set u.birthDay = :#{#dto.birthDay}, u.imageUrl = :#{#dto.imageUrl} ,u.email = :#{#dto.email}, u.phone = :#{#dto.phone},u.address = :#{#dto.address}," +
             " u.knowledge = :#{#dto.knowledge},u.speciality = :#{#dto.speciality},u.startWorkingDate = :#{#dto.startWorkingDate}," +
             " u.information = :#{#dto.information}, u.status = :#{#dto.status} where u.userId = :#{#dto.userId} and u.isDoctor = true")
     void updateDoctor(@Param("dto") DoctorUpdateInformationDto dto);

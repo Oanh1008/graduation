@@ -54,12 +54,12 @@ const Columns = [
         render: (text, item) => (text &&
             item.bookInformation.gender ?
             <div className='flex items-center gap-3'>
-                {item.bookInformation.gender ?
+                {item.bookInformation.gender === 1 ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>
             : <div className='flex items-center gap-3'>
-                {item.gender ?
+                {item.gender === 1 ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>

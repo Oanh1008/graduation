@@ -59,12 +59,12 @@ const Columns = [
         render: (text, item) => (text &&
             item.user.genderBook ?
             <div className='flex items-center gap-3'>
-                {item.user.genderBook ?
+                {item.user.genderBook === 1 ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>
             : <div className='flex items-center gap-3'>
-                {item.user.gender ?
+                {item.user.gender === 1 ?
                     <p>Nam</p>
                     : <p>Nữ</p>}
             </div>
@@ -143,7 +143,7 @@ const Columns = [
         width: 200,
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                {item.invoiceInformation.diagnose !== "" ?
+                {item.invoiceInformation.diagnose != null ?
                     <p className='text-green-700 bg-green-100 py-1 px-2 rounded-xl'>Đã khám xong</p>
                     :
                     <p className='text-red-500 bg-red-100 py-1 px-2 rounded-xl'>Chưa khám xong</p>

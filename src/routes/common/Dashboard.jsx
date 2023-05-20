@@ -6,6 +6,7 @@ import Layout from '../../layout/index'
 function ChartComponent() {
     const chartRef = useRef(null);
     var today = new Date();
+
     useEffect(() => {
         const ctx = chartRef.current.getContext('2d');
         const chart = new Chart(ctx, {

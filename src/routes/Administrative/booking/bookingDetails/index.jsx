@@ -70,11 +70,11 @@ const BookingDetails = () => {
                                 <div className="relative">
                                     <select className="block appearance-none w-full bg-white border text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" id="grid-state">
                                         {data.user.genderBook ?
-                                            data.user.genderBook ?
+                                            data.user.genderBook === 1 ?
                                                 <option>Nam</option>
                                                 : <option>Nữ</option>
                                             :
-                                            data.user.gender ?
+                                            data.user.gender === 1 ?
                                                 <option>Nam</option>
                                                 : <option>Nữ</option>
                                         }

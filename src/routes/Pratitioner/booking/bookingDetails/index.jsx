@@ -67,6 +67,8 @@ const BookingDetails = () => {
         setLoading(false)
     };
 
+    console.log(data);
+
     const handleChangeMedinces = async (searchQuery) => {
         const response = await get(`/doctor/medicine/search/${user.hospitalId}?name=${searchQuery} `)
         setResults(response);
@@ -326,11 +328,11 @@ const BookingDetails = () => {
                                         id="gender"
                                     >
                                         {data.user.genderBook ?
-                                            data.user.genderBook ?
+                                            data.user.genderBook === 1 ?
                                                 <option>Nam</option>
                                                 : <option>Nữ</option>
                                             :
-                                            data.user.gender ?
+                                            data.user.gender === 1 ?
                                                 <option>Nam</option>
                                                 : <option>Nữ</option>
                                         }

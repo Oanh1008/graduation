@@ -63,11 +63,11 @@ const BookingDetailsConfirm = () => {
                                     id="gender"
                                 >
                                     {data.bookInformation.gender ?
-                                        data.bookInformation.gender ?
+                                        data.bookInformation.gender === 1 ?
                                             <option>Nam</option>
                                             : <option>Nữ</option>
                                         :
-                                        data.gender ?
+                                        data.gender === 1 ?
                                             <option>Nam</option>
                                             : <option>Nữ</option>
                                     }

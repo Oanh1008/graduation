@@ -68,6 +68,8 @@ const ManagerBooking = () => {
 
     };
 
+    console.log(dataconfirm);
+
     function handleToggle(id) {
         setToggle(id)
     }

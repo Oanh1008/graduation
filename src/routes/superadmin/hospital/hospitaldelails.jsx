@@ -17,7 +17,8 @@ const Hospitaldelails = ({ }) => {
     const { id } = useParams();
 
     const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
-    const session = ["MORNING", 'AFTERNOON', 'EVENING'];
+    const session = ["Sáng", 'Chiều', 'Tối'];
+
 
 
     useEffect(() => {
@@ -197,17 +198,16 @@ const Hospitaldelails = ({ }) => {
                             <tbody>
                                 {session.map((time) => (
                                     <tr key={time} className="border-b ">
-                                        {time === 'MORNING' ?
+                                        {time === 'Sáng' ?
                                             <td className='py-5 font-semibold border-r w-20'>Sáng</td>
-                                            : time === 'AFTERNOON' ?
+                                            : time === 'Chiều' ?
                                                 <td className='py-5 font-semibold border-r w-20'>Chiều</td> :
-                                                time === 'EVENING'
+                                                time === 'Tối'
                                                 && <td className='py-5 font-semibold border-r w-20'>Tối</td>
                                         }
-
                                         {daysOfWeek.map((day) => {
                                             const course = data.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
-                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course ? course.startHour + '-' + course.endHour : ''}</td>;
+                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course && course.startHour ? course.startHour + '-' + course.endHour : ''}</td>;
                                         })}
                                     </tr>
                                 ))}

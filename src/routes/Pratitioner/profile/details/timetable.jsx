@@ -5,7 +5,7 @@ const Timetable = ({ user }) => {
     const [workingDate, setWorkingDate] = useState({})
     const [loading, setLoading] = useState(false)
     const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
-    const session = ["MORNING", 'AFTERNOON', 'EVENING'];
+    const session = ["Sáng", 'Chiều', 'Tối'];
 
     useEffect(() => {
         fetchData()
@@ -43,17 +43,17 @@ const Timetable = ({ user }) => {
                             <tbody>
                                 {session.map((time) => (
                                     <tr key={time} className="border-b text-lg text-center ">
-                                        {time === 'MORNING' ?
-                                            <td className='py-5 font-semibold border-x w-20 '>Sáng</td>
-                                            : time === 'AFTERNOON' ?
-                                                <td className='py-5 font-semibold border-x w-20'>Chiều</td> :
-                                                time === 'EVENING'
-                                                && <td className='py-5 font-semibold border-x w-20'>Tối</td>
+                                        {time === 'Sáng' ?
+                                            <td className='py-5 font-semibold border-r w-20'>Sáng</td>
+                                            : time === 'Chiều' ?
+                                                <td className='py-5 font-semibold border-r w-20'>Chiều</td> :
+                                                time === 'Tối'
+                                                && <td className='py-5 font-semibold border-r w-20'>Tối</td>
                                         }
 
                                         {daysOfWeek.map((day) => {
                                             const course = workingDate.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
-                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course ? course.startHour + ' - ' + course.endHour : ''}</td>;
+                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course && course.startHour ? course.startHour + ' - ' + course.endHour : ''}</td>;
                                         })}
                                     </tr>
                                 ))}

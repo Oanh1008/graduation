@@ -36,15 +36,15 @@ const Index = () => {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            const data = await get(`/common/user/information/${user.userId}`);
-            setData(data)
-            setLoading(false)
-
-        };
         fetchData();
     }, {})
+    const fetchData = async () => {
+        setLoading(true)
+        const data = await get(`/common/user/information/${user.userId}`);
+        setData(data)
+        setLoading(false)
+
+    };
 
     return (
         loading ? <div>Loading...</div>
@@ -123,7 +123,7 @@ const Index = () => {
 
 
                 </div>
-                <Modal isVisible={showModal} user={user} onClose={() => setShowModal(false)} >
+                <Modal isVisible={showModal} user={user} onClose={() => setShowModal(false)} fetchData={fetchData}>
                 </Modal>
             </Layout >
     )

@@ -8,7 +8,7 @@ import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { put } from '../../../utils/apicommon';
 
-const Modal = ({ isVisible, onClose, user }) => {
+const Modal = ({ isVisible, onClose, user, fetchData }) => {
 
     const [form, setForm] = useState({
         address: user.address,
@@ -47,31 +47,29 @@ const Modal = ({ isVisible, onClose, user }) => {
     };
 
 
-    const handleSubmit = () => {
-        // await put('/admin/setting/profile', {
-        //     address: form.address,
-        //     userId: form.userId,
-        //     imageUrl: form.imageUrl,
-        //     email: form.email,
-        //     information: form.information,
-        //     phone: form.phone,
-        //     speciality: form.speciality,
-        //     knowledge: form.knowledge,
-        //     startWorkingDate: form.startWorkingDate,
-        //     status: form.status,
+    const handleSubmit = async () => {
+        await put('/doctor/update/information', {
+            address: form.address,
+            userId: form.userId,
+            imageUrl: form.imageUrl,
+            email: form.email,
+            information: form.information,
+            phone: form.phone,
+            speciality: form.speciality,
+            knowledge: form.knowledge,
+            startWorkingDate: form.startWorkingDate,
+            status: form.status,
 
-        // })
-        // const updatedUser = {
-        //     ...user,
-        //     ...form,
-        // };
-        // localStorage.setItem('user', JSON.stringify(updatedUser));
+        })
+        const updatedUser = {
+            ...user,
+            ...form,
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
 
-        // onClose();
-        console.log(form);
+        onClose();
+        fetchData();
     };
-
-
 
 
     return (
@@ -204,14 +202,18 @@ const Modal = ({ isVisible, onClose, user }) => {
                                             </div>
                                             <div className="mb-4">
                                                 <div className="mb-4 mt-7">
-                                                    <label htmlFor="status" className="block mb-2 font-semibold" onChange={handleInputChange}>
+                                                    <label htmlFor="status" className="block mb-2 font-semibold">
                                                         Tình trạng
                                                     </label>
-                                                    <select className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 bg-white ">
-                                                        <option defaultValue="Đang làm" selected={form.status === "Đang làm"}>Đang làm</option>
-                                                        <option defaultValue="Nghỉ phép" checked={form.status === "Nghỉ phép"}>Nghỉ phép</option>
+                                                    <select
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 bg-white"
+                                                        name="status"
+                                                        value={form.status}
+                                                        onChange={handleInputChange}
+                                                    >
+                                                        <option value="Đang làm">Đang làm</option>
+                                                        <option value="Nghỉ phép">Nghỉ phép</option>
                                                     </select>
-
                                                 </div>
                                             </div>
 

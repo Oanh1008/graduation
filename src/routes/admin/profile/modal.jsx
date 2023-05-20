@@ -192,7 +192,7 @@ const Modal = ({ isVisible, onClose, user }) => {
 
                             <div className="mb-4">
                                 <label htmlFor="information" className="block mb-2">
-                                    Thông tin của bệnh viện
+                                    Thông tin của phòng khám
                                 </label>
                                 <textarea id="information" name="information" className='border p-2 w-full text-neutral-600' onChange={handleInputChange} rows="6" cols="50" defaultValue={form.information} />
                                 <br />

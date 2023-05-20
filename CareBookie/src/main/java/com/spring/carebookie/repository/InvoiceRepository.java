@@ -1,5 +1,6 @@
 package com.spring.carebookie.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,6 +37,8 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
     @Query("select i from InvoiceEntity i where i.hospitalId = :hospitalId and i.isExamined = true")
     List<InvoiceEntity> getAllInvoiceDoneByHospitalId(String hospitalId);
 
+    @Query("select i from InvoiceEntity i where i.hospitalId = :hospitalId and i.isExamined = true and year(i.dateTimeInvoice) = :year")
+    List<InvoiceEntity> getAllInvoiceDoneByHospitalIdAndYear(String hospitalId, Integer year);
 
     @Query("select i from InvoiceEntity i where i.hospitalId = ?1 and i.isExamined = false ")
     List<InvoiceEntity> getALlByHospitalId(String hospitalId);
@@ -59,6 +62,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
     void confirmExamined(Long invoiceId, Double discount);
 
     @Modifying
-    @Query("update InvoiceEntity i set i.diagnose = :diagnose, i.advices = :advices, i.symptomDetail = :symptomDetail")
-    void updateExamined(String diagnose, String advices, String symptomDetail);
+    @Query("update InvoiceEntity i set i.diagnose = :diagnose, i.advices = :advices, i.symptomDetail = :symptomDetail where i.id = :invoiceId")
+    void updateExamined(Long invoiceId, String diagnose, String advices, String symptomDetail);
 }

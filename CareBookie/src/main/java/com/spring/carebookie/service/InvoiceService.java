@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.carebookie.dto.edit.MedicineRemoveInvoiceDto;
 import com.spring.carebookie.dto.edit.ServiceRemoveInvoiceDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
+import com.spring.carebookie.dto.response.StatisticResponse;
 import com.spring.carebookie.dto.response.UserInvoiceResponse;
 import com.spring.carebookie.dto.save.InvoiceSaveDto;
 import com.spring.carebookie.entity.BookEntity;
@@ -50,6 +52,33 @@ public class InvoiceService {
     private final BookRepository bookRepository;
 
     private final InvoiceMedicineRepository invoiceMedicineRepository;
+
+    public Map<Integer, StatisticResponse> statisticByHospitalId(String hospitalId, int year) {
+        List<InvoiceEntity> invoiceEntities = invoiceRepository.getAllInvoiceDoneByHospitalIdAndYear(hospitalId, year);
+        List<InvoiceResponseDto> invoice = getInvoiceByIdCommon(invoiceEntities);
+        Set<Map.Entry<Integer, List<InvoiceResponseDto>>> invoiceSet = invoice.stream()
+                .collect(Collectors.groupingBy(t -> t.getInvoiceInformation().getDateTimeInvoice().getMonth().getValue()))
+                .entrySet();
+        Map<Integer, StatisticResponse> map = createMap();
+
+        for (Map.Entry<Integer, List<InvoiceResponseDto>> ivS : invoiceSet) {
+            double totalPriceByMonth = 0d;
+            for (InvoiceResponseDto iv : ivS.getValue()) {
+                totalPriceByMonth += iv.getTotalPrice();
+            }
+            map.replace(ivS.getKey(), new StatisticResponse(totalPriceByMonth, 0));
+        }
+
+        List<BookEntity> books = bookRepository.getAllBookByHpAndYear(hospitalId, year);
+        Set<Map.Entry<Integer, List<BookEntity>>> bookSet = books.stream()
+                .collect(Collectors.groupingBy(b -> b.getDateTimeBook().getMonth().getValue()))
+                .entrySet();
+        for (Map.Entry<Integer, List<BookEntity>> bS : bookSet) {
+            map.get(bS.getKey()).setNumberOfBooks(bS.getValue().size());
+        }
+
+        return map;
+    }
 
     public List<InvoiceResponseDto> getAllInvoiceDoneByDoctorId(String doctorId) {
         List<InvoiceEntity> invoiceEntities = invoiceRepository.getAllInvoiceDoneByDoctorId(doctorId);
@@ -133,7 +162,7 @@ public class InvoiceService {
 
         invoiceMedicineRepository.saveAll(medicines);
 
-        invoiceRepository.updateExamined(dto.getDiagnose(), dto.getAdvices(), dto.getSymptomDetail());
+        invoiceRepository.updateExamined(dto.getInvoiceId(), dto.getDiagnose(), dto.getAdvices(), dto.getSymptomDetail());
 
         InvoiceEntity i = invoiceRepository.findById(dto.getInvoiceId())
                 .orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
@@ -301,4 +330,11 @@ public class InvoiceService {
                 i, serviceInvoice, medicineInvoice);
     }
 
+    public Map<Integer, StatisticResponse> createMap() {
+        Map<Integer, StatisticResponse> map = new HashMap<>();
+        for (int i = 1; i < 13; i++) {
+            map.put(i, new StatisticResponse());
+        }
+        return map;
+    }
 }

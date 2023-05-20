@@ -3,7 +3,7 @@ import React, { memo, useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
-import { Check, Edit, IconBriefCase, Times } from '../../../assets/svg';
+import { Check, Edit, IconBriefCase, IconLeftSolid, IconRightSolid, Times } from '../../../assets/svg';
 import { useParams } from 'react-router-dom';
 import { get, put } from '../../../utils/apicommon';
 
@@ -11,6 +11,8 @@ const Hospitaldelails = ({ }) => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({});
     const [doctor, setDoctor] = useState([]);
+    const [startIndex, setStartIndex] = useState(0);
+
 
     const { id } = useParams();
 
@@ -41,6 +43,23 @@ const Hospitaldelails = ({ }) => {
         const hos = await put(`/super-admin/hospital/accept/${id}?accept=false`)
         fetchData()
     }
+
+    const handleNext = () => {
+        if (startIndex + 4 < doctor.length) {
+            setStartIndex((prevIndex) => prevIndex + 1);
+        }
+        console.log(startIndex);
+    };
+
+    const handlePrev = () => {
+        if (startIndex > 0) {
+            setStartIndex((prevIndex) => prevIndex - 1);
+        }
+    };
+    const doctorSider = doctor.slice(
+        startIndex,
+        startIndex + 4
+    );
 
     return (
         Object.keys(data).length > 0 &&
@@ -75,7 +94,7 @@ const Hospitaldelails = ({ }) => {
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'> dịch vụ</div>
 
                                 <Divider />
-                                <div className='flex justify-around'>
+                                <div className='grid grid-cols-4 gap-4 justify-items-center'>
                                     {
                                         data.services.map((item, index) => (
                                             <div key={index} className='flex flex-col gap-5 items-center '>
@@ -92,7 +111,14 @@ const Hospitaldelails = ({ }) => {
                                 <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>Chuyên gia - Bác sĩ</div>
                                 <Divider />
                                 <div className='flex justify-around'>
-                                    {doctor.map((item, index) => (
+                                    {startIndex != 0 &&
+                                        <button className="absolute -translate-y-1/2 -left-6 top-1/2 w-9 h-9">
+                                            <IconLeftSolid
+                                                className="p-2 fill-neutral-500"
+                                                onClick={handlePrev}
+                                            />
+                                        </button>}
+                                    {doctorSider.map((item, index) => (
                                         <div key={index} className='flex flex-col gap-5 items-center'>
                                             <div className="drop-shadow-lg rounded-full">
                                                 <Avatar src={item.imageUrl} size={200} />
@@ -101,6 +127,14 @@ const Hospitaldelails = ({ }) => {
                                             <p className='text-base font-semibold'>{item.lastName} {item.firstName}</p>
                                         </div>
                                     ))}
+                                    {startIndex + 3 !== doctorSider.length &&
+                                        <button className="absolute -translate-y-1/2 -right-6 top-1/2 w-9 h-9">
+                                            <IconRightSolid
+                                                className="p-2 fill-neutral-500"
+                                                onClick={handleNext}
+                                            />
+                                        </button>
+                                    }
                                 </div>
                                 {doctor.length > 4 && <button className='mt-5 w-full text-end text-cyan-900 hover:font-semibold mb-1'>Xem thêm</button>}
                             </div>

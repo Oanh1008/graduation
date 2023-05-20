@@ -25,7 +25,7 @@ const HospitalProfile = () => {
     let user = JSON.parse(localStorage.getItem('user'));
 
     const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
-    const session = ["MORNING", 'AFTERNOON', 'EVENING'];
+    const session = ["Sáng", 'Chiều', 'Tối'];
 
     useEffect(() => {
         fetchData()

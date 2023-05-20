@@ -1,6 +1,7 @@
 package com.spring.carebookie.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
+import com.spring.carebookie.dto.response.StatisticResponse;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.InvoiceService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
@@ -60,5 +63,11 @@ public class EmployeeController {
     @GetMapping("/invoice/history/details")
     public ResponseEntity<InvoiceResponseDto> getHistoryInvoiceByHospitalIdAndBookId(@RequestParam String hospitalId, @RequestParam Long bookId) {
         return ResponseEntity.ok(invoiceService.getAllInvoiceDoneByHospitalIdAndBookId(hospitalId, bookId));
+    }
+
+    @ApiOperation("Get statistic revenue and book by hospital")
+    @GetMapping("/statistic/revue/book/{hospitalId}")
+    public ResponseEntity<Map<Integer, StatisticResponse>> statisticRevenueAndBook(@PathVariable String hospitalId, @RequestParam int year) {
+        return ResponseEntity.ok(invoiceService.statisticByHospitalId(hospitalId,year));
     }
 }

@@ -3,6 +3,7 @@ package com.spring.carebookie.controller;
 import javax.validation.Valid;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import com.spring.carebookie.dto.edit.MedicineRemoveInvoiceDto;
 import com.spring.carebookie.dto.edit.ServiceRemoveInvoiceDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
+import com.spring.carebookie.dto.response.StatisticResponse;
 import com.spring.carebookie.dto.save.InvoiceSaveDto;
 import com.spring.carebookie.entity.MedicineEntity;
 import com.spring.carebookie.entity.ServiceEntity;
@@ -129,5 +131,4 @@ public class DoctorController {
     public ResponseEntity<List<InvoiceResponseDto>> getHistoryInvoiceByDoctorId(@RequestParam String doctorId) {
         return ResponseEntity.ok(invoiceService.getAllInvoiceDoneByDoctorId(doctorId));
     }
-
 }

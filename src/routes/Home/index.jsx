@@ -8,6 +8,7 @@ import ShowHospital from './review/showhospital';
 import ShowDoctor from './review/showDoctor';
 import Review from './review/review';
 import Layout from '../../component/layout';
+import Introduce from './review/introduce';
 
 const Home = () => {
     return (
@@ -44,15 +45,17 @@ const Home = () => {
             <section className='mb-36'>
                 <Category />
             </section>
+
             <section className="bg-[url(https://1.bp.blogspot.com/-kY-ZWc1q_fM/YEXVbA4tz-I/AAAAAAAACyE/y8VTEdVExwUexjMwxCE17gVx8T6W9PfiQCLcBGAsYHQ/s16000/bg_taisao_update.jpg)] bg-cover relative ">
                 <Review />
             </section>
-            <section className="relative"
-            //  bg-[#f8f9fc]
-            >
+            <section className="relative"               >
                 <ShowDoctor />
             </section>
             <section className=" bg-[url(https://1.bp.blogspot.com/-7HgXW5qFSvI/YEXVkD5QZQI/AAAAAAAACyI/fNvsrPJ4vi0ltDLS--1EqaLHnFZzKCvUwCLcBGAsYHQ/s16000/bg_danhgia_update.jpg)] bg-cover relative ">
+                <Introduce />
+            </section>
+            <section className="bg-white relative ">
                 <ShowHospital />
             </section>
         </Layout>

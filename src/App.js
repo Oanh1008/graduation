@@ -8,12 +8,14 @@ import Footer from './component/footer';
 import ListHospital from './routes/Hospital';
 import Doctors from './routes/Doctors';
 import DoctorDetails from './routes/Doctors/doctorDetails';
+import HospitalDetails from './routes/Hospital/hospitalDetails';
 function App() {
   return (
         <BrowserRouter>
         <Routes>
           <Route path='/' element= {<Home/>}></Route>
           <Route path='/hospital' element= {<ListHospital/>}></Route>
+          <Route path='/hospital/hospitalDetails/:id' element= {<HospitalDetails/>}></Route>
           <Route path='/doctor' element= {<Doctors/>}></Route>
           <Route path='/doctor/doctorDetails/:id' element= {<DoctorDetails/>}></Route>
         </Routes>

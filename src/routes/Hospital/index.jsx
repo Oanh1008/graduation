@@ -1,10 +1,23 @@
 import { Divider, Rate } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../component/layout';
 import { get } from '../../utils/ApiCommon';
+
+const col = [
+    { address: "Thành phố Huế" },
+    { address: "Phong Điền" },
+    { address: "Phú Lộc" },
+    { address: "Hương Thủy" },
+    { address: "Phú Vang" },
+    { address: "Hương Trà" },
+    { address: "A Lưới" },
+]
+
 const ListHospital = () => {
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchData();
@@ -16,10 +29,10 @@ const ListHospital = () => {
         setData(data);
     };
 
-    // const handleDelete = async (id) => {
-    //     await del(`/${id}`);
-    //     fetchData();
-    // };
+    const hanldeSearch = async (value) => {
+        console.log();
+    }
+
     return (
         <Layout>
             <div className='relative py-36 bg-[#f8f9fc] '>
@@ -34,15 +47,13 @@ const ListHospital = () => {
 
                     </div>
                     <div className='flex gap-12'>
-                        <div className='basis-1/3  rounded-md sticky'>
+                        <div className='basis-1/3  rounded-md'>
                             <div className='bg-white '>
                                 <div className='text-2xl my-5  rounded-md font-semibold px-10 py-4 bg-gray-200'>Khu vực</div>
                                 <div className='flex flex-col  rounded-md gap-5 px-10 py-4 justify-start'>
-                                    <button className='border-b text-start text-lg mb-2'>Thành phố Huế</button>
-                                    <button className='border-b text-start text-lg mb-2'>Phong Điền</button>
-                                    <button className='border-b text-start text-lg mb-2'>Phú Lộc</button>
-                                    <button className='border-b text-start text-lg mb-2'>Phú Lộc</button>
-                                    <button className=' text-start text-lg mb-2'>Phú Lộc</button>
+                                    {col.map((item, index) => (
+                                        <button key={index} className='border-b text-start text-lg mb-2'>{item.address}</button>
+                                    ))}
 
                                 </div>
                             </div>
@@ -50,8 +61,8 @@ const ListHospital = () => {
                         <div className='basis-2/3'>
                             <div className='grid grid-cols-2 gap-6 '>
                                 {data.map((item) => (
-                                    <div className=' bg-white border rounded-3xl mx-3 shadow-lg p-4'
-                                        onClick={() => { }}
+                                    <div className=' bg-white border rounded-3xl mx-3 shadow-lg p-4 cursor-pointer'
+                                        onClick={() => navigate(`/hospital/hospitalDetails/${item.hospitalId}`)}
                                     >
                                         <div className='h-72 rounded-3xl' style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
                                         </div>

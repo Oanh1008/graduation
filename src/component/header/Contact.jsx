@@ -1,5 +1,5 @@
 import React from 'react'
-import { Map, Phone } from '../../assets/svg'
+import { IconPhone, Map } from '../../assets/svg'
 
 const Contact = () => {
     return (
@@ -24,7 +24,7 @@ const Contact = () => {
                             </li>
                             <li className='flex '>
                                 <div className='mr-3 h-5 w-5    '>
-                                    <Phone className=' mr-3 h-5 w-5 basis-5' />
+                                    <IconPhone className=' mr-3 h-5 w-5 basis-5' />
                                 </div>
                                 <p >7 Days a week </p>
                             </li>

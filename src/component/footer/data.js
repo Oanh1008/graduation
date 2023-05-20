@@ -1,65 +1,36 @@
+import { IconEmail, IconPhone } from "../../assets/svg";
 
 
 export const footerData = [
     {
-        title: "PRIMARY PAGES",
+        title: "Trang web",
         childen: [
             {
-                name: "Home",
+                name: "Trang chủ",
                 path: '/'
             },
             {
-                name: "About",
+                name: "Bác sĩ",
                 path: '/'
             },
             {
-                name: "Contact",
-                path: '/'
-            },
-            {
-                name: "Service",
+                name: "Cơ sở y tế",
                 path: '/'
             },
         ]
     },
     {
-        title: "PAGES",
+        title: "Về chúng tôi",
         childen: [
             {
-                name: "Discord Server",
-                path: '/'
-            },
-            {
-                name: "Twitter",
-                path: '/'
-            },
-            {
-                name: "Facebook",
-                path: '/'
-            },
-            {
-                name: "Contact Us",
-                path: '/'
-            },
-        ]
-    },
-    {
-        title: "About Store",
-        childen: [
-            {
-                name: " 8 (495) 989—20—11",
+                name: " (+84) 899 915 441",
                 path: '/',
-                alt: "phone"
+                alt: <IconPhone/>
             },
             {
-                name: "company@gmail.com",
+                name: "carebookie@website.com.vn",
                 path: '/',
-                alt: "email"
-            },
-            {
-                name: "Ranelagh Place, Liverpool, L3 5UL, England",
-                path: '/',
-                alt: "address"
+                alt: <IconEmail/>
             },
         ]
     },

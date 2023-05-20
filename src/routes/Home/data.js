@@ -1,27 +1,19 @@
 import React, { list } from 'react'
-import {Home, Hospital, Stethoscope, UserNurse} from '../../assets/svg/index'
+import { IconHospital, Stethoscope, User} from '../../assets/svg/index'
 export const Data = [
     {
         key: 1,
         title: "Bác sĩ",
-        subtitle: "Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmo",
+        subtitle: "Khám phá đội ngũ bác sĩ tài năng và đầy tâm huyết, sẵn sàng chăm sóc sức khỏe của bạn!",
         path: "/doctor",
-        icon: <UserNurse/>
+        icon: <User/>
     },
     {
         key: 2,
         title: "Cơ sở y tế",
-        subtitle: "Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmo",
+        subtitle: "Khám phá danh sách cơ sở y tế đa dạng và hiện đại trên trang web của chúng tôi - hãy trải nghiệm sự chăm sóc y tế chất lượng và tiện nghi!",
         path: "/hospital",
-        icon: <Hospital/>
+        icon: <IconHospital/>
 
     },
-    {
-        key: 3,
-        title: "Dịch vụ",
-        subtitle: "Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmo",
-        path: '/',
-        icon: <Stethoscope/>
-
-    }
 ]

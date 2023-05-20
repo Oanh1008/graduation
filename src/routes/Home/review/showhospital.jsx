@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Heartbeat, Next } from '../../../assets/svg'
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import { get, getData } from '../../../utils/ApiCommon';
@@ -20,18 +19,6 @@ const ShowDoctor = () => {
         setData(data);
     };
 
-    // const fetchData = async () => {
-    //     const data = await get('/doctor', {
-    //         params: {
-    //             limit: 5,
-    //         },
-    //     });
-    //     // console.log(data);
-    //     setData(data);
-    // };
-
-
-
     return (
         data.length > 0 &&
         <div className='relative gap-6 container px-10 py-14  '>
@@ -41,7 +28,7 @@ const ShowDoctor = () => {
             <div className='mt-10 flex justify-between'>
                 {data.map((item) => (
                     <div className='flex flex-col items-center mr-5'>
-                        <div className='h-72 w-72'
+                        <div className='h-72 w-72 rounded-xl'
                             style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
                             onClick={() => { }}
                         >

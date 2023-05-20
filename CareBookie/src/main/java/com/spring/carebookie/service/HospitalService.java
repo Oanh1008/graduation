@@ -116,6 +116,10 @@ public class HospitalService {
         entity.setAdminId(adminSave.getUserId());
 
         HospitalEntity hospital = hospitalRepository.save(entity);
+        hospital.setStatus(false);
+        hospital.setIsRate(false);
+        hospital.setIsChoosenDoctor(false);
+        hospital.setIsPublicPrice(false);
         int k = 0;
         // Create working day detail
         for (int i = 1; i < 22; i++) {
@@ -190,7 +194,9 @@ public class HospitalService {
         hospital.setHospitalName(model.getHospitalName());
         hospital.setHospitalId(generateHospitalId(model.getHospitalName()));
         hospital.setStatus(false);
-
+        hospital.setIsRate(false);
+        hospital.setIsChoosenDoctor(false);
+        hospital.setIsPublicPrice(false);
         // User
         UserEntity user = new UserEntity();
         user.setUserId(generateUserId(model.getFirstName(), model.getLastName(), model.getEmail()));
@@ -201,6 +207,7 @@ public class HospitalService {
         user.setPassword(passwordEncoder.encode(model.getPassword()));
         user.setRoleId(2L);
         user.setHospitalId(hospital.getHospitalId());
+        user.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/OOjs_UI_icon_userAvatar.svg/1200px-OOjs_UI_icon_userAvatar.svg.png?fbclid=IwAR2feu8hZAfDllAJfvFKc4P6lQH3eSJ5Q_lEYm1iz6pDwmez4bSiBZdDhbA");
         userRepository.save(user);
 
         hospital.setAdminId(user.getUserId());

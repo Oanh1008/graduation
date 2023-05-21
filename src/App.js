@@ -18,6 +18,7 @@ import DoctorBooking from './routes/Pratitioner/booking/index';
 import BookingDetailsConfirm from './routes/common/BookingDetails';
 import HospitalHistoryBooking from './routes/Administrative/history/index'
 import Dashboard from './routes/common/Dashboard'
+import EmployeeDetails from './routes/admin/Staff/EmployeeDetail'
 
 function App() {
 
@@ -40,10 +41,11 @@ function App() {
           <Route path='/admin-hospital/hospitalDetail/:id' element={<Hospitaldelails />}></Route>
           <Route path='/doctor/booking' element={<DoctorBooking/>}></Route>
           <Route path='/doctor/history' element={<History/>}></Route>
-          <Route path='/doctor/profile' element={<DoctorProfile/>}></Route>
+          <Route path='/doctor/profile/:id' element={<DoctorProfile/>}></Route>
           <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route>
           <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
           <Route path='/nurse/booking/history' element={<HospitalHistoryBooking/>}></Route>
+          <Route path='/employee/information/:id' element={<EmployeeDetails/>}></Route>
           <Route path='/booking/bookingDetails/:id' element={<BookingDetailsConfirm/>}></Route>
         </Routes>
     </BrowserRouter>

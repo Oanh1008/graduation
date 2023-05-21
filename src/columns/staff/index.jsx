@@ -149,7 +149,7 @@ const Staff = ({ loading, data, fetchData }) => {
             type='button'
             className=" rounded-lg"
             icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
-            onClick={() => window.location.href = `/doctor/profile/${data.invoiceInformation.bookId}?edit=true`} />
+            onClick={() => window.location.href = `/employee/information/${data.userId}`} />
 
           <Button
             type='button'

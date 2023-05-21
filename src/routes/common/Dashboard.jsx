@@ -8,7 +8,7 @@ import { get } from '../../utils/apicommon';
 function ChartComponent() {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
-
+    const [dataLoaded, setDataLoaded] = useState(false);
     const revenueRef = useRef(null);
     const bookRef = useRef(null);
 
@@ -22,8 +22,11 @@ function ChartComponent() {
             navigate('/login')
         }
         else {
-            if (user.role === 3) {
+            if (user.roleId === 3) {
                 navigate(`/nurse/booking`)
+            }
+            else {
+                fetchData();
             }
         }
     }, [])
@@ -33,29 +36,23 @@ function ChartComponent() {
         const data = await get(`/employee/statistic/revue/book/${user.hospitalId}?year=2023`);
         setData(data)
         setLoading(false)
-
+        setDataLoaded(true)
     };
-    console.log(data);
+
+    var numberOfBooks = [];
+    for (const book in data) {
+        if (data.hasOwnProperty(book) && data[book].hasOwnProperty("numberOfBooks")) {
+            numberOfBooks.push(data[book].numberOfBooks);
+        }
+    }
+    var revenueArray = [];
+    for (const revenue in data) {
+        if (data.hasOwnProperty(revenue) && data[revenue].hasOwnProperty("revenue")) {
+            revenueArray.push(data[revenue].revenue);
+        }
+    }
 
     useEffect(() => {
-        fetchData();
-
-    }, []);
-
-    useEffect(() => {
-
-        const numberOfBooks = [];
-        for (const book in data) {
-            if (data.hasOwnProperty(book) && data[book].hasOwnProperty("numberOfBooks")) {
-                numberOfBooks.push(data[book].numberOfBooks);
-            }
-        }
-        const revenueArray = [];
-        for (const revenue in data) {
-            if (data.hasOwnProperty(revenue) && data[revenue].hasOwnProperty("revenue")) {
-                revenueArray.push(data[revenue].revenue);
-            }
-        }
 
         if (bookRef.current && revenueRef.current) {
             const ctx = bookRef.current.getContext('2d');
@@ -78,13 +75,6 @@ function ChartComponent() {
                     ],
                 },
                 options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
                 },
             });
             const RevenueChart = new Chart(ctxx, {
@@ -103,54 +93,53 @@ function ChartComponent() {
                     ],
                 },
                 options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
                 },
             });
-
+            console.log(bookRef);
+            console.log(revenueRef);
             return () => {
                 BookChart.destroy();
                 RevenueChart.destroy();
 
             };
+
         }
+
+
     }, [])
 
 
     return (
-        <Layout>
-            <div className='bg-white mx-6 h-[calc(100vh_-_8rem)] px-3'>
-                <div className='flex justify-between items-center'>
-                    <div className=' text-2xl font-bold text-cyan-950 pt-5 px-6'>Thống kê </div>
-                </div>
-                <div className="my-3 flex justify-center items-center gap-5">
-                    <label htmlFor="address" className="block py-2 text-xl">
-                        Năm
-                    </label>
-                    <DatePicker picker="year"
-                        placeholder='Chọn năm'
-                    />
-                </div>
-                <div className='flex w-full gap-4 '>
-                    <div className='w-1/2 bg-white mx-auto '>
-                        <canvas ref={bookRef}></canvas>
-                        <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê số đơn đặt lịch</p>
-
+        loading ? <div>Loading...</div>
+            :
+            <Layout >
+                <div className='bg-white mx-6 h-[calc(100vh_-_8rem)] px-3'>
+                    <div className='flex justify-between items-center'>
+                        <div className=' text-2xl font-bold text-cyan-950 pt-5 px-6'>Thống kê </div>
                     </div>
-                    <div className='w-1/2 bg-white mx-auto'>
-                        <canvas ref={revenueRef}></canvas>
-                        <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê doanh thu</p>
+                    <div className="my-3 flex justify-center items-center gap-5">
+                        <label htmlFor="address" className="block py-2 text-xl">
+                            Năm
+                        </label>
+                        <DatePicker picker="year"
+                            placeholder='Chọn năm'
+                        />
+                    </div>
+                    <div className='flex w-full gap-4 '>
+                        <div className='w-1/2 bg-white mx-auto '>
+                            <canvas ref={bookRef}></canvas>
+                            <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê số đơn đặt lịch</p>
 
+                        </div>
+                        <div className='w-1/2 bg-white mx-auto'>
+                            <canvas ref={revenueRef}></canvas>
+                            <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê doanh thu</p>
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </Layout>
+            </Layout >
     );
 }
 

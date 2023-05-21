@@ -61,8 +61,8 @@ const Feedback = ({ user }) => {
                                 <span className='text-cyan-600 font-semibold'>{item.fullName}</span>
                             </div>
                         ))
-                        : <p>Không có phản hồi nào</p>}
-                    {startIndex + 3 !== Experience.length &&
+                        : <p className='text-lg uppercase text-red-600 font-semibold'>Không có phản hồi nào</p>}
+                    {startIndex + 1 <= Experience.length &&
                         <button className="absolute -translate-y-1/2 bg-white border rounded-full border-neutral-300 -right-4 top-1/2 w-9 h-9">
                             <IconRightSolid
                                 className="p-2 fill-neutral-500"

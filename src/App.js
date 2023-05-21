@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Router, Routes, useNavigate } from 'react-router-dom';
 import Staff from './routes/admin/Staff/index'
 import Services from './routes/admin/services/index'
-import Specialist from './routes/admin/specialist/index'
 import Booking from './routes/admin/booking/index'
 import Myprofile from './routes/admin/profile/index'
 import Login from './routes/auth/login/index'
@@ -16,7 +15,6 @@ import History from './routes/Pratitioner/history';
 import DoctorProfile from './routes/Pratitioner/profile/index';
 import BookingDetails from './routes/Pratitioner/booking/bookingDetails/index';
 import DoctorBooking from './routes/Pratitioner/booking/index';
-import Details from './routes/Administrative/booking/bookingDetails';
 import BookingDetailsConfirm from './routes/common/BookingDetails';
 import HospitalHistoryBooking from './routes/Administrative/history/index'
 import Dashboard from './routes/common/Dashboard'
@@ -30,7 +28,6 @@ function App() {
           <Route path='/' element={<Dashboard/>}></Route>
           <Route path='/staff' element={<Staff/>}></Route>
           <Route path='/services' element={<Services/>}></Route>
-          <Route path='/specialist' element={<Specialist/>}></Route>
           <Route path='/booking' element={<Booking/>}></Route>
           <Route path='/medicine' element={<Medicine/>}></Route>
           <Route path='/myprofile' element={<Myprofile/>}></Route>
@@ -47,7 +44,6 @@ function App() {
           <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route>
           <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>
           <Route path='/nurse/booking/history' element={<HospitalHistoryBooking/>}></Route>
-          <Route path='/nurse/booking/booingDetails/:id' element={<Details/>}></Route>
           <Route path='/booking/bookingDetails/:id' element={<BookingDetailsConfirm/>}></Route>
         </Routes>
     </BrowserRouter>

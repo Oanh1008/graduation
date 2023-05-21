@@ -9,8 +9,9 @@ function ChartComponent() {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
 
-    const chartRef = useRef(null);
-    var today = new Date();
+    const revenueRef = useRef(null);
+    const bookRef = useRef(null);
+
 
     const navigate = useNavigate()
     let user = JSON.parse(localStorage.getItem('user'));
@@ -29,15 +30,26 @@ function ChartComponent() {
 
     const fetchData = async () => {
         setLoading(true)
-        const data = await get(`/employee/statistic/revue/book/${user.hospitalId}?year=${today.getFullYear()}`);
+        const data = await get(`/employee/statistic/revue/book/${user.hospitalId}?year=2023`);
         setData(data)
         setLoading(false)
 
     };
-
+    console.log(data);
 
     useEffect(() => {
         fetchData();
+
+    }, []);
+
+    useEffect(() => {
+
+        const numberOfBooks = [];
+        for (const book in data) {
+            if (data.hasOwnProperty(book) && data[book].hasOwnProperty("numberOfBooks")) {
+                numberOfBooks.push(data[book].numberOfBooks);
+            }
+        }
         const revenueArray = [];
         for (const revenue in data) {
             if (data.hasOwnProperty(revenue) && data[revenue].hasOwnProperty("revenue")) {
@@ -45,29 +57,16 @@ function ChartComponent() {
             }
         }
 
-        const numberOfBooks = [];
-        for (const book in data) {
-            if (data.hasOwnProperty(book) && data[book].hasOwnProperty("numberOfBooks")) {
-                numberOfBooks.push(data[book].book);
-            }
-        }
-        console.log(numberOfBooks);
+        if (bookRef.current && revenueRef.current) {
+            const ctx = bookRef.current.getContext('2d');
+            const ctxx = revenueRef.current.getContext('2d');
 
-        if (chartRef.current) {
-            const ctx = chartRef.current.getContext('2d');
-            const chart = new Chart(ctx, {
+            const BookChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7',
                         'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
                     datasets: [
-                        {
-                            label: 'Doanh thu',
-                            data: revenueArray,
-                            backgroundColor: 'rgba(20, 173, 128, 0.808)',
-                            borderColor: 'rgba(20, 173, 128, 0.808)',
-                            fill: true
-                        },
                         {
                             label: 'Số đơn đặt lịch',
                             data: numberOfBooks,
@@ -88,17 +87,44 @@ function ChartComponent() {
                     }
                 },
             });
+            const RevenueChart = new Chart(ctxx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7',
+                        'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                    datasets: [
+                        {
+                            label: 'Doanh thu',
+                            data: revenueArray,
+                            backgroundColor: 'rgba(20, 173, 128, 0.808)',
+                            borderColor: 'rgba(20, 173, 128, 0.808)',
+                            fill: true
+                        },
+                    ],
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                },
+            });
 
             return () => {
-                chart.destroy();
+                BookChart.destroy();
+                RevenueChart.destroy();
+
             };
         }
-    }, []);
+    }, [])
 
 
     return (
         <Layout>
-            <div className='bg-white mx-6'>
+            <div className='bg-white mx-6 h-[calc(100vh_-_8rem)] px-3'>
                 <div className='flex justify-between items-center'>
                     <div className=' text-2xl font-bold text-cyan-950 pt-5 px-6'>Thống kê </div>
                 </div>
@@ -110,8 +136,17 @@ function ChartComponent() {
                         placeholder='Chọn năm'
                     />
                 </div>
-                <div className='max-w-7xl bg-white mx-auto'>
-                    <canvas ref={chartRef}></canvas>
+                <div className='flex w-full gap-4 '>
+                    <div className='w-1/2 bg-white mx-auto '>
+                        <canvas ref={bookRef}></canvas>
+                        <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê số đơn đặt lịch</p>
+
+                    </div>
+                    <div className='w-1/2 bg-white mx-auto'>
+                        <canvas ref={revenueRef}></canvas>
+                        <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê doanh thu</p>
+
+                    </div>
                 </div>
             </div>
 

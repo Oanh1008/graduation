@@ -38,7 +38,7 @@ const Index = () => {
         }
         setfilterVal(event.target.value)
     }
-
+    console.log(data);
     return (
         <Layout>
             <div className=' mx-6 bg-white p-6'>

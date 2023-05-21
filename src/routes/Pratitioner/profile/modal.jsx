@@ -1,6 +1,6 @@
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
-    Divider,
+    Divider, message,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useEffect, useState } from 'react';
@@ -9,9 +9,11 @@ import Button from '../../../components/button/index'
 import { put } from '../../../utils/apicommon';
 
 const Modal = ({ isVisible, onClose, user, fetchData }) => {
+    const [selectedImage, setSelectedImage] = useState(user.imageUrl);
 
     const [form, setForm] = useState({
         address: user.address,
+        birthDay: user.birthDay,
         userId: user.userId,
         imageUrl: user.imageUrl,
         email: user.email,
@@ -46,12 +48,19 @@ const Modal = ({ isVisible, onClose, user, fetchData }) => {
         }
     };
 
+    const handleAvatarChange = (event) => {
+        const file = event.target.files[0];
+        const imageUrl = URL.createObjectURL(file);
+        setSelectedImage(imageUrl);
+        console.log(imageUrl);
+    };
 
     const handleSubmit = async () => {
-        await put('/doctor/update/information', {
+        const update = await put('/doctor/update/information', {
             address: form.address,
             userId: form.userId,
-            imageUrl: form.imageUrl,
+            birthDay: form.birthDay,
+            imageUrl: selectedImage,
             email: form.email,
             information: form.information,
             phone: form.phone,
@@ -59,16 +68,32 @@ const Modal = ({ isVisible, onClose, user, fetchData }) => {
             knowledge: form.knowledge,
             startWorkingDate: form.startWorkingDate,
             status: form.status,
-
         })
-        const updatedUser = {
-            ...user,
-            ...form,
-        };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
 
-        onClose();
-        fetchData();
+        if (update) {
+            message.open({
+                type: 'success',
+                content: 'Cập nhật thông tin thành công!',
+            })
+
+            const updatedUser = {
+                ...user,
+                ...form,
+                imageUrl: selectedImage,
+            };
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            console.log(form);
+            onClose();
+            fetchData();
+        }
+        else {
+            message.open({
+                type: 'error',
+                content: 'Cập nhật thông tin không thành công!',
+            })
+        }
+
+
     };
 
 
@@ -88,13 +113,17 @@ const Modal = ({ isVisible, onClose, user, fetchData }) => {
                         <form >
                             <div className='flex gap-5'>
                                 <div className='w-1/3'>
-                                    <div className="mb-4">
+                                    <div className="mb-4 w-56 h-[268px]">
                                         <label htmlFor="imageUrl" className="block mb-2 font-semibold">
                                             Ảnh
                                         </label>
                                         <div name="Avatar" wrapperCol={{ span: 12, offset: 7 }}  >
-                                            <img src={user.imageUrl} alt="imageUrl" id="img" width={200} className=" mb-3" />
-                                            <input type="file" name="imageUrl" id="input" accept='image/*' />
+                                            <img src={selectedImage}
+                                                alt="imageUrl" id="img"
+                                                width={200} className=" mb-3" />
+                                            <input type="file"
+                                                onChange={handleAvatarChange}
+                                                name="imageUrl" id="input" accept='image/*' />
                                         </div>
                                     </div>
                                     <div className="mb-4">
@@ -164,6 +193,20 @@ const Modal = ({ isVisible, onClose, user, fetchData }) => {
                                                     />
                                                 </div>
                                             </div>
+                                            <div className="mb-4 mt-7">
+                                                <label htmlFor="birthDay" className="block mb-2 font-semibold">
+                                                    Ngày sinh
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="birthDay"
+                                                    name="birthDay"
+                                                    placeholder='dd-MM-yyyy'
+                                                    defaultValue={form.birthDay}
+                                                    onChange={handleInputChange}
+                                                    className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                />
+                                            </div>
 
 
 
@@ -216,22 +259,23 @@ const Modal = ({ isVisible, onClose, user, fetchData }) => {
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div className="mb-4 mt-7">
+                                                <label htmlFor="address" className="block mb-2 font-semibold">
+                                                    Địa chỉ
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="address"
+                                                    name="address"
+                                                    defaultValue={form.address}
+                                                    onChange={handleInputChange}
+                                                    className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                />
+                                            </div>
 
                                         </div>
                                     </div>
-                                    <div className="mb-4 mt-3">
-                                        <label htmlFor="address" className="block mb-2 font-semibold">
-                                            Địa chỉ
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="address"
-                                            name="address"
-                                            defaultValue={form.address}
-                                            onChange={handleInputChange}
-                                            className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
-                                        />
-                                    </div>
+
 
                                 </div>
 

@@ -2,13 +2,11 @@
 const Columns = [
     {
         key: '1',
-        title: "ID",
-        dataIndex: "id",
+        title: "STT",
         width: 60,
         fixed: 'left',
-        sorter: (record1, record2) => {
-            return record1.id > record2.id
-        }
+        render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
+
     },
 
     {
@@ -17,7 +15,7 @@ const Columns = [
         width: 200,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div> {item.invoiceShares.hospitalName}</div>
+                <div> {item.hospitalName}</div>
             </div>),
     },
 
@@ -28,7 +26,7 @@ const Columns = [
 
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>{item.invoiceShares.doctorName} </div>
+                <div>{item.doctorName} </div>
             </div>),
     },
 
@@ -38,7 +36,7 @@ const Columns = [
         width: 300,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                {item.invoiceShares.services.map((item) => (
+                {item.services.map((item) => (
                     <p key={item.id}>{item.serviceName} </p>
                 ))}
 
@@ -50,7 +48,7 @@ const Columns = [
         fixed: 'right',
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                {item.invoiceShares.medicines.map((item) => (
+                {item.medicines.map((item) => (
                     <p key={item.id}>{item.medicineName} </p>
                 ))}
 
@@ -62,7 +60,7 @@ const Columns = [
         dataIndex: "",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>{item.invoiceShares.symptomDetail} </div>
+                <div>{item.invoiceInformation.symptomDetail} </div>
             </div>),
 
     },
@@ -72,7 +70,7 @@ const Columns = [
         title: "Kết quả khám bệnh",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>{item.invoiceShares.diagnose} </div>
+                <div>{item.invoiceInformation.diagnose} </div>
             </div>),
     },
     {
@@ -82,7 +80,7 @@ const Columns = [
         dataIndex: "birthDay",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>{item.invoiceShares.advices} </div>
+                <div>{item.invoiceInformation.advices} </div>
 
             </div>),
     },

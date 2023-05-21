@@ -40,11 +40,12 @@ const Index = () => {
     }, {})
     const fetchData = async () => {
         setLoading(true)
-        const data = await get(`/common/user/information/${user.userId}`);
+        const data = await get(`/common/doctor/information/${user.userId}`);
         setData(data)
         setLoading(false)
-
     };
+
+    console.log(data);
 
     return (
         loading ? <div>Loading...</div>
@@ -81,11 +82,13 @@ const Index = () => {
                                 <Divider />
                                 <div className='flex justify-start gap-16 text-base'>
                                     <div className='flex flex-col gap-3 font-semibold'>
+                                        <div>Ngày sinh</div>
                                         <div>Địa chỉ</div>
                                         <div>Email</div>
                                         <div>Số điện thoại</div>
                                     </div>
                                     <div className='flex flex-col gap-3'>
+                                        <div>{data.birthDay}</div>
                                         <div>{data.address}</div>
                                         <div>{data.email}</div>
                                         <div>{data.phone}</div>

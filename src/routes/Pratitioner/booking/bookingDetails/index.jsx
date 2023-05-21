@@ -22,7 +22,7 @@ const BookingDetails = () => {
     const [totalMedicince, setTotalMedicince] = useState(0);
     const [totalService, setTotalServices] = useState(0);
     const [medicineCounter, setMedicineCounter] = useState({});
-    const [discount, setDiscount] = useState('');
+    const [discount, setDiscount] = useState(0);
     const [formData, setFormData] = useState({
         advices: '',
         diagnose: '',
@@ -438,19 +438,21 @@ const BookingDetails = () => {
                         </div>
                         <div className='flex justify-between'>
                             <div className="w-full md:w-1/4 px-3 mb-2 md:mb-0">
-                                {user.roleId === 3 &&
-                                    <>
-                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-bhyt">
-                                            Bảo hiểm y tế
-                                        </label>
-                                        <div className='relative'>
-                                            <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance || 0}
-                                                onChange={(e) => setDiscount(e.target.value)} />
-                                            <p className='absolute top-0 right-0 py-1 px-5 rounded-r font-semibold text-lg
+                                {(user.roleId === 3) || (user.roleId === 4 && history === 'true') &&
+                                    (
+                                        <>
+                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-bhyt">
+                                                Bảo hiểm y tế
+                                            </label>
+                                            <div className='relative'>
+                                                <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                    id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance || 0}
+                                                    onChange={(e) => setDiscount(e.target.value)} />
+                                                <p className='absolute top-0 right-0 py-1 px-5 rounded-r font-semibold text-lg
                                              bg-slate-300'>%</p>
-                                        </div>
-                                    </>
+                                            </div>
+                                        </>
+                                    )
                                 }
 
                             </div>

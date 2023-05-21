@@ -7,6 +7,8 @@ import { useLocation, useParams } from 'react-router-dom'
 const BookingDetailsConfirm = () => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({})
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(6)
 
     let user = JSON.parse(localStorage.getItem('user'));
     const { id } = useParams();
@@ -25,11 +27,12 @@ const BookingDetailsConfirm = () => {
         console.log(data);
         setLoading(false)
     };
+    console.log(data.invoiceShares);
 
     return (
         Object.keys(data).length > 0 &&
         <Layout>
-            <div className='mx-6 bg-white p-6 h-[calc(100vh - 5.5rem)] '>
+            <div className='mx-6 bg-white p-6 h-[calc(100vh_-_5rem)] '>
                 <form className="w-full ">
                     <div className='flex items-center gap-4'>
                         <p className='text-2xl font-bold text-gray-700 mb-5'>Chi tiết đặt lịch </p>
@@ -120,11 +123,11 @@ const BookingDetailsConfirm = () => {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="diagnose">
                                 Các dịch vụ đã đăng ký
                             </label>
-                            <textarea className=" appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            <textarea className=" appearance-none block w-full h-32  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="diagnose"
                                 type="text"
                                 value={data.services.length > 0 ? data.services.map((item) => {
-                                    return ({ item } + ',')
+                                    return (item.serviceName + ' ')
                                 }) : "Không đăng ký dịch vụ khám"}
 
                             />
@@ -171,7 +174,18 @@ const BookingDetailsConfirm = () => {
                                 Lịch sử khám bệnh của bệnh nhân
                             </label>
                             <Table className='w-full'
-                                columns={columns} />
+                                columns={columns}
+                                dataSource={data.invoiceShares}
+                                scroll={{ y: 500 }}
+                                loading={loading}
+                                pagination={{
+                                    pageSize: 5,
+                                    onChange: (page, pageSize) => {
+                                        setPage(page);
+                                        setPageSize(pageSize);
+                                    }
+                                }}
+                            />
                         </div>
                     }
                 </form>

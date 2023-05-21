@@ -23,9 +23,7 @@ const Medicines = ({
             dataIndex: 'id',
             width: 150,
             render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
-            sorter: (record1, record2) => {
-                return record1.id > record2.id
-            }
+
         },
         {
             key: '2',

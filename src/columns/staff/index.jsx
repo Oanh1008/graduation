@@ -45,14 +45,10 @@ const Staff = ({ loading, data, fetchData }) => {
       title: "Ngày sinh",
       dataIndex: "birthDay",
       width: 150,
-
       render: (text, item) => (text &&
         <div className='flex items-center gap-3'>
           <div>{item.birthDay}</div>
         </div>),
-      sorter: (record1, record2) => {
-        return record1.birthDay > record2.birthDay
-      }
     },
     {
       key: '',

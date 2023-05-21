@@ -36,7 +36,7 @@ const Columns = [
         key: '3',
         title: "Tuổi",
         dataIndex: "age",
-        width: 60,
+        width: 100,
         render: (text, item) => (text &&
             item.bookInformation.age ?
             <div className='flex items-center gap-3'>

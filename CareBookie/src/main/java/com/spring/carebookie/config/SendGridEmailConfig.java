@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class SendGridEmailConfig {
 
 
-    private String sendGridApiKey = "SG.8lsKRaV1TfiPaJz7JWSenQ.nj9HkAuaKS............1ptsiqFMfi3X7tFh50RRagPYydks8JmoE";
+    private String sendGridApiKey = "";
 
     @Bean
     public SendGrid sendGrid() {

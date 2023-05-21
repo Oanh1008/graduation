@@ -445,7 +445,7 @@ const BookingDetails = () => {
                                         </label>
                                         <div className='relative'>
                                             <input className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance}
+                                                id="grid-bhyt" type="text" defaultValue={data.invoiceInformation.discountInsurance || 0}
                                                 onChange={(e) => setDiscount(e.target.value)} />
                                             <p className='absolute top-0 right-0 py-1 px-5 rounded-r font-semibold text-lg
                                              bg-slate-300'>%</p>

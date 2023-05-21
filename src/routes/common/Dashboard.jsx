@@ -97,7 +97,6 @@ function ChartComponent() {
 
 
     return (
-        chartRef.current &&
         <Layout>
             <div className='bg-white mx-6'>
                 <div className='flex justify-between items-center'>

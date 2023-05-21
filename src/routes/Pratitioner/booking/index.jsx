@@ -11,7 +11,7 @@ const listTabs = [
         name: 'Danh sách đặt lịch'
     },
     {
-        name: 'Danh sách đã đến khám (invoice)'
+        name: 'Danh sách đã đến khám'
     },
 ]
 

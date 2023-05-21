@@ -149,7 +149,11 @@ const Columns = [
         dataIndex: "",
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <p>{item.fullNameOperator}</p>
+                {item.fullNameOperator === 'user' ?
+                    <p>Người dùng huỷ</p>
+                    :
+                    <p>{item.fullNameOperator}</p>
+                }
             </div>),
     },
 

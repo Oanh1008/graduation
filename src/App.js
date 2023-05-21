@@ -7,7 +7,6 @@ import Myprofile from './routes/admin/profile/index'
 import Login from './routes/auth/login/index'
 import Register from './routes/auth/register/index'
 import ResetPassword from './routes/auth/reset-password/index'
-import Invoice from './routes/admin/invoice/index'
 import Medicine from './routes/admin/medicine/index'
 import ManagerHospital from './routes/superadmin/hospital';
 import Hospitaldelails from './routes/superadmin/hospital/hospitaldelails';
@@ -33,7 +32,6 @@ function App() {
           <Route path='/services' element={<Services/>}></Route>
           <Route path='/specialist' element={<Specialist/>}></Route>
           <Route path='/booking' element={<Booking/>}></Route>
-          <Route path='/invoice' element={<Invoice/>}></Route>
           <Route path='/medicine' element={<Medicine/>}></Route>
           <Route path='/myprofile' element={<Myprofile/>}></Route>
           <Route path='/login' element={<Login/>}></Route>

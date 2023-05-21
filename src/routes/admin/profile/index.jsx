@@ -1,8 +1,6 @@
 import { Avatar, Divider, Rate, Row } from 'antd';
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
-import avatar from '../../../assets/image/background_login.png'
-import Button from '../../../components/button/index'
 import { Edit, IconBriefCase, IconCalender, IconLeftSolid, IconRightSolid } from '../../../assets/svg';
 import { get } from '../../../utils/apicommon';
 import Modal from './modal';

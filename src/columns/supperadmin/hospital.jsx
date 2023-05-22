@@ -66,6 +66,7 @@ const HospitalTable = ({
       key: '5',
       title: "Địa chi",
       dataIndex: "address",
+      width: 300,
       render: (text, item) => (text &&
         <div className='flex items-center gap-3'>
           <div>{item.address}</div>
@@ -78,6 +79,7 @@ const HospitalTable = ({
       key: '6',
       title: "Tình trạng",
       dataIndex: "status",
+      fixed: 'right',
       width: 210,
       render: (text, item) => (
         item.status !== true ?
@@ -101,6 +103,7 @@ const HospitalTable = ({
     {
       key: '8',
       title: "",
+      fixed: 'right',
       width: 150,
       render: (data) => (
         <div className='flex gap-4'>

@@ -18,9 +18,8 @@ const MedicineComponent = ({
     handleInputChangeMedicines,
     handleMedicineRemove,
     calculateTotalMedicine,
-    hanldeAmount
 }) => {
-
+    const [open, setOpen] = useState(false)
     const Columns = [
         {
             key: '1',
@@ -108,11 +107,16 @@ const MedicineComponent = ({
 
     calculateTotalMedicine(selectedDataMedicine, medicineCounter)
 
+    const hanldeOpen = () => {
+        setOpen(true)
+    }
 
-
+    const hanldeClose = () => {
+        setOpen(false)
+    }
 
     return (
-        <div className="w-3/5 px-3 -mx-3 mb-2">
+        <div className="w-3/5 px-3 -mx-3 mb-2" onClick={hanldeClose}>
             <label className="block uppercase tracking-wide text-green-900 text-lg font-bold  my-5" htmlFor="grid-invoice">
                 Đơn thuốc
             </label>
@@ -126,10 +130,12 @@ const MedicineComponent = ({
                         placeholder='Tìm thuốc...'
                         value={query}
                         onChange={handleInputChangeMedicines}
-
+                        onFocus={hanldeOpen}
                     />
                     <div className='absolute w-full z-10 rounded-sm group-focus:block '>
-                        {results.length > 0 &&
+                        {
+                            open &&
+                            results.length > 0 &&
                             results.map((medicine) => (
                                 <div className='bg-white border-b border-x py-2 px-5 cursor-pointer hover:bg-gray-300'
                                     onClick={() => {

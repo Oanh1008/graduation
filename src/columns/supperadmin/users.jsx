@@ -1,7 +1,7 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, Question, Trash } from '../../assets/svg';
+import { Edit, IconLock, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 import { del } from '../../utils/apicommon';
 
@@ -100,6 +100,27 @@ const User = ({ data, loading, fetchData }) => {
       }
     },
     {
+      key: '7',
+      title: "Tình trạng",
+      dataIndex: "status",
+      fixed: 'right',
+      width: 210,
+      render: (text, item) => (
+        <div className='bg-cyan-100 text-cyan-800 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                           before:w-2 before:h-2 before:bg-cyan-800 before:absolute before:rounded-full'>Đang hoạt động</div>
+
+
+
+      ),
+      filters: [
+        { text: "Đã duyệt", value: true },
+        { text: "Chờ duyệt  ", value: false },
+      ],
+      onFilter: (value, record) => {
+        return record.completed === value
+      }
+    },
+    {
       key: '8',
       title: "",
       width: 100,
@@ -108,7 +129,7 @@ const User = ({ data, loading, fetchData }) => {
         <Button
           type='button'
           className=" rounded-lg"
-          icon={<Trash className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
+          icon={<IconLock className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
           onClick={() => handleDelete(data)}
         />
       )

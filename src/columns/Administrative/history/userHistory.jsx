@@ -36,8 +36,8 @@ const Columns = [
         title: "Các dịch vụ đã khám",
         width: 300,
         render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                {item.services((item) => item.serviceName).join("\n")}
+            <div className='flex items-center gap-3' style={{ whiteSpace: 'pre-line' }}>
+                {item.services.map((item) => item.serviceName).join("\n")}
             </div>),
 
     },
@@ -46,9 +46,8 @@ const Columns = [
         title: "Các loại thuốc đã uống",
         width: 300,
         render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
+            <div className='flex items-center gap-3' style={{ whiteSpace: 'pre-line' }}>
                 {item.medicines.map((item) => item.medicineName).join("\n")}
-
             </div>),
     },
     {

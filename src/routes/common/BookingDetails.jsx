@@ -29,7 +29,7 @@ const BookingDetailsConfirm = () => {
         console.log(data);
         setLoading(false)
     };
-
+    console.log(data.invoiceShares);
     return (
         Object.keys(data).length > 0 &&
         <Layout>
@@ -196,6 +196,7 @@ const BookingDetailsConfirm = () => {
                                     }
                                 }}
                             />
+
                         </div>
                     }
                 </form>

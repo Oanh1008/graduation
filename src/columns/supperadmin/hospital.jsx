@@ -2,7 +2,7 @@ import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { Check, Edit, Eye, Question, Times, Trash } from '../../assets/svg';
+import { Check, Edit, Eye, IconLock, IconUnLock, Question, Times, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 import BookingDetails from '../../routes/Pratitioner/booking/bookingDetails';
 import { del } from '../../utils/apicommon';
@@ -82,13 +82,32 @@ const HospitalTable = ({
       fixed: 'right',
       width: 210,
       render: (text, item) => (
-        item.status !== true ?
-          <div className='bg-yellow-100 text-yellow-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
-                           before:w-2 before:h-2 before:bg-yellow-600 before:absolute before:rounded-full'>Chờ duyệt</div>
-
-
-          : <div className='bg-green-100 text-green-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+        <div className='bg-green-100 text-green-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                            before:w-2 before:h-2 before:bg-green-600 before:absolute before:rounded-full'>Đã được duyệt</div>
+
+      ),
+      filters: [
+        { text: "Đã duyệt", value: true },
+        { text: "Chờ duyệt  ", value: false },
+      ],
+      onFilter: (value, record) => {
+        return record.completed === value
+      }
+    },
+    {
+      key: '7',
+      title: "Tình trạng",
+      dataIndex: "status",
+      fixed: 'right',
+      width: 210,
+      render: (text, item) => (
+        item.status !== true ?
+          <div className='bg-cyan-100 text-cyan-800 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                           before:w-2 before:h-2 before:bg-cyan-800 before:absolute before:rounded-full'>Đang hoạt động</div>
+
+
+          : <div className='bg-red-100 text-red-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                           before:w-2 before:h-2 before:bg-red-600 before:absolute before:rounded-full'>Đã bị khoá</div>
 
 
       ),
@@ -114,12 +133,22 @@ const HospitalTable = ({
             onClick={() => window.location.href = `/admin-hospital/hospitalDetail/${data.hospitalId}`}
 
           />
-          <Button
-            type='button'
-            className=" rounded-lg"
-            icon={<Trash className='w-9 h-9 fill-red-500 rounded-lg hover:bg-red-100 p-1' />}
-            onClick={() => handleDelte(data)}
-          />
+          {
+            data.status !== true ?
+              <Button
+                type='button'
+                className=" rounded-lg"
+                icon={<IconLock className='w-9 h-9 fill-red-500 rounded-lg hover:bg-red-100 p-1' />}
+                onClick={() => handleDelte(data)}
+              />
+              :
+              <Button
+                type='button'
+                className=" rounded-lg"
+                icon={<IconUnLock className='w-9 h-9 fill-green-500 rounded-lg hover:bg-red-100 p-1' />}
+                onClick={() => handleDelte(data)} />
+          }
+
         </div>
       )
     }

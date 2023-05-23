@@ -97,7 +97,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                         </div>
                                     </div>
 
-                                    <div className="mb-4 mt-7">
+                                    <div className="mb-4 mt-7 ">
                                         <label htmlFor="address" className="block mb-2 font-semibold">
                                             Địa chỉ
                                         </label>
@@ -105,16 +105,17 @@ const Modal = ({ isVisible, onClose, user }) => {
                                             type="text"
                                             id="address"
                                             name="address"
+
                                             defaultValue={form.address}
                                             onChange={handleInputChange}
-                                            className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                            className="w-full h-28 px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                         />
                                     </div>
 
                                 </div>
 
                                 <div className='w-1/2  '>
-                                    <div className="mb-4 border-b">
+                                    <div className="mb-4 ">
                                         <label htmlFor="isChoosenDoctor" className="block mb-2 font-semibold">
                                             Cho phép chọn bác sĩ:
                                         </label>
@@ -129,7 +130,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                             <label for="true">Không</label><br />
                                         </div>
                                     </div>
-                                    <div className="mb-4  border-b">
+                                    <div className="mb-4  ">
                                         <label htmlFor="isPublicPrice" className="block mb-2 font-semibold">
                                             Công khai giá khám:
                                         </label>
@@ -145,7 +146,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                         </div>
                                     </div>
 
-                                    <div className="mb-4 border-b pb-2">
+                                    <div className="mb-4  pb-2">
                                         <label htmlFor="isRate" className="block  mb-2 font-semibold">
                                             Công khai đánh giá:
                                         </label>
@@ -165,27 +166,32 @@ const Modal = ({ isVisible, onClose, user }) => {
                                         <label className="block mb-2 font-semibold ">
                                             Giá khám
                                         </label>
-                                        <div className='flex items-center gap-3'>
-                                            <span>Từ</span>
-                                            <input
-                                                type="number"
-                                                id="priceFrom"
-                                                name="priceFrom"
-                                                placeholder='Từ'
-                                                defaultValue={form.priceFrom}
-                                                onChange={handleInputChange}
-                                                className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
-                                            />
-                                            <span>Đến</span>
-                                            <input
-                                                type="number"
-                                                id="priceTo"
-                                                name="priceTo"
-                                                placeholder='Đến'
-                                                defaultValue={form.priceTo}
-                                                onChange={handleInputChange}
-                                                className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600"
-                                            />
+                                        <div className='flex-col items-center gap-3'>
+                                            <div className='flex items-center gap-3'>
+                                                <span className='font-medium'>Từ:</span>
+                                                <input
+                                                    type="number"
+                                                    id="priceFrom"
+                                                    name="priceFrom"
+                                                    placeholder='Từ'
+                                                    defaultValue={form.priceFrom}
+                                                    onChange={handleInputChange}
+                                                    className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                />
+                                            </div>
+                                            <div className='flex items-center gap-3 mt-3' >
+
+                                                <span className='font-medium'>Đến</span>
+                                                <input
+                                                    type="number"
+                                                    id="priceTo"
+                                                    name="priceTo"
+                                                    placeholder='Đến'
+                                                    defaultValue={form.priceTo}
+                                                    onChange={handleInputChange}
+                                                    className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

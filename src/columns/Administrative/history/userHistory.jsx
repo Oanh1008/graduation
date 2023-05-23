@@ -37,11 +37,9 @@ const Columns = [
         width: 300,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                {item.services.map((item) => (
-                    <p key={item.id}>{item.serviceName} </p>
-                ))}
-
+                {item.services((item) => item.serviceName).join("\n")}
             </div>),
+
     },
     {
         key: '9',
@@ -49,9 +47,7 @@ const Columns = [
         width: 300,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                {item.medicines.map((item) => (
-                    <p key={item.id}>{item.medicineName} </p>
-                ))}
+                {item.medicines.map((item) => item.medicineName).join("\n")}
 
             </div>),
     },

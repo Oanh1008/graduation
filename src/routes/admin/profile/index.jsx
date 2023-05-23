@@ -99,10 +99,12 @@ const HospitalProfile = () => {
 
                         <div className=' rounded-md bg-white mt-5'>
                             <div className='p-5'>
-                                <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>dịch vụ</div>
-
+                                <div className='flex justify-between items-end'>
+                                    <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>dịch vụ</div>
+                                    <p className='text-cyan-900'>Xem thêm</p>
+                                </div>
                                 <Divider />
-                                <div className='grid grid-cols-4 gap-4 justify-items-center '>
+                                <div className='grid grid-cols-4 gap-4 justify-items-center h-28 overflow-hidden'>
                                     {user.services.map((service) => (
                                         <div className='flex flex-col gap-5 items-center text-center '>
                                             <IconBriefCase className='w-8 fill-gray-500' />

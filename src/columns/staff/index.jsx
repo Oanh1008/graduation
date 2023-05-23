@@ -1,13 +1,14 @@
-import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
+import { Avatar, Modal, Popconfirm, Space, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, Eye, Question, Trash, User } from '../../assets/svg';
+import { Edit, Eye, IconLock, IconUnLock, Question, Trash, User } from '../../assets/svg';
 import Button from '../../components/button/index'
 import { del } from '../../utils/apicommon';
 
 const Staff = ({ loading, data, fetchData }) => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(6)
+  const [modal, setModal] = useState(false)
   const Columns = [
     {
       key: '1',
@@ -115,7 +116,7 @@ const Staff = ({ loading, data, fetchData }) => {
     },
     {
       key: '6',
-      title: "Tình trạng",
+      title: "Trạng thái",
       dataIndex: "status",
       width: 150,
       fixed: 'right',
@@ -125,8 +126,33 @@ const Staff = ({ loading, data, fetchData }) => {
         <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                            before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>{item.status}</div>
         :
+        <div className='bg-orange-100 text-orange-700 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                           before:w-2 before:h-2 before:bg-orange-700 before:absolute before:rounded-full'>{item.status}</div>
+
+
+      ),
+      filters: [
+        { text: "Đang làm", value: "Đang làm" },
+        { text: "Nghỉ phép", value: "Nghỉ phép" },
+      ],
+      onFilter: (value, record) => {
+        return record.status === value
+      }
+    },
+    {
+      key: '7',
+      title: "Tình trạng",
+      dataIndex: "status",
+      width: 150,
+      fixed: 'right',
+      render: (text, item) => (text &&
+        item.status === 'Đang làm'
+        ?
+        <div className='bg-emerald-100 text-emerald-900 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                           before:w-2 before:h-2 before:bg-emerald-700 before:absolute before:rounded-full'>Hoạt động</div>
+        :
         <div className='bg-red-100 text-red-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
-                           before:w-2 before:h-2 before:bg-red-700 before:absolute before:rounded-full'>{item.status}</div>
+                           before:w-2 before:h-2 before:bg-red-700 before:absolute before:rounded-full'>Nghỉ việc</div>
 
 
       ),
@@ -140,8 +166,8 @@ const Staff = ({ loading, data, fetchData }) => {
     },
     {
       key: '8',
-      title: "",
-      width: 80,
+      title: "Thao tác",
+      width: 150,
       fixed: 'right',
       render: (data) => (
         <div className='flex'>
@@ -151,12 +177,21 @@ const Staff = ({ loading, data, fetchData }) => {
             icon={<Eye className='w-9 h-9 fill-green-700 rounded-lg hover:bg-indigo-100 p-1' />}
             onClick={() => window.location.href = `/employee/information/${data.userId}`} />
 
-          <Button
-            type='button'
-            className=" rounded-lg"
-            icon={<Trash className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
-            onClick={() => handleDelete(data)}
-          />
+          {data.status === 'Đang làm' ?
+            <Button
+              type='button'
+              className=" rounded-lg"
+              icon={<IconLock className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
+              onClick={() => setModal(true)}
+            />
+            :
+            <Button
+              type='button'
+              className=" rounded-lg"
+              icon={<IconUnLock className='w-9 h-9 fill-green-700 hover:bg-red-100 rounded-lg p-1' />}
+              onClick={() => setModal(true)}
+            />
+          }
         </div>
       )
     }
@@ -167,20 +202,31 @@ const Staff = ({ loading, data, fetchData }) => {
     fetchData();
   }
   return (
-    <Table
-      className=' !z-0'
-      columns={Columns}
-      dataSource={data}
-      scroll={{ y: 500 }}
-      loading={loading}
-      pagination={{
-        pageSize: 5,
-        onChange: (page, pageSize) => {
-          setPage(page);
-          setPageSize(pageSize);
-        }
-      }}
-    />
+    <>
+      <Table
+        className=' !z-0'
+        columns={Columns}
+        dataSource={data}
+        scroll={{ y: 500 }}
+        loading={loading}
+        pagination={{
+          pageSize: 5,
+          onChange: (page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }
+        }}
+      />
+      <Modal
+        title="Xoá nhân viên"
+        centered
+        open={modal}
+        onOk={() => console.log('hi')}
+        onCancel={() => setModal(false)}
+      >
+        Bạn muốn xoá nhân viên này ?
+      </Modal>
+    </>
   )
 }
 export default Staff

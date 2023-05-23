@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../layout/index'
 import { get } from '../../utils/apicommon'
 import columns from '../../columns/Administrative/history/userHistory'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 const BookingDetailsConfirm = () => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({})
@@ -14,6 +14,8 @@ const BookingDetailsConfirm = () => {
     const { id } = useParams();
     const location = useLocation();
     const status = new URLSearchParams(location.search).get('status');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchData();
@@ -27,21 +29,31 @@ const BookingDetailsConfirm = () => {
         console.log(data);
         setLoading(false)
     };
-    console.log(data.invoiceShares);
 
     return (
         Object.keys(data).length > 0 &&
         <Layout>
             <div className='mx-6 bg-white p-6 h-[calc(100vh_-_5rem)] '>
                 <form className="w-full ">
-                    <div className='flex items-center gap-4'>
-                        <p className='text-2xl font-bold text-cyan-900 mb-5'>Chi tiết đặt lịch </p>
+                    <div className='flex items-center justify-between'>
+                        <div className='flex items-center gap-4'>
+                            <p className='text-2xl font-bold text-cyan-900 mb-5'>Chi tiết đặt lịch </p>
+                            {status === 'pending' ?
+                                <p className='mb-5 bg-green-100 font-semibold px-4 rounded-3xl py-1 text-green-600'>Chờ duyệt</p>
+                                : status === 'accept' ?
+                                    <p className='mb-5 bg-yellow-100 font-semibold px-4 rounded-3xl py-1 text-yellow-600'>Đã được duyệt</p>
+                                    : status === 'confirm' &&
+                                    <p className='mb-5 bg-cyan-100 font-semibold px-4 rounded-3xl py-1 text-cyan-600'>Đã đến khám</p>
+
+                            }
+                        </div>
                         {status === 'pending' ?
-                            <p className='mb-5 bg-green-100 font-semibold px-4 rounded-3xl py-1 text-green-600'>Chờ duyệt</p>
+                            <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'>Duyệt</button>
                             : status === 'accept' ?
-                                <p className='mb-5 bg-yellow-100 font-semibold px-4 rounded-3xl py-1 text-yellow-600'>Đã được duyệt</p>
+                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'>Xác nhận</button>
                                 : status === 'confirm' &&
-                                <p className='mb-5 bg-cyan-100 font-semibold px-4 rounded-3xl py-1 text-cyan-600'>Đã đến khám</p>
+                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
+                                    onClick={() => navigate('/')}>Tạo hoá đơn</button>
 
                         }
 
@@ -126,9 +138,7 @@ const BookingDetailsConfirm = () => {
                             <textarea className=" appearance-none block w-full h-32  text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="diagnose"
                                 type="text"
-                                value={data.services.length > 0 ? data.services.map((item) => {
-                                    return (item.serviceName + ' ')
-                                }) : "Không đăng ký dịch vụ khám"}
+                                value={data.services.length > 0 ? data.services.map((item) => item.serviceName).join("\n") : "Không đăng ký dịch vụ khám"}
 
                             />
                         </div>

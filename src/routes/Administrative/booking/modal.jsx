@@ -114,11 +114,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                                 <Form.Item
                                     name='fullName'
                                     label="Tên bệnh nhân"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
                                 >
                                     <Input disabled />
                                 </Form.Item>
@@ -127,11 +122,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                                 <Form.Item
                                     name='age'
                                     label="Tuổi"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
                                 >
                                     <InputNumber className='w-full' disabled />
                                 </Form.Item>
@@ -142,11 +132,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                                 <Form.Item
                                     name='gender'
                                     label="Giới tính"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
                                 >
                                     <Radio.Group value={fid.gender} disabled  >
                                         <Radio value={1}> Nam </Radio>
@@ -159,11 +144,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                                 <Form.Item
                                     name='address'
                                     label="Địa chỉ"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
                                 >
                                     <TextArea placeholder='Nhập địa chỉ' disabled />
                                 </Form.Item>
@@ -172,11 +152,6 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
                                 <Form.Item
                                     name='symptom'
                                     label="Triệu chứng"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
                                 >
                                     <TextArea placeholder='Nhập triệu chứng' disabled />
                                 </Form.Item>

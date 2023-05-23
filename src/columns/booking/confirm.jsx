@@ -75,7 +75,7 @@ const Columns = [
         key: '5',
         title: "Địa chi",
         dataIndex: "address",
-        width: 200,
+        width: 350,
 
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
@@ -106,7 +106,7 @@ const Columns = [
         key: '7',
         title: "Ngày khám",
         dataIndex: "",
-        width: 200,
+        width: 150,
         render: (text, item) => {
             const formattedDate = dayjs(item.invoiceInformation.dateTimeInvoice).format('DD-MM-YYYY');
             return (text &&

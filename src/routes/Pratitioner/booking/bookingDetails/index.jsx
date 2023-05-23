@@ -369,7 +369,7 @@ const BookingDetails = () => {
                             setOpenMedicine(false);
                             setOpenSV(false)
                         }} >
-                            <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0">
+                            <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0 mt-5">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="symptomDetail">
                                     Triệu chứng chi tiết
                                 </label>
@@ -384,7 +384,7 @@ const BookingDetails = () => {
                                 />
 
                             </div>
-                            <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0">
+                            <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0 mt-5">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="advices">
                                     Lời khuyên
                                 </label>
@@ -399,7 +399,7 @@ const BookingDetails = () => {
                                 />
 
                             </div>
-                            <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0">
+                            <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0 mt-5">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="diagnose">
                                     Kết quả khám bệnh
                                 </label>

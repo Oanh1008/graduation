@@ -34,6 +34,7 @@ import com.spring.carebookie.service.HospitalService;
 import com.spring.carebookie.service.MedicineService;
 import com.spring.carebookie.service.UserService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
@@ -155,4 +156,24 @@ public class AdminController {
         return ResponseEntity.ok(medicineService.getAllMedicineByHospitalId(hospitalId));
     }
 
+    @ApiOperation("Lock medicine")
+    @DeleteMapping("/medicine/lock/{medicineId}")
+    public ResponseEntity<?> lockMedicine(@PathVariable Long medicineId) {
+        medicineService.lockMedicine(medicineId);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Lock service by serviceId")
+    @DeleteMapping("/service/lock/{serviceId}")
+    public ResponseEntity<Object> lockService(@PathVariable Long serviceId) {
+        commonService.lockService(serviceId);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Lock employee ")
+    @DeleteMapping("/employee/lock/{userId}")
+    public ResponseEntity<Object> lockService(@PathVariable String userId) {
+        userService.lockUser(userId);
+        return ResponseEntity.ok().build();
+    }
 }

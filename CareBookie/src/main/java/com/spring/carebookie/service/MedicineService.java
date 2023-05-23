@@ -46,4 +46,9 @@ public class MedicineService {
     public List<MedicineEntity> search(String hospitalId, String name) {
         return medicineRepository.getAllByHospitalIdAnAndMedicineName(hospitalId, name);
     }
+
+    @Transactional
+    public void lockMedicine(Long medicineId) {
+        medicineRepository.lockMedicine(medicineId);
+    }
 }

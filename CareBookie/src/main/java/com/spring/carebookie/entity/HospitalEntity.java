@@ -51,4 +51,6 @@ public class HospitalEntity {
 
     private String imageUrl;
 
+    private boolean isDisable = false;
+
 }

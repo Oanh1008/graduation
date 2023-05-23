@@ -327,4 +327,8 @@ public class CommonService {
         return star % star.intValue() >= 0.5 ? (double) star.intValue() + 1 : (double) star.intValue();
     }
 
+    @Transactional
+    public void lockService(Long serviceId) {
+        serviceRepository.lockService(serviceId);
+    }
 }

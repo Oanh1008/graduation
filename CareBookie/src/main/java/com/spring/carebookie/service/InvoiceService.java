@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.carebookie.dto.edit.MedicineRemoveInvoiceDto;
 import com.spring.carebookie.dto.edit.ServiceRemoveInvoiceDto;
+import com.spring.carebookie.dto.response.BookAndInvoiceStatistic;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
+import com.spring.carebookie.dto.response.StatisticBookResponse;
 import com.spring.carebookie.dto.response.StatisticResponse;
 import com.spring.carebookie.dto.response.UserInvoiceResponse;
 import com.spring.carebookie.dto.save.InvoiceSaveDto;
@@ -30,7 +32,9 @@ import com.spring.carebookie.repository.HospitalRepository;
 import com.spring.carebookie.repository.InvoiceMedicineRepository;
 import com.spring.carebookie.repository.InvoiceRepository;
 import com.spring.carebookie.repository.InvoiceServiceRepository;
+import com.spring.carebookie.repository.ServiceRepository;
 import com.spring.carebookie.repository.UserRepository;
+import com.spring.carebookie.repository.projection.DoctorGetAllProjection;
 import com.spring.carebookie.repository.projection.InvoiceMedicineAmountProjection;
 
 import lombok.RequiredArgsConstructor;
@@ -51,9 +55,11 @@ public class InvoiceService {
 
     private final BookRepository bookRepository;
 
+    private final ServiceRepository serviceRepository;
+
     private final InvoiceMedicineRepository invoiceMedicineRepository;
 
-    public Map<Integer, StatisticResponse> statisticByHospitalId(String hospitalId, int year) {
+    public BookAndInvoiceStatistic statisticByHospitalId(String hospitalId, int year) {
         List<InvoiceEntity> invoiceEntities = invoiceRepository.getAllInvoiceDoneByHospitalIdAndYear(hospitalId, year);
         List<InvoiceResponseDto> invoice = getInvoiceByIdCommon(invoiceEntities);
         Set<Map.Entry<Integer, List<InvoiceResponseDto>>> invoiceSet = invoice.stream()
@@ -63,21 +69,64 @@ public class InvoiceService {
 
         for (Map.Entry<Integer, List<InvoiceResponseDto>> ivS : invoiceSet) {
             double totalPriceByMonth = 0d;
+
+            double totalService = 0d;
             for (InvoiceResponseDto iv : ivS.getValue()) {
                 totalPriceByMonth += iv.getTotalPrice();
+                double totalPriceService = 0d;
+                for (ServiceEntity s : iv.getServices()) {
+                    totalPriceService += s.getPrice().doubleValue();
+                }
+                // each invoice in month
+                totalPriceService = totalPriceService - (totalPriceService * (iv.getInvoiceInformation().getDiscountInsurance() / 100));
+
+                // month
+                totalService += totalPriceService;
             }
-            map.replace(ivS.getKey(), new StatisticResponse(totalPriceByMonth, 0));
+
+            map.replace(ivS.getKey(), new StatisticResponse(totalPriceByMonth, totalService, totalPriceByMonth - totalService));
         }
 
-        List<BookEntity> books = bookRepository.getAllBookByHpAndYear(hospitalId, year);
-        Set<Map.Entry<Integer, List<BookEntity>>> bookSet = books.stream()
+        // book
+        List<BookEntity> book = bookRepository.getAllBookByHpAndYear(hospitalId, year);
+        Set<Map.Entry<Integer, List<BookEntity>>> bookSet = book.stream()
                 .collect(Collectors.groupingBy(b -> b.getDateTimeBook().getMonth().getValue()))
                 .entrySet();
-        for (Map.Entry<Integer, List<BookEntity>> bS : bookSet) {
-            map.get(bS.getKey()).setNumberOfBooks(bS.getValue().size());
+        Map<Integer, StatisticBookResponse> mapB = createBookMap();
+
+        for (Map.Entry<Integer, List<BookEntity>> bs : bookSet) {
+            int numberOfBook = bs.getValue().size();
+            int cancel = (int)
+                    bs.getValue().stream().filter(b -> b.getStatus().equals("CANCEL"))
+                            .count();
+            int confirm = numberOfBook - cancel;
+
+            mapB.replace(bs.getKey(), new StatisticBookResponse(numberOfBook, cancel, confirm));
         }
 
-        return map;
+        // Doctor and book
+        Map<String, Integer> mapD = createDoctorMap(hospitalId);
+        Set<Map.Entry<String, List<BookEntity>>> bookD = book.stream()
+                .collect(Collectors.groupingBy(t -> t.getDoctorId()))
+                .entrySet();
+        for (Map.Entry<String, List<BookEntity>> bd : bookD) {
+            UserEntity doctor = userRepository.findByUserId(bd.getKey());
+            String doctorName = doctor.getLastName() + " " + doctor.getFirstName();
+            mapD.replace(doctorName, bd.getValue().size());
+        }
+
+        // Top 5 service booked most in this year
+        Map<String , Integer> mapS = createServiceMap(hospitalId);
+        for (InvoiceResponseDto i : invoice) {
+            for (ServiceEntity s : i.getServices()) {
+
+            }
+        }
+        BookAndInvoiceStatistic result = new BookAndInvoiceStatistic();
+        result.setInvoices(map);
+        result.setBooks(mapB);
+        result.setDoctors(mapD);
+        return result;
     }
 
     public List<InvoiceResponseDto> getAllInvoiceDoneByDoctorId(String doctorId) {
@@ -333,7 +382,33 @@ public class InvoiceService {
     public Map<Integer, StatisticResponse> createMap() {
         Map<Integer, StatisticResponse> map = new HashMap<>();
         for (int i = 1; i < 13; i++) {
-            map.put(i, new StatisticResponse());
+            map.put(i, new StatisticResponse(0d, 0d, 0d));
+        }
+        return map;
+    }
+
+    public Map<Integer, StatisticBookResponse> createBookMap() {
+        Map<Integer, StatisticBookResponse> map = new HashMap<>();
+        for (int i = 1; i < 13; i++) {
+            map.put(i, new StatisticBookResponse());
+        }
+        return map;
+    }
+
+    public Map<String, Integer> createDoctorMap(String hospitalId) {
+        List<UserEntity> doctor = userRepository.getAllDoctorByHospitalId(hospitalId);
+        Map<String, Integer> map = new HashMap<>();
+        for (UserEntity d : doctor) {
+            map.put(d.getLastName() + " " + d.getFirstName(), 0);
+        }
+        return map;
+    }
+
+    public Map<String, Integer> createServiceMap(String hospitalId) {
+        List<ServiceEntity> services = serviceRepository.getServiceEntityByHospitalId(hospitalId);
+        Map<String, Integer> map = new HashMap<>();
+        for (ServiceEntity d : services) {
+            map.put(d.getServiceName(), 0);
         }
         return map;
     }

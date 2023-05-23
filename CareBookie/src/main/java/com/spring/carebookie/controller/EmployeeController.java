@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
+import com.spring.carebookie.dto.response.StatisticBookResponse;
 import com.spring.carebookie.dto.response.StatisticResponse;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.InvoiceService;
@@ -67,7 +68,8 @@ public class EmployeeController {
 
     @ApiOperation("Get statistic revenue and book by hospital")
     @GetMapping("/statistic/revue/book/{hospitalId}")
-    public ResponseEntity<Map<Integer, StatisticResponse>> statisticRevenueAndBook(@PathVariable String hospitalId, @RequestParam int year) {
+    public ResponseEntity<?> statisticRevenueAndBook(@PathVariable String hospitalId, @RequestParam int year) {
         return ResponseEntity.ok(invoiceService.statisticByHospitalId(hospitalId,year));
     }
+
 }

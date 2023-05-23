@@ -155,4 +155,5 @@ public class CommonController {
     public ResponseEntity<UserEntity> changePassword(@Valid @RequestBody ForgotPasswordDto dto) {
         return ResponseEntity.ok(userService.resetPassword(dto));
     }
+
 }

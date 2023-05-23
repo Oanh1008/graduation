@@ -18,6 +18,7 @@ import com.spring.carebookie.dto.DoctorGetAllDto;
 import com.spring.carebookie.dto.EmailDetails;
 import com.spring.carebookie.dto.ForgotPasswordDto;
 import com.spring.carebookie.dto.LoginRequest;
+import com.spring.carebookie.dto.edit.AdministratorUpdateDto;
 import com.spring.carebookie.dto.edit.ChangePasswordDto;
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
 import com.spring.carebookie.dto.response.DoctorInformationResponseDto;
@@ -149,6 +150,12 @@ public class UserService {
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         entity.setStatus("Đang làm");
         return userRepository.save(entity);
+    }
+
+    @Transactional
+    public UserEntity updateAdministrator(AdministratorUpdateDto dto) {
+        userRepository.updateAdministrator(dto);
+        return userRepository.findByUserId(dto.getUserId());
     }
 
     @Transactional

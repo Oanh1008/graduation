@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.spring.carebookie.dto.edit.AdministratorUpdateDto;
 import com.spring.carebookie.dto.edit.DoctorUpdateInformationDto;
 import com.spring.carebookie.dto.save.UpdateUserInformationDto;
 import com.spring.carebookie.entity.UserEntity;
@@ -65,6 +66,15 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             " u.knowledge = :#{#dto.knowledge},u.speciality = :#{#dto.speciality},u.startWorkingDate = :#{#dto.startWorkingDate}," +
             " u.information = :#{#dto.information}, u.status = :#{#dto.status} where u.userId = :#{#dto.userId} and u.isDoctor = true")
     void updateDoctor(@Param("dto") DoctorUpdateInformationDto dto);
+
+    /**
+     * Administrator
+     */
+    @Modifying
+    @Query(" update UserEntity u set u.birthDay = :#{#dto.birthDay}, u.imageUrl = :#{#dto.imageUrl} ,u.email = :#{#dto.email}, u.phone = :#{#dto.phone},u.address = :#{#dto.address}," +
+            " u.knowledge = :#{#dto.knowledge},u.startWorkingDate = :#{#dto.startWorkingDate}," +
+            " u.information = :#{#dto.information}, u.status = :#{#dto.status} where u.userId = :#{#dto.userId}")
+    void updateAdministrator(@Param("dto") AdministratorUpdateDto dto);
 
     @Modifying
     @Query(" update UserEntity u set u.status = :status where u.userId = :doctorId ")

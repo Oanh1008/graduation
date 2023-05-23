@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.carebookie.dto.edit.AdministratorUpdateDto;
 import com.spring.carebookie.dto.edit.BookAcceptDto;
 import com.spring.carebookie.dto.edit.BookCancelDto;
 import com.spring.carebookie.dto.edit.ConfirmInvoiceDto;
 import com.spring.carebookie.dto.response.BookResponseDto;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.entity.BookEntity;
+import com.spring.carebookie.entity.UserEntity;
 import com.spring.carebookie.service.BookService;
 import com.spring.carebookie.service.InvoiceService;
 import com.spring.carebookie.service.MedicineService;
@@ -92,5 +94,11 @@ public class AdministrativeController {
     @PutMapping("/invoice/confirm-examined")
     public ResponseEntity<InvoiceResponseDto> confirmExamined(@RequestBody ConfirmInvoiceDto dto) {
         return ResponseEntity.ok(invoiceService.confirmExamined(dto.getInvoiceId(), dto.getDiscountInsurance()));
+    }
+
+    @ApiOperation("Update information for adminstrator")
+    @PutMapping("/update/information")
+    public ResponseEntity<UserEntity> updateInformation(@Valid @RequestBody AdministratorUpdateDto dto) {
+        return ResponseEntity.ok(userService.updateAdministrator(dto));
     }
 }

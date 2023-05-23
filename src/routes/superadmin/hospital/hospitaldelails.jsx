@@ -98,7 +98,7 @@ const Hospitaldelails = ({ }) => {
                                 <div className='grid grid-cols-4 gap-4 justify-items-center'>
                                     {
                                         data.services.map((item, index) => (
-                                            <div key={index} className='flex flex-col gap-5 items-center border '>
+                                            <div key={index} className='flex flex-col gap-5 items-center  '>
                                                 <div><IconBriefCase className='w-8' /></div>
                                                 <p className='text-base font-semibold'>{item.serviceName}</p>
                                             </div>
@@ -141,11 +141,12 @@ const Hospitaldelails = ({ }) => {
                             </div>
                         </div>
                     </div>
-                    <div className='w-2/5 bg-white p-4'>
-                        <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>Duyệt và tạo phòng khám mới</div>
 
-                        <div className='flex  gap-5 mb-10 items-center justify-center '>
-                            <p className='text-base'>Trạng thái:</p>
+                    <div className='w-2/5 bg-white p-4'>
+                        <div className='text-xl font-semibold text-cyan-900  uppercase text-center pt-5 pb-5 border-b-'>Duyệt và tạo phòng khám mới</div>
+
+                        <div className='flex  gap-5 mb-10 items-center justify-center mt-8'>
+                            <p className='text-base font-semibold'>Trạng thái:</p>
                             {data.status != true ?
                                 <>
                                     <div className='bg-yellow-100 text-yellow-500 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
@@ -161,9 +162,25 @@ const Hospitaldelails = ({ }) => {
 
                         </div>
 
-                        <Divider />
-                        <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>thông tin - đánh giá</div>
-                        <div className='flex justify-center gap-3 mb-3'>
+                        <div className='flex  gap-5 mb-10 items-center justify-center '>
+                            <p className='text-base font-semibold'>Tình trạng:</p>
+                            {data.status != true ?
+                                <>
+                                    <div className='bg-yellow-100 text-yellow-500 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
+                            before:w-2 before:h-2 before:bg-yellow-500 before:absolute before:rounded-full'>Đang hoạt động</div>
+                                    <Check className='w-8 h-8 fill-green-500 cursor-pointer' onClick={handleCensor} />
+
+                                </>
+                                : <>
+                                    <div className='bg-green-200 text-green-700 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
+                            before:w-2 before:h-2 before:bg-green-500 before:absolute before:rounded-full'>Đã bị khoá</div>
+                                    <Times className='w-8 fill-red-500 cursor-pointer' onClick={handleCancel} />
+                                </>}
+
+                        </div>
+                        <hr />
+                        <div className='text-xl font-semibold text-cyan-900  uppercase text-center pt-5 pb-5'>thông tin - đánh giá</div>
+                        <div className='flex justify-center gap-3 mb-3 mt-8'>
                             <div className='text-6xl text-cyan-950'> {data.star}</div>
                             <Rate defaultValue={data.star} disabled />
                         </div>
@@ -182,8 +199,8 @@ const Hospitaldelails = ({ }) => {
                             </div>
                         </div>
                         <Divider />
-                        <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>Lịch làm việc</div>
-                        <table className='w-full'>
+                        <div className='text-xl font-semibold text-cyan-900 uppercase text-center pt-5 pb-5'>Lịch làm việc</div>
+                        <table className='w-full mt-8'>
                             <thead>
                                 <tr className='bg-slate-700 text-white'>
                                     <th>Buổi</th>

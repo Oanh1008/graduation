@@ -10,7 +10,8 @@ function ChartComponent() {
     const [dataLoaded, setDataLoaded] = useState(false);
     const revenueRef = useRef(null);
     const bookRef = useRef(null);
-
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const today = new Date();
 
     const navigate = useNavigate()
     let user = JSON.parse(localStorage.getItem('user'));
@@ -21,8 +22,8 @@ function ChartComponent() {
             navigate('/login')
         }
         else {
-            if (user.roleId === 3) {
-                navigate(`/nurse/booking`)
+            if (user.roleId === 1) {
+                navigate(`/admin-hospital`)
             }
             else {
                 fetchData();
@@ -31,13 +32,12 @@ function ChartComponent() {
     }, {})
 
     const fetchData = async () => {
-        const data = await get(`/employee/statistic/revue/book/${user.hospitalId}?year=2023`);
+        const data = await get(`/employee/statistic/revue/book/${user.hospitalId}?year=${selectedYear}`);
         setData(data)
         setDataLoaded(true)
     };
 
     var numberOfBooks = [];
-
     for (const book in data) {
         if (data.hasOwnProperty(book) && data[book].hasOwnProperty("numberOfBooks")) {
             numberOfBooks.push(data[book].numberOfBooks);
@@ -103,9 +103,14 @@ function ChartComponent() {
 
         }
 
+    }, [dataLoaded, data])
 
-    }, [dataLoaded])
+    const hanldeClick = () => {
+        const year = selectedYear.toString();
+        const date = new Date(year)
 
+        setSelectedYear(date.getFullYear())
+    }
 
     return (
         <Layout >
@@ -113,15 +118,23 @@ function ChartComponent() {
                 <div className='flex justify-between items-center'>
                     <div className=' text-2xl font-bold text-cyan-950 pt-5 px-6'>Thống kê </div>
                 </div>
-                <div className="my-3 flex justify-center items-center gap-5">
-                    <label htmlFor="address" className="block py-2 text-xl">
-                        Năm
+                <form className="my-3 flex justify-center items-center gap-5">
+                    <label htmlFor="date" className="block py-2 text-xl">
+                        Năm :
                     </label>
                     <DatePicker picker="year"
                         placeholder='Chọn năm'
+                        name='date'
+                        selected={selectedYear}
+                        onChange={(date) => setSelectedYear(date)}
+                        dateFormat="yyyy"
+                        onBlur={hanldeClick}
+
                     />
-                </div>
-                <div className='flex w-full gap-4 '>
+                    <button className='bg-green-700 text-white uppercase px-2 py-1 rounded-md' type='button'
+                        onClick={fetchData}> Thống kê </button>
+                </form>
+                <div className='flex w-full gap-4 mt-14 '>
                     <div className='w-1/2 bg-white mx-auto '>
                         <canvas ref={bookRef}></canvas>
                         <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê số đơn đặt lịch</p>

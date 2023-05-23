@@ -1,10 +1,9 @@
 import React from 'react'
-import { MdAddChart, MdBarChart, MdPeople, MdStackedBarChart    } from "react-icons/md";
-import { Dashboard } from '../../../assets/svg';
-import { FaRegChartBar } from 'react-icons/fa';
+import {  MdBarChart, MdPeople    } from "react-icons/md";
+import { FaCapsules, FaMedkit, FaStethoscope } from 'react-icons/fa';
 const Layout = [
     {
-        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        icon: <MdBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
         key: "/ ",
         label: "Dashboard",
     },
@@ -16,19 +15,19 @@ const Layout = [
     },
 
     {
-        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        icon: <FaStethoscope  className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
         key: "/booking",
         label: "Quản lý khám chữa bệnh",
 
     },
     {
-        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        icon: <FaMedkit className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
         key: "/services",
         label: "Quản lý dịch vụ",
 
     },
     {
-        icon: <MdPeople className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        icon: <FaCapsules className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
         key: "/medicine",
         label: "Quản lý thuốc",
 

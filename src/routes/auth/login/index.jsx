@@ -110,7 +110,7 @@ const Login = () => {
                             </div>
                         </form>
 
-                        <p className="mt-4 text-xs font-light text-center text-gray-700">
+                        <p className="mt-4 text-sm font-light text-center text-gray-700">
                             {" "}
                             Tạo tài khoản phòng khám? {" "}
                             <button

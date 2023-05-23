@@ -157,38 +157,39 @@ const HospitalProfile = () => {
                             <Rate defaultValue={5} disabled />
                             <div className='text-6xl'> 5</div>
                         </div>
+                        <Divider />
                         <div className='flex flex-col text-base gap-5'>
-                            <div className='flex w-full'>
-                                <p className='font-semibold w-2/5'>Địa chỉ</p>
+                            <div className='flex w-full pb-2 border-b'>
+                                <p className='font-semibold w-2/5 '>Địa chỉ</p>
                                 <p className='w-3/5'>{user.address}</p>
                             </div>
-                            <div className='flex w-full'>
+                            <div className='flex w-full pb-2 border-b'>
                                 <p className='font-semibold w-2/5'>Email</p>
                                 <p className='w-3/5'>{user.adminInformation.email}</p>
                             </div>
-                            <div className='flex w-full'>
+                            <div className='flex w-full pb-2 border-b'>
                                 <p className='font-semibold w-2/5'>Số điện thoại</p>
                                 <p className='w-3/5'>{user.adminInformation.phone}</p>
                             </div>
-                            <div className='flex w-full'>
+                            <div className='flex w-full pb-2 border-b'>
                                 <p className='font-semibold w-2/5'>Cho chọn bác sĩ  :</p>
                                 {user.isChoosenDoctor ?
                                     <p className='w-3/5'>Có</p>
                                     : <p className='w-3/5'>Không</p>}
                             </div>
-                            <div className='flex w-full'>
+                            <div className='flex w-full pb-2 border-b'>
                                 <p className='font-semibold w-2/5'>Công khai giá:</p>
                                 {user.isPublicPrice ?
                                     <p className='w-3/5'>Có</p>
                                     : <p className='w-3/5'>Không</p>}
                             </div>
-                            <div className='flex w-full'>
+                            <div className='flex w-full pb-2 border-b'>
                                 <p className='font-semibold w-2/5'>Công khai đánh giá:</p>
                                 {user.isRate ?
                                     <p className='w-3/5'>Có</p>
                                     : <p className='w-3/5'>Không</p>}
                             </div>
-                            <div className='flex w-full'>
+                            <div className='flex w-full pb-2 '>
                                 <p className='font-semibold w-2/5'>Giá khám</p>
                                 <p className='w-3/5'>{user.priceFrom}.000 - {user.priceTo}.000 VNĐ</p>
                             </div>
@@ -224,7 +225,7 @@ const HospitalProfile = () => {
 
                                         {daysOfWeek.map((day, index) => {
                                             const daytime = user.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
-                                            return <td key={index} className="border-r w-20 text-center"
+                                            return <td key={index} className="border-r w-20 text-center cursor-pointer hover:bg-slate-100"
                                                 onDoubleClick={() => {
                                                     if (!daytime) { handleCourseAdd(time, day) }
                                                     else { handleCourseClick(daytime) }

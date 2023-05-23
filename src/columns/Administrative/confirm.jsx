@@ -120,7 +120,7 @@ const Columns = [
 
         render: (text, item) => (
             <div className='flex items-center gap-3'>
-                <p>{item.invoiceInformation.operatorId}</p>
+                <p>{item.operatorName}</p>
             </div>),
     },
     {

@@ -25,15 +25,6 @@ import Button from '../../../components/button/index'
 
 const { Option } = Select;
 
-const formItemLayout = {
-    labelCol: {
-        span: 6,
-    },
-    wrapperCol: {
-        span: 14,
-    },
-};
-
 
 const normFile = (e) => {
     console.log('Upload event:', e);

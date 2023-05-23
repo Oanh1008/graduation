@@ -16,6 +16,8 @@ const ServicesComponent = ({
     selectedDataServices,
     handleServicesRemove,
     calculateTotalServices,
+    openSV,
+    setOpenSV
 }) => {
 
     const Columns = [
@@ -75,9 +77,9 @@ const ServicesComponent = ({
 
     return (
         <div className="w-2/5 px-3 -mx-3 mb-2">
-            <label className="block uppercase tracking-wide text-green-900 text-lg font-bold  my-5" >
+            <div className="block uppercase tracking-wide text-green-900 text-lg font-bold  my-5" onClick={() => setOpenSV(false)}>
                 Dịch vụ
-            </label>
+            </div>
             <div div className="w-1/2 px-3 mb-2" >
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-services">
                     Tìm kiếm dịch vụ
@@ -88,9 +90,11 @@ const ServicesComponent = ({
                         placeholder='Tìm dịch vụ...'
                         value={services}
                         onChange={handleInputChangeServices}
+                        onFocus={() => setOpenSV(true)}
                     />
                     <div className='absolute w-full z-20 rounded-sm'>
-                        {resultsServices.length > 0 &&
+                        {openSV &&
+                            resultsServices.length > 0 &&
                             resultsServices.map((service) => (
                                 <div className='bg-white border-b border-x py-2 px-5 cursor-pointer hover:bg-gray-300'
                                     onClick={() => handleServicesClick(service)}>

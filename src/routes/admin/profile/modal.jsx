@@ -87,8 +87,8 @@ const Modal = ({ isVisible, onClose, user }) => {
                         <form >
                             <div className='flex gap-5'>
                                 <div className='w-1/2'>
-                                    <div className="mb-4">
-                                        <label htmlFor="imageUrl" className="block mb-2">
+                                    <div className="mb-4 h-56">
+                                        <label htmlFor="imageUrl" className="block mb-2 font-semibold">
                                             Ảnh
                                         </label>
                                         <div name="Avatar" wrapperCol={{ span: 12, offset: 7 }}  >
@@ -98,10 +98,10 @@ const Modal = ({ isVisible, onClose, user }) => {
                                     </div>
 
                                     <div className="mb-4 mt-7">
-                                        <label htmlFor="address" className="block mb-2 ">
+                                        <label htmlFor="address" className="block mb-2 font-semibold">
                                             Địa chỉ
                                         </label>
-                                        <input
+                                        <textarea
                                             type="text"
                                             id="address"
                                             name="address"
@@ -113,9 +113,9 @@ const Modal = ({ isVisible, onClose, user }) => {
 
                                 </div>
 
-                                <div className='w-1/2'>
-                                    <div className="mb-4">
-                                        <label htmlFor="isChoosenDoctor" className="block mb-2">
+                                <div className='w-1/2  '>
+                                    <div className="mb-4 border-b">
+                                        <label htmlFor="isChoosenDoctor" className="block mb-2 font-semibold">
                                             Cho phép chọn bác sĩ:
                                         </label>
                                         <div className='flex gap-4 w-full justify-around  h-10 items-center'>
@@ -129,8 +129,8 @@ const Modal = ({ isVisible, onClose, user }) => {
                                             <label for="true">Không</label><br />
                                         </div>
                                     </div>
-                                    <div className="mb-4">
-                                        <label htmlFor="isPublicPrice" className="block mb-2">
+                                    <div className="mb-4  border-b">
+                                        <label htmlFor="isPublicPrice" className="block mb-2 font-semibold">
                                             Công khai giá khám:
                                         </label>
                                         <div className='flex gap-4 w-full justify-around h-10 items-center'>
@@ -145,8 +145,8 @@ const Modal = ({ isVisible, onClose, user }) => {
                                         </div>
                                     </div>
 
-                                    <div className="mb-4">
-                                        <label htmlFor="isRate" className="block mb-2">
+                                    <div className="mb-4 border-b pb-2">
+                                        <label htmlFor="isRate" className="block  mb-2 font-semibold">
                                             Công khai đánh giá:
                                         </label>
 
@@ -162,10 +162,11 @@ const Modal = ({ isVisible, onClose, user }) => {
                                         </div>
                                     </div>
                                     <div className="mb-4">
-                                        <label className="block mb-2">
+                                        <label className="block mb-2 font-semibold ">
                                             Giá khám
                                         </label>
-                                        <div className='flex  gap-3'>
+                                        <div className='flex items-center gap-3'>
+                                            <span>Từ</span>
                                             <input
                                                 type="number"
                                                 id="priceFrom"
@@ -175,6 +176,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                                                 onChange={handleInputChange}
                                                 className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
                                             />
+                                            <span>Đến</span>
                                             <input
                                                 type="number"
                                                 id="priceTo"
@@ -191,7 +193,7 @@ const Modal = ({ isVisible, onClose, user }) => {
                             </div>
 
                             <div className="mb-4">
-                                <label htmlFor="information" className="block mb-2">
+                                <label htmlFor="information" className="block mb-2 font-semibold">
                                     Thông tin của phòng khám
                                 </label>
                                 <textarea id="information" name="information" className='border p-2 w-full text-neutral-600' onChange={handleInputChange} rows="6" cols="50" defaultValue={form.information} />

@@ -82,16 +82,16 @@ const Index = () => {
                                 <Divider />
                                 <div className='flex justify-start gap-16 text-base'>
                                     <div className='flex flex-col gap-3 font-semibold'>
-                                        <div>Ngày sinh</div>
-                                        <div>Địa chỉ</div>
-                                        <div>Email</div>
-                                        <div>Số điện thoại</div>
+                                        <p className='h-6'>Ngày sinh</p>
+                                        <p className='h-6'>Địa chỉ</p>
+                                        <p className='h-6'>Email</p>
+                                        <p className='h-6'>Số điện thoại</p>
                                     </div>
                                     <div className='flex flex-col gap-3'>
-                                        <div>{data.birthDay}</div>
-                                        <div>{data.address}</div>
-                                        <div>{data.email}</div>
-                                        <div>{data.phone}</div>
+                                        <p className='h-6'>{data.birthDay}</p>
+                                        <p className='h-6'>{data.address}</p>
+                                        <p className='h-6'>{data.email}</p>
+                                        <p className='h-6'>{data.phone}</p>
                                     </div>
                                 </div>
                             </div>

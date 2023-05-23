@@ -67,9 +67,6 @@ const ManagerBooking = () => {
         setLoading(false)
 
     };
-
-    console.log(dataconfirm);
-
     function handleToggle(id) {
         setToggle(id)
     }

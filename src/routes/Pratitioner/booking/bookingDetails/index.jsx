@@ -13,6 +13,8 @@ const BookingDetails = () => {
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
     const [data, setData] = useState({})
+    const [openMedicines, setOpenMedicine] = useState(false)
+    const [openSV, setOpenSV] = useState(false)
     const [selectedDataMedicine, setselectedDataMedicine] = useState([])
     const [selectedDataServices, setselectedDataServices] = useState([])
     const [query, setQuery] = useState('');
@@ -290,7 +292,10 @@ const BookingDetails = () => {
                 <div className='mx-6 bg-white p-6  '
                     onClick={hanldeAmount}>
                     <form className="w-full ">
-                        <div className='flex justify-between'>
+                        <div className='flex justify-between' onClick={() => {
+                            setOpenMedicine(false);
+                            setOpenSV(false)
+                        }}>
                             <div className='text-2xl font-bold text-gray-700 mb-5'>Chi tiết đơn bệnh </div>
                             {history === 'false' ?
                                 user.roleId === 4 ?
@@ -308,7 +313,10 @@ const BookingDetails = () => {
                                 : <></>
                             }
                         </div>
-                        <div className="flex flex-wrap -mx-3 mb-2">
+                        <div className="flex flex-wrap -mx-3 mb-2" onClick={() => {
+                            setOpenMedicine(false);
+                            setOpenSV(false)
+                        }}>
                             <div className="w-full md:w-1/3 px-3">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="fullName">
                                     Họ và tên bệnh nhân
@@ -357,7 +365,10 @@ const BookingDetails = () => {
                             </div>
 
                         </div>
-                        <div className="flex flex-wrap -mx-3 mb-2">
+                        <div className="flex flex-wrap -mx-3 pb-2" onClick={() => {
+                            setOpenMedicine(false);
+                            setOpenSV(false)
+                        }} >
                             <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="symptomDetail">
                                     Triệu chứng chi tiết
@@ -420,6 +431,8 @@ const BookingDetails = () => {
                                 handleMedicineRemove={handleMedicineRemove}
                                 setMedicineCounter={setMedicineCounter}
                                 medicineCounter={medicineCounter}
+                                openMedicines={openMedicines}
+                                setOpenMedicine={setOpenMedicine}
 
                             />
                             <ServicesComponent
@@ -432,6 +445,8 @@ const BookingDetails = () => {
                                 services={services}
                                 calculateTotalServices={calculateTotalServices}
                                 resultsServices={resultsServices}
+                                openSV={openSV}
+                                setOpenSV={setOpenSV}
                                 handleServicesRemove={handleServicesRemove} />
 
                         </div>

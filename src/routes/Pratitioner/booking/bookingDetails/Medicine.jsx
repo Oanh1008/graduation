@@ -11,6 +11,8 @@ const MedicineComponent = ({
     setPageSize,
     query,
     results,
+    openMedicines,
+    setOpenMedicine,
     medicineCounter,
     setMedicineCounter,
     selectedDataMedicine,
@@ -19,7 +21,6 @@ const MedicineComponent = ({
     handleMedicineRemove,
     calculateTotalMedicine,
 }) => {
-    const [open, setOpen] = useState(false)
     const Columns = [
         {
             key: '1',
@@ -107,21 +108,13 @@ const MedicineComponent = ({
 
     calculateTotalMedicine(selectedDataMedicine, medicineCounter)
 
-    const hanldeOpen = () => {
-        setOpen(true)
-    }
-
-    const hanldeClose = () => {
-        setOpen(false)
-    }
-
     return (
-        <div className="w-3/5 px-3 -mx-3 mb-2" onClick={hanldeClose}>
-            <label className="block uppercase tracking-wide text-green-900 text-lg font-bold  my-5" htmlFor="grid-invoice">
+        <div className="w-3/5 px-3 -mx-3 mb-2" >
+            <div className="block uppercase tracking-wide text-green-900 text-lg font-bold  my-5" htmlFor="grid-invoice" onClick={() => setOpenMedicine(false)}>
                 Đơn thuốc
-            </label>
+            </div>
             <div div className="w-full md:w-1/3 px-3 mb-2" >
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-medicine">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-medicine" >
                     Tìm kiếm thuốc
                 </label>
                 <div className="relative">
@@ -130,11 +123,11 @@ const MedicineComponent = ({
                         placeholder='Tìm thuốc...'
                         value={query}
                         onChange={handleInputChangeMedicines}
-                        onFocus={hanldeOpen}
+                        onFocus={() => setOpenMedicine(true)}
                     />
                     <div className='absolute w-full z-10 rounded-sm group-focus:block '>
                         {
-                            open &&
+                            openMedicines &&
                             results.length > 0 &&
                             results.map((medicine) => (
                                 <div className='bg-white border-b border-x py-2 px-5 cursor-pointer hover:bg-gray-300'

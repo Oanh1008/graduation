@@ -11,6 +11,7 @@ const Columns = [
 
     {
         key: '9',
+        fixed: 'left',
         title: "Bệnh viện khám",
         width: 200,
         render: (text, item) => (text &&
@@ -45,7 +46,7 @@ const Columns = [
     {
         key: '9',
         title: "Các loại thuốc đã uống",
-        fixed: 'right',
+        width: 300,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 {item.medicines.map((item) => (
@@ -58,6 +59,7 @@ const Columns = [
         key: '6',
         title: "Triệu chứng chi tiết",
         dataIndex: "",
+        width: 300,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.invoiceInformation.symptomDetail} </div>
@@ -68,6 +70,7 @@ const Columns = [
     {
         key: '7',
         title: "Kết quả khám bệnh",
+        width: 200,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.invoiceInformation.diagnose} </div>
@@ -76,6 +79,7 @@ const Columns = [
     {
         key: '8',
         title: "Lời khuyên",
+        width: 200,
         fixed: 'right',
         dataIndex: "birthDay",
         render: (text, item) => (text &&

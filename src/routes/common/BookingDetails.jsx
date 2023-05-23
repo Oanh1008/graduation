@@ -35,7 +35,7 @@ const BookingDetailsConfirm = () => {
             <div className='mx-6 bg-white p-6 h-[calc(100vh_-_5rem)] '>
                 <form className="w-full ">
                     <div className='flex items-center gap-4'>
-                        <p className='text-2xl font-bold text-gray-700 mb-5'>Chi tiết đặt lịch </p>
+                        <p className='text-2xl font-bold text-cyan-900 mb-5'>Chi tiết đặt lịch </p>
                         {status === 'pending' ?
                             <p className='mb-5 bg-green-100 font-semibold px-4 rounded-3xl py-1 text-green-600'>Chờ duyệt</p>
                             : status === 'accept' ?

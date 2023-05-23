@@ -41,6 +41,7 @@ function App() {
           <Route path='/admin-hospital/hospitalDetail/:id' element={<Hospitaldelails />}></Route>
           <Route path='/doctor/booking' element={<DoctorBooking/>}></Route>
           <Route path='/doctor/history' element={<History/>}></Route>
+          <Route path='/doctor/profile' element={<DoctorProfile/>}></Route>
           <Route path='/doctor/profile/:id' element={<DoctorProfile/>}></Route>
           <Route path='/doctor/booking/booingDetails/:id' element={<BookingDetails/>}></Route>
           <Route path='/nurse/booking' element={<ManagerBooking/>}></Route>

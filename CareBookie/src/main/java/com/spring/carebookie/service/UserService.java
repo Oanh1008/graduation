@@ -372,4 +372,8 @@ public class UserService {
         return userRepository.findByUserId(user.getUserId());
     }
 
+    @Transactional
+    public void lockUser(String userId) {
+        userRepository.lockUser(userId);
+    }
 }

@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatisticResponse {
+public class StatisticBookResponse {
 
-    private Double revenue;
+    private int book;
 
-    private Double service;
+    private int cancel;
 
-    private Double medicine;
+    private int confirm;
 
 }

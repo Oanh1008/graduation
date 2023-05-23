@@ -71,4 +71,18 @@ public class SupperAdminController {
         userService.deleteEmployee(userId);
         return ResponseEntity.ok().build();
     }
+
+    @ApiOperation("Lock user")
+    @DeleteMapping("/user/lock/{userId}")
+    public ResponseEntity<?> lockUser(@PathVariable String userId) {
+        userService.lockUser(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Delete hospital, delete all table relationship with hospital")
+    @DeleteMapping("/hospital/lock/{hospitalId}")
+    public ResponseEntity<?> lockHospital(@PathVariable String hospitalId) {
+        hospitalService.lockHospital(hospitalId);
+        return ResponseEntity.ok().build();
+    }
 }

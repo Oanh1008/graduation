@@ -19,4 +19,8 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Long> {
 
     @Query("select s from ServiceEntity  s where s.hospitalId =:hospitalId and lower(s.serviceName) like concat('%',lower(:name) ,'%')  ")
     List<ServiceEntity> search(String hospitalId, String name);
+
+    @Modifying
+    @Query("update ServiceEntity s set s.isDisable = true where s.id = :serviceId")
+    void lockService(Long serviceId);
 }

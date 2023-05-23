@@ -259,4 +259,9 @@ public class HospitalService {
         // Delete all service
         serviceRepository.deleteAll(serviceRepository.getServiceEntityByHospitalId(hospitalId));
     }
+
+    @Transactional
+    public void lockHospital(String hospitalId) {
+        hospitalRepository.lockHospital(hospitalId);
+    }
 }

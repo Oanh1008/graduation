@@ -53,4 +53,7 @@ public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> 
             " h.imageUrl = :#{#dto.imageUrl} where h.hospitalId = :#{#dto.hospitalId}")
     void settingProfile(@Param("dto") HospitalSettingProfileDto dto);
 
+    @Modifying
+    @Query(" update HospitalEntity h set h.isDisable = true where h.hospitalId = :hospitalId ")
+    void lockHospital(String hospitalId);
 }

@@ -34,8 +34,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value = UserSql.GET_ALL_DOCTORS, nativeQuery = true)
     List<DoctorGetAllProjection> getAllDoctors();
 
-    @Query(value = UserSql.GET_ALL_DOCTOR_BY_HOSPITAL_ID, nativeQuery = true)
-    List<DoctorGetAllProjection> getAllDoctorByHospitalId(@Param("hospitalId") String hospitalId);
+    @Query("select u from UserEntity u where u.isDoctor = true and u.hospitalId = :hospitalId")
+    List<UserEntity> getAllDoctorByHospitalId(@Param("hospitalId") String hospitalId);
 
     @Query(value = UserSql.SEARCH_DOCTOR_BY_KEY, nativeQuery = true)
     List<DoctorGetAllProjection> searchDoctorByKey(@Param("key") String key);
@@ -90,4 +90,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Modifying
     @Query("update UserEntity u set u.password = :newPassword where u.userId = :userId")
     void updatePassword(String userId, String newPassword);
+
+    @Modifying
+    @Query("update UserEntity u set u.isDisable = true where u.userId = :userId")
+    void lockUser(String userId);
 }

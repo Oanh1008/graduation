@@ -22,4 +22,8 @@ public interface MedicineRepository extends JpaRepository<MedicineEntity,Long> {
 
     @Query("select m from MedicineEntity m where m.hospitalId = :hospitalId and lower(m.medicineName) like concat('%',lower(:name) ,'%') ")
     List<MedicineEntity> getAllByHospitalIdAnAndMedicineName(String hospitalId, String name);
+
+    @Modifying
+    @Query("update MedicineEntity m set m.isDisable = true where m.id = :medicineId")
+    void lockMedicine(Long medicineId);
 }

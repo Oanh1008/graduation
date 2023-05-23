@@ -31,4 +31,6 @@ public class ServiceEntity{
 
     private BigDecimal price;
 
+    private boolean isDisable = false;
+
 }

@@ -30,4 +30,5 @@ public class MedicineEntity  {
 
     private String medicineUnit;
 
+    private boolean isDisable = false;
 }

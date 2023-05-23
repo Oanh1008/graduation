@@ -1,16 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Carousel } from 'antd';
 import banner_bg_1 from '../../assets/image/1.png'
 import banner_bg_2 from '../../assets/image/2.png'
-import banner_bg_3 from '../../assets/image/3.png'
 import Category from './review/category';
 import ShowHospital from './review/showhospital';
 import ShowDoctor from './review/showDoctor';
 import Review from './review/review';
 import Layout from '../../component/layout';
 import Introduce from './review/introduce';
+import { useNavigate } from 'react-router-dom';
+import { get } from '../../utils/ApiCommon';
 
 const Home = () => {
+    const navigate = useNavigate();
+    const [data, setData] = useState('');
+    const [results, setResults] = useState({});
+    const [open, setOpen] = useState(false);
+
+    const handleChange = async (searchQuery) => {
+        const response = await get(`/common/search/home?key=${searchQuery} `)
+        console.log(response);
+        setResults(response);
+    };
+    console.log(results.hospitals);
+    const handleInputChange = (e) => {
+        const newQuery = e.target.value;
+        setData(newQuery);
+        handleChange(newQuery);
+    };
     return (
         <Layout>
             <div className='relative'>
@@ -30,14 +47,65 @@ const Home = () => {
                     </div>
                 </Carousel >
                 <div className='absolute -bottom-[10%]  w-full   '>
-                    <div className='container border-t-8 shadow-xl  border-cyan-700 bg-white py-12 px-10 mx-auto'>
+                    <div className='container border-t-8 shadow-xl relative border-cyan-700 bg-white py-12 px-10 mx-auto'>
                         <p className='font-bold text-lg pb-3 text-gray-600'>Chủ đề tìm kiếm </p>
                         <div class=" relative mx-auto text-gray-600 ">
                             <input class="border-2 border-gray-300 bg-white h-16 text-xl px-5 w-full pr-16 rounded-lg focus:outline-none"
-                                type="search" name="search" placeholder="Tìm bác sĩ, chuyên khoa,..." />
+                                type="search"
+                                name="search"
+                                placeholder="Tìm bác sĩ, chuyên khoa,..."
+                                value={data}
+                                onChange={handleInputChange}
+                                onFocus={() => setOpen(true)} />
                             <button type="submit" class="absolute right-0 text-white bg-cyan-700 top-0 px-6 py-5 rounded-r-md">
                                 Search
                             </button>
+                        </div>
+                        <div className='absolute left-0 right-0 mx-auto px-10 border-x border-b pb-10 bg-white z-30 rounded-sm group-focus:block '>
+                            {
+                                (open && Object.keys(data).length > 0) &&
+
+                                <>
+                                    {
+                                        results.hospitals && results.hospitals.length > 0 &&
+                                        (
+                                            <div className=''>
+                                                <p className='text-xl py-2 bg-cyan-800 text-white font-semibold px-3'>Phòng khám</p>
+                                                {
+                                                    results.hospitals.map((item) => (
+                                                        <div className='bg-white border-b border-x py-2 px-5 cursor-pointer hover:bg-gray-300'
+                                                            onClick={() => navigate(`/hospital/hospitalDetails/${item.hospitalId}`)}
+                                                        >
+                                                            {item.hospitalName}
+                                                        </div>
+                                                    ))
+                                                }
+
+                                            </div>
+                                        )
+                                    }
+                                    {
+
+                                        results.hospitals && results.hospitals.length > 0 &&
+                                        <div>
+                                            <p className='text-xl py-2 bg-cyan-800 text-white font-semibold px-3'>Bác sĩ</p>
+                                            {
+                                                results.doctors.map((item) => (
+                                                    <div className='bg-white border-b border-x py-2 px-5 cursor-pointer hover:bg-gray-300'
+                                                        onClick={() => navigate(`/doctor/doctorDetails/${item.doctorId}`)}
+                                                    >
+                                                        {item.doctorName}
+                                                    </div>
+                                                ))
+                                            }
+
+                                        </div>
+                                    }
+
+                                </>
+
+                            }
+
                         </div>
                     </div>
                 </div>

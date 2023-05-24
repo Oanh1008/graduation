@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "993905814408",
+    "project_id": "carebookieschool",
+    "storage_bucket": "carebookieschool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993905814408:android:ac4c1e94e3a6a04ecaa83d",
+        "android_client_info": {
+          "package_name": "com.example.care_bookie_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993905814408-vs8nosns6fqf8q6h6vsjj5qg7gpvgvvv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKg6JzXf4AT-jzTQNHzYqRFBMcbrpUXF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993905814408-vs8nosns6fqf8q6h6vsjj5qg7gpvgvvv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

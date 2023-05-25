@@ -38,10 +38,11 @@ const ListHospital = () => {
             <div className='relative py-36 bg-[#f8f9fc] '>
                 <section className="relative container ">
                     <div className='text-4xl font-bold text-cyan-950 text-center mb-3'>Các cơ sở ý tế trên địa bàn </div>
-                    <div class=" relative mx-auto text-gray-600 my-3">
-                        <input class="border-2 border-gray-300 bg-white py-3 text-lg px-3 w-full pr-16 rounded-lg focus:outline-none"
-                            type="search" name="search" placeholder="Tìm kiếm ..." />
-                        <button type="submit" class="absolute right-0 text-white bg-cyan-700 top-0 px-5 py-4 rounded-r-md">
+                    <div class=" relative ml-auto text-gray-600 my-6 w-2/3">
+                        <input class="border-2 border-gray-300 bg-white py-1 text-lg px-3 w-full pr-16 rounded-lg focus:outline-none"
+                            type="search" name="search"
+                            placeholder="Tìm bác sĩ,..." />
+                        <button type="submit" class="absolute right-0 text-white bg-cyan-700 top-0 px-5 py-2 rounded-r-md">
                             Search
                         </button>
 

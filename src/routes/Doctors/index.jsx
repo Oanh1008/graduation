@@ -12,6 +12,22 @@ import ShowHospital from '../Home/review/showhospital';
 const Doctor = () => {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
+    const [results, setResults] = useState([]);
+    const [open, setOpen] = useState(false);
+
+    const handleChange = async (searchQuery) => {
+        const response = await get(`/common/search/home?key=${searchQuery} `)
+        if (searchQuery == '') {
+            setData(data);
+        }
+        setResults(response);
+    };
+    console.log(results.hospitals);
+    const handleInputChange = (e) => {
+        const newQuery = e.target.value;
+        setData(newQuery);
+        handleChange(newQuery);
+    };
     useEffect(() => {
         fetchData();
     }, []);
@@ -31,10 +47,14 @@ const Doctor = () => {
             <div className='relative py-36 bg-[#f8f9fc] '>
                 <section className="relative container ">
                     <div className='text-4xl font-bold text-cyan-950 text-center mb-3'>Tìm bác sĩ yêu thích </div>
-                    <div class=" relative mx-auto text-gray-600 my-3">
-                        <input class="border-2 border-gray-300 bg-white py-3 text-lg px-3 w-full pr-16 rounded-lg focus:outline-none"
-                            type="search" name="search" placeholder="Tìm bác sĩ, chuyên khoa,..." />
-                        <button type="submit" class="absolute right-0 text-white bg-cyan-700 top-0 px-5 py-4 rounded-r-md">
+                    <div class=" relative mx-auto text-gray-600 my-6 w-1/2">
+                        <input class="border-2 border-gray-300 bg-white py-1 text-lg px-3 w-full pr-16 rounded-lg focus:outline-none"
+                            type="search" name="search"
+                            placeholder="Tìm bác sĩ,..."
+                            value={results}
+                            onChange={handleInputChange}
+                            onFocus={() => setOpen(true)} />
+                        <button type="submit" class="absolute right-0 text-white bg-cyan-700 top-0 px-5 py-2 rounded-r-md">
                             Search
                         </button>
 

@@ -25,9 +25,9 @@ const ShowDoctor = () => {
             <p className='text-center text-4xl font-bold text-sky-800 mr-4'  >
                 Cơ sở y tế uy tín
             </p>
-            <div className='mt-10 flex justify-between'>
+            <div className='mt-10 flex justify-between '>
                 {data.map((item) => (
-                    <div className='flex flex-col items-center mr-5'>
+                    <div className='flex flex-col cursor-pointer hover:scale-105 overflow-hidden items-center mr-5' onClick={() => navigate(`/hospital/hospitalDetails/${item.hospitalId}`)}>
                         <div className='h-72 w-72 rounded-xl'
                             style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
                             onClick={() => { }}

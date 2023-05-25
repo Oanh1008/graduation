@@ -23,10 +23,18 @@ const Footer = () => {
                                 <ul className="  text-cyan-600">
                                     {footer.childen.map((item, id) => {
                                         return (
-                                            <li className="mb-4 relative flex gap-3 items-center group ">
-                                                <p className='w-8 h-8 fill-white group-hover:fill-cyan-500'>{item.alt}</p>
-                                                <a href="#" className="text-white  group-hover:text-cyan-500">{item.name}</a>
-                                            </li>
+                                            item.alt ?
+                                                <li className="mb-4 relative flex gap-3 items-center group ">
+                                                    <p className='w-8 h-8 fill-white group-hover:fill-cyan-500'>{item.alt}</p>
+                                                    <a href="#" className="text-white  group-hover:text-cyan-500">{item.name}</a>
+                                                </li>
+                                                :
+                                                <li className="mb-4 relative flex gap-3 items-center group ">
+
+                                                    <a href="#" className=" pl-10  before:left-4  before:top-2  before:w-2 before:h-2 before:bg-white before:absolute before:rounded-full group-hover:before:bg-cyan-500 text-white  group-hover:text-cyan-500">{item.name}</a>
+                                                </li>
+
+
                                         )
                                     })}
                                 </ul>

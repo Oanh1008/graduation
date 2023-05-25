@@ -30,8 +30,8 @@ const ShowDoctor = () => {
             </p>
             <div className='mt-10 flex justify-between'>
                 {data.map((item) => (
-                    <div className=' mr-5'>
-                        <div className='h-64 w-64 rounded-full'
+                    <div className=' mr-5 cursor-pointer'>
+                        <div className='h-64 w-64 rounded-full hover:scale-105 overflow-hidden'
                             style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
                             onClick={() => { }}
                         >

@@ -15,5 +15,5 @@ public class BookAndInvoiceStatistic {
 
     private Map<Integer, StatisticBookResponse> books;
 
-    private Map<String, Integer> doctors;
+    private Map<String, StatisticDoctorResponse> doctors;
 }

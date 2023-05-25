@@ -9,15 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatisticBookResponse {
-
-    private int book;
+public class StatisticDoctorResponse {
+    private int total;
 
     private int cancel;
 
-    private double cancelPercent;
-
     private int confirm;
-
-    private double confirmPercent;
 }

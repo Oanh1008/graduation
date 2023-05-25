@@ -16,6 +16,7 @@ import com.spring.carebookie.dto.edit.ServiceRemoveInvoiceDto;
 import com.spring.carebookie.dto.response.BookAndInvoiceStatistic;
 import com.spring.carebookie.dto.response.InvoiceResponseDto;
 import com.spring.carebookie.dto.response.StatisticBookResponse;
+import com.spring.carebookie.dto.response.StatisticDoctorResponse;
 import com.spring.carebookie.dto.response.StatisticResponse;
 import com.spring.carebookie.dto.response.UserInvoiceResponse;
 import com.spring.carebookie.dto.save.InvoiceSaveDto;
@@ -101,27 +102,26 @@ public class InvoiceService {
                             .count();
             int confirm = numberOfBook - cancel;
 
-            mapB.replace(bs.getKey(), new StatisticBookResponse(numberOfBook, cancel, confirm));
+            double cancelPercent = ((double) cancel / numberOfBook) * 100;
+            double confirmPercent = ((double) confirm / numberOfBook) * 100;
+            mapB.replace(bs.getKey(), new StatisticBookResponse(numberOfBook, cancel, Math.floor(cancelPercent * 100) / 100, confirm, Math.floor(confirmPercent * 100) / 100));
         }
 
         // Doctor and book
-        Map<String, Integer> mapD = createDoctorMap(hospitalId);
+        Map<String, StatisticDoctorResponse> mapD = createDoctorMap(hospitalId);
         Set<Map.Entry<String, List<BookEntity>>> bookD = book.stream()
                 .collect(Collectors.groupingBy(t -> t.getDoctorId()))
                 .entrySet();
         for (Map.Entry<String, List<BookEntity>> bd : bookD) {
             UserEntity doctor = userRepository.findByUserId(bd.getKey());
             String doctorName = doctor.getLastName() + " " + doctor.getFirstName();
-            mapD.replace(doctorName, bd.getValue().size());
+            int numberOfBook = bd.getValue().size();
+            int cancel = (int)
+                    bd.getValue().stream().filter(b -> b.getStatus().equals("CANCEL")).count();
+            int confirm = numberOfBook - cancel;
+            mapD.replace(doctorName, new StatisticDoctorResponse(numberOfBook,cancel,confirm));
         }
 
-        // Top 5 service booked most in this year
-        Map<String , Integer> mapS = createServiceMap(hospitalId);
-        for (InvoiceResponseDto i : invoice) {
-            for (ServiceEntity s : i.getServices()) {
-
-            }
-        }
         BookAndInvoiceStatistic result = new BookAndInvoiceStatistic();
         result.setInvoices(map);
         result.setBooks(mapB);
@@ -395,11 +395,11 @@ public class InvoiceService {
         return map;
     }
 
-    public Map<String, Integer> createDoctorMap(String hospitalId) {
+    public Map<String, StatisticDoctorResponse> createDoctorMap(String hospitalId) {
         List<UserEntity> doctor = userRepository.getAllDoctorByHospitalId(hospitalId);
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, StatisticDoctorResponse> map = new HashMap<>();
         for (UserEntity d : doctor) {
-            map.put(d.getLastName() + " " + d.getFirstName(), 0);
+            map.put(d.getLastName() + " " + d.getFirstName(), new StatisticDoctorResponse());
         }
         return map;
     }

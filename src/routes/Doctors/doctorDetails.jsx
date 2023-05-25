@@ -1,4 +1,4 @@
-import { Divider, Rate } from 'antd'
+import { Divider, Modal, QRCode, Rate } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { IconEmail, IconHospital, IconPhone } from '../../assets/svg'
@@ -10,10 +10,24 @@ const DoctorDetails = () => {
     const [comment, setComment] = useState([])
     const [loading, setLoading] = useState(false)
     const [working, setWorking] = useState([])
-    const [workingDate, setWorkingDate] = useState({})
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const daysOfWeek = ['2', ' 3', ' 4', ' 5', ' 6', ' 7', '8'];
     const session = ["Sáng", 'Chiều', 'Tối'];
+
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
 
 
     const { id } = useParams()
@@ -139,6 +153,9 @@ const DoctorDetails = () => {
                                     <p className='font-semibold basis-1/3'>Địa chỉ khám: </p>
                                     <p className='basis-2/3'>{data.hospitalAddress}</p>
                                 </div>
+                                <div className='flex justify-center'>
+                                    <button className='bg-green-700 text-white px-3 py-1 rounded-md font-semibold' onClick={showModal}> Đặt lịch</button>
+                                </div>
                                 <Divider />
                                 <div>
                                     <p className='text-2xl font-semibold text-cyan-900 uppercase text-center'>Lịch khám</p>
@@ -174,6 +191,16 @@ const DoctorDetails = () => {
                                         </tbody>
                                     </table>
                                 </div>
+                                <Modal title="Tải ứng dụng để sử dụng "
+                                    className='items-center' open={isModalOpen}
+                                    onOk={handleOk} onCancel={handleCancel}
+                                >
+                                    <QRCode
+                                        errorLevel="H"
+                                        value="https://ant.design/"
+                                        icon="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+                                    />
+                                </Modal>
                             </div>
                         </div>
                     </section>

@@ -194,6 +194,7 @@ const DoctorDetails = () => {
                                 <Modal title="Tải ứng dụng để sử dụng "
                                     className='items-center' open={isModalOpen}
                                     onOk={handleOk} onCancel={handleCancel}
+                                    footer={false}
                                 >
                                     <QRCode
                                         errorLevel="H"

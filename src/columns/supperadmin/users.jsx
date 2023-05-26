@@ -1,7 +1,7 @@
 import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
-import { Edit, IconLock, Question, Trash } from '../../assets/svg';
+import { Edit, IconLock, IconUnLock, Question, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
 import { del } from '../../utils/apicommon';
 
@@ -106,9 +106,13 @@ const User = ({ data, loading, fetchData }) => {
       fixed: 'right',
       width: 210,
       render: (text, item) => (
-        <div className='bg-cyan-100 text-cyan-800 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+        item.disable !== true ?
+          <div className='bg-cyan-100 text-cyan-800 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                            before:w-2 before:h-2 before:bg-cyan-800 before:absolute before:rounded-full'>Đang hoạt động</div>
 
+          :
+          <div className='bg-red-100 text-red-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                           before:w-2 before:h-2 before:bg-red-600 before:absolute before:rounded-full'>Đã bị khoá</div>
 
 
       ),
@@ -126,12 +130,20 @@ const User = ({ data, loading, fetchData }) => {
       width: 100,
       fixed: 'right',
       render: (data) => (
-        <Button
-          type='button'
-          className=" rounded-lg"
-          icon={<IconLock className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
-          onClick={() => handleDelete(data)}
-        />
+        data.disable !== true ?
+          < Button
+            type='button'
+            className=" rounded-lg"
+            icon={< IconLock className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
+            onClick={() => handleDelete(data)}
+          />
+          :
+          < Button
+            type='button'
+            className=" rounded-lg"
+            icon={< IconUnLock className='w-9 h-9 fill-green-500 hover:fill-green-500 p-1' />}
+            onClick={() => handleDelete(data)}
+          />
       )
     }
   ];

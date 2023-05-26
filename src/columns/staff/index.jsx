@@ -7,7 +7,7 @@ import { del } from '../../utils/apicommon';
 
 const Staff = ({ loading, data, fetchData }) => {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(6)
+  const [pageSize, setPageSize] = useState(10)
   const [modal, setModal] = useState(false)
   const Columns = [
     {
@@ -207,10 +207,10 @@ const Staff = ({ loading, data, fetchData }) => {
         className=' !z-0'
         columns={Columns}
         dataSource={data}
-        scroll={{ y: 500 }}
+        scroll={{ y: 1000 }}
         loading={loading}
         pagination={{
-          pageSize: 5,
+          pageSize: 10,
           onChange: (page, pageSize) => {
             setPage(page);
             setPageSize(pageSize);

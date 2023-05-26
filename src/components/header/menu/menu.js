@@ -1,6 +1,6 @@
 import React from 'react'
 import {  MdBarChart, MdPeople    } from "react-icons/md";
-import { FaCapsules, FaMedkit, FaStethoscope } from 'react-icons/fa';
+import { FaCapsules, FaHistory, FaHSquare, FaMedkit, FaStethoscope } from 'react-icons/fa';
 const Layout = [
     {
         icon: <MdBarChart className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
@@ -13,11 +13,22 @@ const Layout = [
         label: "Quản lý nhân viên",
 
     },
-
     {
         icon: <FaStethoscope  className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
         key: "/booking",
         label: "Quản lý khám chữa bệnh",
+
+    },
+    {
+        icon: <FaHistory  className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "/admin-hospital/history/",
+        label: "Lịch sử  khám bệnh",
+
+    },
+    {
+        icon: <FaHSquare  className='w-7 h-7 p-1 rounded-md bg-slate-100'/>,
+        key: "#",
+        label: "Đơn bệnh quá hạn",
 
     },
     {

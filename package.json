@@ -1,7 +1,7 @@
 {
   "name": "care",
   "version": "0.1.0",
-  "proxy": "http://localhost:8092",
+  "proxy": "http://192.168.1.158:8092",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",

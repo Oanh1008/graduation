@@ -37,8 +37,6 @@ const ManagerBooking = () => {
     const [dataaccept, setAccept] = useState([])
     const [dataconfirm, setConfirm] = useState([])
     const [datacancel, setCancel] = useState([])
-    const [filterVal, setfilterVal] = useState('');
-    const [search, setSearch] = useState([]);
     const [showModal, setShowModal] = useState(false)
     const [showModalConfirm, setShowModalConfirm] = useState(false)
     const [toggle, setToggle] = useState(1)
@@ -67,6 +65,7 @@ const ManagerBooking = () => {
         setLoading(false)
 
     };
+    console.log(datacancel);
     function handleToggle(id) {
         setToggle(id)
     }
@@ -74,17 +73,6 @@ const ManagerBooking = () => {
     function handleEdit(e) {
         setFormid(e)
     }
-
-    // function handleSearch(event) {
-    //     if (event.target.value === '') {
-    //         setData(search)
-    //     } else {
-    //         const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value) || item.lastName.toLowerCase().includes(event.target.value))
-    //         setData(filterSearch)
-    //     }
-    //     setfilterVal(event.target.value)
-    // }
-
 
     return (
         <Layout>

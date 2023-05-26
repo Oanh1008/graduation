@@ -137,7 +137,10 @@ const Columns = [
         width: 150,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>{item.bookInformation.message}</div>
+                {item.bookInformation.message ?
+                    <div>{item.bookInformation.message}</div>
+                    :
+                    <div>Bệnh nhân huỷ</div>}
             </div>),
     },
 

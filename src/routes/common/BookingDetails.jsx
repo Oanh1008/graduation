@@ -10,6 +10,9 @@ const BookingDetailsConfirm = () => {
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
 
+    const [showModal, setShowModal] = useState(false)
+    const [showModalConfirm, setShowModalConfirm] = useState(false)
+
     let user = JSON.parse(localStorage.getItem('user'));
     const { id } = useParams();
     const location = useLocation();
@@ -48,12 +51,14 @@ const BookingDetailsConfirm = () => {
                             }
                         </div>
                         {status === 'pending' ?
-                            <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'>Duyệt</button>
+                            <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
+                                onClick={() => setShowModal(!showModal)}>Duyệt</button>
                             : status === 'accept' ?
-                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'>Xác nhận</button>
+                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
+                                    onClick={() => setShowModalConfirm(!showModalConfirm)}>Xác nhận</button>
                                 : status === 'confirm' &&
                                 <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
-                                    onClick={() => navigate('/')}>Tạo hoá đơn</button>
+                                    onClick={() => navigate('/doctor/booking/booingDetails/${data.user.userId}?history=false')}>Tạo hoá đơn</button>
 
                         }
 
@@ -201,6 +206,10 @@ const BookingDetailsConfirm = () => {
                     }
                 </form>
             </div >
+            {/* <Modal isVisible={showModal} onClose={() => setShowModal(false)} user={user} fid={formid} fetchData={fetchData}>
+            </Modal>
+            <ConfirmModal isVisible={showModalConfirm} onClose={() => setShowModalConfirm(false)} fid={formid} user={user} fetchData={fetchData}>
+            </ConfirmModal> */}
         </Layout >
     )
 }

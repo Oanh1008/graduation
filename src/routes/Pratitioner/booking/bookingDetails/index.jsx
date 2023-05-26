@@ -47,6 +47,7 @@ const BookingDetails = () => {
     const location = useLocation();
     const history = new URLSearchParams(location.search).get('history');
 
+    console.log(id);
 
     useEffect(() => {
         fetchData();

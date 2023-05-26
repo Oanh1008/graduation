@@ -27,6 +27,7 @@ const Booking = () => {
     const [toggle, setToggle] = useState(1)
 
     let user = JSON.parse(localStorage.getItem('user'));
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
@@ -43,6 +44,7 @@ const Booking = () => {
         setToggle(id)
     }
 
+    console.log(invoice);
     function handleSearch(event) {
         if (event.target.value === '') {
             setDataAcceppt(search)

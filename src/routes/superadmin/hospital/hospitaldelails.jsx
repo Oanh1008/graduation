@@ -3,7 +3,7 @@ import React, { memo, useEffect, useState } from 'react'
 import Layout from '../../../layout/index'
 import avatar from '../../../assets/image/background_login.png'
 import Button from '../../../components/button/index'
-import { Check, Edit, IconBriefCase, IconLeftSolid, IconRightSolid, Times } from '../../../assets/svg';
+import { Check, Edit, IconBriefCase, IconLeftSolid, IconLock, IconRightSolid, IconUnLock, Times } from '../../../assets/svg';
 import { useParams } from 'react-router-dom';
 import { get, put } from '../../../utils/apicommon';
 
@@ -92,10 +92,13 @@ const Hospitaldelails = ({ }) => {
 
                         <div className=' rounded-md bg-white mt-5'>
                             <div className='p-5'>
-                                <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'> dịch vụ</div>
+                                <div className='flex justify-between items-end'>
+                                    <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'> dịch vụ</div>
+                                    <div className='text-lg  text-cyan-900  mb-1'> Xem thêm</div>
 
+                                </div>
                                 <Divider />
-                                <div className='grid grid-cols-4 gap-4 justify-items-center'>
+                                <div className='grid grid-cols-4 gap-4 justify-items-center h-24 overflow-hidden'>
                                     {
                                         data.services.map((item, index) => (
                                             <div key={index} className='flex flex-col gap-5 items-center  '>
@@ -104,6 +107,8 @@ const Hospitaldelails = ({ }) => {
                                             </div>
                                         ))}
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -164,17 +169,17 @@ const Hospitaldelails = ({ }) => {
 
                         <div className='flex  gap-5 mb-10 items-center justify-center '>
                             <p className='text-base font-semibold'>Tình trạng:</p>
-                            {data.status != true ?
+                            {data.disable !== true ?
                                 <>
                                     <div className='bg-yellow-100 text-yellow-500 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
                             before:w-2 before:h-2 before:bg-yellow-500 before:absolute before:rounded-full'>Đang hoạt động</div>
-                                    <Check className='w-8 h-8 fill-green-500 cursor-pointer' onClick={handleCensor} />
+                                    <IconLock className='w-8 h-8 fill-red-500 cursor-pointer' onClick={handleCensor} />
 
                                 </>
                                 : <>
                                     <div className='bg-green-200 text-green-700 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6 text-lg
                             before:w-2 before:h-2 before:bg-green-500 before:absolute before:rounded-full'>Đã bị khoá</div>
-                                    <Times className='w-8 fill-red-500 cursor-pointer' onClick={handleCancel} />
+                                    <IconUnLock className='w-8 fill-green-500 cursor-pointer' onClick={handleCancel} />
                                 </>}
 
                         </div>

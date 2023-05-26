@@ -82,8 +82,11 @@ const HospitalTable = ({
       fixed: 'right',
       width: 210,
       render: (text, item) => (
-        <div className='bg-green-100 text-green-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+        item.status === true ?
+          <div className='bg-green-100 text-green-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                            before:w-2 before:h-2 before:bg-green-600 before:absolute before:rounded-full'>Đã được duyệt</div>
+          : <div className='bg-red-100 text-yellow-600 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
+                                            before:w-2 before:h-2 before:bg-yellow-600 before:absolute before:rounded-full'>Chờ duyệt</div>
 
       ),
       filters: [
@@ -96,12 +99,12 @@ const HospitalTable = ({
     },
     {
       key: '7',
-      title: "Tình trạng",
+      title: "Trạng thái",
       dataIndex: "status",
       fixed: 'right',
       width: 210,
       render: (text, item) => (
-        item.status !== true ?
+        item.disable !== true ?
           <div className='bg-cyan-100 text-cyan-800 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
                            before:w-2 before:h-2 before:bg-cyan-800 before:absolute before:rounded-full'>Đang hoạt động</div>
 
@@ -134,7 +137,7 @@ const HospitalTable = ({
 
           />
           {
-            data.status !== true ?
+            data.disable !== true ?
               <Button
                 type='button'
                 className=" rounded-lg"

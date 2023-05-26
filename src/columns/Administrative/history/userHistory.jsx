@@ -19,18 +19,6 @@ const Columns = [
                 <div> {item.hospitalName}</div>
             </div>),
     },
-
-    {
-        key: '9',
-        title: "Bác sĩ khám",
-        width: 200,
-
-        render: (text, item) => (text &&
-            <div className='flex items-center gap-3'>
-                <div>{item.doctorName} </div>
-            </div>),
-    },
-
     {
         key: '9',
         title: "Các dịch vụ đã khám",
@@ -76,10 +64,10 @@ const Columns = [
         title: "Lời khuyên",
         width: 200,
         fixed: 'right',
-        dataIndex: "birthDay",
+        dataIndex: "",
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
-                <div>{item.invoiceInformation.advices} </div>
+                <div>{item.invoiceInformation.diagnose} </div>
 
             </div>),
     },

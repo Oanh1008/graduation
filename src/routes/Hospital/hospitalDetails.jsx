@@ -97,7 +97,7 @@ const HospitalDetails = () => {
                                     {doctorSider.map((service) => (
                                         <div className='flex flex-col gap-5 items-center mx-6 w-1/4'>
                                             <IconBriefCase className='w-8 text-neutral-600' />
-                                            <p className='text-base font-semibold text-neutral-800'>{service.serviceName}</p>
+                                            <p className='text-base text-center font-semibold text-neutral-800'>{service.serviceName}</p>
                                         </div>
                                     ))}
                                     {startIndex + 2 !== doctorSider.length &&

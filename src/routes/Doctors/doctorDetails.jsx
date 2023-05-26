@@ -143,7 +143,7 @@ const DoctorDetails = () => {
                                         : <p>Không có phản hồi </p>} */}
                                 </div>
                             </div>
-                            <div className='w-2/5 border bg-white py-5 px-3'>
+                            <div className='w-1/2 border bg-white py-5 px-3'>
                                 <p className='text-2xl font-semibold text-cyan-900 uppercase text-center'>Thông tin đặt lịch</p>
                                 <div className='flex my-4'>
                                     <p className='font-semibold basis-1/3'>Bệnh viện: </p>
@@ -192,14 +192,15 @@ const DoctorDetails = () => {
                                     </table>
                                 </div>
                                 <Modal title="Tải ứng dụng để sử dụng "
-                                    className='items-center' open={isModalOpen}
+                                    className='flex w-56 gap-6 items-center justify-center' open={isModalOpen}
                                     onOk={handleOk} onCancel={handleCancel}
                                     footer={false}
+
                                 >
                                     <QRCode
                                         errorLevel="H"
-                                        value="https://ant.design/"
-                                        icon="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+                                        size={200}
+                                        value="https://github.com/Oanh1008/graduation/tree/carebookie_app"
                                     />
                                 </Modal>
                             </div>

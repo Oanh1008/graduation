@@ -30,7 +30,7 @@ const ShowDoctor = () => {
                     <div className='flex flex-col cursor-pointer hover:scale-105 overflow-hidden items-center mr-5' onClick={() => navigate(`/hospital/hospitalDetails/${item.hospitalId}`)}>
                         <div className='h-72 w-72 rounded-xl'
                             style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
-                            onClick={() => { }}
+                            onClick={() => navigate(`/hospital/hospitalDetails/${item.hospitalId}`)}
                         >
                         </div>
                         <div className='px-5 py-10'>

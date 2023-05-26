@@ -33,7 +33,9 @@ const ShowDoctor = () => {
                     <div className=' mr-5 cursor-pointer'>
                         <div className='h-64 w-64 rounded-full hover:scale-105 overflow-hidden'
                             style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'top', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
-                            onClick={() => { }}
+                            onClick={() =>
+                                navigate(`/doctor/doctorDetails/${item.userId}`)
+                            }
                         >
                         </div>
                         <div className='px-5 py-10'>

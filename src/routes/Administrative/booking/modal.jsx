@@ -14,6 +14,7 @@ import TextArea from 'antd/es/input/TextArea';
 import dayjs from 'dayjs';
 import moment from 'moment';
 import { memo, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get, put } from '../../../utils/apicommon';
@@ -29,6 +30,7 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
     const [availableSessions, setAvailableSessions] = useState('');
     const [form] = Form.useForm()
 
+    const navigate = useNavigate();
     useEffect(() => {
         const fetch = async () => {
             // setLoading(true)
@@ -44,15 +46,15 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
     useEffect(() => {
         Object.keys(fid).length > 0 &&
             form.setFieldsValue({
-                fullName: fid.fullName,
-                age: fid.age,
+                fullName: fid.bookInformation.name ? fid.bookInformation.name : fid.fullName,
+                age: fid.bookInformation.age ? fid.bookInformation.age : fid.age,
                 address: fid.address,
                 doctorId: fid.bookInformation.doctorId,
                 session: fid.bookInformation.session,
                 symptom: fid.bookInformation.symptom,
                 date: fid.bookInformation.date,
                 dateExamination: dayjs(fid.bookInformation.dateExamination, 'DD-MM-YYYY'),
-                gender: fid.gender,
+                gender: fid.bookInformation.gender ? fid.bookInformation.gender : fid.gender,
             });
     }, [fid, form]);
 
@@ -66,6 +68,9 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
     const hanldeCancel = () => {
         setShowModal(true)
     }
+
+    const currentURL = window.location.pathname;
+
     const onFinish = async (values) => {
         const dateString = values.dateExamination.toString();
         const dateObject = new Date(dateString);
@@ -83,9 +88,17 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
             operatorId: user.userId,
             session: values.session
         })
-        fetchData()
-        onClose()
+
+        if (currentURL.includes('/booking/bookingDetails/')) {
+            navigate(`/booking/bookingDetails/${fid.bookInformation.id}?status=accept`);
+        }
+        else {
+            fetchData()
+        }
+        onClose();
     };
+
+
     return (
         Object.keys(fid).length > 0 &&
         <div className='fixed inset-0 z-10 '>

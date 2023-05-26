@@ -66,16 +66,6 @@ const Index = () => {
     setToggle(id)
   }
 
-  // function handleSearch(event) {
-  //   if (event.target.value === '') {
-  //     setData(search)
-  //   } else {
-  //     const filterSearch = search.filter(item => item.firstName.toLowerCase().includes(event.target.value) || item.lastName.toLowerCase().includes(event.target.value))
-  //     setData(filterSearch)
-  //   }
-  //   setfilterVal(event.target.value)
-  // }
-
   return (
     <Layout>
       <div className='mx-6  p-2'>
@@ -128,7 +118,7 @@ const Index = () => {
               scroll={{ y: 500 }}
               loading={loading}
               pagination={{
-                pageSize: 5,
+                pageSize: 10,
                 onChange: (page, pageSize) => {
                   setPage(page);
                   setPageSize(pageSize);
@@ -146,7 +136,7 @@ const Index = () => {
               scroll={{ y: 500 }}
               loading={loading}
               pagination={{
-                pageSize: 5,
+                pageSize: 10,
                 onChange: (page, pageSize) => {
                   setPage(page);
                   setPageSize(pageSize);
@@ -163,7 +153,7 @@ const Index = () => {
               scroll={{ y: 500 }}
               loading={loading}
               pagination={{
-                pageSize: 5,
+                pageSize: 10,
                 onChange: (page, pageSize) => {
                   setPage(page);
                   setPageSize(pageSize);
@@ -180,7 +170,7 @@ const Index = () => {
               scroll={{ y: 500 }}
               loading={loading}
               pagination={{
-                pageSize: 5,
+                pageSize: 10,
                 onChange: (page, pageSize) => {
                   setPage(page);
                   setPageSize(pageSize);

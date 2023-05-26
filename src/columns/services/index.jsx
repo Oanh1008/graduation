@@ -86,7 +86,7 @@ const Services = ({ loading,
     ];
 
     const handleDelete = async (data) => {
-        await del(`admin/service/delete/${data.id}`)
+        await del(`admin/service/lock/${data.id}`)
         fetchData();
     }
 
@@ -98,7 +98,7 @@ const Services = ({ loading,
             scroll={{ y: 500 }}
             loading={loading}
             pagination={{
-                pageSize: 5,
+                pageSize: 10,
                 onChange: (page, pageSize) => {
                     setPage(page);
                     setPageSize(pageSize);

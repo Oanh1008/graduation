@@ -144,7 +144,7 @@ const Index = ({ children }) => {
                                                 menu={{
                                                     items: [
                                                         {
-                                                            label: <a href='/doctor/profile'>Thông tin cá nhân</a>,
+                                                            label: <a href='#'>Thông tin cá nhân</a>,
                                                             key: '1',
                                                         },
                                                         {

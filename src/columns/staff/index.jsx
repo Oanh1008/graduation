@@ -1,4 +1,4 @@
-import { Avatar, Modal, Popconfirm, Space, Table, Tag } from 'antd';
+import { Avatar, Modal, Popconfirm, Result, Space, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
 import { Edit, Eye, IconLock, IconUnLock, Question, Trash, User } from '../../assets/svg';
@@ -9,6 +9,7 @@ const Staff = ({ loading, data, fetchData }) => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [modal, setModal] = useState(false)
+  const [ID, setID] = useState("")
   const Columns = [
     {
       key: '1',
@@ -182,7 +183,10 @@ const Staff = ({ loading, data, fetchData }) => {
               type='button'
               className=" rounded-lg"
               icon={<IconLock className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
-              onClick={() => setModal(true)}
+              onClick={() => {
+                setID(data.userId);
+                setModal(true)
+              }}
             />
             :
             <Button
@@ -197,9 +201,10 @@ const Staff = ({ loading, data, fetchData }) => {
     }
   ];
 
-  const handleDelete = async (data) => {
-    await del(`/admin/employee/${data.userId}`);
+  const handleLock = async (ID) => {
+    await del(`/admin/employee/lock/${ID}`);
     fetchData();
+    setModal(false)
   }
   return (
     <>
@@ -217,14 +222,33 @@ const Staff = ({ loading, data, fetchData }) => {
           }
         }}
       />
+
       <Modal
-        title="Xoá nhân viên"
         centered
         open={modal}
-        onOk={() => console.log('hi')}
+        footer={false}
         onCancel={() => setModal(false)}
       >
-        Bạn muốn xoá nhân viên này ?
+        <Result
+          status="warning"
+          title="Bạn muốn khoá tài khoản này?"
+          extra={
+            <div className='mt-10 flex justify-around'>
+              <Button
+                type='button'
+                className="hover:bg-cyan-800 w-1/3 hover:text-white border border-cyan-800 text-cyan-800 px-4 py-2 text-lg rounded-lg"
+                text="Huỷ"
+                onClick={() => setModal(false)}
+              />
+              <Button
+                type='button'
+                className="hover:bg-red-500 hover:text-white border border-red-500 text-red-500 w-1/3 px-4 py-2 text-lg rounded-lg"
+                text="Khoá"
+                onClick={() => alert(ID)} />
+            </div>
+
+          }
+        />
       </Modal>
     </>
   )

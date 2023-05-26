@@ -116,7 +116,7 @@ const ServicesComponent = ({
                 scroll={{ y: 500 }}
                 loading={loading}
                 pagination={{
-                    pageSize: 5,
+                    pageSize: 10,
                     onChange: (page, pageSize) => {
                         setPage(page);
                         setPageSize(pageSize);

@@ -13,6 +13,7 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { put } from '../../../utils/apicommon';
@@ -22,18 +23,20 @@ const { Option } = Select;
 const ConfirmModal = ({ isVisible, onClose, fid, user, fetchData }) => {
     const [form] = Form.useForm()
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         Object.keys(fid).length > 0 &&
             form.setFieldsValue({
-                fullName: fid.fullName,
-                age: fid.age,
+                fullName: fid.bookInformation.name ? fid.bookInformation.name : fid.fullName,
+                age: fid.bookInformation.age ? fid.bookInformation.age : fid.age,
                 address: fid.address,
                 doctorName: fid.doctorName,
                 session: fid.bookInformation.session,
                 symptom: fid.bookInformation.symptom,
                 fullName: fid.fullName,
                 dateExamination: dayjs(fid.bookInformation.dateExamination, 'DD-MM-YYYY'),
-                gender: fid.gender,
+                gender: fid.bookInformation.gender ? fid.bookInformation.gender : fid.gender,
             });
     }, [fid, form]);
 
@@ -44,16 +47,24 @@ const ConfirmModal = ({ isVisible, onClose, fid, user, fetchData }) => {
         }
     }
 
+    const currentURL = window.location.pathname;
     const handleConfirm = async () => {
         try {
             await put(`/administrative/book/confirm?bookId=${fid.bookInformation.id}&operatorId=${user.userId}`)
+            if (currentURL.includes('/booking/bookingDetails/')) {
+                navigate(`/booking/bookingDetails/${fid.bookInformation.id}?status=confirm`);
+            }
+            else {
+                fetchData()
+            }
             onClose();
-            fetchData()
+
         }
         catch (err) {
             console.log(err);
         }
     }
+
 
     return (
         <div className='fixed inset-0 z-10 '>

@@ -53,18 +53,18 @@ const Columns = [
         title: "Giới tính",
         dataIndex: "gender",
         width: 100,
-        render: (text, item) => (text &&
-            item.bookInformation.gender ?
-            <div className='flex items-center gap-3'>
-                {item.bookInformation.gender === 1 ?
-                    <p>Nam</p>
-                    : <p>Nữ</p>}
-            </div>
-            : <div className='flex items-center gap-3'>
-                {item.gender === 1 ?
-                    <p>Nam</p>
-                    : <p>Nữ</p>}
-            </div>
+        render: (text, item) => (
+            item.bookInformation.gender !== '' ?
+                <div className='flex items-center gap-3'>
+                    {item.bookInformation.gender == 1 ?
+                        <p>Nam</p>
+                        : <p>Nữ</p>}
+                </div>
+                : <div className='flex items-center gap-3'>
+                    {item.gender == 1 ?
+                        <p>Nam</p>
+                        : <p>Nữ</p>}
+                </div>
         ),
     },
     {

@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../layout/index'
 import { get } from '../../utils/apicommon'
 import columns from '../../columns/Administrative/history/userHistory'
+import Modal from '../Administrative/booking/modal'
+import ConfirmModal from '../Administrative/booking/confirmModal'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 const BookingDetailsConfirm = () => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({})
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
-
     const [showModal, setShowModal] = useState(false)
     const [showModalConfirm, setShowModalConfirm] = useState(false)
 
@@ -25,14 +26,11 @@ const BookingDetailsConfirm = () => {
     }, [])
     const fetchData = async () => {
         setLoading(true)
-
         const data = await get(`/employee/book/${status}/detail/${user.hospitalId}/${id}`);
         setData(data)
-
-        console.log(data);
         setLoading(false)
     };
-    console.log(data.invoiceShares);
+
     return (
         Object.keys(data).length > 0 &&
         <Layout>
@@ -52,13 +50,13 @@ const BookingDetailsConfirm = () => {
                         </div>
                         {status === 'pending' ?
                             <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
-                                onClick={() => setShowModal(!showModal)}>Duyệt</button>
+                                onClick={() => setShowModal(!showModal)} type="button">Duyệt</button>
                             : status === 'accept' ?
                                 <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
-                                    onClick={() => setShowModalConfirm(!showModalConfirm)}>Xác nhận</button>
+                                    onClick={() => setShowModalConfirm(!showModalConfirm)} type="button">Xác nhận</button>
                                 : status === 'confirm' &&
-                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
-                                    onClick={() => navigate('/doctor/booking/booingDetails/${data.user.userId}?history=false')}>Tạo hoá đơn</button>
+                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white' type="button"
+                                    onClick={() => navigate(`/doctor/booking/booingDetails/${data.bookInformation.userId}?history=false`)}>Tạo hoá đơn</button>
 
                         }
 
@@ -79,22 +77,20 @@ const BookingDetailsConfirm = () => {
                                 Giới tính
                             </label>
                             <div className="relative">
-                                <select className="block appearance-none w-full bg-white border text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500"
+                                <div className="block appearance-none w-full bg-white border text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500"
                                     id="gender"
                                 >
                                     {data.bookInformation.gender ?
-                                        data.bookInformation.gender === 1 ?
-                                            <option>Nam</option>
-                                            : <option>Nữ</option>
+                                        data.bookInformation.gender == '1' ?
+                                            <p>Nam</p>
+                                            : <p>Nữ</p>
                                         :
-                                        data.gender === 1 ?
-                                            <option>Nam</option>
-                                            : <option>Nữ</option>
+                                        data.gender == 1 ?
+                                            <p>Nam</p>
+                                            : <p>Nữ</p>
                                     }
-                                </select>
-                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                                 </div>
+
                             </div>
                         </div>
                         <div className="w-full md:w-1/6 px-3 mb-2 ">
@@ -206,10 +202,10 @@ const BookingDetailsConfirm = () => {
                     }
                 </form>
             </div >
-            {/* <Modal isVisible={showModal} onClose={() => setShowModal(false)} user={user} fid={formid} fetchData={fetchData}>
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} user={user} fid={data} fetchData={fetchData}>
             </Modal>
-            <ConfirmModal isVisible={showModalConfirm} onClose={() => setShowModalConfirm(false)} fid={formid} user={user} fetchData={fetchData}>
-            </ConfirmModal> */}
+            <ConfirmModal isVisible={showModalConfirm} onClose={() => setShowModalConfirm(false)} fid={data} user={user} fetchData={fetchData}>
+            </ConfirmModal>
         </Layout >
     )
 }

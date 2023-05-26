@@ -48,18 +48,18 @@ const Columns = [
         key: '4',
         title: "Giới tính",
         dataIndex: "gender",
-        render: (text, item) => (text &&
+        render: (text, item) => (
             item.bookInformation.gender ?
-            <div className='flex items-center gap-3'>
-                {item.bookInformation.gender ?
-                    <p>Nam</p>
-                    : <p>Nữ</p>}
-            </div>
-            : <div className='flex items-center gap-3'>
-                {item.gender ?
-                    <p>Nam</p>
-                    : <p>Nữ</p>}
-            </div>
+                <div className='flex items-center gap-3'>
+                    {item.bookInformation.gender == '1' ?
+                        <p>Nam</p>
+                        : <p>Nữ</p>}
+                </div>
+                : <div className='flex items-center gap-3'>
+                    {item.gender == '1' ?
+                        <p>Nam</p>
+                        : <p>Nữ</p>}
+                </div>
         ),
     },
     {

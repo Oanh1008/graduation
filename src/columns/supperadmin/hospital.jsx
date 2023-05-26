@@ -158,7 +158,7 @@ const HospitalTable = ({
   ];
 
   const handleDelte = async (data) => {
-    await del(`/super-admin/hospital/delete/${data.hospitalId}`);
+    await del(`/super-admin/hospital/lock/${data.hospitalId}`);
     fetchData();
   }
 
@@ -170,7 +170,7 @@ const HospitalTable = ({
       scroll={{ y: 500 }}
       loading={loading}
       pagination={{
-        pageSize: 5,
+        pageSize: 10,
         onChange: (page, pageSize) => {
           setPage(page);
           setPageSize(pageSize);

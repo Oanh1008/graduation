@@ -65,7 +65,7 @@ const ManagerBooking = () => {
         setLoading(false)
 
     };
-    console.log(datacancel);
+    console.log(datapending);
     function handleToggle(id) {
         setToggle(id)
     }
@@ -73,7 +73,6 @@ const ManagerBooking = () => {
     function handleEdit(e) {
         setFormid(e)
     }
-
     return (
         <Layout>
             <div className='mx-6 bg-white p-6 min-h-[calc(100vh - 5.5rem)] '>
@@ -116,7 +115,7 @@ const ManagerBooking = () => {
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{
-                                pageSize: 5,
+                                pageSize: 10,
                                 onChange: (page, pageSize) => {
                                     setPage(page);
                                     setPageSize(pageSize);
@@ -141,7 +140,7 @@ const ManagerBooking = () => {
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{
-                                pageSize: 5,
+                                pageSize: 10,
                                 onChange: (page, pageSize) => {
                                     setPage(page);
                                     setPageSize(pageSize);
@@ -166,7 +165,7 @@ const ManagerBooking = () => {
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{
-                                pageSize: 5,
+                                pageSize: 10,
                                 onChange: (page, pageSize) => {
                                     setPage(page);
                                     setPageSize(pageSize);
@@ -183,7 +182,7 @@ const ManagerBooking = () => {
                             scroll={{ y: 500 }}
                             loading={loading}
                             pagination={{
-                                pageSize: 5,
+                                pageSize: 10,
                                 onChange: (page, pageSize) => {
                                     setPage(page);
                                     setPageSize(pageSize);

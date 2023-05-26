@@ -43,7 +43,7 @@ const Index = () => {
         <Layout>
             <div className=' mx-6 bg-white p-6'>
                 <div className='flex justify-between items-center'>
-                    <div className=' text-2xl font-bold text-cyan-950 '>Quản lý người dùng</div>
+                    <div className=' text-2xl font-bold text-cyan-950 '>Quản lý nhân viên</div>
                 </div>
                 <div className=' border-b w-full my-3 flex justify-between items-center'>
                     <div className="relative m-3">

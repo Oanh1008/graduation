@@ -2,6 +2,7 @@ package com.spring.carebookie.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +86,7 @@ public class InvoiceService {
                 totalService += totalPriceService;
             }
 
-            map.replace(ivS.getKey(), new StatisticResponse(totalPriceByMonth, totalService, totalPriceByMonth - totalService));
+            map.replace(ivS.getKey(), new StatisticResponse(totalPriceByMonth, Math.floor(totalService * 100) / 100, Math.floor((totalPriceByMonth - totalService) * 100) / 100));
         }
 
         // book
@@ -299,6 +300,7 @@ public class InvoiceService {
 
     public List<InvoiceResponseDto> getAllInvoiceByUserId(String userId) {
         List<InvoiceEntity> invoices = invoiceRepository.getALlByUserId(userId);
+        invoices.sort(Comparator.comparing(InvoiceEntity::getDateTimeInvoice,Comparator.reverseOrder()));
         return getInvoiceByIdCommon(invoices);
     }
 

@@ -53,4 +53,6 @@ public class EmployeeResponseDto {
 
     private List<String> knowledges;
 
+    private boolean isDisable;
+
 }

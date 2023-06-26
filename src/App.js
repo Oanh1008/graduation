@@ -1,31 +1,38 @@
 import { BrowserRouter, Route, Router, Routes, useNavigate } from 'react-router-dom';
-import Staff from './routes/admin/Staff/index'
-import Services from './routes/admin/services/index'
-import Booking from './routes/admin/booking/index'
-import Myprofile from './routes/admin/profile/index'
-import Login from './routes/auth/login/index'
-import Register from './routes/auth/register/index'
-import ResetPassword from './routes/auth/reset-password/index'
-import Medicine from './routes/admin/medicine/index'
-import ManagerHospital from './routes/superadmin/hospital';
-import Hospitaldelails from './routes/superadmin/hospital/hospitaldelails';
-import ManagerUser from './routes/superadmin/users';
-import ManagerBooking from './routes/Administrative/booking';
-import History from './routes/Pratitioner/history';
-import DoctorProfile from './routes/Pratitioner/profile/index';
-import BookingDetails from './routes/Pratitioner/booking/bookingDetails/index';
-import DoctorBooking from './routes/Pratitioner/booking/index';
-import BookingDetailsConfirm from './routes/common/BookingDetails';
-import HospitalHistoryBooking from './routes/Administrative/history/index'
-import Dashboard from './routes/common/Dashboard'
-import EmployeeDetails from './routes/admin/Staff/EmployeeDetail'
-import HospitalBookingHistory from './/routes/admin/booking/history'
+import { lazy, Suspense } from 'react';
+import { Skeleton, Spin } from 'antd';
+
+const Dashboard = lazy(() => import('./routes/common/Dashboard'))
+const Staff = lazy(() => import('./routes/admin/Staff/index'))
+const Services = lazy(() => import('./routes/admin/services/index'))
+const Booking = lazy(() => import('./routes/admin/booking/index'))
+const Myprofile = lazy(() => import('./routes/admin/profile/index'))
+const Login = lazy(() => import('./routes/auth/login/index'))
+const Register = lazy(() => import('./routes/auth/register/index'))
+const ResetPassword = lazy(() => import('./routes/auth/reset-password/index'))
+const Medicine = lazy(() => import('./routes/admin/medicine/index'))
+const ManagerHospital = lazy(() => import('./routes/superadmin/hospital'))
+const Hospitaldelails = lazy(() => import('./routes/superadmin/hospital/hospitaldelails'))
+const ManagerUser = lazy(() => import('./routes/superadmin/users'))
+const ManagerBooking = lazy(() => import('./routes/Administrative/booking'))
+const History = lazy(() => import('./routes/Pratitioner/history'))
+const DoctorProfile = lazy(() => import('./routes/Pratitioner/profile/index'))
+const BookingDetails = lazy(() => import('./routes/Pratitioner/booking/bookingDetails/index'))
+const DoctorBooking = lazy(() => import( './routes/Pratitioner/booking/index'))
+const BookingDetailsConfirm = lazy(() => import('./routes/common/BookingDetails'))
+const HospitalHistoryBooking = lazy(() => import('./routes/Administrative/history/index'))
+const EmployeeDetails = lazy(() => import('./routes/admin/Staff/EmployeeDetail'))
+const HospitalBookingHistory = lazy(() => import('./routes/admin/booking/history'))
 
 function App() {
 
   return (
    <>
     <BrowserRouter>
+    <Suspense fallback={ <div className='w-full h-screen flex'>
+            <Spin tip="Loading..." size="large" className='w-full m-auto' />
+          </div>
+        }>
         <Routes>
           <Route path='/' element={<Dashboard/>}></Route>
           <Route path='/staff' element={<Staff/>}></Route>
@@ -51,6 +58,7 @@ function App() {
           <Route path='/employee/information/:id' element={<EmployeeDetails/>}></Route>
           <Route path='/booking/bookingDetails/:id' element={<BookingDetailsConfirm/>}></Route>
         </Routes>
+    </Suspense>
     </BrowserRouter>
    </>
   );

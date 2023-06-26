@@ -8,7 +8,7 @@ import { del } from '../../utils/apicommon';
 const Staff = ({ loading, data, fetchData }) => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState('')
   const [ID, setID] = useState("")
   const Columns = [
     {
@@ -185,7 +185,7 @@ const Staff = ({ loading, data, fetchData }) => {
               icon={<IconLock className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
               onClick={() => {
                 setID(data.userId);
-                setModal(true)
+                setModal('lock')
               }}
             />
             :
@@ -193,7 +193,10 @@ const Staff = ({ loading, data, fetchData }) => {
               type='button'
               className=" rounded-lg"
               icon={<IconUnLock className='w-9 h-9 fill-green-700 hover:bg-red-100 rounded-lg p-1' />}
-              onClick={() => setModal(true)}
+              onClick={() => {
+                setID(data.userId);
+                setModal('unlock')
+              }}
             />
           }
         </div>
@@ -206,6 +209,13 @@ const Staff = ({ loading, data, fetchData }) => {
     fetchData();
     setModal(false)
   }
+
+  const handleUnLock = async (ID) => {
+    await del(`/admin/employee/lock/${ID}`);
+    fetchData();
+    setModal(false)
+  }
+
   return (
     <>
       <Table
@@ -225,13 +235,13 @@ const Staff = ({ loading, data, fetchData }) => {
 
       <Modal
         centered
-        open={modal}
+        open={(modal === 'lock' || modal === 'unlock') ? true : false}
         footer={false}
-        onCancel={() => setModal(false)}
+        onCancel={() => setModal('')}
       >
         <Result
           status="warning"
-          title="Bạn muốn khoá tài khoản này?"
+          title={modal === 'lock' ? "Bạn muốn khoá tài khoản này?" : modal === 'unlock' ? "Bạn muốn mở khoá tài khoản này?" : ''}
           extra={
             <div className='mt-10 flex justify-around'>
               <Button
@@ -243,8 +253,8 @@ const Staff = ({ loading, data, fetchData }) => {
               <Button
                 type='button'
                 className="hover:bg-red-500 hover:text-white border border-red-500 text-red-500 w-1/3 px-4 py-2 text-lg rounded-lg"
-                text="Khoá"
-                onClick={() => alert(ID)} />
+                text={modal === 'lock' ? "Khoá" : modal === 'unlock' ? "Mở khoá" : ''}
+                onClick={() => modal === 'lock' ? handleLock(ID) : modal === 'unlock' ? handleUnLock(ID) : {}} />
             </div>
 
           }

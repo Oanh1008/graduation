@@ -1,4 +1,4 @@
-import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
+import { Avatar, Modal, Popconfirm, Result, Space, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
 import { Edit, IconLock, IconUnLock, Question, Trash } from '../../assets/svg';
@@ -8,6 +8,9 @@ import { del } from '../../utils/apicommon';
 const User = ({ data, loading, fetchData }) => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(6)
+  const [modal, setModal] = useState(false)
+  const [ID, setID] = useState("")
+
   const Columns = [
     {
       key: '1',
@@ -38,7 +41,7 @@ const User = ({ data, loading, fetchData }) => {
       key: '3',
       title: "Ngày sinh",
       dataIndex: "birthDay",
-      width: 200,
+      width: 150,
       render: (text, item) => (text &&
         <div className='flex items-center gap-3'>
           <div>{item.birthDay}</div>
@@ -51,7 +54,7 @@ const User = ({ data, loading, fetchData }) => {
       key: '4',
       title: "Giới tính",
       dataIndex: "gender",
-      width: 150,
+      width: 100,
       render: (text, item) => (text &&
         item.gender === 1 ?
         <div className='flex items-center gap-3'>
@@ -104,7 +107,7 @@ const User = ({ data, loading, fetchData }) => {
       title: "Tình trạng",
       dataIndex: "status",
       fixed: 'right',
-      width: 210,
+      width: 200,
       render: (text, item) => (
         item.disable !== true ?
           <div className='bg-cyan-100 text-cyan-800 w-fit px-5 py-1 rounded-lg  flex items-center before:left-6
@@ -135,38 +138,71 @@ const User = ({ data, loading, fetchData }) => {
             type='button'
             className=" rounded-lg"
             icon={< IconLock className='w-9 h-9 fill-red-500 hover:fill-red-500 p-1' />}
-            onClick={() => handleDelete(data)}
+            onClick={() => {
+              setID(data.userId);
+              setModal(true)
+            }}
           />
           :
           < Button
             type='button'
             className=" rounded-lg"
             icon={< IconUnLock className='w-9 h-9 fill-green-500 hover:fill-green-500 p-1' />}
-            onClick={() => handleDelete(data)}
+            onClick={() => setModal(true)}
           />
       )
     }
   ];
 
-  const handleDelete = async (data) => {
-    await del('');
+  const handleLock = async (ID) => {
+    await del(`super-admin/user/lock/${ID}`);
     fetchData();
   }
   return (
-    <Table
-      className=' !z-0'
-      columns={Columns}
-      dataSource={data}
-      scroll={{ y: 500 }}
-      loading={loading}
-      pagination={{
-        pageSize: 10,
-        onChange: (page, pageSize) => {
-          setPage(page);
-          setPageSize(pageSize);
-        }
-      }}
-    />
+    <>
+      <Table
+        className=' !z-0'
+        columns={Columns}
+        dataSource={data}
+        scroll={{ y: 500 }}
+        loading={loading}
+        pagination={{
+          pageSize: 10,
+          onChange: (page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }
+        }}
+
+      />
+      <Modal
+        centered
+        open={modal}
+        footer={false}
+        onCancel={() => setModal(false)}
+      >
+        <Result
+          status="warning"
+          title="Bạn muốn khoá tài khoản này?"
+          extra={
+            <div className='mt-10 flex justify-around'>
+              <Button
+                type='button'
+                className="hover:bg-cyan-800 w-1/3 hover:text-white border border-cyan-800 text-cyan-800 px-4 py-2 text-lg rounded-lg"
+                text="Huỷ"
+                onClick={() => setModal(false)}
+              />
+              <Button
+                type='button'
+                className="hover:bg-red-500 hover:text-white border border-red-500 text-red-500 w-1/3 px-4 py-2 text-lg rounded-lg"
+                text="Khoá"
+                onClick={() => handleLock(ID)} />
+            </div>
+
+          }
+        />
+      </Modal>
+    </>
   )
 }
 

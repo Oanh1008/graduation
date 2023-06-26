@@ -5,7 +5,6 @@ import {
     message,
     Select,
 } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
 import { useState } from 'react';
 import { Times } from '../../../assets/svg';
 import Button from '../../../components/button/index'
@@ -82,8 +81,6 @@ const Modal = ({ isVisible, onClose, id, fetchData }) => {
                         }}
                     >
                         <div className='flex'>
-
-
                             <div>
                                 <div span={12} >
                                     <Form.Item name="lastName" label="Họ" rules={[{ required: true }]}>

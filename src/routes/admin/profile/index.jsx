@@ -14,11 +14,13 @@ const HospitalProfile = () => {
     const [startIndex, setStartIndex] = useState(0);
     const [editTime, setEdit] = useState(false);
     const [addTime, setAddTime] = useState(false)
+    const [hidden, setHidden] = useState(true)
     const [dtId, setdtId] = useState(null);
     const [start, setStart] = useState(null);
     const [end, setEnd] = useState(null);
     const [time, setTime] = useState(null);
     const [day, setDay] = useState(null);
+
 
     let user = JSON.parse(localStorage.getItem('user'));
 
@@ -101,12 +103,12 @@ const HospitalProfile = () => {
                             <div className='p-5'>
                                 <div className='flex justify-between items-end'>
                                     <div className='text-xl uppercase text-cyan-900 font-semibold mb-1'>dịch vụ</div>
-                                    <p className='text-cyan-900'>Xem thêm</p>
+                                    <p onClick={() => setHidden(!hidden)} className='text-cyan-900 cursor-pointer'>{hidden ? "Xem thêm" : "Rút gọn"}</p>
                                 </div>
                                 <Divider />
-                                <div className='grid grid-cols-4 gap-4 justify-items-center h-28 overflow-hidden'>
+                                <div className={`grid grid-cols-4 gap-4 justify-items-center ${hidden ? 'h-28' : 'h-full'}  overflow-hidden`}>
                                     {user.services.map((service) => (
-                                        <div className='flex flex-col gap-5 items-center text-center '>
+                                        <div className={`flex flex-col gap-5 items-center h-28 text-center `}>
                                             <IconBriefCase className='w-8 fill-gray-500' />
                                             <p className='text-base font-semibold text-gray-800'>{service.serviceName}</p>
                                         </div>
@@ -122,7 +124,7 @@ const HospitalProfile = () => {
                                 <Divider />
                                 <div className='flex relative justify-around'>
                                     {startIndex != 0 &&
-                                        <button className="absolute -translate-y-1/2 -left-6 top-1/2 w-9 h-9">
+                                        <button className="absolute -translate-y-1/2 -left-6 top-1/2 w-10 h-10">
                                             <IconLeftSolid
                                                 className="p-2 fill-neutral-500"
                                                 onClick={handlePrev}
@@ -137,8 +139,8 @@ const HospitalProfile = () => {
                                             <p className='text-base font-semibold'>{item.lastName} {item.firstName}</p>
                                         </div>
                                     ))}
-                                    {startIndex + 4 < doctorSider.length &&
-                                        <button className="absolute -translate-y-1/2 -right-6 top-1/2 w-9 h-9">
+                                    {startIndex + 1 < doctorSider.length &&
+                                        <button className="absolute -translate-y-1/2 -right-6 top-1/2 w-10 h-10">
                                             <IconRightSolid
                                                 className="p-2 fill-neutral-500"
                                                 onClick={handleNext}
@@ -154,10 +156,10 @@ const HospitalProfile = () => {
                     <div className='w-2/5 bg-white p-4'>
 
                         <div className='text-xl font-semibold text-cyan-900 uppercase text-center mt-3 mb-8'>thông tin - đánh giá</div>
-                        <div className='flex justify-center'>
+                        <div className='flex justify-center gap-3'>
 
-                            <Rate defaultValue={5} disabled />
-                            <div className='text-6xl'> 5</div>
+                            <Rate defaultValue={user.star} className="text-yellow-500" disabled />
+                            <div className='text-6xl '>{user.star}</div>
                         </div>
                         <Divider />
                         <div className='flex flex-col text-base gap-5'>
@@ -174,19 +176,19 @@ const HospitalProfile = () => {
                                 <p className='w-3/5'>{user.adminInformation.phone}</p>
                             </div>
                             <div className='flex w-full pb-2 border-b'>
-                                <p className='font-semibold w-2/5'>Cho chọn bác sĩ  :</p>
+                                <p className='font-semibold w-2/5'>Cho chọn bác sĩ </p>
                                 {user.isChoosenDoctor ?
                                     <p className='w-3/5'>Có</p>
                                     : <p className='w-3/5'>Không</p>}
                             </div>
                             <div className='flex w-full pb-2 border-b'>
-                                <p className='font-semibold w-2/5'>Công khai giá:</p>
+                                <p className='font-semibold w-2/5'>Công khai giá</p>
                                 {user.isPublicPrice ?
                                     <p className='w-3/5'>Có</p>
                                     : <p className='w-3/5'>Không</p>}
                             </div>
                             <div className='flex w-full pb-2 border-b'>
-                                <p className='font-semibold w-2/5'>Công khai đánh giá:</p>
+                                <p className='font-semibold w-2/5'>Công khai đánh giá</p>
                                 {user.isRate ?
                                     <p className='w-3/5'>Có</p>
                                     : <p className='w-3/5'>Không</p>}
@@ -216,7 +218,7 @@ const HospitalProfile = () => {
                             </thead>
                             <tbody>
                                 {session.map((time) => (
-                                    <tr key={time} className="border-b text-center      ">
+                                    <tr key={time} className="border-b text-center ">
                                         {time === 'Sáng' ?
                                             <td className='py-5 font-semibold border-r w-20'>Sáng</td>
                                             : time === 'Chiều' ?

@@ -233,16 +233,16 @@ const Modal = ({ isVisible, onClose, user, fid, fetchData }) => {
 
                                             working.map((item) => (
                                                 item.date == availableSessions
-                                                    ? (item.session === "MORNING" ?
+                                                    ? (item.session === "Sáng" ?
                                                         <Option Option value={item.session} > Sáng</Option>
-                                                        : item.session === "AFTERNOON" ?
+                                                        : item.session === "Chiều" ?
                                                             <Option value={item.session} > Chiều</Option>
                                                             : <Option value={item.session} > Tối</Option>)
                                                     :
                                                     ((item.date == '8' && availableSessions === 1) &&
-                                                        (item.session === "MORNING" ?
+                                                        (item.session === "Sáng" ?
                                                             <Option Option value={item.session} > Sáng</Option>
-                                                            : item.session === "AFTERNOON" ?
+                                                            : item.session === "Chiều" ?
                                                                 <Option value={item.session} > Chiều</Option>
                                                                 : <Option value={item.session} > Tối</Option>))
 

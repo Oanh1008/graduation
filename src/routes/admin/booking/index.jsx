@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../layout'
 import { Col, Row, Table } from 'antd';
-import pending from '../../../columns/booking/pending';
-import accept from '../../../columns/booking/accepts';
-import cancel from '../../../columns/booking/cancel';
-import confirm from '../../../columns/booking/confirm';
+import pending from '../../../columns/common/pending';
+import accept from '../../../columns/common/accepts';
+import cancel from '../../../columns/common/cancel';
+import confirm from '../../../columns/common/confirm';
 import { Edit, Plus } from '../../../assets/svg';
 import Button from '../../../components/button/index'
 import { get } from '../../../utils/apicommon'

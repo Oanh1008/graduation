@@ -48,16 +48,19 @@ const BookingDetailsConfirm = () => {
 
                             }
                         </div>
-                        {status === 'pending' ?
-                            <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
-                                onClick={() => setShowModal(!showModal)} type="button">Duyệt</button>
-                            : status === 'accept' ?
-                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
-                                    onClick={() => setShowModalConfirm(!showModalConfirm)} type="button">Xác nhận</button>
-                                : status === 'confirm' &&
-                                <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white' type="button"
-                                    onClick={() => navigate(`/doctor/booking/booingDetails/${data.bookInformation.userId}?history=false`)}>Tạo hoá đơn</button>
+                        {user.roleId === 2 &&
+                            (
+                                status === 'pending' ?
+                                    <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
+                                        onClick={() => setShowModal(!showModal)} type="button">Duyệt</button>
+                                    : status === 'accept' ?
+                                        <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white'
+                                            onClick={() => setShowModalConfirm(!showModalConfirm)} type="button">Xác nhận</button>
+                                        : status === 'confirm' &&
+                                        <button className='mb-5 bg-green-700 font-semibold px-4 rounded-xl  py-2 text-white' type="button"
+                                            onClick={() => navigate(`/doctor/booking/booingDetails/${data.bookInformation.userId}?history=false`)}>Tạo hoá đơn</button>
 
+                            )
                         }
 
                     </div>

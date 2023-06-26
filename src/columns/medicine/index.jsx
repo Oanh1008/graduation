@@ -1,5 +1,5 @@
 import { Avatar } from '@mui/material';
-import { Space, Table, Tag } from 'antd';
+import { Modal, Result, Space, Table, Tag } from 'antd';
 import { useRef, useState } from 'react';
 import { Edit, IconLock, IconUnLock, Trash } from '../../assets/svg';
 import Button from '../../components/button/index'
@@ -15,6 +15,8 @@ const Medicines = ({
 }) => {
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
+    const [modal, setModal] = useState('')
+    const [ID, setID] = useState("")
 
     const columns = [
         {
@@ -80,41 +82,86 @@ const Medicines = ({
                             setFormid(data)
                             setEditModel(true)
                         }} />
-                    <Button
-                        type='button'
-                        className="hover:bg-red-300 rounded-lg"
-                        icon={<IconLock className='w-9 h-9 fill-red-500 p-1' />}
-                        onClick={() => handleDelete(data)} />
-                    {/* <Button
-                        type='button'
-                        className="hover:bg-red-300 rounded-lg"
-                        icon={<IconUnLock className='w-9 h-9 fill-green-800 p-1' />}
-                        onClick={() => handleDelete(data)} /> */}
+                    {data.disable === false ?
+                        <Button
+                            type='button'
+                            className=" rounded-lg"
+                            icon={<IconLock className='w-9 h-9 fill-red-500 hover:bg-red-100 rounded-lg p-1' />}
+                            onClick={() => {
+                                setID(data.userId);
+                                setModal('lock')
+                            }}
+                        />
+                        :
+                        <Button
+                            type='button'
+                            className=" rounded-lg"
+                            icon={<IconUnLock className='w-9 h-9 fill-green-700 hover:bg-red-100 rounded-lg p-1' />}
+                            onClick={() => {
+                                setID(data.userId);
+                                setModal('unlock')
+                            }}
+                        />
+                    }
                 </>
             )
         }
     ];
 
-    const handleDelete = async (data) => {
+    const handleLock = async (data) => {
+        await del(`/admin/medicine/lock/${data.id}`)
+        fetchData()
+    }
+    const handleUnLock = async (data) => {
         await del(`/admin/medicine/lock/${data.id}`)
         fetchData()
     }
 
     return (
-        <Table
-            className=' !z-0'
-            columns={columns}
-            dataSource={data}
-            scroll={{ y: 500 }}
-            loading={loading}
-            pagination={{
-                pageSize: 10,
-                onChange: (page, pageSize) => {
-                    setPage(page);
-                    setPageSize(pageSize);
-                }
-            }}
-        />
+        <>
+            <Table
+                className=' !z-0'
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: 1000 }}
+                loading={loading}
+                pagination={{
+                    pageSize: 10,
+                    onChange: (page, pageSize) => {
+                        setPage(page);
+                        setPageSize(pageSize);
+                    }
+                }}
+            />
+
+            <Modal
+                centered
+                open={(modal === 'lock' || modal === 'unlock') ? true : false}
+                footer={false}
+                onCancel={() => setModal('')}
+            >
+                <Result
+                    status="warning"
+                    title={modal === 'lock' ? "Bạn muốn vô hiệu hoá thuốc này?" : modal === 'unlock' ? "Bạn muốn kích hoạt này?" : ''}
+                    extra={
+                        <div className='mt-10 flex justify-around'>
+                            <Button
+                                type='button'
+                                className="hover:bg-cyan-800 w-1/3 hover:text-white border border-cyan-800 text-cyan-800 px-4 py-2 text-lg rounded-lg"
+                                text="Huỷ"
+                                onClick={() => setModal(false)}
+                            />
+                            <Button
+                                type='button'
+                                className="hover:bg-red-500 hover:text-white border border-red-500 text-red-500 w-1/3 px-4 py-2 text-lg rounded-lg"
+                                text={modal === 'lock' ? "Vô hiệu hoá" : modal === 'unlock' ? "Kích hoạt" : ''}
+                                onClick={() => modal === 'lock' ? handleLock(ID) : modal === 'unlock' ? handleUnLock(ID) : {}} />
+                        </div>
+
+                    }
+                />
+            </Modal>
+        </>
     )
 }
 

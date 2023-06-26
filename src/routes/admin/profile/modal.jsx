@@ -169,28 +169,34 @@ const Modal = ({ isVisible, onClose, user }) => {
                                         <div className='flex-col items-center gap-3'>
                                             <div className='flex items-center gap-3'>
                                                 <span className='font-medium'>Từ:</span>
-                                                <input
-                                                    type="number"
-                                                    id="priceFrom"
-                                                    name="priceFrom"
-                                                    placeholder='Từ'
-                                                    defaultValue={form.priceFrom}
-                                                    onChange={handleInputChange}
-                                                    className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
-                                                />
+                                                <div className='relative'>
+                                                    <input
+                                                        type="number"
+                                                        id="priceFrom"
+                                                        name="priceFrom"
+                                                        placeholder='Từ'
+                                                        defaultValue={form.priceFrom}
+                                                        onChange={handleInputChange}
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600 "
+                                                    />
+                                                    <p className='absolute top-0 right-7 py-2 px-5'>VNĐ</p>
+                                                </div>
                                             </div>
                                             <div className='flex items-center gap-3 mt-3' >
 
                                                 <span className='font-medium'>Đến</span>
-                                                <input
-                                                    type="number"
-                                                    id="priceTo"
-                                                    name="priceTo"
-                                                    placeholder='Đến'
-                                                    defaultValue={form.priceTo}
-                                                    onChange={handleInputChange}
-                                                    className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600"
-                                                />
+                                                <div className='relative'>
+                                                    <input
+                                                        type="number"
+                                                        id="priceTo"
+                                                        name="priceTo"
+                                                        placeholder='Đến'
+                                                        defaultValue={form.priceTo}
+                                                        onChange={handleInputChange}
+                                                        className="w-full px-4 py-2 border rounded-md focus:outline-none text-neutral-600"
+                                                    />
+                                                    <p className='absolute top-0 right-7 py-2 px-5'>VNĐ</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -202,7 +208,10 @@ const Modal = ({ isVisible, onClose, user }) => {
                                 <label htmlFor="information" className="block mb-2 font-semibold">
                                     Thông tin của phòng khám
                                 </label>
-                                <textarea id="information" name="information" className='border p-2 w-full text-neutral-600' onChange={handleInputChange} rows="6" cols="50" defaultValue={form.information} />
+                                <textarea id="information" name="information" className='border p-2 w-full text-neutral-600 focus:outline-none'
+                                    onChange={handleInputChange}
+                                    rows="6" cols="50"
+                                    defaultValue={form.information} />
                                 <br />
 
                             </div>

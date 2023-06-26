@@ -40,7 +40,7 @@ const ManagerHospital = () => {
 
     return (
         <Layout>
-            <div className=' mx-6 bg-white p-6'>
+            <div className=' mx-6 bg-white p-6 min-h-[calc(100vh - 5.5rem)]'>
                 <div className='flex justify-between items-center'>
                     <div className=' text-2xl font-bold text-cyan-950 '>Quản lý phòng khám </div>
                 </div>

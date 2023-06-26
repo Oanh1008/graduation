@@ -42,7 +42,7 @@ const Columns = [
         key: '6',
         title: "Triệu chứng chi tiết",
         dataIndex: "",
-        width: 300,
+        width: 200,
         render: (text, item) => (text &&
             <div className='flex items-center gap-3'>
                 <div>{item.invoiceInformation.symptomDetail} </div>

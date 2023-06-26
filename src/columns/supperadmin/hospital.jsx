@@ -1,4 +1,4 @@
-import { Avatar, Popconfirm, Space, Table, Tag } from 'antd';
+import { Avatar, Modal, Popconfirm, Result, Space, Table, Tag } from 'antd';
 import { useState } from 'react';
 import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
@@ -14,11 +14,14 @@ const HospitalTable = ({
   fetchData }) => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(6)
+  const [modal, setModal] = useState(false)
+  const [ID, setID] = useState("")
 
   const Columns = [
     {
       key: '1',
       title: 'STT',
+      fixed: 'left',
       width: 60,
       render: (text, record, index) => <p className='font-bold'>{index + 1}</p>,
       sorter: (record1, record2) => {
@@ -142,14 +145,14 @@ const HospitalTable = ({
                 type='button'
                 className=" rounded-lg"
                 icon={<IconLock className='w-9 h-9 fill-red-500 rounded-lg hover:bg-red-100 p-1' />}
-                onClick={() => handleDelte(data)}
+                onClick={() => setModal(true)}
               />
               :
               <Button
                 type='button'
                 className=" rounded-lg"
                 icon={<IconUnLock className='w-9 h-9 fill-green-500 rounded-lg hover:bg-red-100 p-1' />}
-                onClick={() => handleDelte(data)} />
+                onClick={() => setModal(true)} />
           }
 
         </div>
@@ -157,26 +160,57 @@ const HospitalTable = ({
     }
   ];
 
-  const handleDelte = async (data) => {
+  const handleLock = async (data) => {
     await del(`/super-admin/hospital/lock/${data.hospitalId}`);
     fetchData();
+    setModal(false);
   }
 
   return (
-    <Table
-      className=' !z-0'
-      columns={Columns}
-      dataSource={data}
-      scroll={{ y: 500 }}
-      loading={loading}
-      pagination={{
-        pageSize: 10,
-        onChange: (page, pageSize) => {
-          setPage(page);
-          setPageSize(pageSize);
-        }
-      }}
-    />
+    <>
+      <Table
+        className=' !z-0'
+        columns={Columns}
+        dataSource={data}
+        scroll={{ y: 700 }}
+        loading={loading}
+        pagination={{
+          pageSize: 10,
+          onChange: (page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }
+        }}
+      />
+
+      <Modal
+        centered
+        open={modal}
+        footer={false}
+        onCancel={() => setModal(false)}
+      >
+        <Result
+          status="warning"
+          title="Bạn muốn khoá tài khoản phòng khám này?"
+          extra={
+            <div className='mt-10 flex justify-around'>
+              <Button
+                type='button'
+                className="hover:bg-cyan-800 w-1/3 hover:text-white border border-cyan-800 text-cyan-800 px-4 py-2 text-lg rounded-lg"
+                text="Huỷ"
+                onClick={() => setModal(false)}
+              />
+              <Button
+                type='button'
+                className="hover:bg-red-500 hover:text-white border border-red-500 text-red-500 w-1/3 px-4 py-2 text-lg rounded-lg"
+                text="Khoá"
+                onClick={() => handleLock(data)} />
+            </div>
+
+          }
+        />
+      </Modal>
+    </>
   )
 }
 

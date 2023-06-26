@@ -20,48 +20,46 @@ const Timetable = ({ user }) => {
 
 
     return (
-        loading ? <div>Loading...</div>
-            :
-            Object.keys(workingDate).length > 0 &&
-            <section className='mt-6 bg-white px-14  overflow-hidden py-7  rounded-lg'>
-                <div className='flex gap-16'>
-                    <div className='flex-1 '>
-                        <div className='text-4xl font-bold text-cyan-900 py-3 mb-3'>Lịch làm việc</div>
+        Object.keys(workingDate).length > 0 &&
+        <section className='mt-6 bg-white px-14  overflow-hidden py-7  rounded-lg'>
+            <div className='flex gap-16'>
+                <div className='flex-1 '>
+                    <div className='text-4xl font-bold text-cyan-900 py-3 mb-3'>Lịch làm việc</div>
 
-                        <table className='w-full'>
-                            <thead>
-                                <tr className='bg-slate-700 text-white text-lg '>
-                                    <th>Buổi</th>
-                                    {daysOfWeek.map((day) => (
-                                        day === '8' ?
-                                            <th key={day} className="border-x">Chủ nhật</th>
-                                            :
-                                            <th key={day} className="border-x">Thứ {day}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {session.map((time) => (
-                                    <tr key={time} className="border-b text-lg text-center ">
-                                        {time === 'Sáng' ?
-                                            <td className='py-5 font-semibold border-r w-20'>Sáng</td>
-                                            : time === 'Chiều' ?
-                                                <td className='py-5 font-semibold border-r w-20'>Chiều</td> :
-                                                time === 'Tối'
-                                                && <td className='py-5 font-semibold border-r w-20'>Tối</td>
-                                        }
-
-                                        {daysOfWeek.map((day) => {
-                                            const course = workingDate.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
-                                            return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course && course.startHour ? course.startHour + ' - ' + course.endHour : ''}</td>;
-                                        })}
-                                    </tr>
+                    <table className='w-full'>
+                        <thead>
+                            <tr className='bg-slate-700 text-white text-lg '>
+                                <th>Buổi</th>
+                                {daysOfWeek.map((day) => (
+                                    day === '8' ?
+                                        <th key={day} className="border-x">Chủ nhật</th>
+                                        :
+                                        <th key={day} className="border-x">Thứ {day}</th>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {session.map((time) => (
+                                <tr key={time} className="border-b text-lg text-center ">
+                                    {time === 'Sáng' ?
+                                        <td className='py-5 font-semibold border-r w-20'>Sáng</td>
+                                        : time === 'Chiều' ?
+                                            <td className='py-5 font-semibold border-r w-20'>Chiều</td> :
+                                            time === 'Tối'
+                                            && <td className='py-5 font-semibold border-r w-20'>Tối</td>
+                                    }
+
+                                    {daysOfWeek.map((day) => {
+                                        const course = workingDate.workingDayDetails.find((data) => data.date == day.trim() && data.session == time);
+                                        return <td key={`${day}-${session}`} className="border-r w-20 text-center">{course && course.startHour ? course.startHour + ' - ' + course.endHour : ''}</td>;
+                                    })}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            </section >
+            </div>
+        </section >
     )
 }
 

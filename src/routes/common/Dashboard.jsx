@@ -264,16 +264,16 @@ function ChartComponent() {
     if (data.hasOwnProperty('doctors')) {
         dataDoctors = Object.entries(data.doctors).map(([name, info]) => ({ name, ...info }));
     }
+
     var dataInvoices = []
     if (data.hasOwnProperty('invoices')) {
         dataInvoices = Object.values(data.invoices)
     }
-    console.log(dataInvoices);
+
     var dataBook = []
     if (data.hasOwnProperty('books')) {
         dataBook = Object.values(data.books)
     }
-    console.log(dataBook);
 
 
     var numberOfBooks = [];
@@ -306,7 +306,6 @@ function ChartComponent() {
             numberOfBooksCancelPercent.push(data.books[book].cancelPercent);
         }
     }
-    console.log(data);
 
 
     var revenueArray = [];
@@ -415,7 +414,7 @@ function ChartComponent() {
                 },
             });
             const RChart = new Chart(ctxxx, {
-                type: 'pie',
+                type: 'bar',
                 data: {
                     labels: doctors,
                     datasets: [
@@ -423,6 +422,7 @@ function ChartComponent() {
                             label: 'Bác sĩ',
                             data: InvoceDoctor,
                             width: 500,
+                            backgroundColor: 'rgba(20, 91, 173, 0.808)',
                             fill: true
                         }
                     ],
@@ -496,9 +496,9 @@ function ChartComponent() {
                         className='w-1/2'
                         columns={DoctorColumn}
                         dataSource={dataDoctors} />
-                    <div className='w-1/3 bg-white mx-auto'>
+                    <div className='w-1/2 bg-white mx-auto'>
                         <canvas ref={bRef}></canvas>
-                        <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kê doanh thu theo bác sĩ</p>
+                        <p className='mt-5 text-center text-lg text-gray-900'>Biểu đồ thống kế số đơn đặt lịch của bác sĩ</p>
 
                     </div>
                 </div>

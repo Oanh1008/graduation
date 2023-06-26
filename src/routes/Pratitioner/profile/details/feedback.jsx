@@ -35,9 +35,7 @@ const Feedback = ({ user }) => {
         startIndex + 1
     );
 
-    return (
-        loading ? <div>Loading...</div>
-            : <section className='mt-6 bg-white px-14  overflow-hidden py-7  rounded-lg'>
+    return ( <section className='mt-6 bg-white px-14  overflow-hidden py-7  rounded-lg'>
                 <div className='text-3xl font-bold text-cyan-900 py-3 mb-3'>Phản hồi của khách hàng</div>
                 <Divider />
                 <div className='flex gap-20 justify-center relative px-10'>

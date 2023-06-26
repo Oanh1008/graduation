@@ -9,7 +9,6 @@ import Button from '../../../components/button/index'
 import { put } from '../../../utils/apicommon';
 
 const WorkingDate = ({ isVisible, onClose, fetchData, user, dtId, start, end }) => {
-
     const [form, setForm] = useState({
         endHour: null,
         id: null,

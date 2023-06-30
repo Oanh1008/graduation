@@ -37,8 +37,8 @@ const Contact = () => {
                     </div>
                     <p>Chúng tôi cung cấp các giải pháp cho doanh nghiệp với mọi quy mô.
                         Đối với câu hỏi về trang web của chúng tôi, hãy liên hệ với đội ngũ chuyên gia của chúng tôi. {''}
-
                     </p>
+                    <a className='text-cyan-800 underline' href='http://localhost:3000/login'>Đăng ký tài khoản phòng khám</a>
                 </div>
                 <a href='/' className='font-bold text-black hover:text-cyan-900 hover:ease-out hover:transition-all hover:duration-500 block'>Hỗ trợ</a>
             </div>

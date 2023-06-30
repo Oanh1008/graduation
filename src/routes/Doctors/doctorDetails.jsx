@@ -46,7 +46,7 @@ const DoctorDetails = () => {
         fetchData();
     }, []);
 
-    console.log(data);
+    console.log(comment);
 
 
 
@@ -78,7 +78,7 @@ const DoctorDetails = () => {
                                             </div>
                                             <div className='flex items-end gap-5'>
                                                 <Rate disabled defaultValue={data.star} />
-                                                <p>({data.star})</p>
+                                                <p>({data.star ? data.star : 0 })</p>
                                             </div >
                                             <p className='text-lg text-gray-600 font-medium'>{data.speciality}</p>
                                         </div>
@@ -116,8 +116,13 @@ const DoctorDetails = () => {
                                     <p className='text-2xl font-semibold  px-4 text-cyan-900 uppercase'>Phản hồi của khách hàng</p>
                                     <Divider />
 
-                                    {/* {comment.length > 0 ?
-                                        comment.map((item) => (
+                                    {comment.length > 0 ?
+                                        comment.map((item) => {
+                                            const date = new Date(item.dateTime);
+                                            const day = date.getDate(); // Lấy ngày (26)
+                                            const month = date.getMonth() + 1; // Lấy tháng (5: tháng 6 vì JavaScript đếm tháng bắt đầu từ 0)
+                                            const year = date.getFullYear();
+                                            return (
                                             <>
                                                 <div key={item.id} className='flex my-4 mx-6 items-center justify-around'>
                                                     <div className='w-32 h-32 rounded-full'
@@ -130,7 +135,7 @@ const DoctorDetails = () => {
                                                                 <p className='text-lg text-cyan-900 font-semibold'>{item.fullName}</p>
                                                                 <Rate defaultValue={item.star} style={{ fontSize: '100%', color: '#f6cb29' }} />
                                                             </div>
-                                                            <p>{item.dateTime}</p>
+                                                            <p>{day} - {month} - {year}</p>
                                                         </div>
                                                         <p className='text-gray-800 text-center'> "{item.comment}"</p>
                                                     </div>
@@ -139,8 +144,8 @@ const DoctorDetails = () => {
                                                 <Divider />
                                             </>
 
-                                        ))
-                                        : <p>Không có phản hồi </p>} */}
+                                        )})
+                                        : <p className='text-center'>Không có phản hồi </p>}
                                 </div>
                             </div>
                             <div className='w-1/2 border bg-white py-5 px-3'>
@@ -191,7 +196,7 @@ const DoctorDetails = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <Modal title="Tải ứng dụng để sử dụng "
+                                <Modal title="Tải ứng dụng để đặt lịch "
                                     className='flex w-56 gap-6 items-center justify-center' open={isModalOpen}
                                     onOk={handleOk} onCancel={handleCancel}
                                     footer={false}

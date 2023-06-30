@@ -1,6 +1,6 @@
 import { Avatar, Divider, Rate, Row } from 'antd';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Edit, IconBriefCase, IconCalendar, IconLeftSolid, IconRightSolid } from '../../assets/svg';
 import Layout from '../../component/layout';
 import { get } from '../../utils/ApiCommon';
@@ -8,6 +8,7 @@ import { get } from '../../utils/ApiCommon';
 
 const HospitalDetails = () => {
     const [hospital, setHospital] = useState([]);
+    const [comment, setComment] = useState([])
     const [doctor, setDoctor] = useState([]);
     const [loading, setLoading] = useState(false)
     const [startIndex, setStartIndex] = useState(0);
@@ -18,6 +19,7 @@ const HospitalDetails = () => {
 
     const { id } = useParams();
 
+    const navigate = useNavigate();
     useEffect(() => {
         fetchData()
     }, []);
@@ -28,6 +30,8 @@ const HospitalDetails = () => {
         setHospital(info)
         const listdoctor = await get(`/common/doctor/${id}`);
         setDoctor(listdoctor)
+        const datacomment = await get(`common/hospital/comment/${id}`);
+            setComment(datacomment)
         setLoading(false)
     }
 
@@ -49,6 +53,7 @@ const HospitalDetails = () => {
             startIndex + 4
         );
     }
+
     return (
         Object.keys(hospital).length > 0 && Object.keys(doctor).length > 0 &&
         <Layout className={'bg-[#f8f9fc] py-28'}>
@@ -120,10 +125,12 @@ const HospitalDetails = () => {
                                 <div className='grid grid-cols-3'>
 
                                     {doctor.map((item, index) => (
-                                        <div key={index} className='flex flex-col gap-5 items-center'>
+                                        <div key={index} className='flex flex-col gap-5 items-center cursor-pointer'
+                                        onClick={() =>
+                                            navigate(`/doctor/doctorDetails/${item.userId}`)
+                                        }>
                                             <div className="drop-shadow-lg rounded-full">
                                                 <Avatar src={item.imageUrl} size={200} />
-
                                             </div>
                                             <p className='text-base font-semibold'>{item.lastName} {item.firstName}</p>
                                         </div>
@@ -132,6 +139,42 @@ const HospitalDetails = () => {
                                 </div>
                             </div>
                         </div>
+                        {hospital.isRate === true &&
+                        <div className='border mt-5 bg-white py-5'>
+                                    <p className='text-2xl font-semibold  px-4 text-cyan-900 uppercase'>Phản hồi của khách hàng</p>
+                                    <Divider />
+
+                                    {comment.length > 0 ?
+                                        comment.map((item) => {
+                                            const date = new Date(item.dateTime);
+                                            const day = date.getDate(); // Lấy ngày (26)
+                                            const month = date.getMonth() + 1; // Lấy tháng (5: tháng 6 vì JavaScript đếm tháng bắt đầu từ 0)
+                                            const year = date.getFullYear();
+                                            return (
+                                            <>
+                                                <div key={item.id} className='flex my-4 mx-6 items-center justify-around'>
+                                                    <div className='w-32 h-32 rounded-full'
+                                                        style={{ backgroundImage: `url(${item.imageUrl})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
+                                                        onClick={() => { }}
+                                                    ></div>
+                                                    <div className='basis-3/4 '>
+                                                        <div className='flex justify-between items-center mb-5'>
+                                                            <div className='flex items-center gap-5'>
+                                                                <p className='text-lg text-cyan-900 font-semibold'>{item.fullName}</p>
+                                                                <Rate defaultValue={item.star} style={{ fontSize: '100%', color: '#f6cb29' }} />
+                                                            </div>
+                                                            <p>{day} - {month} - {year}</p>
+                                                        </div>
+                                                        <p className='text-gray-800 text-center'> "{item.comment}"</p>
+                                                    </div>
+
+                                                </div>
+                                                <Divider />
+                                            </>
+
+                                        )})
+                                        : <p className='text-center'>Không có phản hồi </p>}
+                                </div>}
                     </div>
                     <div className='w-1/2 bg-white p-4'>
 
